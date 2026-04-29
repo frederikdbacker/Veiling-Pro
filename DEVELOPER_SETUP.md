@@ -1,12 +1,12 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: april 2026**
+**Laatste update: 29 april 2026**
 
 ---
 
 ## Vereisten
 
-- Node.js 18 of hoger
+- Node.js 18 of hoger (bij voorkeur 20+; getest op 20.20.2)
 - npm
 - Git
 - Een Supabase-account
@@ -26,7 +26,7 @@ npm install -g @anthropic-ai/claude-code
 ## Project klonen
 
 ```bash
-git clone https://github.com/frederikdbacker/Veiling-Pro.git
+git clone https://github.com/frederikdbacker/Veiling-Pro.git veiling-pro
 cd veiling-pro
 npm install
 ```
@@ -35,17 +35,22 @@ npm install
 
 ## Omgevingsvariabelen
 
-Maak een `.env` bestand aan in de root van het project:
+Maak een `.env.local` bestand aan in de root van het project (Vite-conventie —
+deze prefix wordt automatisch genegeerd door git, zie `.gitignore`):
 
 ```
 VITE_SUPABASE_URL=https://cjxtwzmryrpwoydrqqil.supabase.co
-VITE_SUPABASE_ANON_KEY=[jouw anon key]
+VITE_SUPABASE_PUBLISHABLE_KEY=[jouw publishable key]
 ```
 
-De anon key vind je in:
-**Supabase dashboard → Project Settings → API → anon public**
+De publishable key vind je in:
+**Supabase Dashboard → Project Settings → API Keys → Publishable key**
 
-⚠️ Zorg dat `.env` in `.gitignore` staat. Nooit committen met echte waarden.
+(Op oudere Supabase-accounts heet hetzelfde veld nog **anon** onder *Legacy API keys*.
+Beide werken; kies degene die jouw dashboard toont.)
+
+⚠️ Zorg dat `.env.local` in `.gitignore` staat. Nooit committen met echte waarden.
+De *secret* / *service_role* key NIET hier zetten — die mag nooit in client-code.
 
 ---
 
@@ -57,18 +62,23 @@ De anon key vind je in:
 
 ### Schema aanmaken (eenmalig)
 
-1. Ga naar supabase.com → jouw project → SQL Editor
-2. Klik New Query
-3. Plak de inhoud van `db/schema.sql`
-4. Klik Run
+1. Ga naar Supabase Dashboard → SQL Editor → New query
+2. Plak de inhoud van `supabase/migrations/0001_init.sql`
+3. Klik Run
+4. Verifieer in Table Editor dat `auction_houses`, `auctions` en `lots` bestaan
 
-### Data importeren (eenmalig)
+### Data importeren (eenmalig per veiling)
 
 ```bash
-node scripts/aloga-import.js
+node --env-file=.env.local scripts/import-lots.mjs data/aloga-2026-import.json
 ```
 
-Of via Claude Code: "Importeer de data uit aloga-2026-import.json in de lots-tabel."
+Het script:
+1. Maakt automatisch een `auction_houses`-record aan (bv. "Aloga")
+2. Maakt automatisch een `auctions`-record aan (bv. "Aloga Auction 2026")
+3. Voegt alle paarden toe als rijen in `lots`
+4. Stopt met een waarschuwing als er al lots staan voor deze veiling
+   (geen dubbele import)
 
 ---
 
@@ -78,7 +88,8 @@ Of via Claude Code: "Importeer de data uit aloga-2026-import.json in de lots-tab
 npm run dev
 ```
 
-De app opent op http://localhost:5173
+De app opent op http://localhost:5173. De homepage toont een lijstje van
+auction_houses uit Supabase als verbinding-smoke-test.
 
 ---
 
@@ -89,13 +100,14 @@ npm install -g vercel
 vercel
 ```
 
-Vercel koppelt automatisch aan de GitHub repo. Elke `git push` naar `main` triggert automatisch een nieuwe deployment.
+Vercel koppelt automatisch aan de GitHub repo. Elke `git push` naar `main`
+triggert automatisch een nieuwe deployment.
 
 ### Environment variables in Vercel
 
 Voeg toe via Vercel dashboard → Settings → Environment Variables:
 - `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
 
 ---
 
@@ -126,32 +138,42 @@ veiling-pro/
 
 Claude Code leest deze automatisch. Geen verdere configuratie nodig.
 
+> Status 29-04-2026: directory `.claude/agents/` is nog niet aangemaakt.
+> Wordt opgezet zodra de eerste feature-bouw begint.
+
 ---
 
-## Projectstructuur
+## Projectstructuur (zoals nu opgezet)
 
 ```
 veiling-pro/
-├── .claude/
-│   └── agents/              Sub-agent definities
-├── db/
-│   └── schema.sql           PostgreSQL schema voor Supabase
-├── scripts/
-│   └── aloga-import.js      Import script voor Aloga 2026 data
 ├── data/
-│   └── aloga-2026-import.json  24 loten Aloga Auction 2026
+│   ├── README.md
+│   └── aloga-2026-import.json    24 loten Aloga Auction 2026
+├── reports/                      Audit-rapporten per sessie
+│   └── 2026-04-29_initial-setup.md
+├── scripts/
+│   └── import-lots.mjs           Generiek import-script (per JSON)
 ├── src/
-│   ├── components/          React componenten
-│   ├── pages/               Pagina's (voorbereiding, cockpit, live)
 │   ├── lib/
-│   │   └── supabase.js      Supabase client
-│   └── main.jsx             Entry point
-├── .env                     Lokale omgevingsvariabelen (niet committen)
+│   │   └── supabase.js           Supabase client
+│   ├── App.jsx                   Smoke-test pagina (lijst veilinghuizen)
+│   ├── index.css
+│   └── main.jsx                  Entry point
+├── supabase/
+│   └── migrations/
+│       └── 0001_init.sql         PostgreSQL schema
+├── .env.example                  Template (in git)
+├── .env.local                    Lokale waarden (NIET in git)
 ├── .gitignore
-├── MASTER_PROMPT.md         Werkwijze en profiel
-├── PROJECT_STATUS.md        Huidige stand van het project
-├── DEVELOPER_SETUP.md       Dit document
-└── package.json
+├── DEVELOPER_SETUP.md            Dit document
+├── MASTER_PROMPT.md              Werkwijze en profiel
+├── PROJECT_STATUS.md             Huidige stand van het project
+├── README.md
+├── index.html
+├── package.json
+├── package-lock.json
+└── vite.config.js
 ```
 
 ---

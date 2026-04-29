@@ -1,13 +1,15 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: april 2026**
+**Laatste update: 29 april 2026**
 **Deadline: 5 mei 2026 (Aloga Auction 2026)**
 
 ---
 
-## Huidige status: FUNDAMENT IN OPBOUW
+## Huidige status: SCAFFOLD KLAAR — wacht op database-init
 
-De architectuur is beslist, de data is klaar, de repo staat. Claude Code is de volgende stap.
+Vite + React + Supabase staat opgezet en gepusht naar GitHub. Het schema en
+import-script zijn klaar. Volgende blokkade is een handmatige stap in het
+Supabase-dashboard (één keer SQL plakken).
 
 ---
 
@@ -19,10 +21,30 @@ De architectuur is beslist, de data is klaar, de repo staat. Claude Code is de v
 - ✅ GitHub repo aangemaakt: https://github.com/frederikdbacker/Veiling-Pro
 - ✅ Supabase project aangemaakt: https://cjxtwzmryrpwoydrqqil.supabase.co
 
+### Code — repo opgezet (commits a6e4ea7, 35a43f9)
+- ✅ Vite-project geïnitialiseerd in `~/veiling-pro/` (zelfstandige map, los van fei-system)
+- ✅ React 18, Supabase JS-client geïnstalleerd en bedraad via `src/lib/supabase.js`
+- ✅ `.env.local` ingevuld met Supabase URL + publishable key (NIET in git)
+- ✅ `.env.example` als template (wel in git)
+- ✅ Build slaagt — `npm run build` ✓
+- ✅ Smoke-test in `src/App.jsx` toont aantal `auction_houses` uit Supabase
+
+### Database — schema klaar, nog niet uitgevoerd
+- ✅ SQL-migratie geschreven: `supabase/migrations/0001_init.sql`
+- ✅ Drie tabellen: `auction_houses`, `auctions`, `lots`
+- ✅ RLS aan, met permissive MVP-policies (later vervangen door auth-based)
+- ✅ Schema uitgebreid met de rijke velden uit de Aloga-import (foto's, catalog_text,
+  equiratings_text, USP, strong/weak points, etc.)
+- ⏳ **Nog te doen door gebruiker**: SQL plakken in Supabase Dashboard → SQL Editor → Run
+
 ### Data
 - ✅ Aloga 2026 collectie gescraped: 24 loten (19 springen + 5 dressuur)
-- ✅ Import JSON klaar: `aloga-2026-import.json`
-- ✅ Import script klaar: `aloga-import-script.js`
+- ✅ JSON in `data/aloga-2026-import.json`
+- ✅ Generiek import-script: `scripts/import-lots.mjs`
+- ⏳ **Nog te doen**: importeren zodra de tabellen bestaan
+  ```
+  node --env-file=.env.local scripts/import-lots.mjs data/aloga-2026-import.json
+  ```
 
 ### Prototypes (als referentie, nog niet gekoppeld aan backend)
 - ✅ Fase 1 prototype: veilinghuizen → veilingen → lots → detail met video + notities
@@ -40,10 +62,10 @@ De architectuur is beslist, de data is klaar, de repo staat. Claude Code is de v
 
 ## Wat nog gebouwd moet worden — MVP voor 5 mei
 
-### Dag 1 (vandaag)
-- [ ] Supabase tabellen aanmaken (auction_houses, auctions, lots)
-- [ ] Aloga 2026 data importeren (24 loten)
-- [ ] Vite-project opzetten en koppelen aan Supabase
+### Direct (na deze sessie)
+- [ ] Gebruiker draait `0001_init.sql` in Supabase Dashboard
+- [ ] Gebruiker draait `node --env-file=.env.local scripts/import-lots.mjs data/aloga-2026-import.json`
+- [ ] Smoke-test: `npm run dev` → http://localhost:5173 toont "Aloga" als veilinghuis
 - [ ] Vercel deployment configureren
 
 ### Dag 2-3 — Voorbereidingsmodule
@@ -90,16 +112,26 @@ Deze onderdelen worden na de veiling gebouwd.
 
 ---
 
-## Databaseschema (te bouwen)
+## Databaseschema (zoals geïmplementeerd in 0001_init.sql)
 
 ### `auction_houses`
-id, name, country, website, contact, notes, created_at
+id, name (unique), country, website, contact, notes, created_at
 
 ### `auctions`
-id, house_id, name, date, location, status, notes, time_auction_start, time_auction_end, created_at
+id, house_id, name, date, location, status, notes,
+time_auction_start, time_auction_end, created_at
+Unique: (house_id, name)
 
 ### `lots`
-id, auction_id, number, name, discipline, lot_type, year, gender, studbook, sire, dam, video_url, photos, catalog_text, equiratings_text, notes_catalog, notes_video, notes_org, usp, strong_points, weak_points, start_price, reserve_price, bid_steps, sold, sale_price, buyer, buyer_country, time_entered_ring, time_hammer, duration_seconds, source_url, data_reliability, missing_info, created_at
+id, auction_id, number, name, slug,
+discipline, year, gender, size, studbook, sire, dam, pedigree_raw,
+catalog_text, equiratings_text, photos (jsonb), video_url, source_url,
+start_price, reserve_price, bid_steps,
+notes_catalog, notes_video, notes_org, usp, strong_points, weak_points,
+sold, sale_price, buyer, buyer_country,
+time_entered_ring, time_hammer, duration_seconds,
+lot_type, data_reliability, missing_info (jsonb),
+created_at
 
 ---
 

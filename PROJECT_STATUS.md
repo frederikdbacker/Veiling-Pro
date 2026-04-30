@@ -5,15 +5,30 @@
 
 ---
 
-## Huidige status: VOORBEREIDING + BID-STEP-SYSTEEM LIVE
+## Huidige status: COCKPIT LIVE (op één detail na)
 
-Database staat (1 huis, 1 veiling, 24 lots, 8 lot-types). Voorbereidingsmodule
-volledig af: navigatie, foto-gallery, catalog/EquiRatings, video-blok, drie
-auto-save notitievelden, vorig/volgend (klik + pijltjes), inline edit voor
-lot-nummer/startprijs/reserveprijs. Bid-step-systeem volledig af: per veiling
-te kiezen welke lot-types aanwezig zijn, per (veiling, type) een staffel
-in te stellen met ranges en steps, lot-type per paard te kiezen, helper-
-functie klaar voor cockpit-gebruik. Volgende blok is de live cockpit (Dag 4-5).
+Drie modules werken end-to-end:
+1. **Voorbereidingsmodule** — Veilinghuizen → Veilingen → Lots → Detail
+   met foto-gallery, catalog/EquiRatings, video, drie auto-save notes,
+   inline edit voor lot-nummer/startprijs/reserveprijs, drie URL-velden
+   (Hippomundo/Horsetelex/extra), vorig/volgend met pijltjestoetsen.
+2. **Bid-step-systeem** — per veiling welke lot-types, per (veiling, type)
+   een staffel met ranges + steps, lot-type per paard, read-only preview
+   op LotPage, `nextBidStep` helper voor cockpit-lookup.
+3. **Live Cockpit** (3 van 6 stappen af) — `/cockpit/:auctionId` met
+   read-only paard-info (incl. catalog, EquiRatings, foto-gallery,
+   leeftijd-uit-jaar, externe links), drie-knop-flow (IN DE PISTE → START
+   BIEDEN → HAMER) met live timer en next-lot-knop, en hamer-form met
+   verkocht-in-zaal / verkocht-online / niet-verkocht + prijs-invoer.
+
+Database staat (1 huis, 1 veiling met datum+locatie+starttijd, 24 lots
+met enriched data van aloga-auction.com, 8 lot-types, 0+ bid_step_rules,
+clients-tabel klaar maar leeg).
+
+Open: cockpit-stap 6 (sessie-statistieken — gem. duur, verwacht einduur),
+klanten-UI (0b uit oorspronkelijk plan), Vercel-deploy, drop deprecated
+columns. Cockpit is **bruikbaar zonder die laatste stap** — Frederik kan
+op 5 mei werken.
 
 ---
 
@@ -34,18 +49,23 @@ functie klaar voor cockpit-gebruik. Volgende blok is de live cockpit (Dag 4-5).
 - ✅ Smoke-test in `src/App.jsx` toont aantal `auction_houses` uit Supabase
 
 ### Database — live op Supabase
-- ✅ SQL-migratie uitgevoerd in Supabase Dashboard (30-04-2026)
-- ✅ Drie tabellen aangemaakt: `auction_houses`, `auctions`, `lots`
-- ✅ RLS aan, met permissive MVP-policies (later vervangen door auth-based)
-- ✅ Schema uitgebreid met de rijke velden uit de Aloga-import (foto's, catalog_text,
-  equiratings_text, USP, strong/weak points, etc.)
+- ✅ Migratie 0001: drie tabellen `auction_houses` / `auctions` / `lots` (RLS aan, permissive MVP-policies)
+- ✅ Migratie 0002: `bid_steps` verhuisd van lots naar auctions
+- ✅ Migratie 0003: bid-step-systeem (`lot_types`, `auction_lot_types`, `bid_step_rules`, `lots.lot_type_id`)
+- ✅ Migratie 0004: cockpit + klanten-fundament (`auctions.active_lot_id`, `lots.time_bidding_start`, `clients`, `lot_interested_clients`)
+- ✅ Migratie 0005: drie URL-velden op lots (`url_hippomundo`, `url_horsetelex`, `url_extra`)
+- ✅ Migratie 0006: `lots.sale_channel` (zaal / online)
 
-### Data — geïmporteerd
+### Data — geïmporteerd + verrijkt
 - ✅ Aloga 2026 collectie gescraped: 24 loten (19 springen + 5 dressuur)
-- ✅ JSON in `data/aloga-2026-import.json`
 - ✅ Generiek import-script: `scripts/import-lots.mjs`
-- ✅ **Geïmporteerd**: 1 auction_house (Aloga), 1 auction (Aloga Auction 2026),
-  24 lots — geverifieerd via REST count
+- ✅ **Geïmporteerd op 30-04**: 1 auction_house (Aloga), 1 auction (Aloga Auction 2026), 24 lots
+- ✅ Datum/locatie/starttijd Aloga 2026 ingevuld via REST PATCH
+- ✅ **Data-enrichment 30-04** (`scripts/aloga-2026-enrich.py`): 17 lots opnieuw gescraped
+  via WebFetch + DB ge-PATCHed met studbook, size, catalog_text,
+  equiratings_text en photos. Resterende `missing_info` is meestal alleen
+  `lot_number`, `video_url`, `reserve_price` — items die de website niet
+  publiceert.
 
 ### Voorbereidingsmodule — LIVE (commits 4369975, c6a5a66, 25cc404, f01b5c1, 823cc29, 95d5441)
 - ✅ Routing: react-router-dom v7 met `/`, `/houses/:id`, `/auctions/:id`, `/lots/:id`, 404
@@ -76,9 +96,22 @@ functie klaar voor cockpit-gebruik. Volgende blok is de live cockpit (Dag 4-5).
 ## Wat nog gebouwd moet worden — MVP voor 5 mei
 
 ### Eerstvolgende stappen
-- [ ] **Plan-mode + bouwen Live Cockpit** (Dag 4-5)
-- [ ] Vercel deployment configureren
-- [ ] Eindtijd voor Aloga Auction 2026 (start staat al op 20:00, einde onbekend)
+- [ ] **Cockpit-statusbalk** (toegevoegd 30-04): bovenaan/onderaan altijd zichtbaar:
+  "X/24 lots · Y verkocht · Z niet verkocht · Voorlopige omzet €N"
+- [ ] **Cockpit stap 6**: sessie-statistieken (gem. duur per lot, verwacht einduur,
+  gestart-tijdstip) — kan in dezelfde balk verwerkt worden
+- [ ] **Overzichtspagina einde veiling** (toegevoegd 30-04): nieuwe route
+  `/auctions/:id/summary` of `/auctions/:id/result` met:
+  * Lijst van alle paarden met verkoopprijs en sold/niet-verkocht
+  * Totale omzet
+  * Gemiddelde prijs per lot-type
+  * Gemiddelde prijs per paard (over verkochte lots)
+  Knop "Overzicht openen" verschijnt op cockpit zodra alle 24 paarden gehamerd zijn.
+- [ ] **Cockpit stap 5**: notities bewerkbaar maken in cockpit (kleine ✏-knop per veld)
+- [ ] **Klanten-UI** (0b, uitgesteld): autocomplete op LotPage om klanten te koppelen aan paarden
+- [ ] **Vercel-deployment** zodat cockpit ook op iPad/telefoon bruikbaar is
+- [ ] **Eindtijd Aloga 2026** invullen (starttijd staat op 20:00)
+- [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type` text) in een schoonmaak-migratie
 
 ### Dag 2-3 — Voorbereidingsmodule (✅ AF op 30-04-2026)
 - [x] Veilinghuizen → Veilingen → Lots navigatie
@@ -98,6 +131,20 @@ functie klaar voor cockpit-gebruik. Volgende blok is de live cockpit (Dag 4-5).
   (19 springpaarden → sport-jumping, 5 dressuur → sport-dressage)
 - [x] AuctionPage: LotTypesSelector (checkbox-grid) + BidStepRulesEditor
   (mini-tabel per type met inline-editbare ranges en step)
+
+### Live Cockpit (3 van 6 stappen ✅, commits 73761c5 → c1a8677)
+- [x] Stap 1: skelet `/cockpit/:auctionId` met read-only paard-info, foto-gallery,
+  catalogtekst, EquiRatings, leeftijd-uit-jaar (bv. "2019/7 jaar"), klanten-
+  placeholder, biedstaffel-preview
+- [x] Externe links read-only in cockpit (Hippomundo / Horsetelex / Extra)
+- [x] Stap 2: drie-knop-flow (IN DE PISTE → START BIEDEN → HAMER) met
+  state-machine (pending/active/done), live timer per fase, "Volgend lot →"
+- [x] Stap 3: hamer-form met radio (Verkocht in zaal / online / Niet verkocht),
+  bedrag-invoer, Annuleer/Bevestig. Resultaat-regel toont "Verkocht in zaal —
+  €X om HH:MM (duur MM:SS)"
+- [ ] Stap 4: huidig-bod input — **GESCHRAPT** (Frederik typt enkel finale prijs)
+- [ ] Stap 5: notities bewerkbaar in cockpit
+- [ ] Stap 6: sessie-statistieken
 - [x] LotPage: LotTypeDropdown om type per lot te kiezen
 - [x] LotPage: BidStepRulesPreview (read-only) voor referentie
 - [x] Helper `nextBidStep(currentBid, rules)` in src/lib/bidSteps.js

@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 30 april 2026**
+**Laatste update: 30 april 2026 (sessie-einde)**
 
 ---
 
@@ -153,18 +153,28 @@ veiling-pro/
 ├── reports/                      Audit-rapporten per sessie
 │   └── 2026-04-29_initial-setup.md
 ├── scripts/
-│   └── import-lots.mjs           Generiek import-script (per JSON)
+│   ├── import-lots.mjs           Generiek import-script (per JSON)
+│   └── aloga-2026-enrich.py      Eenmalige enrichment van 17 lots via
+│                                  WebFetch (data ingelezen op 30-04)
 ├── src/
 │   ├── components/
-│   │   └── NoteField.jsx         Auto-save notitieveld (debounce 800ms)
+│   │   ├── NoteField.jsx         Auto-save textarea (debounce 800ms)
+│   │   ├── AutoSaveNumber.jsx    Auto-save number-input (idem)
+│   │   ├── AutoSaveUrl.jsx       Auto-save URL-input + 🔗 open-link
+│   │   ├── LotTypesSelector.jsx  Checkbox-grid op AuctionPage
+│   │   ├── BidStepRulesEditor.jsx Mini-tabel-editor (Van € … tot € … stap €)
+│   │   ├── BidStepRulesPreview.jsx Read-only weergave per lot-type
+│   │   └── LotTypeDropdown.jsx   Type-keuze per lot
 │   ├── lib/
-│   │   └── supabase.js           Supabase client
+│   │   ├── supabase.js           Supabase client
+│   │   ├── missingInfo.js        Vertaling + helpers voor missing_info
+│   │   └── bidSteps.js           nextBidStep / sortByRangeFrom helpers
 │   ├── pages/
 │   │   ├── HousesPage.jsx        / — lijst van veilinghuizen
 │   │   ├── HousePage.jsx         /houses/:id — veilingen voor een huis
-│   │   ├── AuctionPage.jsx       /auctions/:id — 24 lots met thumbnails
-│   │   └── LotPage.jsx           /lots/:id — paard-detail + auto-save notes
-│   │                              + vorig/volgend (klik en pijltjes)
+│   │   ├── AuctionPage.jsx       /auctions/:id — 24 lots + types/staffels
+│   │   ├── LotPage.jsx           /lots/:id — volledig paard-detail
+│   │   └── CockpitPage.jsx       /cockpit/:auctionId — live veiling-cockpit
 │   ├── App.jsx                   Router-shell (Routes, header met logo)
 │   ├── index.css
 │   └── main.jsx                  Entry point — wraps App in BrowserRouter

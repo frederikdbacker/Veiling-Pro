@@ -268,6 +268,18 @@ function ActiveLotPanel({ lot, auctionId, interestedClients }) {
         )}
       </div>
 
+      {/* Externe links (read-only — bewerken op LotPage) */}
+      {(lot.url_hippomundo || lot.url_horsetelex || lot.url_extra) && (
+        <div style={blockStyle}>
+          <h3 style={blockHeadingStyle}>Externe links</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {lot.url_hippomundo && <ExternalLink href={lot.url_hippomundo} label="Hippomundo" />}
+            {lot.url_horsetelex && <ExternalLink href={lot.url_horsetelex} label="Horsetelex" />}
+            {lot.url_extra      && <ExternalLink href={lot.url_extra}      label="Extra" />}
+          </div>
+        </div>
+      )}
+
       {/* Bid-staffel preview */}
       <div style={blockStyle}>
         <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
@@ -290,6 +302,24 @@ function NoteRow({ label, value }) {
         ? <span>{value}</span>
         : <span style={{ color: '#bbb', fontStyle: 'italic' }}>—</span>}
     </div>
+  )
+}
+
+function ExternalLink({ href, label }) {
+  return (
+    <a
+      href={href}
+      target="_blank" rel="noopener noreferrer"
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 4,
+        padding: '0.3rem 0.65rem',
+        background: '#f0f0f0', color: '#222',
+        textDecoration: 'none', borderRadius: 4,
+        fontSize: '0.9em',
+      }}
+    >
+      🔗 {label}
+    </a>
   )
 }
 

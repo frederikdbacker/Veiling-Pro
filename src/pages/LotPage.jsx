@@ -5,6 +5,7 @@ import NoteField from '../components/NoteField'
 import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
+import AutoSaveUrl from '../components/AutoSaveUrl'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
@@ -268,6 +269,40 @@ export default function LotPage() {
                 ...(newMissingInfo ? { missing_info: newMissingInfo } : {}),
               }))
             }}
+          />
+        </div>
+
+        {/* Externe links — drie URL-placeholders */}
+        <div style={{ marginTop: '1rem', maxWidth: 600 }}>
+          <h3 style={{ fontSize: '0.95em', margin: '0 0 0.4rem 0', color: '#555' }}>
+            Externe links
+          </h3>
+          <AutoSaveUrl
+            table="lots"
+            id={lotId}
+            fieldName="url_hippomundo"
+            initialValue={lot.url_hippomundo}
+            label="Hippomundo"
+            placeholder="https://www.hippomundo.com/..."
+            onSaved={(value) => setLot((prev) => ({ ...prev, url_hippomundo: value }))}
+          />
+          <AutoSaveUrl
+            table="lots"
+            id={lotId}
+            fieldName="url_horsetelex"
+            initialValue={lot.url_horsetelex}
+            label="Horsetelex"
+            placeholder="https://www.horsetelex.com/..."
+            onSaved={(value) => setLot((prev) => ({ ...prev, url_horsetelex: value }))}
+          />
+          <AutoSaveUrl
+            table="lots"
+            id={lotId}
+            fieldName="url_extra"
+            initialValue={lot.url_extra}
+            label="Extra"
+            placeholder="https://..."
+            onSaved={(value) => setLot((prev) => ({ ...prev, url_extra: value }))}
           />
         </div>
       </div>

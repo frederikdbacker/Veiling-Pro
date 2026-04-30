@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function AuctionPage() {
   const { auctionId } = useParams()
@@ -18,7 +19,7 @@ export default function AuctionPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos')
+          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info')
           .eq('auction_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -79,6 +80,17 @@ export default function AuctionPage() {
                       #{lot.number ?? '—'}
                     </span>
                     {lot.name}
+                    {hasMissing(lot.missing_info) && (
+                      <span
+                        title={`Ontbreekt: ${translateMissing(lot.missing_info).join(', ')}`}
+                        style={{
+                          marginLeft: '0.5em', color: '#C8A02E',
+                          fontWeight: 'normal', fontSize: '0.85em',
+                        }}
+                      >
+                        ⚠ {lot.missing_info.length}
+                      </span>
+                    )}
                   </div>
                   <div style={{ color: '#666', fontSize: '0.85em', marginTop: '0.15rem' }}>
                     {[lot.discipline, lot.year, lot.gender, lot.studbook].filter(Boolean).join(' • ')}

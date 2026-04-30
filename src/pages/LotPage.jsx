@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
+import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
   const { lotId } = useParams()
@@ -84,6 +85,20 @@ export default function LotPage() {
           <>{' › '}<Link to={`/auctions/${auction.id}`}>{auction.name}</Link></>
         )}
       </p>
+
+      {/* Missing info banner */}
+      {hasMissing(lot.missing_info) && (
+        <div
+          style={{
+            background: '#FFF8E1', border: '1px solid #F0D585',
+            borderRadius: 6, padding: '0.6rem 0.85rem', marginTop: '0.5rem',
+            fontSize: '0.9em', color: '#8a6d1d',
+          }}
+          role="status"
+        >
+          ⚠ Ontbreekt voor dit lot: <strong>{translateMissing(lot.missing_info).join(', ')}</strong>
+        </div>
+      )}
 
       {/* Header */}
       <h1 style={{ marginBottom: '0.25rem' }}>

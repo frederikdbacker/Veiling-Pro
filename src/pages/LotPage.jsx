@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
 
 export default function LotPage() {
   const { lotId } = useParams()
+  const navigate = useNavigate()
   const [lot, setLot] = useState(null)
   const [auction, setAuction] = useState(null)
+  const [siblings, setSiblings] = useState([])
   const [status, setStatus] = useState('Laden…')
   const [activePhoto, setActivePhoto] = useState(0)
 
@@ -22,13 +24,41 @@ export default function LotPage() {
         setStatus(`Fout bij ophalen lot: ${error.message}`)
         return
       }
+
+      // Tweede query: alle lots in dezelfde veiling, voor vorig/volgend
+      const sibsRes = await supabase
+        .from('lots')
+        .select('id, number, name')
+        .eq('auction_id', data.auction_id)
+        .order('number', { nullsFirst: false })
+        .order('name')
+
       setLot(data)
       setAuction(data.auctions)
+      setSiblings(sibsRes.data ?? [])
       setActivePhoto(0)
       setStatus('')
     }
     load()
   }, [lotId])
+
+  // Prev/next op basis van positie in siblings
+  const idx = siblings.findIndex((s) => s.id === lotId)
+  const prev = idx > 0 ? siblings[idx - 1] : null
+  const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null
+
+  // Pijltjestoetsen voor prev/next — niet wanneer in een tekstveld
+  useEffect(() => {
+    function onKey(e) {
+      const tag = e.target?.tagName
+      if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      if (e.key === 'ArrowLeft' && prev) navigate(`/lots/${prev.id}`)
+      if (e.key === 'ArrowRight' && next) navigate(`/lots/${next.id}`)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [prev, next, navigate])
 
   if (!lot) {
     return (
@@ -169,11 +199,41 @@ export default function LotPage() {
         />
       </div>
 
-      {/* Placeholder voor stap 6 (vorig/volgend) */}
-      <p style={{ color: '#bbb', marginTop: '1.5rem', fontStyle: 'italic' }}>
-        Vorig/volgend lot volgt in stap 6.
-      </p>
+      {/* Vorig/volgend lot — pijltjestoetsen werken ook (buiten tekstvelden) */}
+      <nav
+        style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          gap: '1rem', marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid #ddd',
+        }}
+      >
+        <NavLink lot={prev} dir="prev" />
+        <small style={{ color: '#999' }}>
+          {idx >= 0 && `${idx + 1} / ${siblings.length}`}
+        </small>
+        <NavLink lot={next} dir="next" />
+      </nav>
     </section>
+  )
+}
+
+function NavLink({ lot, dir }) {
+  const arrow = dir === 'prev' ? '←' : '→'
+  const align = dir === 'prev' ? 'left' : 'right'
+  if (!lot) {
+    return (
+      <span style={{ color: '#bbb', flex: 1, textAlign: align }}>
+        {dir === 'prev' ? `${arrow} Begin` : `Einde ${arrow}`}
+      </span>
+    )
+  }
+  const label = `#${lot.number ?? '—'} ${lot.name}`
+  return (
+    <Link
+      to={`/lots/${lot.id}`}
+      style={{ flex: 1, textAlign: align, textDecoration: 'none', color: '#222' }}
+    >
+      {dir === 'prev' ? `${arrow} ${label}` : `${label} ${arrow}`}
+    </Link>
   )
 }
 

@@ -5,12 +5,15 @@
 
 ---
 
-## Huidige status: VOORBEREIDINGSMODULE LIVE
+## Huidige status: VOORBEREIDING + BID-STEP-SYSTEEM LIVE
 
-Database staat (1 huis, 1 veiling, 24 lots). Hele navigatie van Veilinghuizen
-→ Veiling → Lot werkt in browser, mét foto-gallery, catalog/EquiRatings-tekst,
-video-blok, drie auto-save notitievelden en vorig/volgend-navigatie (klik én
-pijltjestoetsen). Volgende blok is de live cockpit (Dag 4-5).
+Database staat (1 huis, 1 veiling, 24 lots, 8 lot-types). Voorbereidingsmodule
+volledig af: navigatie, foto-gallery, catalog/EquiRatings, video-blok, drie
+auto-save notitievelden, vorig/volgend (klik + pijltjes), inline edit voor
+lot-nummer/startprijs/reserveprijs. Bid-step-systeem volledig af: per veiling
+te kiezen welke lot-types aanwezig zijn, per (veiling, type) een staffel
+in te stellen met ranges en steps, lot-type per paard te kiezen, helper-
+functie klaar voor cockpit-gebruik. Volgende blok is de live cockpit (Dag 4-5).
 
 ---
 
@@ -73,7 +76,7 @@ pijltjestoetsen). Volgende blok is de live cockpit (Dag 4-5).
 ## Wat nog gebouwd moet worden — MVP voor 5 mei
 
 ### Eerstvolgende stappen
-- [ ] **Bid-step-systeem ontwerpen + bouwen** (gekozen op 30-04 boven cockpit)
+- [ ] **Plan-mode + bouwen Live Cockpit** (Dag 4-5)
 - [ ] Vercel deployment configureren
 - [ ] Eindtijd voor Aloga Auction 2026 (start staat al op 20:00, einde onbekend)
 
@@ -87,15 +90,23 @@ pijltjestoetsen). Volgende blok is de live cockpit (Dag 4-5).
 - [x] Migratie 0002: bid_steps verhuisd van lots naar auctions (commit 6112a2a)
 - [x] Bug-fix: state-stale na navigeren tussen lots (commit 93bcfb6)
 
-### Bid-step-systeem (NIEUW — gekozen op 30-04, vóór cockpit)
-- [ ] `lot_types` referentietabel (veulen, embryo, draagmoeder, fokmerrie,
-  hengst gekeurd, hengst niet gekeurd, sportpaard springen, sportpaard
-  dressuur, …)
-- [ ] `auction_lot_types` koppel-tabel (welke types in welke veiling)
-- [ ] `bid_step_rules` tabel (per veiling per type: range_from, range_to, step)
-- [ ] Lots koppelen aan lot_type (foreign key i.p.v. losse text)
-- [ ] AuctionPage: "Welke types horen bij deze veiling?" + bid-staffel-editor
-- [ ] Cockpit-helper-functie die juiste step kiest op basis van prijs + type
+### Bid-step-systeem (✅ AF op 30-04-2026, commits 765215c → fd6f793)
+- [x] `lot_types` referentietabel met 8 seed-types
+- [x] `auction_lot_types` koppel-tabel (welke types in welke veiling)
+- [x] `bid_step_rules` tabel met range_from / range_to / step
+- [x] Lots gekoppeld aan lot_type via `lots.lot_type_id` FK + backfill
+  (19 springpaarden → sport-jumping, 5 dressuur → sport-dressage)
+- [x] AuctionPage: LotTypesSelector (checkbox-grid) + BidStepRulesEditor
+  (mini-tabel per type met inline-editbare ranges en step)
+- [x] LotPage: LotTypeDropdown om type per lot te kiezen
+- [x] LotPage: BidStepRulesPreview (read-only) voor referentie
+- [x] Helper `nextBidStep(currentBid, rules)` in src/lib/bidSteps.js
+
+### Toekomstig (na 5 mei)
+- [ ] "Kopieer bid-step-staffel van vorige veiling" — bv. Aloga 2027 erft
+  staffels van Aloga 2026 automatisch (Frederik's wens 30-04-2026)
+- [ ] Range-overlap-validatie met visuele waarschuwing
+- [ ] Drop deprecated kolommen `lots.bid_steps` (text) en `lots.lot_type` (text)
 
 ### Dag 4-5 — Live cockpit
 - [ ] Minimale interface voor tijdens de veiling

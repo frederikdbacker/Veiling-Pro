@@ -59,7 +59,24 @@ export default function AuctionPage() {
         )}
       </p>
       <h1>{auction?.name ?? 'Veiling'}</h1>
-      <p style={{ color: '#666' }}>{status}</p>
+      <p style={{ color: '#666' }}>
+        {status}
+        {auction && (
+          <>
+            {' · '}
+            <Link
+              to={`/cockpit/${auction.id}`}
+              style={{
+                display: 'inline-block', padding: '0.2rem 0.6rem',
+                background: '#222', color: '#fff', borderRadius: 4,
+                textDecoration: 'none', fontSize: '0.9em',
+              }}
+            >
+              🎬 Cockpit openen
+            </Link>
+          </>
+        )}
+      </p>
 
       {auction && (
         <>

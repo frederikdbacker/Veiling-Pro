@@ -3,12 +3,14 @@ import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 import LotTypesSelector from '../components/LotTypesSelector'
+import BidStepRulesEditor from '../components/BidStepRulesEditor'
 
 export default function AuctionPage() {
   const { auctionId } = useParams()
   const [auction, setAuction] = useState(null)
   const [lots, setLots] = useState([])
   const [status, setStatus] = useState('Laden…')
+  const [selectedTypeIds, setSelectedTypeIds] = useState(new Set())
 
   useEffect(() => {
     async function load() {
@@ -59,7 +61,18 @@ export default function AuctionPage() {
       <h1>{auction?.name ?? 'Veiling'}</h1>
       <p style={{ color: '#666' }}>{status}</p>
 
-      {auction && <LotTypesSelector auctionId={auction.id} />}
+      {auction && (
+        <>
+          <LotTypesSelector
+            auctionId={auction.id}
+            onChange={setSelectedTypeIds}
+          />
+          <BidStepRulesEditor
+            auctionId={auction.id}
+            selectedTypeIds={selectedTypeIds}
+          />
+        </>
+      )}
 
       {lots.length > 0 && (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>

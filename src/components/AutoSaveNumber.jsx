@@ -96,30 +96,47 @@ export default function AutoSaveNumber({
     }, DEBOUNCE_MS)
   }
 
+  const inputEl = (
+    <>
+      {prefix && <span style={{ color: '#666' }}>{prefix}</span>}
+      <input
+        type="number"
+        value={value}
+        onChange={handleChange}
+        step={step}
+        min={min}
+        placeholder={placeholder}
+        aria-label={label}
+        style={{
+          padding: '0.4rem 0.5rem',
+          fontFamily: 'inherit', fontSize: '1em',
+          border: '1px solid #ccc', borderRadius: 4,
+          width: '7em',
+          boxSizing: 'border-box',
+        }}
+      />
+      {suffix && <span style={{ color: '#666' }}>{suffix}</span>}
+      <SaveIndicator status={status} />
+    </>
+  )
+
+  // Compacte modus: zonder label, geen verticale wrap, voor inline gebruik
+  // (bv. in een tabel-rij). Activeer door label leeg te laten.
+  if (!label) {
+    return (
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+        {inputEl}
+      </span>
+    )
+  }
+
   return (
     <div style={{ marginBottom: '0.75rem' }}>
       <label style={{ display: 'block', fontWeight: 600, marginBottom: 4 }}>
         {label}
       </label>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-        {prefix && <span style={{ color: '#666' }}>{prefix}</span>}
-        <input
-          type="number"
-          value={value}
-          onChange={handleChange}
-          step={step}
-          min={min}
-          placeholder={placeholder}
-          style={{
-            padding: '0.4rem 0.5rem',
-            fontFamily: 'inherit', fontSize: '1em',
-            border: '1px solid #ccc', borderRadius: 4,
-            width: '9em',
-            boxSizing: 'border-box',
-          }}
-        />
-        {suffix && <span style={{ color: '#666' }}>{suffix}</span>}
-        <SaveIndicator status={status} />
+        {inputEl}
       </div>
     </div>
   )

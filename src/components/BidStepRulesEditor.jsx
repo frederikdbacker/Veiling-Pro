@@ -1,0 +1,169 @@
+import { useEffect, useState } from 'react'
+import { supabase } from '../lib/supabase'
+import AutoSaveNumber from './AutoSaveNumber'
+
+/**
+ * Staffel-editor: per geselecteerd lot-type een mini-tabel van regels
+ * met range_from / range_to / step. Auto-save per cel via AutoSaveNumber.
+ *
+ * Props:
+ *   auctionId          UUID van de veiling
+ *   selectedTypeIds    Set van lot_type_ids die in deze veiling actief zijn
+ */
+export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
+  const [allTypes, setAllTypes] = useState([])
+  const [rules, setRules] = useState([])
+  const [error, setError] = useState(null)
+
+  // lot_types één keer fetchen (verandert niet binnen sessie)
+  useEffect(() => {
+    let cancelled = false
+    supabase.from('lot_types').select('*').order('display_order').then((res) => {
+      if (cancelled) return
+      if (res.error) setError(res.error.message)
+      else setAllTypes(res.data ?? [])
+    })
+    return () => { cancelled = true }
+  }, [])
+
+  // bid_step_rules opnieuw fetchen wanneer auction of de selectie verandert.
+  // Dat dekt de edge-case waar uittinkt → opnieuw aantinkt soms een leeg
+  // staffel-blok toonde — DB blijft bron van waarheid.
+  useEffect(() => {
+    let cancelled = false
+    supabase
+      .from('bid_step_rules')
+      .select('*')
+      .eq('auction_id', auctionId)
+      .order('range_from')
+      .then((res) => {
+        if (cancelled) return
+        if (res.error) setError(res.error.message)
+        else setRules(res.data ?? [])
+      })
+    return () => { cancelled = true }
+  }, [auctionId, selectedTypeIds])
+
+  const visibleTypes = allTypes.filter((t) => selectedTypeIds?.has(t.id))
+
+  if (visibleTypes.length === 0) {
+    return (
+      <p style={{ color: '#888', fontStyle: 'italic', marginBottom: '1rem' }}>
+        Selecteer hierboven welke lot-types in deze veiling aanwezig zijn,
+        dan kan je per type een bied-staffel instellen.
+      </p>
+    )
+  }
+
+  return (
+    <section style={{ marginBottom: '1.5rem' }}>
+      <h2 style={{ fontSize: '1.1em', margin: '1rem 0 0.5rem 0' }}>Biedstappen</h2>
+      {error && <p style={{ color: '#c33' }}>❌ {error}</p>}
+      {visibleTypes.map((type) => (
+        <RulesPerType
+          key={type.id}
+          auctionId={auctionId}
+          lotType={type}
+          rules={rules.filter((r) => r.lot_type_id === type.id)}
+          onLocalAdd={(rule) => setRules((prev) => [...prev, rule])}
+          onLocalRemove={(id) => setRules((prev) => prev.filter((r) => r.id !== id))}
+        />
+      ))}
+    </section>
+  )
+}
+
+function RulesPerType({ auctionId, lotType, rules, onLocalAdd, onLocalRemove }) {
+  const sorted = [...rules].sort(
+    (a, b) => Number(a.range_from ?? 0) - Number(b.range_from ?? 0)
+  )
+
+  async function addRule() {
+    const lastTo = sorted.length > 0 ? sorted[sorted.length - 1].range_to : null
+    const newFrom = lastTo == null ? 0 : Number(lastTo)
+    const { data, error } = await supabase
+      .from('bid_step_rules')
+      .insert({
+        auction_id: auctionId,
+        lot_type_id: lotType.id,
+        range_from: newFrom,
+        range_to: null,
+        step: 100,
+      })
+      .select()
+      .single()
+    if (!error && data) onLocalAdd(data)
+  }
+
+  async function removeRule(id) {
+    if (!window.confirm('Deze regel verwijderen?')) return
+    const { error } = await supabase.from('bid_step_rules').delete().eq('id', id)
+    if (!error) onLocalRemove(id)
+  }
+
+  return (
+    <div style={{ marginBottom: '1.25rem' }}>
+      <h3 style={{ fontSize: '1em', margin: '0.5rem 0', color: '#555' }}>
+        {lotType.name_nl}
+      </h3>
+      {sorted.length === 0 && (
+        <p style={{ color: '#aaa', fontSize: '0.85em', margin: 0 }}>
+          Nog geen regels.
+        </p>
+      )}
+      {sorted.map((rule) => (
+        <RuleRow key={rule.id} rule={rule} onRemove={() => removeRule(rule.id)} />
+      ))}
+      <button
+        onClick={addRule}
+        style={{
+          marginTop: 6, padding: '0.3rem 0.65rem', fontSize: '0.85em',
+          border: '1px solid #ccc', background: '#fff', borderRadius: 4,
+          cursor: 'pointer',
+        }}
+      >
+        + Regel toevoegen
+      </button>
+    </div>
+  )
+}
+
+function RuleRow({ rule, onRemove }) {
+  return (
+    <div
+      style={{
+        display: 'flex', alignItems: 'center', gap: '0.4rem',
+        marginBottom: 4, flexWrap: 'wrap',
+      }}
+    >
+      <span style={{ color: '#666' }}>Van</span>
+      <AutoSaveNumber
+        table="bid_step_rules" id={rule.id} fieldName="range_from"
+        initialValue={rule.range_from} step={100} prefix="€"
+      />
+      <span style={{ color: '#666' }}>tot</span>
+      <AutoSaveNumber
+        table="bid_step_rules" id={rule.id} fieldName="range_to"
+        initialValue={rule.range_to} step={100} prefix="€"
+        placeholder="∞"
+      />
+      <span style={{ color: '#666' }}>stap</span>
+      <AutoSaveNumber
+        table="bid_step_rules" id={rule.id} fieldName="step"
+        initialValue={rule.step} step={50} prefix="€"
+      />
+      <button
+        onClick={onRemove}
+        title="Verwijder regel"
+        aria-label="Verwijder regel"
+        style={{
+          marginLeft: 'auto', padding: '0.25rem 0.5rem',
+          background: 'transparent', border: 'none',
+          cursor: 'pointer', fontSize: '1em', color: '#888',
+        }}
+      >
+        🗑
+      </button>
+    </div>
+  )
+}

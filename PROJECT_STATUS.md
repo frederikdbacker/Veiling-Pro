@@ -73,15 +73,29 @@ pijltjestoetsen). Volgende blok is de live cockpit (Dag 4-5).
 ## Wat nog gebouwd moet worden — MVP voor 5 mei
 
 ### Eerstvolgende stappen
+- [ ] **Bid-step-systeem ontwerpen + bouwen** (gekozen op 30-04 boven cockpit)
 - [ ] Vercel deployment configureren
-- [ ] Datum/locatie/start-tijd voor Aloga Auction 2026 invullen (handmatig in
-  Supabase Table Editor, of een mini-edit-feature)
+- [ ] Eindtijd voor Aloga Auction 2026 (start staat al op 20:00, einde onbekend)
 
 ### Dag 2-3 — Voorbereidingsmodule (✅ AF op 30-04-2026)
 - [x] Veilinghuizen → Veilingen → Lots navigatie
 - [x] Lot detail: paardsgegevens, video ingebed, 3 notitievelden
 - [x] Navigatie vorig/volgend lot
 - [x] Auto-save notities
+- [x] Inline edit voor lot-nummer, startprijs, reserveprijs (commit 93bcfb6)
+- [x] Datum/locatie/starttijd Aloga ingevuld (REST PATCH 30-04)
+- [x] Migratie 0002: bid_steps verhuisd van lots naar auctions (commit 6112a2a)
+- [x] Bug-fix: state-stale na navigeren tussen lots (commit 93bcfb6)
+
+### Bid-step-systeem (NIEUW — gekozen op 30-04, vóór cockpit)
+- [ ] `lot_types` referentietabel (veulen, embryo, draagmoeder, fokmerrie,
+  hengst gekeurd, hengst niet gekeurd, sportpaard springen, sportpaard
+  dressuur, …)
+- [ ] `auction_lot_types` koppel-tabel (welke types in welke veiling)
+- [ ] `bid_step_rules` tabel (per veiling per type: range_from, range_to, step)
+- [ ] Lots koppelen aan lot_type (foreign key i.p.v. losse text)
+- [ ] AuctionPage: "Welke types horen bij deze veiling?" + bid-staffel-editor
+- [ ] Cockpit-helper-functie die juiste step kiest op basis van prijs + type
 
 ### Dag 4-5 — Live cockpit
 - [ ] Minimale interface voor tijdens de veiling
@@ -90,6 +104,7 @@ pijltjestoetsen). Volgende blok is de live cockpit (Dag 4-5).
 - [ ] Live timer per lot
 - [ ] Tempo-indicator (voor/achter op schema)
 - [ ] Verwacht einduur
+- [ ] Gebruikt automatisch de bid-staffels uit de bid_step_rules-tabel
 
 ### Dag 6 — Live dashboard
 - [ ] Deelbare URL (bijv. /live/aloga-2026)

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
+import LotTypesSelector from '../components/LotTypesSelector'
 
 export default function AuctionPage() {
   const { auctionId } = useParams()
@@ -57,6 +58,8 @@ export default function AuctionPage() {
       </p>
       <h1>{auction?.name ?? 'Veiling'}</h1>
       <p style={{ color: '#666' }}>{status}</p>
+
+      {auction && <LotTypesSelector auctionId={auction.id} />}
 
       {lots.length > 0 && (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>

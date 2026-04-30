@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
 import AutoSaveNumber from '../components/AutoSaveNumber'
+import LotTypeDropdown from '../components/LotTypeDropdown'
+import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
@@ -204,6 +206,16 @@ export default function LotPage() {
       {/* Voorbereidings-velden — lot-niveau metadata die jij invult */}
       <div key={`prep-${lotId}`} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #ddd' }}>
         <h2 style={{ fontSize: '1.1em', marginBottom: '0.5rem' }}>Voorbereiding</h2>
+        <LotTypeDropdown
+          lotId={lotId}
+          auctionId={lot.auction_id}
+          currentTypeId={lot.lot_type_id}
+          onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId }))}
+        />
+        <BidStepRulesPreview
+          auctionId={lot.auction_id}
+          lotTypeId={lot.lot_type_id}
+        />
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
           <AutoSaveNumber
             table="lots"

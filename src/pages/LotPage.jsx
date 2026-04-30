@@ -27,9 +27,12 @@ export default function LotPage() {
     setStatus('Laden…')
 
     async function load() {
+      // Expliciet de auction_id FK gebruiken — sinds migratie 0004 bestaat ook
+      // auctions.active_lot_id → lots, dus PostgREST kan niet meer raden
+      // welke relatie we willen.
       const { data, error } = await supabase
         .from('lots')
-        .select('*, auctions(id, name, auction_houses(id, name))')
+        .select('*, auctions!auction_id(id, name, auction_houses(id, name))')
         .eq('id', lotId)
         .single()
 

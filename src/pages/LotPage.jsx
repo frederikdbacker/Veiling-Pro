@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import NoteField from '../components/NoteField'
 
 export default function LotPage() {
   const { lotId } = useParams()
@@ -145,9 +146,32 @@ export default function LotPage() {
       {lot.strong_points && <Block title="Sterke punten"><p>{lot.strong_points}</p></Block>}
       {lot.weak_points && <Block title="Aandachtspunten"><p>{lot.weak_points}</p></Block>}
 
-      {/* Placeholder voor stap 5 (notities) en stap 6 (vorig/volgend) */}
-      <p style={{ color: '#bbb', marginTop: '2rem', fontStyle: 'italic' }}>
-        Notitievelden + vorig/volgend volgen in stap 5 en 6.
+      {/* Notitievelden — auto-save 800ms na laatste toets */}
+      <div key={lotId} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #ddd' }}>
+        <h2 style={{ fontSize: '1.1em', marginBottom: '0.5rem' }}>Mijn notities</h2>
+        <NoteField
+          lotId={lotId}
+          fieldName="notes_catalog"
+          initialValue={lot.notes_catalog}
+          label="Catalogus"
+        />
+        <NoteField
+          lotId={lotId}
+          fieldName="notes_video"
+          initialValue={lot.notes_video}
+          label="Video"
+        />
+        <NoteField
+          lotId={lotId}
+          fieldName="notes_org"
+          initialValue={lot.notes_org}
+          label="Organisatie"
+        />
+      </div>
+
+      {/* Placeholder voor stap 6 (vorig/volgend) */}
+      <p style={{ color: '#bbb', marginTop: '1.5rem', fontStyle: 'italic' }}>
+        Vorig/volgend lot volgt in stap 6.
       </p>
     </section>
   )

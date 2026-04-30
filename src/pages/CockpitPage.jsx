@@ -307,13 +307,23 @@ function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdat
 
 function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
   const [now, setNow] = useState(() => new Date())
-  const [busy, setBusy] = useState(null)  // 'in-ring' | 'start' | 'hamer' | null
+  const [busy, setBusy] = useState(null)  // 'in-ring' | 'start' | 'hamer-form' | null
+  const [hamerFormOpen, setHamerFormOpen] = useState(false)
+  const [outcome, setOutcome] = useState('zaal')  // 'zaal' | 'online' | 'unsold'
+  const [priceInput, setPriceInput] = useState('')
 
   // Tick elke seconde voor de live timer
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)
   }, [])
+
+  // Reset alle hamer-form-state wanneer een ander lot geselecteerd wordt
+  useEffect(() => {
+    setHamerFormOpen(false)
+    setOutcome('zaal')
+    setPriceInput('')
+  }, [lot.id])
 
   const inRing   = lot.time_entered_ring  != null
   const bidding  = lot.time_bidding_start != null
@@ -335,9 +345,80 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
     if (!error && data) onLotUpdated(data)
   }
 
-  function handleHamer() {
-    // Hamer-flow met prijs-invoer komt in stap 3 — voor nu placeholder
-    alert('Hamer-flow met prijs-invoer komt in stap 3.')
+  function calcDurationSeconds() {
+    if (!lot.time_entered_ring) return null
+    const enteredAt = new Date(lot.time_entered_ring).getTime()
+    return Math.floor((Date.now() - enteredAt) / 1000)
+  }
+
+  function openHamerForm() {
+    setHamerFormOpen(true)
+    setOutcome('zaal')
+    setPriceInput('')
+  }
+
+  async function commitHamerForm() {
+    const trimmed = priceInput.trim()
+    if (outcome === 'zaal' || outcome === 'online') {
+      if (trimmed === '') {
+        alert('Vul de verkoopprijs in.')
+        return
+      }
+      const price = Number(trimmed)
+      if (Number.isNaN(price) || price < 0) {
+        alert('Verkoopprijs is geen geldig getal.')
+        return
+      }
+      setBusy('hamer-form')
+      const { data, error } = await supabase
+        .from('lots')
+        .update({
+          time_hammer: new Date().toISOString(),
+          sale_price: price,
+          sold: true,
+          sale_channel: outcome,
+          duration_seconds: calcDurationSeconds(),
+        })
+        .eq('id', lot.id)
+        .select()
+        .single()
+      setBusy(null)
+      if (error) { alert(`Fout: ${error.message}`); return }
+      if (data) {
+        onLotUpdated(data)
+        setHamerFormOpen(false)
+      }
+    } else {
+      // outcome === 'unsold'
+      let highestBid = null
+      if (trimmed !== '') {
+        const n = Number(trimmed)
+        if (Number.isNaN(n) || n < 0) {
+          alert('Hoogste bod is geen geldig getal.')
+          return
+        }
+        highestBid = n
+      }
+      setBusy('hamer-form')
+      const { data, error } = await supabase
+        .from('lots')
+        .update({
+          time_hammer: new Date().toISOString(),
+          sale_price: highestBid,
+          sold: false,
+          sale_channel: null,
+          duration_seconds: calcDurationSeconds(),
+        })
+        .eq('id', lot.id)
+        .select()
+        .single()
+      setBusy(null)
+      if (error) { alert(`Fout: ${error.message}`); return }
+      if (data) {
+        onLotUpdated(data)
+        setHamerFormOpen(false)
+      }
+    }
   }
 
   // Volgend lot — index in de gesorteerde lijst (zelfde sortering als picker)
@@ -346,27 +427,36 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
 
   return (
     <div style={controlsBlockStyle}>
-      {/* Live timers */}
-      <div style={timersStyle}>
-        {inRing && (
-          <span>⏱ <strong>{formatElapsed(now - new Date(lot.time_entered_ring))}</strong> in de piste</span>
-        )}
-        {bidding && (
-          <span style={{ marginLeft: '1.25rem' }}>
-            ⏱ <strong>{formatElapsed(now - new Date(lot.time_bidding_start))}</strong> bieden actief
-          </span>
-        )}
-        {hammered && (
-          <span style={{ marginLeft: '1.25rem', color: '#5A8A5A' }}>
-            ✓ Gehamerd om {new Date(lot.time_hammer).toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
-          </span>
-        )}
-        {!inRing && (
-          <span style={{ color: '#aaa', fontStyle: 'italic' }}>
-            Klik "In de piste" wanneer het paard binnenkomt.
-          </span>
-        )}
-      </div>
+      {/* Live timers — alleen tijdens de flow */}
+      {!hammered && (
+        <div style={timersStyle}>
+          {inRing && (
+            <span>⏱ <strong>{formatElapsed(now - new Date(lot.time_entered_ring))}</strong> in de piste</span>
+          )}
+          {bidding && (
+            <span style={{ marginLeft: '1.25rem' }}>
+              ⏱ <strong>{formatElapsed(now - new Date(lot.time_bidding_start))}</strong> bieden actief
+            </span>
+          )}
+          {!inRing && (
+            <span style={{ color: '#aaa', fontStyle: 'italic' }}>
+              Klik "In de piste" wanneer het paard binnenkomt.
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Resultaat na hamer */}
+      {hammered && (
+        <div style={{ ...timersStyle, color: lot.sold ? '#5A8A5A' : '#a06010' }}>
+          {lot.sold
+            ? `✓ Verkocht ${lot.sale_channel === 'zaal' ? 'in zaal' : lot.sale_channel === 'online' ? 'online' : ''}`.trim()
+            : '⊘ Niet verkocht'}
+          {lot.sale_price != null && ` — €${formatNum(lot.sale_price)}`}
+          {' om '}{new Date(lot.time_hammer).toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
+          {lot.duration_seconds != null && ` (duur ${formatElapsed(lot.duration_seconds * 1000)})`}
+        </div>
+      )}
 
       {/* Drie-knop-flow */}
       <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
@@ -385,10 +475,67 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
         <FlowButton
           label="HAMER"
           state={hammerState}
-          busy={busy === 'hamer'}
-          onClick={handleHamer}
+          busy={busy === 'hamer-form'}
+          onClick={openHamerForm}
         />
       </div>
+
+      {/* Hamer-form — opent NA klik op HAMER */}
+      {hamerFormOpen && bidding && !hammered && (
+        <div style={priceFormStyle}>
+          <div style={{ fontWeight: 600, marginBottom: 8 }}>Hoe is dit lot afgerond?</div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
+            <label style={radioLabelStyle}>
+              <input type="radio" name="outcome" value="zaal"
+                checked={outcome === 'zaal'} onChange={() => setOutcome('zaal')} />
+              <span>Verkocht <strong>in zaal</strong></span>
+            </label>
+            <label style={radioLabelStyle}>
+              <input type="radio" name="outcome" value="online"
+                checked={outcome === 'online'} onChange={() => setOutcome('online')} />
+              <span>Verkocht <strong>online</strong></span>
+            </label>
+            <label style={radioLabelStyle}>
+              <input type="radio" name="outcome" value="unsold"
+                checked={outcome === 'unsold'} onChange={() => setOutcome('unsold')} />
+              <span><strong>Niet verkocht</strong></span>
+            </label>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <span style={{ fontWeight: 600 }}>
+              {outcome === 'unsold' ? 'Hoogste bod (optioneel):' : 'Verkoopprijs:'}
+            </span>
+            <span style={{ color: '#666' }}>€</span>
+            <input
+              type="number" step="100" min="0"
+              value={priceInput}
+              onChange={(e) => setPriceInput(e.target.value)}
+              placeholder={outcome === 'unsold' ? 'optioneel' : 'bv. 15000'}
+              style={priceInputStyle}
+              autoFocus
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <button
+              onClick={() => setHamerFormOpen(false)}
+              disabled={busy === 'hamer-form'}
+              style={cancelBtnStyle}
+            >
+              Annuleer
+            </button>
+            <button
+              onClick={commitHamerForm}
+              disabled={busy === 'hamer-form'}
+              style={confirmBtnStyle}
+            >
+              {busy === 'hamer-form' ? '…' : 'Bevestig hamer'}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Volgend lot */}
       <div style={{ marginTop: 10 }}>
@@ -532,4 +679,33 @@ const controlsBlockStyle = {
 const timersStyle = {
   fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
   fontSize: '1.1em', color: '#333',
+}
+const priceFormStyle = {
+  marginTop: 10,
+  padding: '0.6rem 0.85rem',
+  background: '#fff',
+  border: '1px solid #ddd',
+  borderRadius: 4,
+}
+const priceInputStyle = {
+  padding: '0.4rem 0.5rem',
+  fontSize: '1em',
+  border: '1px solid #ccc',
+  borderRadius: 4,
+  width: '8em',
+  fontFamily: 'inherit',
+}
+const radioLabelStyle = {
+  display: 'flex', alignItems: 'center', gap: 8,
+  cursor: 'pointer', padding: '0.25rem 0',
+}
+const cancelBtnStyle = {
+  padding: '0.5rem 1rem', fontSize: '0.95em',
+  border: '1px solid #ccc', background: '#fff', color: '#666',
+  borderRadius: 4, cursor: 'pointer',
+}
+const confirmBtnStyle = {
+  padding: '0.5rem 1rem', fontSize: '0.95em',
+  border: 'none', background: '#222', color: '#fff',
+  borderRadius: 4, cursor: 'pointer', fontWeight: 600, flex: 1,
 }

@@ -145,13 +145,16 @@ export default function CockpitPage() {
           lot={activeLot}
           auctionId={auctionId}
           interestedClients={interestedClients}
+          allLots={allLots}
+          onLotUpdated={(updated) => setActiveLot((prev) => ({ ...prev, ...updated }))}
+          onActiveLotChange={setActiveLotById}
         />
       )}
     </main>
   )
 }
 
-function ActiveLotPanel({ lot, auctionId, interestedClients }) {
+function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdated, onActiveLotChange }) {
   const photos = Array.isArray(lot.photos) ? lot.photos : []
   const [activePhoto, setActivePhoto] = useState(0)
 
@@ -219,6 +222,14 @@ function ActiveLotPanel({ lot, auctionId, interestedClients }) {
           </div>
         </div>
       </div>
+
+      {/* Live cockpit-controls */}
+      <CockpitControls
+        lot={lot}
+        allLots={allLots}
+        onLotUpdated={onLotUpdated}
+        onActiveLotChange={onActiveLotChange}
+      />
 
       {/* Catalogustekst — wat Frederik voorleest */}
       {lot.catalog_text && (
@@ -292,6 +303,143 @@ function ActiveLotPanel({ lot, auctionId, interestedClients }) {
       </div>
     </section>
   )
+}
+
+function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
+  const [now, setNow] = useState(() => new Date())
+  const [busy, setBusy] = useState(null)  // 'in-ring' | 'start' | 'hamer' | null
+
+  // Tick elke seconde voor de live timer
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const inRing   = lot.time_entered_ring  != null
+  const bidding  = lot.time_bidding_start != null
+  const hammered = lot.time_hammer        != null
+
+  const inRingState = !inRing  ? 'active' : 'done'
+  const startState  = !inRing  ? 'pending' : (!bidding  ? 'active' : 'done')
+  const hammerState = !bidding ? 'pending' : (!hammered ? 'active' : 'done')
+
+  async function patchTimestamp(field, busyKey) {
+    setBusy(busyKey)
+    const { data, error } = await supabase
+      .from('lots')
+      .update({ [field]: new Date().toISOString() })
+      .eq('id', lot.id)
+      .select()
+      .single()
+    setBusy(null)
+    if (!error && data) onLotUpdated(data)
+  }
+
+  function handleHamer() {
+    // Hamer-flow met prijs-invoer komt in stap 3 — voor nu placeholder
+    alert('Hamer-flow met prijs-invoer komt in stap 3.')
+  }
+
+  // Volgend lot — index in de gesorteerde lijst (zelfde sortering als picker)
+  const idx = allLots.findIndex((l) => l.id === lot.id)
+  const nextLot = idx >= 0 && idx < allLots.length - 1 ? allLots[idx + 1] : null
+
+  return (
+    <div style={controlsBlockStyle}>
+      {/* Live timers */}
+      <div style={timersStyle}>
+        {inRing && (
+          <span>⏱ <strong>{formatElapsed(now - new Date(lot.time_entered_ring))}</strong> in de piste</span>
+        )}
+        {bidding && (
+          <span style={{ marginLeft: '1.25rem' }}>
+            ⏱ <strong>{formatElapsed(now - new Date(lot.time_bidding_start))}</strong> bieden actief
+          </span>
+        )}
+        {hammered && (
+          <span style={{ marginLeft: '1.25rem', color: '#5A8A5A' }}>
+            ✓ Gehamerd om {new Date(lot.time_hammer).toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        )}
+        {!inRing && (
+          <span style={{ color: '#aaa', fontStyle: 'italic' }}>
+            Klik "In de piste" wanneer het paard binnenkomt.
+          </span>
+        )}
+      </div>
+
+      {/* Drie-knop-flow */}
+      <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+        <FlowButton
+          label="IN DE PISTE"
+          state={inRingState}
+          busy={busy === 'in-ring'}
+          onClick={() => patchTimestamp('time_entered_ring', 'in-ring')}
+        />
+        <FlowButton
+          label="START BIEDEN"
+          state={startState}
+          busy={busy === 'start'}
+          onClick={() => patchTimestamp('time_bidding_start', 'start')}
+        />
+        <FlowButton
+          label="HAMER"
+          state={hammerState}
+          busy={busy === 'hamer'}
+          onClick={handleHamer}
+        />
+      </div>
+
+      {/* Volgend lot */}
+      <div style={{ marginTop: 10 }}>
+        <button
+          onClick={() => nextLot && onActiveLotChange(nextLot.id)}
+          disabled={!nextLot}
+          style={{
+            padding: '0.5rem 0.85rem', fontSize: '0.95em',
+            border: '1px solid #ccc', borderRadius: 4,
+            background: nextLot ? '#fff' : '#f5f5f5',
+            color: nextLot ? '#222' : '#aaa',
+            cursor: nextLot ? 'pointer' : 'not-allowed',
+          }}
+        >
+          {nextLot
+            ? `Volgend lot → #${nextLot.number ?? '—'} ${nextLot.name}`
+            : 'Einde van de lijst'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function FlowButton({ label, state, busy, onClick }) {
+  const stateStyles = {
+    pending: { background: '#eee', color: '#aaa', cursor: 'not-allowed', opacity: 0.55 },
+    active:  { background: '#222', color: '#fff', cursor: 'pointer' },
+    done:    { background: '#5A8A5A', color: '#fff', cursor: 'default', opacity: 0.85 },
+  }[state]
+
+  return (
+    <button
+      onClick={state === 'active' && !busy ? onClick : undefined}
+      disabled={state !== 'active' || busy}
+      style={{
+        flex: 1, padding: '0.85rem 1rem',
+        fontSize: '1.05em', fontWeight: 600,
+        border: 'none', borderRadius: 6,
+        ...stateStyles,
+      }}
+    >
+      {state === 'done' ? '✓ ' : ''}{busy ? '…' : label}
+    </button>
+  )
+}
+
+function formatElapsed(ms) {
+  const total = Math.max(0, Math.floor(ms / 1000))
+  const m = Math.floor(total / 60)
+  const s = total % 60
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
 function NoteRow({ label, value }) {
@@ -375,4 +523,13 @@ const blockStyle = {
 }
 const blockHeadingStyle = {
   fontSize: '1em', margin: '0 0 0.5rem 0', color: '#555',
+}
+const controlsBlockStyle = {
+  marginTop: '1.25rem', padding: '0.85rem 1rem',
+  background: '#f8f8f8', border: '1px solid #ddd',
+  borderRadius: 6,
+}
+const timersStyle = {
+  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+  fontSize: '1.1em', color: '#333',
 }

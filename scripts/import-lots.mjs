@@ -95,7 +95,9 @@ const rows = horses.map(h => ({
   source_url:        h.source_url,
   start_price:       h.starting_bid,
   reserve_price:     h.reserve_price,
-  bid_steps:         h.bid_steps,
+  // bid_steps verhuisd naar auctions-tabel (per migratie 0002).
+  // Niet meer per lot mappen; eventueel toekomstige meta.bid_steps
+  // wordt op auction-niveau geüpsert.
   notes_catalog:     h.notes?.catalog || null,
   notes_video:       h.notes?.video || null,
   notes_org:         h.notes?.org || null,
@@ -107,7 +109,8 @@ const rows = horses.map(h => ({
   buyer:             h.buyer,
   buyer_country:     h.buyer_country,
   data_reliability:  h.data_reliability,
-  missing_info:      h.missing_info ?? [],
+  // "bid_steps" filteren want het is geen lot-eigen veld meer.
+  missing_info:      (h.missing_info ?? []).filter(k => k !== 'bid_steps'),
 }))
 
 // 5) insert

@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 29 april 2026**
+**Laatste update: 30 april 2026**
 
 ---
 
@@ -155,11 +155,19 @@ veiling-pro/
 ├── scripts/
 │   └── import-lots.mjs           Generiek import-script (per JSON)
 ├── src/
+│   ├── components/
+│   │   └── NoteField.jsx         Auto-save notitieveld (debounce 800ms)
 │   ├── lib/
 │   │   └── supabase.js           Supabase client
-│   ├── App.jsx                   Smoke-test pagina (lijst veilinghuizen)
+│   ├── pages/
+│   │   ├── HousesPage.jsx        / — lijst van veilinghuizen
+│   │   ├── HousePage.jsx         /houses/:id — veilingen voor een huis
+│   │   ├── AuctionPage.jsx       /auctions/:id — 24 lots met thumbnails
+│   │   └── LotPage.jsx           /lots/:id — paard-detail + auto-save notes
+│   │                              + vorig/volgend (klik en pijltjes)
+│   ├── App.jsx                   Router-shell (Routes, header met logo)
 │   ├── index.css
-│   └── main.jsx                  Entry point
+│   └── main.jsx                  Entry point — wraps App in BrowserRouter
 ├── supabase/
 │   └── migrations/
 │       └── 0001_init.sql         PostgreSQL schema

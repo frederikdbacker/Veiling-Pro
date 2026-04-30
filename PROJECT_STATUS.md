@@ -1,15 +1,16 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 29 april 2026**
+**Laatste update: 30 april 2026**
 **Deadline: 5 mei 2026 (Aloga Auction 2026)**
 
 ---
 
-## Huidige status: SCAFFOLD KLAAR — wacht op database-init
+## Huidige status: VOORBEREIDINGSMODULE LIVE
 
-Vite + React + Supabase staat opgezet en gepusht naar GitHub. Het schema en
-import-script zijn klaar. Volgende blokkade is een handmatige stap in het
-Supabase-dashboard (één keer SQL plakken).
+Database staat (1 huis, 1 veiling, 24 lots). Hele navigatie van Veilinghuizen
+→ Veiling → Lot werkt in browser, mét foto-gallery, catalog/EquiRatings-tekst,
+video-blok, drie auto-save notitievelden en vorig/volgend-navigatie (klik én
+pijltjestoetsen). Volgende blok is de live cockpit (Dag 4-5).
 
 ---
 
@@ -29,22 +30,31 @@ Supabase-dashboard (één keer SQL plakken).
 - ✅ Build slaagt — `npm run build` ✓
 - ✅ Smoke-test in `src/App.jsx` toont aantal `auction_houses` uit Supabase
 
-### Database — schema klaar, nog niet uitgevoerd
-- ✅ SQL-migratie geschreven: `supabase/migrations/0001_init.sql`
-- ✅ Drie tabellen: `auction_houses`, `auctions`, `lots`
+### Database — live op Supabase
+- ✅ SQL-migratie uitgevoerd in Supabase Dashboard (30-04-2026)
+- ✅ Drie tabellen aangemaakt: `auction_houses`, `auctions`, `lots`
 - ✅ RLS aan, met permissive MVP-policies (later vervangen door auth-based)
 - ✅ Schema uitgebreid met de rijke velden uit de Aloga-import (foto's, catalog_text,
   equiratings_text, USP, strong/weak points, etc.)
-- ⏳ **Nog te doen door gebruiker**: SQL plakken in Supabase Dashboard → SQL Editor → Run
 
-### Data
+### Data — geïmporteerd
 - ✅ Aloga 2026 collectie gescraped: 24 loten (19 springen + 5 dressuur)
 - ✅ JSON in `data/aloga-2026-import.json`
 - ✅ Generiek import-script: `scripts/import-lots.mjs`
-- ⏳ **Nog te doen**: importeren zodra de tabellen bestaan
-  ```
-  node --env-file=.env.local scripts/import-lots.mjs data/aloga-2026-import.json
-  ```
+- ✅ **Geïmporteerd**: 1 auction_house (Aloga), 1 auction (Aloga Auction 2026),
+  24 lots — geverifieerd via REST count
+
+### Voorbereidingsmodule — LIVE (commits 4369975, c6a5a66, 25cc404, f01b5c1, 823cc29, 95d5441)
+- ✅ Routing: react-router-dom v7 met `/`, `/houses/:id`, `/auctions/:id`, `/lots/:id`, 404
+- ✅ HousesPage: lijst van veilinghuizen, klikbaar
+- ✅ HousePage: veilingen voor een huis, met datum/locatie/status
+- ✅ AuctionPage: 24 lots met thumbnail, lotnummer, naam, discipline + jaar +
+  gender + studbook, en sire × dam — gesorteerd op nummer dan naam
+- ✅ LotPage: foto-gallery (klikbare thumbnails), catalogtekst, EquiRatings-tekst,
+  video-blok (placeholder als geen URL), USP/sterke/aandachtspunten als gevuld
+- ✅ Auto-save notitievelden (catalogus, video, organisatie) met 800ms debounce,
+  status-indicator per veld (idle / typen / opslaan / opgeslagen / fout)
+- ✅ Vorig/volgend lot — klikbare links + pijltjestoetsen (← →) + indicator "X / 24"
 
 ### Prototypes (als referentie, nog niet gekoppeld aan backend)
 - ✅ Fase 1 prototype: veilinghuizen → veilingen → lots → detail met video + notities
@@ -62,17 +72,16 @@ Supabase-dashboard (één keer SQL plakken).
 
 ## Wat nog gebouwd moet worden — MVP voor 5 mei
 
-### Direct (na deze sessie)
-- [ ] Gebruiker draait `0001_init.sql` in Supabase Dashboard
-- [ ] Gebruiker draait `node --env-file=.env.local scripts/import-lots.mjs data/aloga-2026-import.json`
-- [ ] Smoke-test: `npm run dev` → http://localhost:5173 toont "Aloga" als veilinghuis
+### Eerstvolgende stappen
 - [ ] Vercel deployment configureren
+- [ ] Datum/locatie/start-tijd voor Aloga Auction 2026 invullen (handmatig in
+  Supabase Table Editor, of een mini-edit-feature)
 
-### Dag 2-3 — Voorbereidingsmodule
-- [ ] Veilinghuizen → Veilingen → Lots navigatie
-- [ ] Lot detail: paardsgegevens, video ingebed, 3 notitievelden
-- [ ] Navigatie vorig/volgend lot
-- [ ] Auto-save notities
+### Dag 2-3 — Voorbereidingsmodule (✅ AF op 30-04-2026)
+- [x] Veilinghuizen → Veilingen → Lots navigatie
+- [x] Lot detail: paardsgegevens, video ingebed, 3 notitievelden
+- [x] Navigatie vorig/volgend lot
+- [x] Auto-save notities
 
 ### Dag 4-5 — Live cockpit
 - [ ] Minimale interface voor tijdens de veiling

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
+import AutoSaveNumber from '../components/AutoSaveNumber'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
@@ -14,6 +15,15 @@ export default function LotPage() {
   const [activePhoto, setActivePhoto] = useState(0)
 
   useEffect(() => {
+    // Direct state wissen bij lot-wissel zodat de input-componenten unmount-en
+    // en pas opnieuw monteren mét de verse data — anders pakken ze hun
+    // initialValue uit stale state en zie je lege of foute waarden.
+    setLot(null)
+    setAuction(null)
+    setSiblings([])
+    setActivePhoto(0)
+    setStatus('Laden…')
+
     async function load() {
       const { data, error } = await supabase
         .from('lots')
@@ -190,6 +200,62 @@ export default function LotPage() {
       {lot.usp && <Block title="USP"><p>{lot.usp}</p></Block>}
       {lot.strong_points && <Block title="Sterke punten"><p>{lot.strong_points}</p></Block>}
       {lot.weak_points && <Block title="Aandachtspunten"><p>{lot.weak_points}</p></Block>}
+
+      {/* Voorbereidings-velden — lot-niveau metadata die jij invult */}
+      <div key={`prep-${lotId}`} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #ddd' }}>
+        <h2 style={{ fontSize: '1.1em', marginBottom: '0.5rem' }}>Voorbereiding</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+          <AutoSaveNumber
+            table="lots"
+            id={lotId}
+            fieldName="number"
+            initialValue={lot.number}
+            label="Lot-nummer"
+            step={1}
+            min={1}
+            placeholder="bv. 5"
+            missingInfoKey="lot_number"
+            onSaved={(value, newMissingInfo) => {
+              setLot((prev) => ({
+                ...prev,
+                number: value,
+                ...(newMissingInfo ? { missing_info: newMissingInfo } : {}),
+              }))
+            }}
+          />
+          <AutoSaveNumber
+            table="lots"
+            id={lotId}
+            fieldName="start_price"
+            initialValue={lot.start_price}
+            label="Startprijs"
+            step={100}
+            min={0}
+            prefix="€"
+            placeholder="0"
+            onSaved={(value) => setLot((prev) => ({ ...prev, start_price: value }))}
+          />
+          <AutoSaveNumber
+            table="lots"
+            id={lotId}
+            fieldName="reserve_price"
+            initialValue={lot.reserve_price}
+            label="Reserveprijs"
+            step={100}
+            min={0}
+            prefix="€"
+            placeholder="0"
+            missingInfoKey="reserve_price"
+            onSaved={(value, newMissingInfo) => {
+              setLot((prev) => ({
+                ...prev,
+                reserve_price: value,
+                ...(newMissingInfo ? { missing_info: newMissingInfo } : {}),
+              }))
+            }}
+          />
+        </div>
+      </div>
 
       {/* Notitievelden — auto-save 800ms na laatste toets */}
       <div key={lotId} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #ddd' }}>

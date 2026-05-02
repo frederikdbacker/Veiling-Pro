@@ -249,6 +249,7 @@ export default function LotPage() {
             min={0}
             prefix="€"
             placeholder="0"
+            displayWithThousands
             onSaved={(value) => setLot((prev) => ({ ...prev, start_price: value }))}
           />
           <AutoSaveNumber
@@ -261,6 +262,7 @@ export default function LotPage() {
             min={0}
             prefix="€"
             placeholder="0"
+            displayWithThousands
             missingInfoKey="reserve_price"
             onSaved={(value, newMissingInfo) => {
               setLot((prev) => ({

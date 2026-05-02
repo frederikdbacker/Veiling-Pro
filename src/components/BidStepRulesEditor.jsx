@@ -140,17 +140,20 @@ function RuleRow({ rule, onRemove }) {
       <AutoSaveNumber
         table="bid_step_rules" id={rule.id} fieldName="range_from"
         initialValue={rule.range_from} step={100} prefix="€"
+        displayWithThousands
       />
       <span style={{ color: '#666' }}>tot</span>
       <AutoSaveNumber
         table="bid_step_rules" id={rule.id} fieldName="range_to"
         initialValue={rule.range_to} step={100} prefix="€"
         placeholder="∞"
+        displayWithThousands
       />
       <span style={{ color: '#666' }}>stap</span>
       <AutoSaveNumber
         table="bid_step_rules" id={rule.id} fieldName="step"
         initialValue={rule.step} step={50} prefix="€"
+        displayWithThousands
       />
       <button
         onClick={onRemove}

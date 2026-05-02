@@ -15,6 +15,12 @@ const DEBOUNCE_MS = 800
  *   step / min         doorgegeven aan <input type="number">
  *   prefix / suffix    optionele tekst voor/achter het veld (bv. "€")
  *   placeholder        idem op het input-element
+ *   displayWithThousands
+ *                      als true: render als text-input met puntjes als
+ *                      duizendscheiding (bv. "1.500" ipv "1500"). De
+ *                      onderliggende waarde blijft een number; alleen de
+ *                      visuele representatie verandert. `step` en `min`
+ *                      worden in deze modus genegeerd.
  *   missingInfoKey     als gezet: na succesvolle save met niet-null waarde
  *                      wordt deze key uit lots.missing_info gefilterd
  *                      (alleen relevant voor table="lots")
@@ -25,6 +31,7 @@ export default function AutoSaveNumber({
   table, id, fieldName,
   initialValue, label,
   step = 1, min, prefix, suffix, placeholder,
+  displayWithThousands = false,
   missingInfoKey,
   onSaved,
 }) {
@@ -41,7 +48,9 @@ export default function AutoSaveNumber({
   }, [])
 
   function handleChange(e) {
-    const raw = e.target.value
+    const raw = displayWithThousands
+      ? e.target.value.replace(/[^\d]/g, '')
+      : e.target.value
     setValue(raw)
 
     if (timerRef.current) clearTimeout(timerRef.current)
@@ -100,11 +109,12 @@ export default function AutoSaveNumber({
     <>
       {prefix && <span style={{ color: '#666' }}>{prefix}</span>}
       <input
-        type="number"
-        value={value}
+        type={displayWithThousands ? 'text' : 'number'}
+        inputMode={displayWithThousands ? 'numeric' : undefined}
+        value={displayWithThousands ? formatThousands(value) : value}
         onChange={handleChange}
-        step={step}
-        min={min}
+        step={displayWithThousands ? undefined : step}
+        min={displayWithThousands ? undefined : min}
         placeholder={placeholder}
         aria-label={label}
         style={{
@@ -140,6 +150,13 @@ export default function AutoSaveNumber({
       </div>
     </div>
   )
+}
+
+function formatThousands(value) {
+  if (value === '' || value == null) return ''
+  const n = Number(value)
+  if (Number.isNaN(n)) return value
+  return n.toLocaleString('nl-BE', { maximumFractionDigits: 0 })
 }
 
 function SaveIndicator({ status }) {

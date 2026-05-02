@@ -516,10 +516,11 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
             </span>
             <span style={{ color: '#666' }}>€</span>
             <input
-              type="number" step="100" min="0"
-              value={priceInput}
-              onChange={(e) => setPriceInput(e.target.value)}
-              placeholder={outcome === 'unsold' ? 'optioneel' : 'bv. 15000'}
+              type="text"
+              inputMode="numeric"
+              value={priceInput === '' ? '' : Number(priceInput).toLocaleString('nl-BE', { maximumFractionDigits: 0 })}
+              onChange={(e) => setPriceInput(e.target.value.replace(/[^\d]/g, ''))}
+              placeholder={outcome === 'unsold' ? 'optioneel' : 'bv. 15.000'}
               style={priceInputStyle}
               autoFocus
             />

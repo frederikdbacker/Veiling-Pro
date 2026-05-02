@@ -118,12 +118,12 @@ function formatHhMm(date) {
 const barStyle = {
   background: '#f4f1ea',
   border: '1px solid #d6cdb6',
-  borderRadius: 6,
-  padding: '0.7rem 1rem',
-  marginBottom: '1rem',
+  borderRadius: 5,
+  padding: '0.35rem 0.75rem',
+  marginBottom: '0.75rem',
   fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-  fontSize: '1em',
-  lineHeight: 1.6,
+  fontSize: '0.82em',
+  lineHeight: 1.4,
   color: '#2a2519',
 }
 

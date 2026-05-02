@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import {
   searchClientsInHouse,
   createClient,
+  updateClientName,
+  updateLotInterestedNotes,
   getSeating,
   upsertSeating,
   linkClientToLot,
@@ -13,20 +15,17 @@ import {
 /**
  * "Geïnteresseerde klanten" sectie op LotPage.
  *
- * Toont lijst van gekoppelde klanten met tafel/richting/opmerking, een
- * indicator als die persoon al iets gekocht heeft in deze veiling, en een
- * uitklapbaar formulier om nieuwe klanten toe te voegen met autocomplete
- * over alle klanten van het hele veilinghuis.
+ * Toont lijst van gekoppelde klanten met tafel/richting/opmerking + indicator
+ * "✓ al gekocht" als die persoon al iets gekocht heeft in deze veiling.
  *
- * Props:
- *   lotId       UUID van het lot
- *   auctionId   UUID van de veiling waar dit lot toe behoort
- *   houseId     UUID van het veilinghuis (voor autocomplete-scope)
+ * Kan klanten toevoegen (autocomplete over hele huis, auto-overname van
+ * seating uit eerdere koppeling), bewerken (✏ per rij) of verwijderen (✕).
  */
 export default function InterestedClientsField({ lotId, auctionId, houseId }) {
   const [entries, setEntries] = useState([])
   const [purchases, setPurchases] = useState(new Map())
-  const [formOpen, setFormOpen] = useState(false)
+  const [formMode, setFormMode] = useState(null)        // null | 'add' | 'edit'
+  const [editingEntry, setEditingEntry] = useState(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
 
@@ -62,6 +61,21 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
     setBusy(false)
   }
 
+  function startEdit(entry) {
+    setEditingEntry(entry)
+    setFormMode('edit')
+  }
+
+  function startAdd() {
+    setEditingEntry(null)
+    setFormMode('add')
+  }
+
+  function closeForm() {
+    setFormMode(null)
+    setEditingEntry(null)
+  }
+
   return (
     <div style={containerStyle}>
       <h2 style={titleStyle}>Geïnteresseerde klanten</h2>
@@ -70,7 +84,7 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
         <p style={{ color: '#c33', fontSize: '0.9em' }}>❌ {error}</p>
       )}
 
-      {entries.length === 0 && !formOpen && (
+      {entries.length === 0 && formMode !== 'add' && (
         <p style={emptyStyle}>Nog geen klanten gekoppeld aan dit lot.</p>
       )}
 
@@ -81,29 +95,32 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
               key={entry.client_id}
               entry={entry}
               purchases={purchases.get(entry.client_id)}
+              onEdit={() => startEdit(entry)}
               onRemove={() => handleRemove(entry.client_id)}
-              disabled={busy}
+              disabled={busy || formMode !== null}
             />
           ))}
         </ul>
       )}
 
-      {formOpen ? (
-        <AddClientForm
+      {formMode !== null ? (
+        <ClientForm
+          mode={formMode}
+          initialEntry={editingEntry}
           lotId={lotId}
           auctionId={auctionId}
           houseId={houseId}
           existingClientIds={new Set(entries.map((e) => e.client_id))}
           onSaved={async () => {
-            setFormOpen(false)
+            closeForm()
             await reload()
           }}
-          onCancel={() => setFormOpen(false)}
+          onCancel={closeForm}
         />
       ) : (
         <button
           type="button"
-          onClick={() => setFormOpen(true)}
+          onClick={startAdd}
           disabled={busy || !houseId}
           style={addBtnStyle}
         >
@@ -114,7 +131,7 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
   )
 }
 
-function ClientRow({ entry, purchases, onRemove, disabled }) {
+function ClientRow({ entry, purchases, onEdit, onRemove, disabled }) {
   const meta = []
   if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
   if (entry.direction)    meta.push(entry.direction)
@@ -145,28 +162,45 @@ function ClientRow({ entry, purchases, onRemove, disabled }) {
           </div>
         )}
       </div>
-      <button
-        type="button"
-        onClick={onRemove}
-        disabled={disabled}
-        title="Verwijder klant van dit lot"
-        aria-label="Verwijder klant van dit lot"
-        style={removeBtnStyle}
-      >
-        ✕
-      </button>
+      <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+        <button
+          type="button"
+          onClick={onEdit}
+          disabled={disabled}
+          title="Bewerk klant (naam, tafel, richting, opmerkingen)"
+          aria-label="Bewerk klant"
+          style={iconBtnStyle}
+        >
+          ✏
+        </button>
+        <button
+          type="button"
+          onClick={onRemove}
+          disabled={disabled}
+          title="Verwijder klant van dit lot"
+          aria-label="Verwijder klant van dit lot"
+          style={iconBtnStyle}
+        >
+          ✕
+        </button>
+      </div>
     </li>
   )
 }
 
-function AddClientForm({
-  lotId, auctionId, houseId, existingClientIds, onSaved, onCancel,
+function ClientForm({
+  mode, initialEntry,
+  lotId, auctionId, houseId, existingClientIds,
+  onSaved, onCancel,
 }) {
-  const [name, setName] = useState('')
-  const [tableNumber, setTableNumber] = useState('')
-  const [direction, setDirection] = useState('')
-  const [notes, setNotes] = useState('')
-  const [lotNotes, setLotNotes] = useState('')
+  const isEdit = mode === 'edit'
+
+  const [name, setName] = useState(initialEntry?.name ?? '')
+  const [tableNumber, setTableNumber] = useState(initialEntry?.table_number ?? '')
+  const [direction, setDirection] = useState(initialEntry?.direction ?? '')
+  const [seatingNotes, setSeatingNotes] = useState(initialEntry?.seating_notes ?? '')
+  const [lotNotes, setLotNotes] = useState(initialEntry?.lot_notes ?? '')
+
   const [suggestions, setSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedClientId, setSelectedClientId] = useState(null)
@@ -177,8 +211,9 @@ function AddClientForm({
   async function onNameChange(e) {
     const v = e.target.value
     setName(v)
-    setSelectedClientId(null) // typing breaks any prior selection
+    if (isEdit) return  // bij bewerken: geen autocomplete (klant is vast)
 
+    setSelectedClientId(null)
     if (debounceRef.current) clearTimeout(debounceRef.current)
     if (v.trim().length < 1) {
       setSuggestions([])
@@ -196,48 +231,52 @@ function AddClientForm({
     setName(client.name)
     setSelectedClientId(client.id)
     setShowSuggestions(false)
-
-    // Auto-fill seating uit eerdere koppelingen in deze veiling
     const seating = await getSeating(client.id, auctionId)
     if (seating) {
       setTableNumber(seating.table_number ?? '')
       setDirection(seating.direction ?? '')
-      setNotes(seating.notes ?? '')
+      setSeatingNotes(seating.notes ?? '')
     }
   }
 
   async function handleSave() {
     setError(null)
     const trimmed = name.trim()
-    if (!trimmed) {
-      setError('Naam is verplicht.')
-      return
-    }
-    if (!houseId) {
-      setError('Veilinghuis-id ontbreekt — kan klant niet bewaren.')
-      return
-    }
+    if (!trimmed) return setError('Naam is verplicht.')
+    if (!houseId) return setError('Veilinghuis-id ontbreekt — kan niet bewaren.')
 
     setBusy(true)
     try {
-      let clientId = selectedClientId
-      if (!clientId) {
-        const created = await createClient(houseId, trimmed)
-        clientId = created.id
+      if (isEdit) {
+        if (trimmed !== initialEntry.name) {
+          await updateClientName(initialEntry.client_id, trimmed)
+        }
+        await upsertSeating(initialEntry.client_id, auctionId, {
+          table_number: tableNumber,
+          direction,
+          notes: seatingNotes,
+        })
+        if ((lotNotes ?? '') !== (initialEntry.lot_notes ?? '')) {
+          await updateLotInterestedNotes(initialEntry.client_id, lotId, lotNotes)
+        }
+      } else {
+        let clientId = selectedClientId
+        if (!clientId) {
+          const created = await createClient(houseId, trimmed)
+          clientId = created.id
+        }
+        if (existingClientIds.has(clientId)) {
+          setError(`${trimmed} staat al gekoppeld aan dit lot.`)
+          setBusy(false)
+          return
+        }
+        await upsertSeating(clientId, auctionId, {
+          table_number: tableNumber,
+          direction,
+          notes: seatingNotes,
+        })
+        await linkClientToLot(clientId, lotId, lotNotes)
       }
-
-      if (existingClientIds.has(clientId)) {
-        setError(`${trimmed} staat al gekoppeld aan dit lot.`)
-        setBusy(false)
-        return
-      }
-
-      await upsertSeating(clientId, auctionId, {
-        table_number: tableNumber,
-        direction:    direction,
-        notes:        notes,
-      })
-      await linkClientToLot(clientId, lotId, lotNotes)
       onSaved()
     } catch (e) {
       setError(e.message)
@@ -248,33 +287,43 @@ function AddClientForm({
   return (
     <div style={formStyle}>
       <FieldRow label="Naam">
-        <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
+        {isEdit ? (
           <input
-            type="text"
-            value={name}
-            onChange={onNameChange}
-            onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-            placeholder="bv. Janssens"
+            type="text" value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="naam"
             style={inputStyle}
             autoFocus
           />
-          {showSuggestions && suggestions.length > 0 && (
-            <ul style={suggestionsStyle}>
-              {suggestions.map((s) => (
-                <li key={s.id}>
-                  <button
-                    type="button"
-                    onMouseDown={(e) => { e.preventDefault(); selectSuggestion(s) }}
-                    style={suggestionBtnStyle}
-                  >
-                    {s.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        ) : (
+          <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
+            <input
+              type="text"
+              value={name}
+              onChange={onNameChange}
+              onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+              placeholder="bv. Janssens"
+              style={inputStyle}
+              autoFocus
+            />
+            {showSuggestions && suggestions.length > 0 && (
+              <ul style={suggestionsStyle}>
+                {suggestions.map((s) => (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => { e.preventDefault(); selectSuggestion(s) }}
+                      style={suggestionBtnStyle}
+                    >
+                      {s.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </FieldRow>
 
       <FieldRow label="Tafel">
@@ -293,8 +342,8 @@ function AddClientForm({
       </FieldRow>
       <FieldRow label="Opmerking">
         <input
-          type="text" value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          type="text" value={seatingNotes}
+          onChange={(e) => setSeatingNotes(e.target.value)}
           placeholder="optioneel — geldt voor de hele veiling" style={inputStyle}
         />
       </FieldRow>
@@ -313,17 +362,11 @@ function AddClientForm({
       )}
 
       <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-        <button
-          type="button" onClick={onCancel} disabled={busy}
-          style={cancelBtnStyle}
-        >
+        <button type="button" onClick={onCancel} disabled={busy} style={cancelBtnStyle}>
           Annuleer
         </button>
-        <button
-          type="button" onClick={handleSave} disabled={busy}
-          style={confirmBtnStyle}
-        >
-          {busy ? 'Bewaren…' : 'Bewaar'}
+        <button type="button" onClick={handleSave} disabled={busy} style={confirmBtnStyle}>
+          {busy ? 'Bewaren…' : (isEdit ? 'Wijzigingen bewaren' : 'Bewaar')}
         </button>
       </div>
     </div>
@@ -352,10 +395,10 @@ const rowStyle = {
 const purchasesStyle = {
   marginTop: 4, color: '#5A8A5A', fontSize: '0.85em', fontWeight: 600,
 }
-const removeBtnStyle = {
+const iconBtnStyle = {
   padding: '0.25rem 0.55rem', background: 'transparent',
   border: '1px solid #ddd', borderRadius: 4,
-  cursor: 'pointer', color: '#888', fontSize: '0.95em',
+  cursor: 'pointer', color: '#666', fontSize: '0.95em',
   flexShrink: 0,
 }
 const addBtnStyle = {

@@ -89,6 +89,27 @@ export async function linkClientToLot(clientId, lotId, lotSpecificNotes = null) 
   if (error) throw error
 }
 
+/** Update de naam van een bestaande klant (bv. typfout corrigeren). */
+export async function updateClientName(clientId, name) {
+  const trimmed = name.trim()
+  if (!trimmed) throw new Error('Naam mag niet leeg zijn')
+  const { error } = await supabase
+    .from('clients')
+    .update({ name: trimmed })
+    .eq('id', clientId)
+  if (error) throw error
+}
+
+/** Update de paard-specifieke notitie voor (klant, lot). */
+export async function updateLotInterestedNotes(clientId, lotId, notes) {
+  const { error } = await supabase
+    .from('lot_interested_clients')
+    .update({ notes: notes?.trim() || null })
+    .eq('client_id', clientId)
+    .eq('lot_id', lotId)
+  if (error) throw error
+}
+
 /** Verwijder de koppeling klant ↔ lot. De klant zelf blijft staan. */
 export async function unlinkClientFromLot(clientId, lotId) {
   const { error } = await supabase

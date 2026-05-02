@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import CockpitStatusBar from '../components/CockpitStatusBar'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
+import NoteField from '../components/NoteField'
 import {
   getInterestedClientsForLot,
   getPurchasesByClientsInAuction,
@@ -303,12 +304,27 @@ function ActiveLotPanel({ lot, auctionId, houseId, interestedClients, purchasesB
         </div>
       )}
 
-      {/* Notes (read-only voor nu) */}
+      {/* Notes — bewerkbaar tijdens veilen, auto-save 800ms na laatste toets.
+          De `key` op `lot.id` forceert remount bij lot-wissel zodat de
+          textarea het initialValue van het nieuwe lot pakt en niet de
+          stale state van het vorige lot blijft tonen. */}
       <div style={blockStyle}>
         <h3 style={blockHeadingStyle}>Mijn voorbereiding</h3>
-        <NoteRow label="Catalogus"    value={lot.notes_catalog} />
-        <NoteRow label="Video"        value={lot.notes_video} />
-        <NoteRow label="Organisatie"  value={lot.notes_org} />
+        <NoteField
+          key={`notes_catalog-${lot.id}`}
+          lotId={lot.id} fieldName="notes_catalog"
+          initialValue={lot.notes_catalog} label="Catalogus"
+        />
+        <NoteField
+          key={`notes_video-${lot.id}`}
+          lotId={lot.id} fieldName="notes_video"
+          initialValue={lot.notes_video} label="Video"
+        />
+        <NoteField
+          key={`notes_org-${lot.id}`}
+          lotId={lot.id} fieldName="notes_org"
+          initialValue={lot.notes_org} label="Organisatie"
+        />
       </div>
 
       {/* Geïnteresseerde klanten — read-only weergave; bewerken op LotPage */}
@@ -708,17 +724,6 @@ function formatElapsed(ms) {
   const m = Math.floor(total / 60)
   const s = total % 60
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-}
-
-function NoteRow({ label, value }) {
-  return (
-    <div style={{ marginBottom: 6 }}>
-      <span style={{ fontWeight: 600, color: '#555', marginRight: 6 }}>{label}:</span>
-      {value
-        ? <span>{value}</span>
-        : <span style={{ color: '#bbb', fontStyle: 'italic' }}>—</span>}
-    </div>
-  )
 }
 
 function ExternalLink({ href, label }) {

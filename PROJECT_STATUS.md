@@ -5,9 +5,9 @@
 
 ---
 
-## Huidige status: COCKPIT + OVERZICHT LIVE OP VERCEL
+## Huidige status: VOLLEDIG VEILING-PRODUCT LIVE OP VERCEL
 
-Vier modules werken end-to-end op productie (https://veiling-pro.vercel.app):
+Vijf modules werken end-to-end op productie (https://veiling-pro.vercel.app):
 
 1. **Voorbereidingsmodule** — Veilinghuizen → Veilingen → Lots → Detail
    met foto-gallery, catalog/EquiRatings, video, drie auto-save notes,
@@ -20,23 +20,32 @@ Vier modules werken end-to-end op productie (https://veiling-pro.vercel.app):
 3. **Live Cockpit** (5 van 6 stappen af) — `/cockpit/:auctionId` met
    read-only paard-info, drie-knop-flow (IN DE PISTE → START BIEDEN →
    HAMER) met live timer en next-lot-knop, hamer-form (zaal/online/niet-
-   verkocht), én bovenin een **statusbalk** met X/24 gehamerd, omzet,
-   gem. duur en verwacht einduur (live update na elke hamer).
+   verkocht) **met koper-veld** (autocomplete), én bovenin een
+   **statusbalk** met X/24 gehamerd, omzet, gem. duur en verwacht
+   einduur (live update na elke hamer).
 4. **Overzichtspagina einde veiling** — `/auctions/:id/summary` met
    kerncijfers, splitsing per lot-type en lot-voor-lot resultaat. Werkt
    ook tijdens lopende veiling (toont "(veiling nog bezig)"). Op cockpit
    verschijnt een groene "Overzicht einde veiling →"-knop zodra alle
    lots gehamerd zijn.
+5. **Klanten-UI** — geïnteresseerden per paard met naam, tafelnummer,
+   richting, opmerking en optionele paard-specifieke notitie. Klanten
+   horen bij het veilinghuis (cross-veiling reuse), tafel/richting per
+   veiling. Autocomplete bij typen. Auto-overname van tafel/richting/
+   opmerking bij hertypen van bestaande klant. Koper-veld in de cockpit
+   hamer-form met geïnteresseerden van dit lot bovenaan (★) en andere
+   huis-klanten daaronder. "✓ al gekocht in deze veiling: #5"-indicator
+   bij geïnteresseerden zodra elders gekocht.
 
 Vercel-deploy is rond met SPA-fallback via `vercel.json`. Elke push naar
-`main` triggert een nieuwe deploy. Database ongewijzigd (1 huis, 1 veiling
-met datum+locatie+starttijd, 24 lots met enriched data, 8 lot-types,
-clients-tabel klaar maar leeg).
+`main` triggert een nieuwe deploy. Database: 1 huis, 1 veiling met
+datum+locatie+starttijd+eindtijd (`22:48`, op basis van 7 min/lot),
+24 lots met enriched data, 8 lot-types, plus `client_auction_seating`
+en `lots.buyer_client_id` uit migratie 0007.
 
-Open vóór 5 mei: notities bewerkbaar in cockpit (stap 5), eindtijd Aloga
-2026 invullen, drop deprecated columns. Geen van deze blokkeert het
-veilen op 5 mei. Cockpit is **volledig bruikbaar op iPad** via de
-gepubliceerde URL.
+Open vóór 5 mei: iPad-test (visueel), reset-data vóór de echte veiling,
+optioneel cockpit stap 5 (notities bewerkbaar — comfort, niet kritisch).
+Cockpit is **volledig bruikbaar op iPad** via de gepubliceerde URL.
 
 ---
 
@@ -115,9 +124,18 @@ gepubliceerde URL.
 - [x] ~~Duizendscheiding op alle bedrag-velden~~ — AF op 02-05-2026 (commit 7c9798b):
   start/reserve op LotPage, bietstappen op AuctionPage, hamer-form in cockpit
   tonen nu €15.000 ipv €15000 tijdens invoer
+- [x] ~~Klanten-UI~~ — AF op 02-05-2026 (commit e912161):
+  geïnteresseerden + tafel/richting/opmerking per veiling, autocomplete
+  binnen huis, auto-overname bij hertypen, koper-veld in cockpit met
+  geïnteresseerden eerst (★), "✓ al gekocht"-indicator
+- [x] ~~Eindtijd Aloga 2026~~ — AF op 02-05-2026 (geschat einde 22:48 op
+  basis van 7 min/lot)
 - [ ] **Cockpit stap 5**: notities bewerkbaar in cockpit (✏-knop per veld) — comfort
-- [ ] **Klanten-UI** (0b, uitgesteld na 5 mei): autocomplete op LotPage
-- [ ] **Eindtijd Aloga 2026** invullen (starttijd staat op 20:00) — REST PATCH, 30 sec
+- [ ] **iPad-test**: cockpit doorlopen op tablet, validate knopgrootte +
+  leesbaarheid in échte landscape-modus
+- [ ] **Reset productie-data** vóór 5 mei: `scripts/reset-auction.sql`
+  runnen in Supabase (eventueel sectie 4 ook actief om test-klanten te
+  wissen)
 - [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type` text)
   in schoonmaak-migratie — na 5 mei
 
@@ -180,46 +198,52 @@ gepubliceerde URL.
 
 ### Utilities (✅ AF op 02-05-2026)
 - [x] `scripts/reset-auction.sql` — reset alle hamer-data + active_lot_id
-  voor één veiling. Plak in Supabase SQL Editor en run vóór 5 mei om
-  test-data uit Aloga te wissen.
+  voor één veiling. Sectie 4 (uit-gecomment) wist ook alle Aloga-klanten
+  inclusief seating en lot-koppelingen via cascade.
+
+### Klanten-UI met seating en koper-tracking (✅ AF op 02-05-2026, commit e912161)
+- [x] **Migratie 0007** (additief): `clients.house_id` (klant ↔ huis),
+  `client_auction_seating` (tafel/richting/opmerking per veiling),
+  `lots.buyer_client_id` (koper als clients-koppeling)
+- [x] `src/lib/clients.js` — helpers voor zoeken, aanmaken, seating,
+  koppeling, en aankoop-aggregatie
+- [x] `InterestedClientsField` op LotPage — uitklap-form met autocomplete
+  binnen het huis, auto-overname van seating uit eerdere koppeling in
+  dezelfde veiling, lijst met tafel/richting/opmerking/lot-specifieke
+  notitie en "✓ al gekocht: #X"-indicator
+- [x] `BuyerAutocomplete` in cockpit hamer-form — geïnteresseerden van
+  dit lot bovenaan met ★, andere huis-klanten daaronder, leeg toegestaan,
+  vrij invoeren creëert nieuwe klant
+- [x] Cockpit geïnteresseerden-sectie toont nu tafel/richting/seating-
+  opmerking + "al gekocht"-indicator (consistent met LotPage)
 
 ### Toekomstig (na 5 mei)
 - [ ] "Kopieer bid-step-staffel van vorige veiling" — bv. Aloga 2027 erft
   staffels van Aloga 2026 automatisch (Frederik's wens 30-04-2026)
 - [ ] Range-overlap-validatie met visuele waarschuwing
-- [ ] Drop deprecated kolommen `lots.bid_steps` (text) en `lots.lot_type` (text)
+- [ ] Drop deprecated kolommen `lots.bid_steps` (text), `lots.lot_type`
+  (text), `lots.buyer` (text — vervangen door `buyer_client_id`)
+- [ ] Klant bewerken in UI (nu: verwijder + opnieuw toevoegen)
+- [ ] Klanten-overzichtspagina (alle klanten van het huis op één plek)
 
-### Klanten-UI — uitgewerkte specificatie (Frederik's wens 02-05-2026)
+### Klanten-UI scope-definitie (Frederik's wens 02-05-2026)
 
-Op LotPage een veld "Geïnteresseerden" waarin Frederik per paard namen
-kan invoegen van mensen die interesse hebben getoond. Per persoon:
+Voor referentie — dit is wat is gebouwd in commit e912161:
 
-- **Naam**
-- **Tafelnummer** (waar in de zaal)
-- **Richting** (waar Frederik moet kijken — bv. "links achter", "midden")
-- **Opmerking** (vrij veld)
-
-**Slim gedrag dat hij wil:**
-1. Wanneer dezelfde naam later bij een ánder paard wordt ingevuld,
-   moeten **tafelnummer, richting en opmerking automatisch overgenomen
-   worden** uit de eerste invoer in dezelfde veiling.
-2. **Autocomplete-suggesties:** zodra Frederik begint te typen in het
-   naamveld, krijgt hij een lijstje van klanten die binnen deze veiling
-   al ergens anders zijn ingevoerd en met die letter(s) beginnen.
-
-**Database:** de `clients` + `lot_interested_clients` tabellen bestaan
-al (migratie 0004). De spec sluit aan: `clients.name/country/notes`
-plus `lot_interested_clients.notes`. Wat nog ontbreekt:
-- `clients.table_number` (text of int)
-- `clients.direction` (text)
-- Of beter: `lot_interested_clients.table_number/direction` als die per
-  veiling kunnen verschillen (waarschijnlijk wel — een klant kan in
-  verschillende veilingen op een ander tafelnummer zitten). Bij het
-  bouwen overleggen welke tabel waar woont.
-
-**Cockpit:** "Geïnteresseerde klanten"-sectie heeft nu al een placeholder
-in CockpitPage; vult zich automatisch zodra de UI op LotPage data
-levert via `lot_interested_clients`.
+- **Per geïnteresseerde**: naam, tafelnummer, richting, vrije opmerking
+  (hele veiling), én optioneel een paard-specifieke notitie.
+- **Klant hoort bij het huis** (`clients.house_id`) zodat dezelfde naam
+  in een latere veiling van hetzelfde huis hergebruikt kan worden via
+  autocomplete.
+- **Tafel/richting per veiling** (`client_auction_seating`): Janssens
+  kan in 2026 op tafel 12 zitten en in 2027 op tafel 5.
+- **Auto-overname** bij herselecteren binnen dezelfde veiling: tafel/
+  richting/opmerking worden automatisch ingevuld uit eerdere koppeling.
+- **Koper-veld** in cockpit hamer-form: leeg / nieuwe naam / kies uit
+  geïnteresseerden van dit lot. Resulteert in `lots.buyer_client_id`.
+- **"Al gekocht"-indicator**: bij elke geïnteresseerde wordt getoond of
+  die persoon al iets heeft gekocht in deze veiling, met lot-nummer en
+  paardennaam.
 
 ### Dag 4-5 — Live cockpit
 - [ ] Minimale interface voor tijdens de veiling

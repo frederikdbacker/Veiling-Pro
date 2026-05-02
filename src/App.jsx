@@ -8,10 +8,32 @@ import AuctionSummaryPage from './pages/AuctionSummaryPage'
 
 export default function App() {
   return (
-    <main style={{ fontFamily: 'system-ui, -apple-system, sans-serif', padding: '2rem', maxWidth: 800 }}>
-      <header style={{ marginBottom: '1.5rem', paddingBottom: '0.75rem', borderBottom: '1px solid #ddd' }}>
-        <Link to="/" style={{ textDecoration: 'none', color: '#222' }}>
-          <strong>Veiling Pro</strong>
+    <main
+      style={{
+        padding: 'var(--space-6) var(--space-5)',
+        maxWidth: 1100,
+        margin: '0 auto',
+        minHeight: '100vh',
+      }}
+    >
+      <header
+        style={{
+          marginBottom: 'var(--space-5)',
+          paddingBottom: 'var(--space-3)',
+          borderBottom: '1px solid var(--border-default)',
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            textDecoration: 'none',
+            color: 'var(--accent)',
+            fontWeight: 600,
+            fontSize: '1.05rem',
+            letterSpacing: '0.04em',
+          }}
+        >
+          VEILING PRO
         </Link>
       </header>
 

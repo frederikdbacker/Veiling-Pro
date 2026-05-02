@@ -4,6 +4,7 @@ import HousePage from './pages/HousePage'
 import AuctionPage from './pages/AuctionPage'
 import LotPage from './pages/LotPage'
 import CockpitPage from './pages/CockpitPage'
+import AuctionSummaryPage from './pages/AuctionSummaryPage'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/" element={<HousesPage />} />
         <Route path="/houses/:houseId" element={<HousePage />} />
         <Route path="/auctions/:auctionId" element={<AuctionPage />} />
+        <Route path="/auctions/:auctionId/summary" element={<AuctionSummaryPage />} />
         <Route path="/lots/:lotId" element={<LotPage />} />
         <Route path="/cockpit/:auctionId" element={<CockpitPage />} />
         <Route path="*" element={<NotFound />} />

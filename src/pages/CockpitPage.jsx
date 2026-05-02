@@ -118,6 +118,24 @@ export default function CockpitPage() {
       {/* Statusbalk: voortgang, omzet, gem. duur en verwacht einduur */}
       <CockpitStatusBar lots={allLots} />
 
+      {/* Overzicht-knop, verschijnt zodra alle lots gehamerd zijn */}
+      {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
+        <div style={{ marginBottom: '1rem' }}>
+          <Link
+            to={`/auctions/${auctionId}/summary`}
+            style={{
+              display: 'inline-block',
+              padding: '0.5rem 0.85rem',
+              background: '#5A8A5A', color: '#fff',
+              borderRadius: 4, textDecoration: 'none',
+              fontWeight: 600, fontSize: '0.95em',
+            }}
+          >
+            📊 Overzicht einde veiling →
+          </Link>
+        </div>
+      )}
+
       {/* Lot picker */}
       <section style={pickerStyle}>
         <label style={{ fontWeight: 600, marginRight: 8 }}>Actief lot:</label>

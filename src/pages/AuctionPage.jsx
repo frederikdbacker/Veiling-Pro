@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import {
+  DndContext, closestCenter, PointerSensor, useSensor, useSensors,
+} from '@dnd-kit/core'
+import {
+  SortableContext, useSortable, arrayMove, verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 import LotTypesSelector from '../components/LotTypesSelector'
@@ -135,6 +142,41 @@ export default function AuctionPage() {
     setAuction((prev) => ({ ...prev, online_bidding_enabled: newValue }))
   }
 
+  // Drag-and-drop voor pauzes — bepaalt nieuwe after_lot_number
+  // op basis van het lot direct boven de gedropte break in de
+  // herordende lijst. Werkt enkel bij sortMode='number'.
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+  )
+
+  async function handleDragEnd(event) {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+    const oldIdx = items.findIndex((i) => i.key === active.id)
+    const newIdx = items.findIndex((i) => i.key === over.id)
+    if (oldIdx === -1 || newIdx === -1) return
+    const dragged = items[oldIdx]
+    if (dragged.type !== 'break') return
+
+    const newOrder = arrayMove(items, oldIdx, newIdx)
+
+    // Vind het lot direct boven de gedropte break in de nieuwe volgorde
+    let afterLotNumber = null
+    for (let i = newIdx; i >= 0; i--) {
+      if (newOrder[i].type === 'lot') {
+        afterLotNumber = newOrder[i].data.number
+        break
+      }
+    }
+
+    try {
+      await updateBreak(dragged.data.id, { after_lot_number: afterLotNumber })
+      await reloadBreaks()
+    } catch (e) {
+      alert(`Fout bij verplaatsen: ${e.message}`)
+    }
+  }
+
   async function copySummaryLink() {
     const url = `${window.location.origin}/auctions/${auctionId}/summary`
     try {
@@ -231,21 +273,38 @@ export default function AuctionPage() {
         />
       )}
 
-      {/* Lijst met lots + ingevoegde breaks */}
-      {items.length > 0 && (
+      {/* Lijst met lots + ingevoegde breaks. Bij Lotnummer-sortering
+          zijn breaks sleepbaar tussen lots; lots zelf zijn niet
+          sleepbaar. Bij A-Z wordt drag uitgeschakeld. */}
+      {items.length > 0 && sortMode === 'number' ? (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={items.map((i) => i.key)}
+            strategy={verticalListSortingStrategy}
+          >
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {items.map((item) =>
+                item.type === 'lot'
+                  ? <SortableLotRow key={item.key} item={item} />
+                  : <SortableBreakRow
+                      key={item.key}
+                      item={item}
+                      onEdit={() => setBreakForm({ ...item.data })}
+                      onDelete={() => handleDeleteBreak(item.data.id)}
+                    />
+              )}
+            </ul>
+          </SortableContext>
+        </DndContext>
+      ) : items.length > 0 ? (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {items.map((item) =>
-            item.type === 'lot'
-              ? <LotRow key={item.key} lot={item.data} />
-              : <BreakRow
-                  key={item.key}
-                  br={item.data}
-                  onEdit={() => setBreakForm({ ...item.data })}
-                  onDelete={() => handleDeleteBreak(item.data.id)}
-                />
-          )}
+          {items.map((item) => <LotRow key={item.key} lot={item.data} />)}
         </ul>
-      )}
+      ) : null}
 
       {/* Bij alfabetisch of bij breaks zonder geldige positie: aparte sectie */}
       {orphanBreaks.length > 0 && (
@@ -277,6 +336,40 @@ export default function AuctionPage() {
         </div>
       )}
     </section>
+  )
+}
+
+/* ---------- Sortable wrappers ---------- */
+
+function SortableLotRow({ item }) {
+  // Lots zijn niet sleepbaar maar wél drop-target zodat breaks tussen
+  // lots gedropt kunnen worden. disabled=true op useSortable.
+  const { setNodeRef } = useSortable({ id: item.key, disabled: true })
+  return (
+    <div ref={setNodeRef}>
+      <LotRow lot={item.data} />
+    </div>
+  )
+}
+
+function SortableBreakRow({ item, onEdit, onDelete }) {
+  const {
+    attributes, listeners, setNodeRef, transform, transition, isDragging,
+  } = useSortable({ id: item.key })
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+  return (
+    <div ref={setNodeRef} style={style}>
+      <BreakRow
+        br={item.data}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        dragHandleProps={{ ...attributes, ...listeners }}
+      />
+    </div>
   )
 }
 
@@ -328,10 +421,20 @@ function LotRow({ lot }) {
 
 /* ---------- Pauze-rij ---------- */
 
-function BreakRow({ br, onEdit, onDelete }) {
+function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
   const label = br.after_lot_number != null ? `${br.after_lot_number} BIS` : '— BIS'
   return (
     <li style={breakRowStyle}>
+      {dragHandleProps && (
+        <button
+          {...dragHandleProps}
+          style={dragHandleStyle}
+          title="Versleep om te verplaatsen"
+          aria-label="Versleep pauze"
+        >
+          ⠿
+        </button>
+      )}
       <div style={breakIconStyle}>⏸</div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
@@ -561,6 +664,17 @@ const smallBtnStyle = {
   borderRadius: 'var(--radius-sm)',
   cursor: 'pointer', fontSize: '0.95em',
   flexShrink: 0,
+}
+const dragHandleStyle = {
+  padding: '0.25rem 0.5rem',
+  background: 'transparent',
+  color: 'var(--text-muted)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'grab',
+  fontSize: '0.95em',
+  flexShrink: 0,
+  touchAction: 'none', // belangrijk voor mobile drag
 }
 const breakFormStyle = {
   background: 'var(--bg-elevated)',

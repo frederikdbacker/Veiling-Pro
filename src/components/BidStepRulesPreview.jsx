@@ -32,22 +32,15 @@ export default function BidStepRulesPreview({ auctionId, lotTypeId }) {
   }, [auctionId, lotTypeId])
 
   if (!lotTypeId) {
-    return (
-      <p style={emptyStyle}>
-        Kies eerst een lot-type om de biedstappen te zien.
-      </p>
-    )
+    return <p style={emptyStyle}>Kies eerst een lot-type om de biedstappen te zien.</p>
   }
-
   if (error) {
-    return <p style={{ color: '#c33', fontSize: '0.85em' }}>❌ {error}</p>
+    return <p style={{ color: 'var(--danger)', fontSize: '0.9em' }}>❌ {error}</p>
   }
-
   if (rules.length === 0) {
     return (
       <p style={emptyStyle}>
-        Nog geen biedstappen ingesteld voor dit type. Stel ze in op de
-        veiling-pagina.
+        Nog geen biedstappen ingesteld voor dit type. Stel ze in op de veiling-pagina.
       </p>
     )
   }
@@ -55,31 +48,31 @@ export default function BidStepRulesPreview({ auctionId, lotTypeId }) {
   const sorted = sortByRangeFrom(rules)
 
   return (
-    <div style={blockStyle}>
-      <div style={{ fontWeight: 600, fontSize: '0.9em', color: '#555', marginBottom: 4 }}>
-        Biedstappen voor dit type
-      </div>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9em' }}>
-        {sorted.map((rule) => (
-          <li key={rule.id} style={{ color: '#555', padding: '2px 0' }}>
+    <ul style={listStyle} className="num">
+      {sorted.map((rule) => (
+        <li key={rule.id} style={ruleRowStyle}>
+          <span style={{ color: 'var(--text-secondary)' }}>
             {formatEuro(rule.range_from)} – {rule.range_to == null ? '∞' : formatEuro(rule.range_to)}
-            : <strong>{formatEuro(rule.step)}</strong>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </span>
+          <strong style={{ color: 'var(--accent)' }}>{formatEuro(rule.step)}</strong>
+        </li>
+      ))}
+    </ul>
   )
 }
 
 const emptyStyle = {
-  color: '#999', fontStyle: 'italic', fontSize: '0.85em',
-  margin: '0 0 0.75rem 0',
+  color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.9em',
+  margin: 0,
 }
-
-const blockStyle = {
-  background: '#fafafa', border: '1px solid #eee',
-  borderRadius: 4, padding: '0.5rem 0.75rem',
-  marginBottom: '0.75rem',
+const listStyle = {
+  listStyle: 'none', padding: 0, margin: 0,
+  fontSize: '0.95em',
+}
+const ruleRowStyle = {
+  display: 'flex', justifyContent: 'space-between',
+  padding: '3px 0',
+  borderBottom: '1px solid var(--border-default)',
 }
 
 function formatEuro(value) {

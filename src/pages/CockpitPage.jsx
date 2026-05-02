@@ -13,9 +13,14 @@ import {
 
 /**
  * Live Cockpit — wat Frederik gebruikt tijdens de veiling.
- * Stap 1 (dit bestand): skelet met read-only info per actief lot.
- * Stap 2+: knoppen (in de piste / start / hamer), live timer, bid-flow,
- *          editable notes, sessie-statistieken.
+ *
+ * Layout-prioriteit (per Frederiks feedback 02-05-2026):
+ *   - Compacte paardidentiteit (kleine thumb, geen grote foto)
+ *   - Geïnteresseerden + biedstappen prominent naast elkaar
+ *   - "Mijn voorbereiding" als grote sectie (auto-save NoteFields)
+ *   - Drie-knop-flow compact, op één regel
+ *   - Hamer-form als modal-overlay
+ *   - Catalogustekst en EquiRatings ingeklapt (klap open indien nodig)
  */
 export default function CockpitPage() {
   const { auctionId } = useParams()
@@ -26,7 +31,7 @@ export default function CockpitPage() {
   const [purchasesByClient, setPurchasesByClient] = useState(new Map())
   const [error, setError] = useState(null)
 
-  // 1. Veiling + alle lots laden bij wijzigen van auctionId
+  // 1. Veiling + alle lots
   useEffect(() => {
     setAuction(null); setActiveLot(null); setAllLots([]); setError(null)
     let cancelled = false
@@ -54,7 +59,7 @@ export default function CockpitPage() {
     return () => { cancelled = true }
   }, [auctionId])
 
-  // 2. Actief lot + zijn geïnteresseerde klanten + hun aankopen laden
+  // 2. Actief lot + geïnteresseerden + aankopen
   useEffect(() => {
     setActiveLot(null)
     setInterestedClients([])
@@ -98,61 +103,53 @@ export default function CockpitPage() {
 
   if (error) {
     return (
-      <main style={pageStyle}>
-        <p style={{ color: '#c33' }}>❌ {error}</p>
+      <section>
+        <p style={{ color: 'var(--danger)' }}>❌ {error}</p>
         <p><Link to="/">← Terug naar start</Link></p>
-      </main>
+      </section>
     )
   }
-
   if (!auction) {
-    return <main style={pageStyle}><p style={{ color: '#666' }}>Cockpit laden…</p></main>
+    return <section><p style={{ color: 'var(--text-muted)' }}>Cockpit laden…</p></section>
   }
 
-  const houseId = auction.auction_houses?.id
+  const houseId   = auction.auction_houses?.id
   const houseName = auction.auction_houses?.name
 
   return (
-    <main style={pageStyle}>
-      {/* Header */}
-      <header style={headerStyle}>
-        <div style={{ fontSize: '0.85em', color: '#888' }}>
-          <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
-          {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-          {' › '}<Link to={`/auctions/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
-          {' › '}Cockpit
-        </div>
-        <h1 style={{ margin: '0.25rem 0', fontSize: '1.4em' }}>{auction.name}</h1>
-        <div style={{ color: '#666', fontSize: '0.9em' }}>
-          {formatAuctionDate(auction)}
-          {auction.location && ` · ${auction.location}`}
-        </div>
-      </header>
+    <section>
+      {/* Breadcrumbs (klein, gedempt goud) */}
+      <p style={crumbsStyle}>
+        <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
+        {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
+        {' › '}<Link to={`/auctions/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
+        {' › '}<span style={{ color: 'var(--text-secondary)' }}>Cockpit</span>
+      </p>
 
-      {/* Statusbalk: voortgang, omzet, gem. duur en verwacht einduur */}
+      {/* Veiling-titel + datum */}
+      <h1 style={titleStyle}>{auction.name}</h1>
+      <p style={subtitleStyle}>
+        {formatAuctionDate(auction)}
+        {auction.location && ` · ${auction.location}`}
+      </p>
+
+      {/* Statusbalk */}
       <CockpitStatusBar lots={allLots} />
 
-      {/* Overzicht-knop, verschijnt zodra alle lots gehamerd zijn */}
+      {/* Overzicht-knop bij volledige veiling */}
       {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
-        <div style={{ marginBottom: '1rem' }}>
-          <Link
-            to={`/auctions/${auctionId}/summary`}
-            style={{
-              display: 'inline-block',
-              padding: '0.5rem 0.85rem',
-              background: '#5A8A5A', color: '#fff',
-              borderRadius: 4, textDecoration: 'none',
-              fontWeight: 600, fontSize: '0.95em',
-            }}
-          >
+        <div style={{ marginBottom: 'var(--space-4)' }}>
+          <Link to={`/auctions/${auctionId}/summary`} style={summaryBtnStyle}>
             📊 Overzicht einde veiling →
           </Link>
         </div>
       )}
 
       {/* Lot picker */}
-      <section style={pickerStyle}>
-        <label style={{ fontWeight: 600, marginRight: 8 }}>Actief lot:</label>
+      <div style={pickerStyle}>
+        <label style={{ fontWeight: 600, marginRight: 'var(--space-2)', color: 'var(--text-secondary)' }}>
+          Actief lot:
+        </label>
         <select
           value={auction.active_lot_id ?? ''}
           onChange={(e) => setActiveLotById(e.target.value)}
@@ -165,16 +162,15 @@ export default function CockpitPage() {
             </option>
           ))}
         </select>
-      </section>
+      </div>
 
-      {/* Active lot panel */}
       {!auction.active_lot_id && (
-        <p style={{ color: '#888', fontStyle: 'italic' }}>
+        <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
           Kies hierboven welk lot in de piste is om te beginnen.
         </p>
       )}
       {auction.active_lot_id && !activeLot && (
-        <p style={{ color: '#888' }}>Lot laden…</p>
+        <p style={{ color: 'var(--text-muted)' }}>Lot laden…</p>
       )}
       {activeLot && (
         <ActiveLotPanel
@@ -187,9 +183,6 @@ export default function CockpitPage() {
           onLotUpdated={async (updated) => {
             setActiveLot((prev) => ({ ...prev, ...updated }))
             setAllLots((prev) => prev.map((l) => l.id === updated.id ? { ...l, ...updated } : l))
-            // Na elke lot-update: herlaad purchases voor de huidige
-            // geïnteresseerden, zodat de "✓ al gekocht"-indicator klopt
-            // zodra dit lot of een ander lot een koper kreeg.
             if (interestedClients.length > 0) {
               const map = await getPurchasesByClientsInAuction(
                 auctionId,
@@ -201,17 +194,20 @@ export default function CockpitPage() {
           onActiveLotChange={setActiveLotById}
         />
       )}
-    </main>
+    </section>
   )
 }
 
-function ActiveLotPanel({ lot, auctionId, houseId, interestedClients, purchasesByClient, allLots, onLotUpdated, onActiveLotChange }) {
-  const photos = Array.isArray(lot.photos) ? lot.photos : []
+function ActiveLotPanel({
+  lot, auctionId, houseId, interestedClients, purchasesByClient, allLots,
+  onLotUpdated, onActiveLotChange,
+}) {
   const [activePhoto, setActivePhoto] = useState(0)
+  const [photoOpen, setPhotoOpen] = useState(false)
 
-  // Reset gallery wanneer een ander lot geselecteerd wordt
-  useEffect(() => { setActivePhoto(0) }, [lot.id])
+  useEffect(() => { setActivePhoto(0); setPhotoOpen(false) }, [lot.id])
 
+  const photos = Array.isArray(lot.photos) ? lot.photos : []
   const meta = [
     lot.discipline,
     formatYearAge(lot.year),
@@ -221,60 +217,140 @@ function ActiveLotPanel({ lot, auctionId, houseId, interestedClients, purchasesB
   ].filter(Boolean).join(' · ')
 
   return (
-    <section style={panelStyle}>
-      {/* Top row: photo gallery + lot identity side by side */}
-      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
+    <div>
+      {/* Compacte lot-identity */}
+      <div style={lotHeaderStyle}>
         {photos.length > 0 && (
-          <div style={{ flexShrink: 0 }}>
+          <button
+            type="button"
+            onClick={() => setPhotoOpen(true)}
+            title="Bekijk foto's"
+            style={thumbBtnStyle}
+            aria-label="Open fotogalerij"
+          >
             <img
               src={photos[activePhoto]}
               alt={lot.name}
-              style={{
-                width: 240, height: 240, objectFit: 'cover',
-                borderRadius: 6, background: '#eee', display: 'block',
-              }}
+              width={72} height={72}
+              style={{ objectFit: 'cover', display: 'block', borderRadius: 'var(--radius-sm)' }}
             />
-            {photos.length > 1 && (
-              <div style={{ display: 'flex', gap: 4, marginTop: 6, flexWrap: 'wrap', maxWidth: 240 }}>
-                {photos.map((p, i) => (
-                  <button
-                    key={p}
-                    onClick={() => setActivePhoto(i)}
-                    title={`Foto ${i + 1}`}
-                    style={{
-                      padding: 0,
-                      border: i === activePhoto ? '2px solid #222' : '2px solid transparent',
-                      background: 'transparent', borderRadius: 3, cursor: 'pointer',
-                    }}
-                  >
-                    <img src={p} alt="" width={36} height={36} loading="lazy"
-                      style={{ objectFit: 'cover', borderRadius: 2, display: 'block' }} />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          </button>
         )}
-        <div style={{ flex: 1, minWidth: 280 }}>
-          <div style={{ color: '#999', fontSize: '0.9em' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
             Lot #{lot.number ?? '—'}
             {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
           </div>
-          <h2 style={{ margin: '0.15rem 0 0.4rem 0', fontSize: '1.6em' }}>{lot.name}</h2>
-          <div style={{ color: '#555' }}>{meta}</div>
+          <h2 style={lotNameStyle}>{lot.name}</h2>
+          {meta && <div style={{ color: 'var(--text-secondary)' }}>{meta}</div>}
           {(lot.sire || lot.dam) && (
-            <div style={{ color: '#666', fontStyle: 'italic', marginTop: 4 }}>
+            <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
               {lot.sire ?? '?'} × {lot.dam ?? '?'}
             </div>
           )}
-          <div style={{ marginTop: 10, color: '#666', fontSize: '0.9em' }}>
-            Start €{formatNum(lot.start_price)}
-            {lot.reserve_price != null && ` · Reserve €${formatNum(lot.reserve_price)}`}
+          <div style={priceRowStyle} className="num">
+            Start <strong>€{formatNum(lot.start_price)}</strong>
+            {lot.reserve_price != null && <>
+              {' · '}Reserve <strong>€{formatNum(lot.reserve_price)}</strong>
+            </>}
           </div>
         </div>
       </div>
 
-      {/* Live cockpit-controls */}
+      {/* Fotomodal */}
+      {photoOpen && photos.length > 0 && (
+        <Modal onClose={() => setPhotoOpen(false)} maxWidth={720}>
+          <h3 style={{ margin: 0, marginBottom: 'var(--space-3)' }}>{lot.name} — foto's</h3>
+          <img
+            src={photos[activePhoto]}
+            alt={lot.name}
+            style={{
+              width: '100%', maxHeight: 480, objectFit: 'contain',
+              background: '#000', borderRadius: 'var(--radius-md)',
+            }}
+          />
+          {photos.length > 1 && (
+            <div style={{ display: 'flex', gap: 6, marginTop: 'var(--space-3)', flexWrap: 'wrap' }}>
+              {photos.map((p, i) => (
+                <button
+                  key={p}
+                  onClick={() => setActivePhoto(i)}
+                  style={{
+                    padding: 0,
+                    border: i === activePhoto
+                      ? '2px solid var(--accent)'
+                      : '2px solid transparent',
+                    background: 'transparent',
+                    borderRadius: 'var(--radius-sm)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <img src={p} alt="" width={56} height={56} loading="lazy"
+                    style={{ objectFit: 'cover', borderRadius: 2, display: 'block' }} />
+                </button>
+              ))}
+            </div>
+          )}
+        </Modal>
+      )}
+
+      {/* Twee-koloms: geïnteresseerden | biedstappen */}
+      <div style={twoColStyle}>
+        <Card title="Geïnteresseerden">
+          {interestedClients.length === 0 ? (
+            <p style={emptyMutedStyle}>
+              Nog geen klanten gekoppeld. Voeg ze toe op de lot-detailpagina.
+            </p>
+          ) : (
+            <ul style={listStyle}>
+              {interestedClients.map((entry) => {
+                const purchases = purchasesByClient?.get(entry.client_id)
+                const meta = []
+                if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
+                if (entry.direction)    meta.push(entry.direction)
+                return (
+                  <li key={entry.client_id} style={{ padding: '4px 0' }}>
+                    <div>
+                      <strong style={{ color: 'var(--accent)' }}>★ {entry.name}</strong>
+                      {meta.length > 0 && (
+                        <span style={{ color: 'var(--text-secondary)' }}> · {meta.join(' · ')}</span>
+                      )}
+                    </div>
+                    {entry.seating_notes && (
+                      <div style={{ color: 'var(--text-muted)', fontSize: '0.9em', fontStyle: 'italic' }}>
+                        "{entry.seating_notes}"
+                      </div>
+                    )}
+                    {entry.lot_notes && (
+                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em' }}>
+                        ↪ specifiek: {entry.lot_notes}
+                      </div>
+                    )}
+                    {purchases && purchases.length > 0 && (
+                      <div style={purchasedStyle}>
+                        ✓ al gekocht: {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
+                      </div>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </Card>
+
+        <Card title="Biedstappen">
+          <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
+        </Card>
+      </div>
+
+      {/* Mijn voorbereiding */}
+      <Card title="Mijn voorbereiding">
+        <NoteField key={`notes_catalog-${lot.id}`} lotId={lot.id} fieldName="notes_catalog" initialValue={lot.notes_catalog} label="Catalogus" />
+        <NoteField key={`notes_video-${lot.id}`}   lotId={lot.id} fieldName="notes_video"   initialValue={lot.notes_video}   label="Video" />
+        <NoteField key={`notes_org-${lot.id}`}     lotId={lot.id} fieldName="notes_org"     initialValue={lot.notes_org}     label="Organisatie" />
+      </Card>
+
+      {/* Live cockpit-controls (compacte 3-knop-flow + hamer-modal) */}
       <CockpitControls
         lot={lot}
         allLots={allLots}
@@ -284,133 +360,51 @@ function ActiveLotPanel({ lot, auctionId, houseId, interestedClients, purchasesB
         onActiveLotChange={onActiveLotChange}
       />
 
-      {/* Catalogustekst — wat Frederik voorleest */}
+      {/* Catalogustekst + EquiRatings — uitklapbaar */}
       {lot.catalog_text && (
-        <div style={blockStyle}>
-          <h3 style={blockHeadingStyle}>Catalogustekst</h3>
-          <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: 1.5 }}>
+        <details style={detailsStyle}>
+          <summary style={summaryStyle}>Catalogustekst</summary>
+          <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55 }}>
             {lot.catalog_text}
           </p>
-        </div>
+        </details>
       )}
-
-      {/* EquiRatings — sportstatistiek */}
       {lot.equiratings_text && (
-        <div style={blockStyle}>
-          <h3 style={blockHeadingStyle}>EquiRatings</h3>
-          <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: 1.5, color: '#555' }}>
+        <details style={detailsStyle}>
+          <summary style={summaryStyle}>EquiRatings</summary>
+          <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55, color: 'var(--text-secondary)' }}>
             {lot.equiratings_text}
           </p>
-        </div>
+        </details>
       )}
 
-      {/* Notes — bewerkbaar tijdens veilen, auto-save 800ms na laatste toets.
-          De `key` op `lot.id` forceert remount bij lot-wissel zodat de
-          textarea het initialValue van het nieuwe lot pakt en niet de
-          stale state van het vorige lot blijft tonen. */}
-      <div style={blockStyle}>
-        <h3 style={blockHeadingStyle}>Mijn voorbereiding</h3>
-        <NoteField
-          key={`notes_catalog-${lot.id}`}
-          lotId={lot.id} fieldName="notes_catalog"
-          initialValue={lot.notes_catalog} label="Catalogus"
-        />
-        <NoteField
-          key={`notes_video-${lot.id}`}
-          lotId={lot.id} fieldName="notes_video"
-          initialValue={lot.notes_video} label="Video"
-        />
-        <NoteField
-          key={`notes_org-${lot.id}`}
-          lotId={lot.id} fieldName="notes_org"
-          initialValue={lot.notes_org} label="Organisatie"
-        />
-      </div>
-
-      {/* Geïnteresseerde klanten — read-only weergave; bewerken op LotPage */}
-      <div style={blockStyle}>
-        <h3 style={blockHeadingStyle}>Geïnteresseerde klanten</h3>
-        {interestedClients.length === 0 ? (
-          <p style={{ color: '#999', fontStyle: 'italic', fontSize: '0.9em', margin: 0 }}>
-            Nog geen klanten gekoppeld. Voeg ze toe op de lot-detailpagina.
-          </p>
-        ) : (
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {interestedClients.map((entry) => {
-              const purchases = purchasesByClient?.get(entry.client_id)
-              const meta = []
-              if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
-              if (entry.direction)    meta.push(entry.direction)
-              return (
-                <li key={entry.client_id} style={{ padding: '4px 0' }}>
-                  <strong>{entry.name}</strong>
-                  {meta.length > 0 && (
-                    <span style={{ color: '#555' }}> — {meta.join(' · ')}</span>
-                  )}
-                  {entry.seating_notes && (
-                    <span style={{ color: '#888', fontStyle: 'italic' }}> — "{entry.seating_notes}"</span>
-                  )}
-                  {entry.lot_notes && (
-                    <div style={{ color: '#666', fontSize: '0.85em', marginLeft: '0.5em' }}>
-                      ↪ specifiek voor dit paard: {entry.lot_notes}
-                    </div>
-                  )}
-                  {purchases && purchases.length > 0 && (
-                    <div style={{ color: '#5A8A5A', fontSize: '0.85em', fontWeight: 600, marginLeft: '0.5em', marginTop: 2 }}>
-                      ✓ al gekocht in deze veiling:{' '}
-                      {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
-                    </div>
-                  )}
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div>
-
-      {/* Externe links (read-only — bewerken op LotPage) */}
+      {/* Externe links — pillen */}
       {(lot.url_hippomundo || lot.url_horsetelex || lot.url_extra) && (
-        <div style={blockStyle}>
-          <h3 style={blockHeadingStyle}>Externe links</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {lot.url_hippomundo && <ExternalLink href={lot.url_hippomundo} label="Hippomundo" />}
-            {lot.url_horsetelex && <ExternalLink href={lot.url_horsetelex} label="Horsetelex" />}
-            {lot.url_extra      && <ExternalLink href={lot.url_extra}      label="Extra" />}
-          </div>
+        <div style={{ marginTop: 'var(--space-4)', display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {lot.url_hippomundo && <ExternalLink href={lot.url_hippomundo} label="Hippomundo" />}
+          {lot.url_horsetelex && <ExternalLink href={lot.url_horsetelex} label="Horsetelex" />}
+          {lot.url_extra      && <ExternalLink href={lot.url_extra}      label="Extra" />}
         </div>
       )}
-
-      {/* Bid-staffel preview */}
-      <div style={blockStyle}>
-        <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
-      </div>
-
-      {/* Knoppen-placeholder voor stap 2+ */}
-      <div style={{ ...blockStyle, color: '#bbb', fontStyle: 'italic' }}>
-        Knoppen "In de piste / Start bieden / Hamer", live timer, bid-flow en
-        sessie-statistieken volgen in stap 2 t/m 6.
-      </div>
-    </section>
+    </div>
   )
 }
 
 function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdated, onActiveLotChange }) {
   const [now, setNow] = useState(() => new Date())
-  const [busy, setBusy] = useState(null)  // 'in-ring' | 'start' | 'hamer-form' | null
-  const [hamerFormOpen, setHamerFormOpen] = useState(false)
-  const [outcome, setOutcome] = useState('zaal')  // 'zaal' | 'online' | 'unsold'
+  const [busy, setBusy] = useState(null)
+  const [hamerOpen, setHamerOpen] = useState(false)
+  const [outcome, setOutcome] = useState('zaal')
   const [priceInput, setPriceInput] = useState('')
   const [buyer, setBuyer] = useState({ client_id: null, name: '' })
 
-  // Tick elke seconde voor de live timer
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)
   }, [])
 
-  // Reset alle hamer-form-state wanneer een ander lot geselecteerd wordt
   useEffect(() => {
-    setHamerFormOpen(false)
+    setHamerOpen(false)
     setOutcome('zaal')
     setPriceInput('')
     setBuyer({ client_id: null, name: '' })
@@ -438,57 +432,37 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
 
   function calcDurationSeconds() {
     if (!lot.time_entered_ring) return null
-    const enteredAt = new Date(lot.time_entered_ring).getTime()
-    return Math.floor((Date.now() - enteredAt) / 1000)
+    return Math.floor((Date.now() - new Date(lot.time_entered_ring).getTime()) / 1000)
   }
 
-  function openHamerForm() {
-    setHamerFormOpen(true)
+  function openHamer() {
+    setHamerOpen(true)
     setOutcome('zaal')
     setPriceInput('')
     setBuyer({ client_id: null, name: '' })
   }
 
-  /**
-   * Bepaalt de uiteindelijke koper:
-   *   - bestaande klant geselecteerd via autocomplete → gebruik die id
-   *   - nieuwe naam getypt → maak een client aan voor het huis
-   *   - leeg gelaten → null (koper onbekend / niet vastgelegd)
-   */
   async function resolveBuyer() {
     if (buyer.client_id) {
       return { id: buyer.client_id, name: (buyer.name || '').trim() || null }
     }
     const trimmed = (buyer.name || '').trim()
     if (!trimmed) return { id: null, name: null }
-    if (!houseId) {
-      throw new Error('Veilinghuis-id ontbreekt — kan koper niet aanmaken.')
-    }
+    if (!houseId) throw new Error('Veilinghuis-id ontbreekt — kan koper niet aanmaken.')
     const created = await createClient(houseId, trimmed)
     return { id: created.id, name: created.name }
   }
 
-  async function commitHamerForm() {
+  async function commitHamer() {
     const trimmed = priceInput.trim()
     if (outcome === 'zaal' || outcome === 'online') {
-      if (trimmed === '') {
-        alert('Vul de verkoopprijs in.')
-        return
-      }
+      if (!trimmed) { alert('Vul de verkoopprijs in.'); return }
       const price = Number(trimmed)
-      if (Number.isNaN(price) || price < 0) {
-        alert('Verkoopprijs is geen geldig getal.')
-        return
-      }
+      if (Number.isNaN(price) || price < 0) { alert('Verkoopprijs is geen geldig getal.'); return }
       setBusy('hamer-form')
-      let resolvedBuyer
-      try {
-        resolvedBuyer = await resolveBuyer()
-      } catch (e) {
-        setBusy(null)
-        alert(`Fout bij koper: ${e.message}`)
-        return
-      }
+      let resolved
+      try { resolved = await resolveBuyer() }
+      catch (e) { setBusy(null); alert(`Fout bij koper: ${e.message}`); return }
       const { data, error } = await supabase
         .from('lots')
         .update({
@@ -497,27 +471,20 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
           sold: true,
           sale_channel: outcome,
           duration_seconds: calcDurationSeconds(),
-          buyer_client_id: resolvedBuyer.id,
-          buyer: resolvedBuyer.name,
+          buyer_client_id: resolved.id,
+          buyer: resolved.name,
         })
         .eq('id', lot.id)
         .select()
         .single()
       setBusy(null)
       if (error) { alert(`Fout: ${error.message}`); return }
-      if (data) {
-        onLotUpdated(data)
-        setHamerFormOpen(false)
-      }
+      if (data) { onLotUpdated(data); setHamerOpen(false) }
     } else {
-      // outcome === 'unsold'
       let highestBid = null
       if (trimmed !== '') {
         const n = Number(trimmed)
-        if (Number.isNaN(n) || n < 0) {
-          alert('Hoogste bod is geen geldig getal.')
-          return
-        }
+        if (Number.isNaN(n) || n < 0) { alert('Hoogste bod is geen geldig getal.'); return }
         highestBid = n
       }
       setBusy('hamer-form')
@@ -537,41 +504,36 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
         .single()
       setBusy(null)
       if (error) { alert(`Fout: ${error.message}`); return }
-      if (data) {
-        onLotUpdated(data)
-        setHamerFormOpen(false)
-      }
+      if (data) { onLotUpdated(data); setHamerOpen(false) }
     }
   }
 
-  // Volgend lot — index in de gesorteerde lijst (zelfde sortering als picker)
   const idx = allLots.findIndex((l) => l.id === lot.id)
   const nextLot = idx >= 0 && idx < allLots.length - 1 ? allLots[idx + 1] : null
 
   return (
-    <div style={controlsBlockStyle}>
-      {/* Live timers — alleen tijdens de flow */}
+    <div style={controlsCardStyle}>
+      {/* Live timer + resultaat */}
       {!hammered && (
-        <div style={timersStyle}>
+        <div style={{ ...timersStyle, color: 'var(--text-secondary)' }}>
           {inRing && (
-            <span>⏱ <strong>{formatElapsed(now - new Date(lot.time_entered_ring))}</strong> in de piste</span>
+            <span>⏱ <strong style={{ color: 'var(--text-primary)' }}>{formatElapsed(now - new Date(lot.time_entered_ring))}</strong> in piste</span>
           )}
           {bidding && (
-            <span style={{ marginLeft: '1.25rem' }}>
-              ⏱ <strong>{formatElapsed(now - new Date(lot.time_bidding_start))}</strong> bieden actief
+            <span style={{ marginLeft: '1rem' }}>
+              ⏱ <strong style={{ color: 'var(--text-primary)' }}>{formatElapsed(now - new Date(lot.time_bidding_start))}</strong> bieden
             </span>
           )}
           {!inRing && (
-            <span style={{ color: '#aaa', fontStyle: 'italic' }}>
-              Klik "In de piste" wanneer het paard binnenkomt.
+            <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
+              Klik "In piste" zodra het paard binnenkomt.
             </span>
           )}
         </div>
       )}
 
-      {/* Resultaat na hamer */}
       {hammered && (
-        <div style={{ ...timersStyle, color: lot.sold ? '#5A8A5A' : '#a06010' }}>
+        <div style={{ ...timersStyle, color: lot.sold ? 'var(--success)' : 'var(--warning)' }}>
           {lot.sold
             ? `✓ Verkocht ${lot.sale_channel === 'zaal' ? 'in zaal' : lot.sale_channel === 'online' ? 'online' : ''}`.trim()
             : '⊘ Niet verkocht'}
@@ -581,59 +543,55 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
         </div>
       )}
 
-      {/* Drie-knop-flow */}
-      <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+      {/* Compacte 3-knop + volgend-lot op één regel */}
+      <div style={controlsRowStyle}>
         <FlowButton
-          label="IN DE PISTE"
-          state={inRingState}
+          label="In piste" state={inRingState}
           busy={busy === 'in-ring'}
           onClick={() => patchTimestamp('time_entered_ring', 'in-ring')}
         />
         <FlowButton
-          label="START BIEDEN"
-          state={startState}
+          label="Start bieden" state={startState}
           busy={busy === 'start'}
           onClick={() => patchTimestamp('time_bidding_start', 'start')}
         />
         <FlowButton
-          label="HAMER"
-          state={hammerState}
+          label="Hamer" state={hammerState}
           busy={busy === 'hamer-form'}
-          onClick={openHamerForm}
+          onClick={openHamer}
+          primary
         />
+        <button
+          onClick={() => nextLot && onActiveLotChange(nextLot.id)}
+          disabled={!nextLot}
+          style={nextLotBtnStyle(nextLot != null)}
+        >
+          {nextLot
+            ? `Volgend → #${nextLot.number ?? '—'} ${nextLot.name}`
+            : 'Einde van de lijst'}
+        </button>
       </div>
 
-      {/* Hamer-form — opent NA klik op HAMER */}
-      {hamerFormOpen && bidding && !hammered && (
-        <div style={priceFormStyle}>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Hoe is dit lot afgerond?</div>
+      {/* Hamer-modal */}
+      {hamerOpen && bidding && !hammered && (
+        <Modal onClose={() => setHamerOpen(false)} maxWidth={520}>
+          <h3 style={{ margin: 0, marginBottom: 'var(--space-3)' }}>
+            Hamer — #{lot.number ?? '—'} {lot.name}
+          </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
-            <label style={radioLabelStyle}>
-              <input type="radio" name="outcome" value="zaal"
-                checked={outcome === 'zaal'} onChange={() => setOutcome('zaal')} />
-              <span>Verkocht <strong>in zaal</strong></span>
-            </label>
-            <label style={radioLabelStyle}>
-              <input type="radio" name="outcome" value="online"
-                checked={outcome === 'online'} onChange={() => setOutcome('online')} />
-              <span>Verkocht <strong>online</strong></span>
-            </label>
-            <label style={radioLabelStyle}>
-              <input type="radio" name="outcome" value="unsold"
-                checked={outcome === 'unsold'} onChange={() => setOutcome('unsold')} />
-              <span><strong>Niet verkocht</strong></span>
-            </label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 'var(--space-3)' }}>
+            <RadioRow label="Verkocht in zaal"  value="zaal"    current={outcome} onChange={setOutcome} />
+            <RadioRow label="Verkocht online"   value="online"  current={outcome} onChange={setOutcome} />
+            <RadioRow label="Niet verkocht"     value="unsold"  current={outcome} onChange={setOutcome} />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <span style={{ fontWeight: 600 }}>
-              {outcome === 'unsold' ? 'Hoogste bod (optioneel):' : 'Verkoopprijs:'}
-            </span>
-            <span style={{ color: '#666' }}>€</span>
+          <div style={fieldRowStyle}>
+            <label style={modalLabelStyle}>
+              {outcome === 'unsold' ? 'Hoogste bod:' : 'Verkoopprijs:'}
+            </label>
+            <span style={{ color: 'var(--text-muted)' }}>€</span>
             <input
-              type="text"
-              inputMode="numeric"
+              type="text" inputMode="numeric"
               value={priceInput === '' ? '' : Number(priceInput).toLocaleString('nl-BE', { maximumFractionDigits: 0 })}
               onChange={(e) => setPriceInput(e.target.value.replace(/[^\d]/g, ''))}
               placeholder={outcome === 'unsold' ? 'optioneel' : 'bv. 15.000'}
@@ -643,8 +601,8 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
           </div>
 
           {(outcome === 'zaal' || outcome === 'online') && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontWeight: 600, minWidth: '5em' }}>Koper:</span>
+            <div style={fieldRowStyle}>
+              <label style={modalLabelStyle}>Koper:</label>
               <BuyerAutocomplete
                 houseId={houseId}
                 priorityClients={interestedClients}
@@ -655,52 +613,49 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-            <button
-              onClick={() => setHamerFormOpen(false)}
-              disabled={busy === 'hamer-form'}
-              style={cancelBtnStyle}
-            >
+          <div style={{ display: 'flex', gap: 8, marginTop: 'var(--space-4)' }}>
+            <button onClick={() => setHamerOpen(false)} disabled={busy === 'hamer-form'} style={cancelBtnStyle}>
               Annuleer
             </button>
-            <button
-              onClick={commitHamerForm}
-              disabled={busy === 'hamer-form'}
-              style={confirmBtnStyle}
-            >
-              {busy === 'hamer-form' ? '…' : 'Bevestig hamer'}
+            <button onClick={commitHamer} disabled={busy === 'hamer-form'} style={confirmBtnStyle}>
+              {busy === 'hamer-form' ? '…' : '✓ Bevestig hamer'}
             </button>
           </div>
-        </div>
+        </Modal>
       )}
-
-      {/* Volgend lot */}
-      <div style={{ marginTop: 10 }}>
-        <button
-          onClick={() => nextLot && onActiveLotChange(nextLot.id)}
-          disabled={!nextLot}
-          style={{
-            padding: '0.5rem 0.85rem', fontSize: '0.95em',
-            border: '1px solid #ccc', borderRadius: 4,
-            background: nextLot ? '#fff' : '#f5f5f5',
-            color: nextLot ? '#222' : '#aaa',
-            cursor: nextLot ? 'pointer' : 'not-allowed',
-          }}
-        >
-          {nextLot
-            ? `Volgend lot → #${nextLot.number ?? '—'} ${nextLot.name}`
-            : 'Einde van de lijst'}
-        </button>
-      </div>
     </div>
   )
 }
 
-function FlowButton({ label, state, busy, onClick }) {
+function FlowButton({ label, state, busy, onClick, primary }) {
   const stateStyles = {
-    pending: { background: '#eee', color: '#aaa', cursor: 'not-allowed', opacity: 0.55 },
-    active:  { background: '#222', color: '#fff', cursor: 'pointer' },
-    done:    { background: '#5A8A5A', color: '#fff', cursor: 'default', opacity: 0.85 },
+    pending: {
+      background: 'var(--bg-input)',
+      color: 'var(--text-muted)',
+      cursor: 'not-allowed',
+      opacity: 0.6,
+      border: '1px solid var(--border-default)',
+    },
+    active: primary ? {
+      background: 'var(--accent)',
+      color: '#1A1816',
+      cursor: 'pointer',
+      border: '1px solid var(--accent)',
+      fontWeight: 700,
+    } : {
+      background: 'var(--bg-elevated)',
+      color: 'var(--text-primary)',
+      cursor: 'pointer',
+      border: '1px solid var(--accent-muted)',
+      fontWeight: 600,
+    },
+    done: {
+      background: 'transparent',
+      color: 'var(--success)',
+      cursor: 'default',
+      opacity: 0.85,
+      border: '1px solid var(--success)',
+    },
   }[state]
 
   return (
@@ -708,9 +663,9 @@ function FlowButton({ label, state, busy, onClick }) {
       onClick={state === 'active' && !busy ? onClick : undefined}
       disabled={state !== 'active' || busy}
       style={{
-        flex: 1, padding: '0.85rem 1rem',
-        fontSize: '1.05em', fontWeight: 600,
-        border: 'none', borderRadius: 6,
+        padding: '0.5rem 0.85rem',
+        fontSize: '0.95rem',
+        borderRadius: 'var(--radius-sm)',
         ...stateStyles,
       }}
     >
@@ -719,29 +674,82 @@ function FlowButton({ label, state, busy, onClick }) {
   )
 }
 
-function formatElapsed(ms) {
-  const total = Math.max(0, Math.floor(ms / 1000))
-  const m = Math.floor(total / 60)
-  const s = total % 60
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+function RadioRow({ label, value, current, onChange }) {
+  return (
+    <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+      <input
+        type="radio" name="outcome"
+        value={value} checked={current === value}
+        onChange={() => onChange(value)}
+      />
+      <span>{label}</span>
+    </label>
+  )
+}
+
+function Card({ title, children }) {
+  return (
+    <section style={cardStyle}>
+      <h3 style={cardTitleStyle}>{title}</h3>
+      {children}
+    </section>
+  )
+}
+
+function Modal({ children, onClose, maxWidth = 600 }) {
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+
+  return (
+    <div style={modalBackdropStyle} onClick={onClose}>
+      <div
+        style={{ ...modalContentStyle, maxWidth }}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog" aria-modal="true"
+      >
+        <button
+          onClick={onClose}
+          aria-label="Sluit"
+          style={modalCloseStyle}
+        >✕</button>
+        {children}
+      </div>
+    </div>
+  )
 }
 
 function ExternalLink({ href, label }) {
   return (
     <a
-      href={href}
-      target="_blank" rel="noopener noreferrer"
+      href={href} target="_blank" rel="noopener noreferrer"
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 4,
-        padding: '0.3rem 0.65rem',
-        background: '#f0f0f0', color: '#222',
-        textDecoration: 'none', borderRadius: 4,
-        fontSize: '0.9em',
+        padding: '0.3rem 0.7rem',
+        background: 'var(--bg-elevated)', color: 'var(--accent)',
+        textDecoration: 'none', borderRadius: 'var(--radius-full)',
+        fontSize: '0.85rem',
+        border: '1px solid var(--border-default)',
       }}
     >
       🔗 {label}
     </a>
   )
+}
+
+/* ----- helpers ----- */
+
+function formatElapsed(ms) {
+  const total = Math.max(0, Math.floor(ms / 1000))
+  const m = Math.floor(total / 60)
+  const s = total % 60
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
 function formatAuctionDate(auction) {
@@ -765,73 +773,203 @@ function formatYearAge(year) {
   return `${year}/${age} jaar`
 }
 
-const pageStyle = {
-  fontFamily: 'system-ui, -apple-system, sans-serif',
-  padding: '1rem 1.5rem',
-  maxWidth: 1100,
-  margin: '0 auto',
+/* ----- styles ----- */
+
+const crumbsStyle = {
+  fontSize: '0.85rem',
+  color: 'var(--text-muted)',
+  margin: '0 0 var(--space-2) 0',
 }
-const headerStyle = {
-  borderBottom: '1px solid #ddd',
-  paddingBottom: '0.5rem',
-  marginBottom: '1rem',
+const crumbStyle = { color: 'var(--text-muted)', textDecoration: 'none' }
+const titleStyle = {
+  margin: '0 0 var(--space-1) 0',
+  color: 'var(--accent)',
+  letterSpacing: '0.01em',
 }
-const crumbStyle = { color: '#888', textDecoration: 'none' }
+const subtitleStyle = {
+  color: 'var(--text-secondary)',
+  marginTop: 0,
+  marginBottom: 'var(--space-4)',
+}
+const summaryBtnStyle = {
+  display: 'inline-block',
+  padding: 'var(--space-2) var(--space-4)',
+  background: 'var(--success)',
+  color: '#fff',
+  borderRadius: 'var(--radius-sm)',
+  textDecoration: 'none',
+  fontWeight: 600,
+}
 const pickerStyle = {
-  background: '#fafafa', border: '1px solid #eee',
-  borderRadius: 6, padding: '0.6rem 0.85rem', marginBottom: '1rem',
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  padding: 'var(--space-3) var(--space-4)',
+  marginBottom: 'var(--space-4)',
 }
 const selectStyle = {
-  padding: '0.4rem 0.5rem', fontSize: '1em',
-  border: '1px solid #ccc', borderRadius: 4,
+  padding: '0.4rem 0.5rem', fontSize: '1rem',
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
   minWidth: '20em',
 }
-const panelStyle = {
-  border: '1px solid #ddd', borderRadius: 8,
-  padding: '1rem', background: '#fff',
+const lotHeaderStyle = {
+  display: 'flex', gap: 'var(--space-4)', alignItems: 'flex-start',
+  padding: 'var(--space-4)',
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  marginBottom: 'var(--space-4)',
 }
-const blockStyle = {
-  marginTop: '1rem', paddingTop: '1rem',
-  borderTop: '1px solid #eee',
+const thumbBtnStyle = {
+  padding: 0, border: 'none', background: 'transparent',
+  cursor: 'pointer', flexShrink: 0,
+  borderRadius: 'var(--radius-sm)',
+  overflow: 'hidden',
 }
-const blockHeadingStyle = {
-  fontSize: '1em', margin: '0 0 0.5rem 0', color: '#555',
+const lotNameStyle = {
+  margin: '0.1rem 0 0.3rem 0',
+  fontSize: '1.6rem',
+  color: 'var(--accent)',
+  fontWeight: 600,
 }
-const controlsBlockStyle = {
-  marginTop: '1.25rem', padding: '0.85rem 1rem',
-  background: '#f8f8f8', border: '1px solid #ddd',
-  borderRadius: 6,
+const priceRowStyle = {
+  marginTop: 'var(--space-2)',
+  color: 'var(--text-secondary)',
+}
+const twoColStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+  gap: 'var(--space-4)',
+  marginBottom: 'var(--space-4)',
+}
+const cardStyle = {
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  padding: 'var(--space-4)',
+  marginBottom: 'var(--space-4)',
+}
+const cardTitleStyle = {
+  margin: '0 0 var(--space-3) 0',
+  fontSize: '0.85rem',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'var(--text-secondary)',
+  fontWeight: 600,
+}
+const listStyle = { listStyle: 'none', padding: 0, margin: 0 }
+const emptyMutedStyle = { color: 'var(--text-muted)', fontStyle: 'italic', margin: 0 }
+const purchasedStyle = {
+  marginTop: 4,
+  color: 'var(--success)',
+  fontSize: '0.85em',
+  fontWeight: 600,
+}
+const controlsCardStyle = {
+  ...cardStyle,
+  background: 'var(--bg-elevated)',
 }
 const timersStyle = {
-  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-  fontSize: '1.1em', color: '#333',
+  fontFamily: 'var(--font-mono)',
+  fontSize: '1rem',
+  fontVariantNumeric: 'tabular-nums',
 }
-const priceFormStyle = {
-  marginTop: 10,
-  padding: '0.6rem 0.85rem',
-  background: '#fff',
-  border: '1px solid #ddd',
-  borderRadius: 4,
+const controlsRowStyle = {
+  display: 'flex', flexWrap: 'wrap', gap: 8,
+  marginTop: 'var(--space-3)',
+  alignItems: 'center',
+}
+const detailsStyle = {
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  padding: 'var(--space-3) var(--space-4)',
+  marginBottom: 'var(--space-3)',
+}
+const summaryStyle = {
+  cursor: 'pointer',
+  fontWeight: 600,
+  color: 'var(--text-secondary)',
+  letterSpacing: '0.05em',
+  textTransform: 'uppercase',
+  fontSize: '0.85rem',
+}
+
+const nextLotBtnStyle = (enabled) => ({
+  padding: '0.5rem 0.85rem',
+  fontSize: '0.95rem',
+  background: 'transparent',
+  color: enabled ? 'var(--accent)' : 'var(--text-muted)',
+  border: '1px solid ' + (enabled ? 'var(--accent-muted)' : 'var(--border-default)'),
+  borderRadius: 'var(--radius-sm)',
+  cursor: enabled ? 'pointer' : 'not-allowed',
+  marginLeft: 'auto',
+})
+
+const fieldRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 8, marginTop: 'var(--space-2)',
+  flexWrap: 'wrap',
+}
+const modalLabelStyle = {
+  minWidth: '6.5em',
+  color: 'var(--text-secondary)',
+  fontWeight: 600,
 }
 const priceInputStyle = {
-  padding: '0.4rem 0.5rem',
-  fontSize: '1em',
-  border: '1px solid #ccc',
-  borderRadius: 4,
-  width: '8em',
-  fontFamily: 'inherit',
-}
-const radioLabelStyle = {
-  display: 'flex', alignItems: 'center', gap: 8,
-  cursor: 'pointer', padding: '0.25rem 0',
+  flex: 1, minWidth: '8em',
+  padding: '0.45rem 0.6rem',
+  fontSize: '1rem',
+  background: 'var(--bg-input)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  fontFamily: 'var(--font-mono)',
 }
 const cancelBtnStyle = {
-  padding: '0.5rem 1rem', fontSize: '0.95em',
-  border: '1px solid #ccc', background: '#fff', color: '#666',
-  borderRadius: 4, cursor: 'pointer',
+  padding: '0.5rem 1rem',
+  background: 'transparent',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
 }
 const confirmBtnStyle = {
-  padding: '0.5rem 1rem', fontSize: '0.95em',
-  border: 'none', background: '#222', color: '#fff',
-  borderRadius: 4, cursor: 'pointer', fontWeight: 600, flex: 1,
+  flex: 1,
+  padding: '0.5rem 1rem',
+  background: 'var(--accent)',
+  color: '#1A1816',
+  border: 'none',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  fontWeight: 700,
+}
+
+const modalBackdropStyle = {
+  position: 'fixed', inset: 0,
+  background: 'var(--bg-overlay)',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  zIndex: 100,
+  padding: 'var(--space-4)',
+}
+const modalContentStyle = {
+  position: 'relative',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-strong)',
+  borderRadius: 'var(--radius-lg)',
+  padding: 'var(--space-5)',
+  width: '100%',
+  maxHeight: '90vh',
+  overflow: 'auto',
+  boxShadow: 'var(--shadow-lg)',
+}
+const modalCloseStyle = {
+  position: 'absolute', top: 'var(--space-3)', right: 'var(--space-3)',
+  width: 32, height: 32,
+  background: 'transparent',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
 }

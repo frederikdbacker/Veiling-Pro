@@ -6,10 +6,10 @@
 
 :root {
   /* --- Achtergronden ----------------------------- */
-  --bg-base:      #0E0C09;   /* pagina */
-  --bg-surface:   #161310;   /* secties */
-  --bg-elevated:  #1D1A14;   /* cards, forms */
-  --bg-input:     #221E16;   /* input-velden */
+  --bg-base:      #1A1816;   /* pagina — donkergrijs, warm */
+  --bg-surface:   #23211E;   /* secties */
+  --bg-elevated:  #2C2926;   /* cards, forms */
+  --bg-input:     #2F2C28;   /* input-velden */
   --bg-overlay:   rgba(0, 0, 0, 0.7);  /* modal-backdrop */
 
   /* --- Tekst ------------------------------------- */
@@ -29,8 +29,8 @@
   --info:    #7A9AAE;
 
   /* --- Borders ----------------------------------- */
-  --border-default: #2A2519;
-  --border-strong:  #3D3522;
+  --border-default: #3A3631;
+  --border-strong:  #4D4742;
 
   /* --- Spacing (rem) ----------------------------- */
   --space-1: 0.25rem;

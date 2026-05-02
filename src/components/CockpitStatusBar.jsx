@@ -19,7 +19,7 @@ export default function CockpitStatusBar({ lots }) {
       <section style={barStyle}>
         <strong>0/{total}</strong> gehamerd
         <span style={sepStyle}> · </span>
-        <em style={{ color: '#888' }}>nog geen verkopen</em>
+        <em style={{ color: 'var(--text-muted)' }}>nog geen verkopen</em>
       </section>
     )
   }
@@ -43,7 +43,7 @@ export default function CockpitStatusBar({ lots }) {
 
   if (finished) {
     segments.push(
-      <span key="done" style={{ color: '#5A8A5A' }}>
+      <span key="done" style={{ color: 'var(--success)' }}>
         ✓ <strong>{total}/{total}</strong> · veiling klaar
       </span>
     )
@@ -65,12 +65,12 @@ export default function CockpitStatusBar({ lots }) {
     )
     if (sold.length > 0) {
       segments.push(
-        <span key="sold" style={{ color: '#5A8A5A' }}>✓ {sold.length} verkocht</span>
+        <span key="sold" style={{ color: 'var(--success)' }}>✓ {sold.length} verkocht</span>
       )
     }
     if (notSold.length > 0) {
       segments.push(
-        <span key="not" style={{ color: '#a06010' }}>⊘ {notSold.length} niet</span>
+        <span key="not" style={{ color: 'var(--warning)' }}>⊘ {notSold.length} niet</span>
       )
     }
     segments.push(
@@ -116,15 +116,16 @@ function formatHhMm(date) {
 }
 
 const barStyle = {
-  background: '#f4f1ea',
-  border: '1px solid #d6cdb6',
-  borderRadius: 5,
-  padding: '0.35rem 0.75rem',
-  marginBottom: '0.75rem',
-  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-  fontSize: '0.82em',
-  lineHeight: 1.4,
-  color: '#2a2519',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  padding: '0.45rem 0.85rem',
+  marginBottom: 'var(--space-3)',
+  fontFamily: 'var(--font-mono)',
+  fontSize: '0.875rem',
+  lineHeight: 1.5,
+  color: 'var(--text-primary)',
+  fontVariantNumeric: 'tabular-nums',
 }
 
-const sepStyle = { color: '#aaa' }
+const sepStyle = { color: 'var(--text-muted)' }

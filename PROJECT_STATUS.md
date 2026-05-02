@@ -5,47 +5,54 @@
 
 ---
 
-## Huidige status: VOLLEDIG VEILING-PRODUCT LIVE OP VERCEL
+## Huidige status: REDESIGN-MARATHON KLAAR — DONKER THEMA + 7 MODULES LIVE
 
-Vijf modules werken end-to-end op productie (https://veiling-pro.vercel.app):
+Zeven modules werken end-to-end op productie (https://veiling-pro.vercel.app):
 
-1. **Voorbereidingsmodule** — Veilinghuizen → Veilingen → Lots → Detail
-   met foto-gallery, catalog/EquiRatings, video, drie auto-save notes,
-   inline edit voor lot-nummer/startprijs/reserveprijs (met duizendscheiding),
-   drie URL-velden (Hippomundo/Horsetelex/extra), vorig/volgend met
-   pijltjestoetsen.
-2. **Bid-step-systeem** — per veiling welke lot-types, per (veiling, type)
-   een staffel met ranges + steps (alle bedragen met duizendscheiding),
-   lot-type per paard, read-only preview op LotPage, `nextBidStep` helper.
-3. **Live Cockpit** (5 van 6 stappen af) — `/cockpit/:auctionId` met
-   read-only paard-info, drie-knop-flow (IN DE PISTE → START BIEDEN →
-   HAMER) met live timer en next-lot-knop, hamer-form (zaal/online/niet-
-   verkocht) **met koper-veld** (autocomplete), én bovenin een
-   **statusbalk** met X/24 gehamerd, omzet, gem. duur en verwacht
-   einduur (live update na elke hamer).
-4. **Overzichtspagina einde veiling** — `/auctions/:id/summary` met
-   kerncijfers, splitsing per lot-type en lot-voor-lot resultaat. Werkt
-   ook tijdens lopende veiling (toont "(veiling nog bezig)"). Op cockpit
-   verschijnt een groene "Overzicht einde veiling →"-knop zodra alle
-   lots gehamerd zijn.
-5. **Klanten-UI** — geïnteresseerden per paard met naam, tafelnummer,
-   richting, opmerking en optionele paard-specifieke notitie. Klanten
-   horen bij het veilinghuis (cross-veiling reuse), tafel/richting per
-   veiling. Autocomplete bij typen. Auto-overname van tafel/richting/
-   opmerking bij hertypen van bestaande klant. Koper-veld in de cockpit
-   hamer-form met geïnteresseerden van dit lot bovenaan (★) en andere
-   huis-klanten daaronder. "✓ al gekocht in deze veiling: #5"-indicator
-   bij geïnteresseerden zodra elders gekocht.
+1. **Voorbereidingsmodule** — Veilinghuizen → Veilingen → Lots → Detail.
+   LotPage volledig herwerkt 02-05: klein klikbaar thumbnail (geen grote
+   foto), volgorde Lot & prijzen → Pedigree → Externe links → Catalog →
+   EquiRatings → Video → optionals → klanten → notities. Catalog en
+   EquiRatings nu bewerkbaar via ✏-icoon (EditableLongText) als de
+   scrape niets vond.
+2. **Bid-step-systeem** — staffels per (veiling, type) met datalist-
+   presets [5.000, 10.000, 20.000, 25.000, 50.000, 100.000, 500.000,
+   1.000.000] op range-grenzen en [100, 200, 500, 1.000, 2.000, 5.000,
+   10.000, 25.000] op steps. Biedstappen-editor staat onderaan
+   AuctionPage, ingeklapte lot-types selector erboven.
+3. **Live Cockpit** (alle 6 stappen af) — `/cockpit/:auctionId` met
+   compacte paardidentiteit (klein thumbnail), klapbare cards
+   (Geïnteresseerden, Catalogustekst, Mijn voorbereiding), pedigree-
+   bracket-tree binnen de lot-card, statusbalk + sessie-stats, drie-
+   knop-flow + Vorig/Volgend in picker, hamer-modal met koper-
+   autocomplete, spotters-strip tussen statusbalk en lot-picker.
+4. **Overzichtspagina einde veiling** — `/auctions/:id/summary`
+   (ongewijzigd t.o.v. vorige sessie).
+5. **Klanten-UI** — geïnteresseerden per paard met seating, autocomplete
+   over hele huis, "al gekocht"-indicator. ✏-bewerk en ✕-verwijder per
+   klant-rij.
+6. **Pedigree** — bracket-tree op LotPage en cockpit, 3 generaties
+   (ouders/grootouders/overgrootouders). Witte tekst op transparante
+   kaders, geen kleur per kant. Alle 24 Aloga-lots geïmporteerd uit
+   aloga-auction.com via WebFetch + scripts/import-pedigree.mjs.
+7. **Spotters** — globale tabel + junction. AuctionPage onderaan toont
+   slot-dropdown (0-15) met N rijen waarin Frederik namen invoert via
+   autocomplete (over alle eerder ingevoerde spotters). Cockpit toont
+   compacte strip 👥 tussen statusbalk en lot-picker, links→rechts
+   gesorteerd.
 
-Vercel-deploy is rond met SPA-fallback via `vercel.json`. Elke push naar
-`main` triggert een nieuwe deploy. Database: 1 huis, 1 veiling met
-datum+locatie+starttijd+eindtijd (`22:48`, op basis van 7 min/lot),
-24 lots met enriched data, 8 lot-types, plus `client_auction_seating`
-en `lots.buyer_client_id` uit migratie 0007.
+**Donker thema** is volledig doorgevoerd (CSS-variabelen in `index.css`):
+neutraal donkergrijs (#1A1A1A) base, witte tekst (#F0F0F0), standaard
+groen (#22C55E) accent, standaard rood (#EF4444) voor warning/danger.
+Geen goud meer, geen Aloga-getinte kleuren — bewust generiek.
 
-Open vóór 5 mei: iPad-test (visueel), reset-data vóór de echte veiling,
-optioneel cockpit stap 5 (notities bewerkbaar — comfort, niet kritisch).
-Cockpit is **volledig bruikbaar op iPad** via de gepubliceerde URL.
+Vercel-deploy auto-bij elke push. Database-stand: migraties 0001 t/m
+0010 actief. Eindtijd 22:48 (raming op 7 min/lot). 24 lots met enriched
+data + pedigree.
+
+Open vóór 5 mei: iPad-test (visueel) en reset-data via
+`scripts/reset-auction.sql`. Cockpit is volledig bruikbaar op iPad
+via de gepubliceerde URL.
 
 ---
 
@@ -130,14 +137,27 @@ Cockpit is **volledig bruikbaar op iPad** via de gepubliceerde URL.
   geïnteresseerden eerst (★), "✓ al gekocht"-indicator
 - [x] ~~Eindtijd Aloga 2026~~ — AF op 02-05-2026 (geschat einde 22:48 op
   basis van 7 min/lot)
-- [ ] **Cockpit stap 5**: notities bewerkbaar in cockpit (✏-knop per veld) — comfort
-- [ ] **iPad-test**: cockpit doorlopen op tablet, validate knopgrootte +
+- [x] ~~Cockpit stap 5~~ — AF op 02-05-2026 (commit 5e5f982): notities
+  bewerkbaar in cockpit via auto-save NoteFields onder "Mijn voorbereiding"
+- [x] ~~Donker thema redesign~~ — AF op 02-05-2026: CSS-variabelen,
+  generieke kleuren wit/groen/rood/grijs, alle pagina's getokeniseerd
+- [x] ~~Pedigree~~ — AF op 02-05-2026 (commit b6ec02e): bracket-tree op
+  LotPage en cockpit, alle 24 Aloga-lots gescraped en geïmporteerd
+- [x] ~~Spotters~~ — AF op 02-05-2026 (commit d393025): globale tabel +
+  junction, slot-dropdown op AuctionPage, autocomplete, cockpit-strip
+- [x] ~~Klant bewerken in UI~~ — AF op 02-05-2026 (commit 5e5f982):
+  ✏-bewerk-knop per klant-rij in InterestedClientsField
+- [x] ~~Edit-icoon catalogtekst/EquiRatings~~ — AF op 02-05-2026
+  (commit fd226d8): EditableLongText component met read-only + ✏-knop
+- [ ] **iPad-test**: cockpit doorlopen op tablet, knopgrootte +
   leesbaarheid in échte landscape-modus
 - [ ] **Reset productie-data** vóór 5 mei: `scripts/reset-auction.sql`
-  runnen in Supabase (eventueel sectie 4 ook actief om test-klanten te
-  wissen)
-- [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type` text)
-  in schoonmaak-migratie — na 5 mei
+  in Supabase (sectie 4 voor test-klanten); plus migraties 0009 en 0010
+  zijn destructive voor spotters-data — opnieuw invoeren indien nodig
+- [ ] **Frederik moet nog migratie 0010 runnen** in Supabase voor
+  globale spotters (vervangt 0009)
+- [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type`
+  text, `lots.buyer` text) — na 5 mei
 
 ### Dag 2-3 — Voorbereidingsmodule (✅ AF op 30-04-2026)
 - [x] Veilinghuizen → Veilingen → Lots navigatie
@@ -169,11 +189,13 @@ Cockpit is **volledig bruikbaar op iPad** via de gepubliceerde URL.
   bedrag-invoer, Annuleer/Bevestig. Resultaat-regel toont "Verkocht in zaal —
   €X om HH:MM (duur MM:SS)"
 - [ ] Stap 4: huidig-bod input — **GESCHRAPT** (Frederik typt enkel finale prijs)
-- [ ] Stap 5: notities bewerkbaar in cockpit
+- [x] Stap 5: notities bewerkbaar in cockpit (commit 5e5f982 — auto-save
+  NoteFields onder "Mijn voorbereiding")
 - [x] Stap 6: sessie-statistieken (commit 24728d4 — verwerkt in CockpitStatusBar:
   X/N gehamerd, ✓ verkocht / ⊘ niet, omzet, ⌀ duur, verwacht einduur)
-- [x] LotPage: LotTypeDropdown om type per lot te kiezen
-- [x] LotPage: BidStepRulesPreview (read-only) voor referentie
+- [x] LotPage: LotTypeDropdown (nu inline naast prijzen — commit 810eb7d)
+- [x] BidStepRulesPreview verwijderd uit LotPage; alleen op cockpit
+  zichtbaar binnen het actie-kader (commit 810eb7d)
 - [x] Helper `nextBidStep(currentBid, rules)` in src/lib/bidSteps.js
 
 ### Overzichtspagina einde veiling (✅ AF op 02-05-2026, commit 6f921c5)
@@ -217,13 +239,51 @@ Cockpit is **volledig bruikbaar op iPad** via de gepubliceerde URL.
 - [x] Cockpit geïnteresseerden-sectie toont nu tafel/richting/seating-
   opmerking + "al gekocht"-indicator (consistent met LotPage)
 
+### Pedigree (✅ AF op 02-05-2026)
+- [x] Migratie 0008: `lots.pedigree` jsonb voor 3-generatie tree
+- [x] `PedigreeTree` component — 3 kolommen × 8 rijen via CSS-grid,
+  bracket-uitlijning, witte tekst op transparante kaders met dunne rand,
+  klein lettertype + small caps (compact i.p.v. visueel zwaar)
+- [x] Plek: in lot-card identity-kolom op cockpit (onder basisinfo,
+  vult vrije ruimte naast actie-kader); op LotPage onder Pedigree-blok
+- [x] Alle 24 Aloga-lots gescraped van aloga-auction.com via WebFetch +
+  geïmporteerd via `scripts/import-pedigree.mjs` uit
+  `data/aloga-2026-pedigree.json`
+
+### Donker thema design-systeem (✅ AF op 02-05-2026)
+- [x] CSS-variabelen in `src/index.css`: alle kleuren, fonts, spacing,
+  radius gecentreerd zodat tweaks op één plek doorwerken
+- [x] Generieke kleuren wit/groen/rood/grijs (geen Aloga-getinte tints):
+  bg-base #1A1A1A, text-primary #F0F0F0, accent #22C55E, danger #EF4444
+- [x] Systeemfont (San Francisco / Segoe UI) + system-mono voor cijfers;
+  geen webfonts geladen
+- [x] Donkere scrollbars, focus-rings in goudaccent, native form-inputs
+  via globale CSS naar donker thema
+- [x] Alle pagina-componenten getokeniseerd: HousesPage, HousePage,
+  AuctionPage, LotPage, AuctionSummaryPage, CockpitPage, plus
+  InterestedClientsField, AutoSaveNumber, AutoSaveUrl, BidStepRulesEditor,
+  BidStepRulesPreview, LotTypesSelector, LotTypeDropdown, NoteField,
+  PedigreeTree, SpottersField, SpottersStrip, EditableLongText, Modal,
+  CockpitStatusBar, BuyerAutocomplete
+
+### Spotters (✅ AF op 02-05-2026)
+- [x] Migratie 0009 → vervangen door 0010: globale `spotters`-tabel +
+  `auction_spotters` junction (location en display_order per veiling)
+- [x] `src/lib/spotters.js`: get / search / create / update / assign /
+  unassign / updateAssignment / swapOrder
+- [x] `SpottersField` op AuctionPage onderaan: slot-dropdown (0-15),
+  rijen vullen automatisch, autocomplete uit globale spotters,
+  ↑/↓ herorderen, ✕ unassign (globale spotter blijft)
+- [x] `SpottersStrip` op cockpit tussen statusbalk en lot-picker:
+  compacte 👥 + namen, links→rechts, hover toont locatie
+
 ### Toekomstig (na 5 mei)
 - [ ] "Kopieer bid-step-staffel van vorige veiling" — bv. Aloga 2027 erft
   staffels van Aloga 2026 automatisch (Frederik's wens 30-04-2026)
 - [ ] Range-overlap-validatie met visuele waarschuwing
 - [ ] Drop deprecated kolommen `lots.bid_steps` (text), `lots.lot_type`
   (text), `lots.buyer` (text — vervangen door `buyer_client_id`)
-- [ ] Klant bewerken in UI (nu: verwijder + opnieuw toevoegen)
+- [ ] Foto-upload voor spotters via Supabase Storage (nu via URL-veld)
 - [ ] Klanten-overzichtspagina (alle klanten van het huis op één plek)
 
 ### Klanten-UI scope-definitie (Frederik's wens 02-05-2026)

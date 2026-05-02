@@ -74,10 +74,15 @@ De *secret* / *service_role* key NIET hier zetten — die mag nooit in client-co
    - `0006_sale_channel.sql` — `lots.sale_channel`
    - `0007_clients_seating_buyer.sql` — `clients.house_id`,
      `client_auction_seating`, `lots.buyer_client_id`
+   - `0008_pedigree.sql` — `lots.pedigree` jsonb (3-generatie tree)
+   - `0010_spotters_global.sql` — globale `spotters` + `auction_spotters`
+     junction (vervangt 0009 die per-veiling spotters had; 0009 wordt
+     overgeslagen want 0010 dropt en herstelt het schema)
 3. Verifieer in Table Editor dat alle tabellen bestaan:
    - `auction_houses`, `auctions`, `lots`
    - `lot_types`, `auction_lot_types`, `bid_step_rules`
    - `clients`, `lot_interested_clients`, `client_auction_seating`
+   - `spotters`, `auction_spotters`
 
 ### Data importeren (eenmalig per veiling)
 
@@ -181,6 +186,8 @@ veiling-pro/
 │   ├── import-lots.mjs           Generiek import-script (per JSON)
 │   ├── aloga-2026-enrich.py      Eenmalige enrichment van 17 lots via
 │   │                              WebFetch (data ingelezen op 30-04)
+│   ├── import-pedigree.mjs       Importeert pedigrees in lots.pedigree
+│   │                              uit data/aloga-2026-pedigree.json
 │   └── reset-auction.sql         Reset hamer-data + active_lot_id voor
 │                                  één veiling. Sectie 4 wist optioneel
 │                                  ook test-klanten van het huis.
@@ -189,21 +196,34 @@ veiling-pro/
 │   │   ├── NoteField.jsx              Auto-save textarea (debounce 800ms)
 │   │   ├── AutoSaveNumber.jsx         Auto-save number-input + optionele
 │   │   │                               duizendscheiding (displayWithThousands)
-│   │   ├── AutoSaveUrl.jsx            Auto-save URL-input + 🔗 open-link
-│   │   ├── LotTypesSelector.jsx       Checkbox-grid op AuctionPage
+│   │   │                               + presets (datalist)
+│   │   ├── AutoSaveUrl.jsx            Auto-save URL-input + 🔗 open-link,
+│   │   │                               compact-modus voor inline gebruik
+│   │   ├── EditableLongText.jsx       Lange tekst met read-only weergave +
+│   │   │                               ✏-bewerk-knop (auto-save)
+│   │   ├── Modal.jsx                  Generieke modal-overlay (Esc, click-out)
+│   │   ├── LotTypesSelector.jsx       Checkbox-grid op AuctionPage (default
+│   │   │                               ingeklapt)
 │   │   ├── BidStepRulesEditor.jsx     Mini-tabel-editor (Van € … tot € … stap €)
+│   │   │                               met datalist-presets
 │   │   ├── BidStepRulesPreview.jsx    Read-only weergave per lot-type
 │   │   ├── LotTypeDropdown.jsx        Type-keuze per lot
 │   │   ├── CockpitStatusBar.jsx       Live X/N · ✓/⊘ · omzet · ⌀ · einde
+│   │   ├── PedigreeTree.jsx           Bracket-tree (3 generaties)
 │   │   ├── InterestedClientsField.jsx Klanten-sectie op LotPage met
-│   │   │                               autocomplete + auto-fill seating
-│   │   └── BuyerAutocomplete.jsx      Koper-input in cockpit hamer-form
+│   │   │                               autocomplete + auto-fill seating +
+│   │   │                               ✏-bewerk per rij
+│   │   ├── BuyerAutocomplete.jsx      Koper-input in cockpit hamer-form
+│   │   ├── SpottersField.jsx          AuctionPage-sectie met slot-dropdown
+│   │   │                               + autocomplete uit globale spotters
+│   │   └── SpottersStrip.jsx          Compacte cockpit-strip 👥
 │   ├── lib/
 │   │   ├── supabase.js           Supabase client
 │   │   ├── missingInfo.js        Vertaling + helpers voor missing_info
 │   │   ├── bidSteps.js           nextBidStep / sortByRangeFrom helpers
-│   │   └── clients.js            Klanten-helpers (zoek, create, seating,
-│   │                              koppeling, aankoop-aggregatie)
+│   │   ├── clients.js            Klanten-helpers (zoek, create, seating,
+│   │   │                          koppeling, aankoop-aggregatie)
+│   │   └── spotters.js           Spotter-helpers (globaal + junction)
 │   ├── pages/
 │   │   ├── HousesPage.jsx           / — lijst van veilinghuizen
 │   │   ├── HousePage.jsx            /houses/:id — veilingen voor een huis

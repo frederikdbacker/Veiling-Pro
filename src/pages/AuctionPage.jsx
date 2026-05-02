@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 import LotTypesSelector from '../components/LotTypesSelector'
 import BidStepRulesEditor from '../components/BidStepRulesEditor'
+import SpottersField from '../components/SpottersField'
 
 export default function AuctionPage() {
   const { auctionId } = useParams()
@@ -135,13 +136,14 @@ export default function AuctionPage() {
         </ul>
       )}
 
-      {/* Biedstappen onderaan — admin-werk dat los staat van het lot-overzicht */}
+      {/* Onderste blokken — admin-werk dat los staat van het lot-overzicht */}
       {auction && (
         <div style={{ marginTop: 'var(--space-6)' }}>
           <BidStepRulesEditor
             auctionId={auction.id}
             selectedTypeIds={selectedTypeIds}
           />
+          <SpottersField auctionId={auction.id} />
         </div>
       )}
     </section>

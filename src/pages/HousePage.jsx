@@ -33,18 +33,24 @@ export default function HousePage() {
 
   return (
     <section>
-      <p><Link to="/">← Veilinghuizen</Link></p>
-      <h1>{house?.name ?? 'Veilinghuis'}</h1>
-      <p style={{ color: '#666' }}>{status}</p>
+      <p><Link to="/" style={{ color: 'var(--text-muted)' }}>← Veilinghuizen</Link></p>
+      <h1 style={{ color: 'var(--text-primary)' }}>{house?.name ?? 'Veilinghuis'}</h1>
+      <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
 
       {auctions.length > 0 && (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {auctions.map((a) => (
-            <li key={a.id} style={{ padding: '0.75rem 0', borderBottom: '1px solid #eee' }}>
-              <Link to={`/auctions/${a.id}`} style={{ textDecoration: 'none', color: '#222' }}>
-                <strong>{a.name}</strong>
+            <li key={a.id} style={{
+              padding: 'var(--space-3) 0',
+              borderBottom: '1px solid var(--border-default)',
+            }}>
+              <Link
+                to={`/auctions/${a.id}`}
+                style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
+              >
+                {a.name}
               </Link>
-              <div style={{ color: '#666', fontSize: '0.9em', marginTop: '0.25rem' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
                 {formatDate(a.date)}
                 {a.location && ` — ${a.location}`}
                 {a.status && ` — ${a.status}`}

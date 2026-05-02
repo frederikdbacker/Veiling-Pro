@@ -75,7 +75,6 @@ export default function LotTypesSelector({ auctionId, onChange }) {
 
   return (
     <details
-      open
       style={{
         background: 'var(--bg-surface)',
         border: '1px solid var(--border-default)',

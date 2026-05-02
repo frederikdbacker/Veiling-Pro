@@ -25,15 +25,23 @@ export default function HousesPage() {
 
   return (
     <section>
-      <h1>Veilinghuizen</h1>
-      <p style={{ color: '#666' }}>{status}</p>
-      <ul>
+      <h1 style={{ color: 'var(--text-primary)' }}>Veilinghuizen</h1>
+      <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {houses.map((h) => (
-          <li key={h.id}>
-            <Link to={`/houses/${h.id}`}>
-              <strong>{h.name}</strong>
+          <li key={h.id} style={{
+            padding: 'var(--space-3) 0',
+            borderBottom: '1px solid var(--border-default)',
+          }}>
+            <Link
+              to={`/houses/${h.id}`}
+              style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: 600 }}
+            >
+              {h.name}
             </Link>
-            {h.country && ` — ${h.country}`}
+            {h.country && (
+              <span style={{ color: 'var(--text-muted)' }}> — {h.country}</span>
+            )}
           </li>
         ))}
       </ul>

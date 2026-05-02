@@ -53,7 +53,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
 
   if (visibleTypes.length === 0) {
     return (
-      <p style={{ color: '#888', fontStyle: 'italic', marginBottom: '1rem' }}>
+      <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: 'var(--space-4)' }}>
         Selecteer hierboven welke lot-types in deze veiling aanwezig zijn,
         dan kan je per type een bied-staffel instellen.
       </p>
@@ -61,9 +61,15 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
   }
 
   return (
-    <section style={{ marginBottom: '1.5rem' }}>
-      <h2 style={{ fontSize: '1.1em', margin: '1rem 0 0.5rem 0' }}>Biedstappen</h2>
-      {error && <p style={{ color: '#c33' }}>❌ {error}</p>}
+    <section style={{ marginBottom: 'var(--space-5)' }}>
+      <h2 style={{
+        fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase',
+        color: 'var(--text-secondary)',
+        margin: 'var(--space-4) 0 var(--space-3) 0',
+      }}>
+        Biedstappen
+      </h2>
+      {error && <p style={{ color: 'var(--danger)' }}>❌ {error}</p>}
       {visibleTypes.map((type) => (
         <RulesPerType
           key={type.id}
@@ -107,12 +113,12 @@ function RulesPerType({ auctionId, lotType, rules, onLocalAdd, onLocalRemove }) 
   }
 
   return (
-    <div style={{ marginBottom: '1.25rem' }}>
-      <h3 style={{ fontSize: '1em', margin: '0.5rem 0', color: '#555' }}>
+    <div style={{ marginBottom: 'var(--space-5)' }}>
+      <h3 style={{ fontSize: '1em', margin: '0.5rem 0', color: 'var(--text-secondary)' }}>
         {lotType.name_nl}
       </h3>
       {sorted.length === 0 && (
-        <p style={{ color: '#aaa', fontSize: '0.85em', margin: 0 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85em', margin: 0 }}>
           Nog geen regels.
         </p>
       )}
@@ -122,9 +128,12 @@ function RulesPerType({ auctionId, lotType, rules, onLocalAdd, onLocalRemove }) 
       <button
         onClick={addRule}
         style={{
-          marginTop: 6, padding: '0.3rem 0.65rem', fontSize: '0.85em',
-          border: '1px solid #ccc', background: '#fff', borderRadius: 4,
-          cursor: 'pointer',
+          marginTop: 6, padding: '0.35rem 0.75rem', fontSize: '0.85em',
+          border: '1px solid var(--border-default)',
+          background: 'transparent',
+          color: 'var(--text-primary)',
+          borderRadius: 'var(--radius-sm)',
+          cursor: 'pointer', fontFamily: 'inherit',
         }}
       >
         + Regel toevoegen
@@ -169,8 +178,11 @@ function RuleRow({ rule, onRemove }) {
         aria-label="Verwijder regel"
         style={{
           marginLeft: 'auto', padding: '0.25rem 0.5rem',
-          background: 'transparent', border: 'none',
-          cursor: 'pointer', fontSize: '1em', color: '#888',
+          background: 'transparent',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          cursor: 'pointer', fontSize: '0.95em',
+          color: 'var(--text-secondary)',
         }}
       >
         🗑

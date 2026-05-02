@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import CockpitStatusBar from '../components/CockpitStatusBar'
+import SpottersStrip from '../components/SpottersStrip'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
 import NoteField from '../components/NoteField'
 import PedigreeTree from '../components/PedigreeTree'
@@ -11,6 +12,7 @@ import {
   getPurchasesByClientsInAuction,
   createClient,
 } from '../lib/clients'
+import { getSpotters } from '../lib/spotters'
 
 /**
  * Live Cockpit — wat Frederik gebruikt tijdens de veiling.
@@ -30,7 +32,16 @@ export default function CockpitPage() {
   const [activeLot, setActiveLot] = useState(null)
   const [interestedClients, setInterestedClients] = useState([])
   const [purchasesByClient, setPurchasesByClient] = useState(new Map())
+  const [spotters, setSpotters] = useState([])
   const [error, setError] = useState(null)
+
+  // Spotters laden bij wijzigen van auctionId — tonen in een kleine
+  // strip tussen statusbalk en lot-picker (links → rechts in de zaal).
+  useEffect(() => {
+    let cancelled = false
+    getSpotters(auctionId).then((list) => { if (!cancelled) setSpotters(list) })
+    return () => { cancelled = true }
+  }, [auctionId])
 
   // 1. Veiling + alle lots
   useEffect(() => {
@@ -144,6 +155,9 @@ export default function CockpitPage() {
 
       {/* Statusbalk */}
       <CockpitStatusBar lots={allLots} />
+
+      {/* Spotters-strip — links → rechts zoals in de zaal opgesteld */}
+      <SpottersStrip spotters={spotters} />
 
       {/* Overzicht-knop bij volledige veiling */}
       {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (

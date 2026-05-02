@@ -6,6 +6,7 @@ import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import AutoSaveUrl from '../components/AutoSaveUrl'
+import InterestedClientsField from '../components/InterestedClientsField'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
@@ -308,6 +309,15 @@ export default function LotPage() {
           />
         </div>
       </div>
+
+      {/* Geïnteresseerde klanten */}
+      {auction && (
+        <InterestedClientsField
+          lotId={lotId}
+          auctionId={lot.auction_id}
+          houseId={auction.auction_houses?.id}
+        />
+      )}
 
       {/* Notitievelden — auto-save 800ms na laatste toets */}
       <div key={lotId} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #ddd' }}>

@@ -3,6 +3,12 @@ import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import CockpitStatusBar from '../components/CockpitStatusBar'
+import BuyerAutocomplete from '../components/BuyerAutocomplete'
+import {
+  getInterestedClientsForLot,
+  getPurchasesByClientsInAuction,
+  createClient,
+} from '../lib/clients'
 
 /**
  * Live Cockpit — wat Frederik gebruikt tijdens de veiling.
@@ -16,6 +22,7 @@ export default function CockpitPage() {
   const [allLots, setAllLots] = useState([])
   const [activeLot, setActiveLot] = useState(null)
   const [interestedClients, setInterestedClients] = useState([])
+  const [purchasesByClient, setPurchasesByClient] = useState(new Map())
   const [error, setError] = useState(null)
 
   // 1. Veiling + alle lots laden bij wijzigen van auctionId
@@ -46,30 +53,36 @@ export default function CockpitPage() {
     return () => { cancelled = true }
   }, [auctionId])
 
-  // 2. Actief lot + zijn geïnteresseerde klanten laden bij wijzigen van active_lot_id
+  // 2. Actief lot + zijn geïnteresseerde klanten + hun aankopen laden
   useEffect(() => {
-    setActiveLot(null); setInterestedClients([])
+    setActiveLot(null)
+    setInterestedClients([])
+    setPurchasesByClient(new Map())
     if (!auction?.active_lot_id) return
     let cancelled = false
     async function loadLot() {
-      const [lotRes, clientsRes] = await Promise.all([
+      const [lotRes, clients] = await Promise.all([
         supabase
           .from('lots')
           .select('*, lot_types(name_nl)')
           .eq('id', auction.active_lot_id)
           .single(),
-        supabase
-          .from('lot_interested_clients')
-          .select('notes, clients(id, name, country, notes)')
-          .eq('lot_id', auction.active_lot_id),
+        getInterestedClientsForLot(auction.active_lot_id, auctionId),
       ])
       if (cancelled) return
-      if (!lotRes.error)    setActiveLot(lotRes.data)
-      if (!clientsRes.error) setInterestedClients(clientsRes.data ?? [])
+      if (!lotRes.error) setActiveLot(lotRes.data)
+      setInterestedClients(clients)
+      if (clients.length > 0) {
+        const map = await getPurchasesByClientsInAuction(
+          auctionId,
+          clients.map((c) => c.client_id),
+        )
+        if (!cancelled) setPurchasesByClient(map)
+      }
     }
     loadLot()
     return () => { cancelled = true }
-  }, [auction?.active_lot_id])
+  }, [auction?.active_lot_id, auctionId])
 
   async function setActiveLotById(lotId) {
     const value = lotId || null
@@ -166,11 +179,23 @@ export default function CockpitPage() {
         <ActiveLotPanel
           lot={activeLot}
           auctionId={auctionId}
+          houseId={houseId}
           interestedClients={interestedClients}
+          purchasesByClient={purchasesByClient}
           allLots={allLots}
-          onLotUpdated={(updated) => {
+          onLotUpdated={async (updated) => {
             setActiveLot((prev) => ({ ...prev, ...updated }))
             setAllLots((prev) => prev.map((l) => l.id === updated.id ? { ...l, ...updated } : l))
+            // Na elke lot-update: herlaad purchases voor de huidige
+            // geïnteresseerden, zodat de "✓ al gekocht"-indicator klopt
+            // zodra dit lot of een ander lot een koper kreeg.
+            if (interestedClients.length > 0) {
+              const map = await getPurchasesByClientsInAuction(
+                auctionId,
+                interestedClients.map((c) => c.client_id),
+              )
+              setPurchasesByClient(map)
+            }
           }}
           onActiveLotChange={setActiveLotById}
         />
@@ -179,7 +204,7 @@ export default function CockpitPage() {
   )
 }
 
-function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdated, onActiveLotChange }) {
+function ActiveLotPanel({ lot, auctionId, houseId, interestedClients, purchasesByClient, allLots, onLotUpdated, onActiveLotChange }) {
   const photos = Array.isArray(lot.photos) ? lot.photos : []
   const [activePhoto, setActivePhoto] = useState(0)
 
@@ -252,6 +277,8 @@ function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdat
       <CockpitControls
         lot={lot}
         allLots={allLots}
+        houseId={houseId}
+        interestedClients={interestedClients}
         onLotUpdated={onLotUpdated}
         onActiveLotChange={onActiveLotChange}
       />
@@ -284,22 +311,43 @@ function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdat
         <NoteRow label="Organisatie"  value={lot.notes_org} />
       </div>
 
-      {/* Klanten (placeholder zolang 0b nog niet gebouwd) */}
+      {/* Geïnteresseerde klanten — read-only weergave; bewerken op LotPage */}
       <div style={blockStyle}>
         <h3 style={blockHeadingStyle}>Geïnteresseerde klanten</h3>
         {interestedClients.length === 0 ? (
           <p style={{ color: '#999', fontStyle: 'italic', fontSize: '0.9em', margin: 0 }}>
-            Nog geen klanten gekoppeld. Komt in een latere stap (UI op LotPage).
+            Nog geen klanten gekoppeld. Voeg ze toe op de lot-detailpagina.
           </p>
         ) : (
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {interestedClients.map((row) => (
-              <li key={row.clients.id} style={{ padding: '2px 0' }}>
-                <strong>{row.clients.name}</strong>
-                {row.clients.country && ` (${row.clients.country})`}
-                {row.notes && <span style={{ color: '#888' }}> — {row.notes}</span>}
-              </li>
-            ))}
+            {interestedClients.map((entry) => {
+              const purchases = purchasesByClient?.get(entry.client_id)
+              const meta = []
+              if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
+              if (entry.direction)    meta.push(entry.direction)
+              return (
+                <li key={entry.client_id} style={{ padding: '4px 0' }}>
+                  <strong>{entry.name}</strong>
+                  {meta.length > 0 && (
+                    <span style={{ color: '#555' }}> — {meta.join(' · ')}</span>
+                  )}
+                  {entry.seating_notes && (
+                    <span style={{ color: '#888', fontStyle: 'italic' }}> — "{entry.seating_notes}"</span>
+                  )}
+                  {entry.lot_notes && (
+                    <div style={{ color: '#666', fontSize: '0.85em', marginLeft: '0.5em' }}>
+                      ↪ specifiek voor dit paard: {entry.lot_notes}
+                    </div>
+                  )}
+                  {purchases && purchases.length > 0 && (
+                    <div style={{ color: '#5A8A5A', fontSize: '0.85em', fontWeight: 600, marginLeft: '0.5em', marginTop: 2 }}>
+                      ✓ al gekocht in deze veiling:{' '}
+                      {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
+                    </div>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         )}
       </div>
@@ -330,12 +378,13 @@ function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdat
   )
 }
 
-function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
+function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdated, onActiveLotChange }) {
   const [now, setNow] = useState(() => new Date())
   const [busy, setBusy] = useState(null)  // 'in-ring' | 'start' | 'hamer-form' | null
   const [hamerFormOpen, setHamerFormOpen] = useState(false)
   const [outcome, setOutcome] = useState('zaal')  // 'zaal' | 'online' | 'unsold'
   const [priceInput, setPriceInput] = useState('')
+  const [buyer, setBuyer] = useState({ client_id: null, name: '' })
 
   // Tick elke seconde voor de live timer
   useEffect(() => {
@@ -348,6 +397,7 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
     setHamerFormOpen(false)
     setOutcome('zaal')
     setPriceInput('')
+    setBuyer({ client_id: null, name: '' })
   }, [lot.id])
 
   const inRing   = lot.time_entered_ring  != null
@@ -380,6 +430,26 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
     setHamerFormOpen(true)
     setOutcome('zaal')
     setPriceInput('')
+    setBuyer({ client_id: null, name: '' })
+  }
+
+  /**
+   * Bepaalt de uiteindelijke koper:
+   *   - bestaande klant geselecteerd via autocomplete → gebruik die id
+   *   - nieuwe naam getypt → maak een client aan voor het huis
+   *   - leeg gelaten → null (koper onbekend / niet vastgelegd)
+   */
+  async function resolveBuyer() {
+    if (buyer.client_id) {
+      return { id: buyer.client_id, name: (buyer.name || '').trim() || null }
+    }
+    const trimmed = (buyer.name || '').trim()
+    if (!trimmed) return { id: null, name: null }
+    if (!houseId) {
+      throw new Error('Veilinghuis-id ontbreekt — kan koper niet aanmaken.')
+    }
+    const created = await createClient(houseId, trimmed)
+    return { id: created.id, name: created.name }
   }
 
   async function commitHamerForm() {
@@ -395,6 +465,14 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
         return
       }
       setBusy('hamer-form')
+      let resolvedBuyer
+      try {
+        resolvedBuyer = await resolveBuyer()
+      } catch (e) {
+        setBusy(null)
+        alert(`Fout bij koper: ${e.message}`)
+        return
+      }
       const { data, error } = await supabase
         .from('lots')
         .update({
@@ -403,6 +481,8 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
           sold: true,
           sale_channel: outcome,
           duration_seconds: calcDurationSeconds(),
+          buyer_client_id: resolvedBuyer.id,
+          buyer: resolvedBuyer.name,
         })
         .eq('id', lot.id)
         .select()
@@ -433,6 +513,8 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
           sold: false,
           sale_channel: null,
           duration_seconds: calcDurationSeconds(),
+          buyer_client_id: null,
+          buyer: null,
         })
         .eq('id', lot.id)
         .select()
@@ -543,6 +625,19 @@ function CockpitControls({ lot, allLots, onLotUpdated, onActiveLotChange }) {
               autoFocus
             />
           </div>
+
+          {(outcome === 'zaal' || outcome === 'online') && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontWeight: 600, minWidth: '5em' }}>Koper:</span>
+              <BuyerAutocomplete
+                houseId={houseId}
+                priorityClients={interestedClients}
+                value={buyer}
+                onChange={setBuyer}
+                disabled={busy === 'hamer-form'}
+              />
+            </div>
+          )}
 
           <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
             <button

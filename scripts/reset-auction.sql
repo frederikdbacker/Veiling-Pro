@@ -38,3 +38,30 @@ SELECT COUNT(*) AS lots_nog_gehamerd
 FROM lots
 WHERE auction_id = 'bef304a5-29fc-47b3-af37-e808205ae60d'
   AND time_hammer IS NOT NULL;
+
+-- ===========================================================
+-- 4. OPTIONEEL — wis test-klanten en alle bijhorende koppelingen
+-- ===========================================================
+--
+-- Verwijder de '/*' en '*/' hieronder als je ook alle ingevoerde
+-- klanten van het Aloga-huis wil wissen. Cascade-delete neemt
+-- automatisch lot_interested_clients en client_auction_seating mee
+-- via foreign-key constraints.
+--
+-- WAARSCHUWING: dit raakt ALLE klanten van Aloga, ook eventueel
+-- echte (niet-test) klanten. Alleen runnen als je weet dat je
+-- alleen test-data hebt staan.
+
+/*
+DELETE FROM clients
+WHERE house_id = (
+  SELECT id FROM auction_houses WHERE name = 'Aloga'
+);
+
+-- Verificatie: deze moet 0 zijn.
+SELECT COUNT(*) AS klanten_resterend
+FROM clients
+WHERE house_id = (
+  SELECT id FROM auction_houses WHERE name = 'Aloga'
+);
+*/

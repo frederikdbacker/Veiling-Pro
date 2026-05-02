@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
+import CockpitStatusBar from '../components/CockpitStatusBar'
 
 /**
  * Live Cockpit — wat Frederik gebruikt tijdens de veiling.
@@ -30,7 +31,7 @@ export default function CockpitPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name')
+          .select('id, number, name, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start')
           .eq('auction_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -114,6 +115,9 @@ export default function CockpitPage() {
         </div>
       </header>
 
+      {/* Statusbalk: voortgang, omzet, gem. duur en verwacht einduur */}
+      <CockpitStatusBar lots={allLots} />
+
       {/* Lot picker */}
       <section style={pickerStyle}>
         <label style={{ fontWeight: 600, marginRight: 8 }}>Actief lot:</label>
@@ -146,7 +150,10 @@ export default function CockpitPage() {
           auctionId={auctionId}
           interestedClients={interestedClients}
           allLots={allLots}
-          onLotUpdated={(updated) => setActiveLot((prev) => ({ ...prev, ...updated }))}
+          onLotUpdated={(updated) => {
+            setActiveLot((prev) => ({ ...prev, ...updated }))
+            setAllLots((prev) => prev.map((l) => l.id === updated.id ? { ...l, ...updated } : l))
+          }}
           onActiveLotChange={setActiveLotById}
         />
       )}

@@ -117,10 +117,10 @@ export default function CockpitPage() {
   const houseId   = auction.auction_houses?.id
   const houseName = auction.auction_houses?.name
 
-  // "Volgend lot" — gebruikt in de picker-balk om snel door de
-  // gesorteerde lijst te schuiven, en in CockpitControls niet meer
-  // (Frederik wil het naast de dropdown voor minder muis-/blik-afstand).
+  // Vorig/volgend lot — gebruikt in de picker-balk om snel door de
+  // gesorteerde lijst te schuiven.
   const activeIdx = activeLot ? allLots.findIndex((l) => l.id === activeLot.id) : -1
+  const prevLot = activeIdx > 0 ? allLots[activeIdx - 1] : null
   const nextLot = activeIdx >= 0 && activeIdx < allLots.length - 1
     ? allLots[activeIdx + 1]
     : null
@@ -154,7 +154,7 @@ export default function CockpitPage() {
         </div>
       )}
 
-      {/* Lot picker — dropdown links, "Volgend lot" knop rechts */}
+      {/* Lot picker — dropdown links, Vorig en Volgend knoppen rechts */}
       <div style={pickerStyle}>
         <label style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>
           Actief lot:
@@ -172,14 +172,24 @@ export default function CockpitPage() {
           ))}
         </select>
         <button
+          onClick={() => prevLot && setActiveLotById(prevLot.id)}
+          disabled={!prevLot}
+          style={navBtnStyle(prevLot != null)}
+          title={prevLot ? `Vorig lot — #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
+        >
+          {prevLot
+            ? `← Vorig · #${prevLot.number ?? '—'} ${prevLot.name}`
+            : '← Begin'}
+        </button>
+        <button
           onClick={() => nextLot && setActiveLotById(nextLot.id)}
           disabled={!nextLot}
-          style={nextLotBtnStyle(nextLot != null)}
+          style={navBtnStyle(nextLot != null)}
           title={nextLot ? `Volgend lot — #${nextLot.number ?? '—'} ${nextLot.name}` : 'Einde van de lijst'}
         >
           {nextLot
-            ? `Volgend → #${nextLot.number ?? '—'} ${nextLot.name}`
-            : 'Einde van de lijst'}
+            ? `Volgend · #${nextLot.number ?? '—'} ${nextLot.name} →`
+            : 'Einde →'}
         </button>
       </div>
 
@@ -241,36 +251,45 @@ function ActiveLotPanel({
           Het actie-kader bundelt prijzen, biedstappen, timer en knoppen
           omdat dat tijdens veilen samenhoort. */}
       <div style={lotCardTwoColStyle}>
-        {/* Identity-kolom (basis-info) */}
+        {/* Identity-kolom: basis-info bovenaan, pedigree-tree daaronder */}
         <div style={identityColStyle}>
-          {photos.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setPhotoOpen(true)}
-              title="Bekijk foto's"
-              style={thumbBtnStyle}
-              aria-label="Open fotogalerij"
-            >
-              <img
-                src={photos[activePhoto]}
-                alt={lot.name}
-                width={88} height={88}
-                style={{ objectFit: 'cover', display: 'block', borderRadius: 'var(--radius-sm)' }}
-              />
-            </button>
-          )}
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
-              Lot #{lot.number ?? '—'}
-              {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
-            </div>
-            <h2 style={lotNameStyle}>{lot.name}</h2>
-            {meta && <div style={{ color: 'var(--text-secondary)' }}>{meta}</div>}
-            {(lot.sire || lot.dam) && (
-              <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
-                {lot.sire ?? '?'} × {lot.dam ?? '?'}
-              </div>
+          <div style={identityHeaderRowStyle}>
+            {photos.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setPhotoOpen(true)}
+                title="Bekijk foto's"
+                style={thumbBtnStyle}
+                aria-label="Open fotogalerij"
+              >
+                <img
+                  src={photos[activePhoto]}
+                  alt={lot.name}
+                  width={88} height={88}
+                  style={{ objectFit: 'cover', display: 'block', borderRadius: 'var(--radius-sm)' }}
+                />
+              </button>
             )}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
+                Lot #{lot.number ?? '—'}
+                {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
+              </div>
+              <h2 style={lotNameStyle}>{lot.name}</h2>
+              {meta && <div style={{ color: 'var(--text-secondary)' }}>{meta}</div>}
+              {(lot.sire || lot.dam) && (
+                <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
+                  {lot.sire ?? '?'} × {lot.dam ?? '?'}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Pedigree direct onder de basisinfo, vult de vrije ruimte naast
+              het actie-kader rechts */}
+          <div style={pedigreeInLotStyle}>
+            <div style={actionSubtitleStyle}>Pedigree</div>
+            <PedigreeTree pedigree={lot.pedigree} />
           </div>
         </div>
 
@@ -384,11 +403,6 @@ function ActiveLotPanel({
             })}
           </ul>
         )}
-      </Card>
-
-      {/* Pedigree — bracket-tree, mannelijk grijs / vrouwelijk groen */}
-      <Card title="Pedigree">
-        <PedigreeTree pedigree={lot.pedigree} />
       </Card>
 
       {/* Catalogustekst — uitgeklapt, vóór "Mijn voorbereiding" zodat je
@@ -859,8 +873,19 @@ const lotCardTwoColStyle = {
 }
 const identityColStyle = {
   display: 'flex',
+  flexDirection: 'column',
+  gap: 'var(--space-4)',
+  minWidth: 0,
+}
+const identityHeaderRowStyle = {
+  display: 'flex',
   gap: 'var(--space-4)',
   alignItems: 'flex-start',
+}
+const pedigreeInLotStyle = {
+  marginTop: 'auto',
+  paddingTop: 'var(--space-3)',
+  borderTop: '1px solid var(--border-default)',
 }
 const actionPanelStyle = {
   display: 'flex',
@@ -957,15 +982,15 @@ const summaryStyle = {
   fontSize: '0.85rem',
 }
 
-const nextLotBtnStyle = (enabled) => ({
+const navBtnStyle = (enabled) => ({
   padding: '0.5rem 0.85rem',
-  fontSize: '0.95rem',
+  fontSize: '0.9rem',
   background: 'transparent',
   color: enabled ? 'var(--accent)' : 'var(--text-muted)',
   border: '1px solid ' + (enabled ? 'var(--accent-muted)' : 'var(--border-default)'),
   borderRadius: 'var(--radius-sm)',
   cursor: enabled ? 'pointer' : 'not-allowed',
-  marginLeft: 'auto',
+  whiteSpace: 'nowrap',
 })
 
 const fieldRowStyle = {

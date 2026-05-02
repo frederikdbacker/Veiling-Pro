@@ -21,6 +21,7 @@ const DEBOUNCE_MS = 800
 export default function AutoSaveUrl({
   table, id, fieldName,
   initialValue, label, placeholder,
+  compact = false,
   onSaved,
 }) {
   const initStr = initialValue ?? ''
@@ -72,8 +73,13 @@ export default function AutoSaveUrl({
   const looksLikeUrl = value.trim().startsWith('http')
 
   return (
-    <div style={{ marginBottom: '0.5rem' }}>
-      <label style={{ display: 'block', fontWeight: 600, marginBottom: 3, fontSize: '0.9em' }}>
+    <div style={{ marginBottom: compact ? 0 : 'var(--space-2)', flex: compact ? 1 : 'initial', minWidth: 0 }}>
+      <label style={{
+        display: 'block', fontWeight: 600,
+        marginBottom: 3, fontSize: '0.85em',
+        color: 'var(--text-secondary)',
+        letterSpacing: '0.04em',
+      }}>
         {label}
       </label>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
@@ -83,9 +89,12 @@ export default function AutoSaveUrl({
           onChange={handleChange}
           placeholder={placeholder}
           style={{
-            padding: '0.4rem 0.5rem', flex: 1, minWidth: 240,
+            padding: '0.4rem 0.5rem',
+            flex: 1, minWidth: compact ? 160 : 240,
             fontFamily: 'inherit', fontSize: '0.9em',
-            border: '1px solid #ccc', borderRadius: 4,
+            background: 'var(--bg-input)', color: 'var(--text-primary)',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
             boxSizing: 'border-box',
           }}
         />
@@ -108,16 +117,16 @@ export default function AutoSaveUrl({
 function SaveIndicator({ status }) {
   const base = { fontSize: '0.8em', marginLeft: 4 }
   switch (status.state) {
-    case 'idle':    return <small style={{ ...base, color: '#bbb' }}>·</small>
-    case 'pending': return <small style={{ ...base, color: '#aaa' }}>typen…</small>
-    case 'saving':  return <small style={{ ...base, color: '#aaa' }}>opslaan…</small>
+    case 'idle':    return <small style={{ ...base, color: 'var(--text-muted)' }}>·</small>
+    case 'pending': return <small style={{ ...base, color: 'var(--text-muted)' }}>typen…</small>
+    case 'saving':  return <small style={{ ...base, color: 'var(--text-muted)' }}>opslaan…</small>
     case 'saved':
       return (
-        <small style={{ ...base, color: '#5A8A5A' }}>
+        <small style={{ ...base, color: 'var(--success)' }}>
           💾 {status.at.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
         </small>
       )
-    case 'error':   return <small style={{ ...base, color: '#c33' }}>❌ {status.msg}</small>
+    case 'error':   return <small style={{ ...base, color: 'var(--danger)' }}>❌ {status.msg}</small>
     default:        return null
   }
 }

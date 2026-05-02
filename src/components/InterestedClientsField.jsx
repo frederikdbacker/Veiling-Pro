@@ -383,70 +383,104 @@ function FieldRow({ label, children }) {
 }
 
 const containerStyle = {
-  marginTop: '2rem', paddingTop: '1.5rem',
-  borderTop: '1px solid #ddd',
+  marginTop: 'var(--space-5)', paddingTop: 'var(--space-4)',
+  borderTop: '1px solid var(--border-default)',
 }
-const titleStyle = { fontSize: '1.1em', marginBottom: '0.5rem' }
-const emptyStyle = { color: '#888', fontStyle: 'italic', margin: '0.5rem 0' }
+const titleStyle = {
+  fontSize: '0.85rem',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'var(--text-secondary)',
+  fontWeight: 600,
+  margin: '0 0 var(--space-3) 0',
+}
+const emptyStyle = {
+  color: 'var(--text-muted)', fontStyle: 'italic',
+  margin: 'var(--space-2) 0',
+}
 const rowStyle = {
   display: 'flex', alignItems: 'flex-start', gap: 8,
-  padding: '0.5rem 0', borderBottom: '1px solid #eee',
+  padding: 'var(--space-2) 0',
+  borderBottom: '1px solid var(--border-default)',
 }
 const purchasesStyle = {
-  marginTop: 4, color: '#5A8A5A', fontSize: '0.85em', fontWeight: 600,
+  marginTop: 4, color: 'var(--success)',
+  fontSize: '0.85em', fontWeight: 600,
 }
 const iconBtnStyle = {
   padding: '0.25rem 0.55rem', background: 'transparent',
-  border: '1px solid #ddd', borderRadius: 4,
-  cursor: 'pointer', color: '#666', fontSize: '0.95em',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  color: 'var(--text-primary)',
+  fontSize: '0.95em',
   flexShrink: 0,
 }
 const addBtnStyle = {
-  marginTop: 8, padding: '0.4rem 0.8rem',
-  border: '1px solid #ccc', background: '#fff',
-  borderRadius: 4, cursor: 'pointer', fontFamily: 'inherit',
+  marginTop: 8, padding: '0.45rem 0.85rem',
+  border: '1px solid var(--border-default)',
+  background: 'transparent',
+  color: 'var(--text-primary)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer', fontFamily: 'inherit',
 }
 const formStyle = {
-  marginTop: 8, padding: '0.85rem 1rem',
-  background: '#fafafa', border: '1px solid #ddd',
-  borderRadius: 6, maxWidth: 520,
+  marginTop: 8, padding: 'var(--space-4)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  maxWidth: 520,
 }
 const fieldRowStyle = {
   display: 'flex', alignItems: 'center', gap: 8,
   marginBottom: 6,
 }
 const fieldLabelStyle = {
-  width: '7.5em', color: '#555', fontSize: '0.9em',
+  width: '7.5em', color: 'var(--text-secondary)',
+  fontSize: '0.9em',
   flexShrink: 0,
 }
 const inputStyle = {
   flex: 1, minWidth: 0,
   padding: '0.4rem 0.5rem', fontSize: '0.95em',
-  border: '1px solid #ccc', borderRadius: 4,
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
   fontFamily: 'inherit', boxSizing: 'border-box', width: '100%',
 }
 const suggestionsStyle = {
   position: 'absolute', top: '100%', left: 0, right: 0,
   margin: '2px 0 0 0', padding: 0,
-  background: '#fff', border: '1px solid #ccc',
-  borderRadius: 4, listStyle: 'none',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  listStyle: 'none',
   maxHeight: 200, overflowY: 'auto', zIndex: 10,
-  boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+  boxShadow: 'var(--shadow-md)',
 }
 const suggestionBtnStyle = {
   width: '100%', textAlign: 'left',
   padding: '0.4rem 0.65rem',
-  background: 'transparent', border: 'none',
+  background: 'transparent',
+  color: 'var(--text-primary)',
+  border: 'none',
   cursor: 'pointer', fontSize: '0.95em',
   fontFamily: 'inherit',
 }
 const cancelBtnStyle = {
-  padding: '0.45rem 0.85rem', background: '#fff',
-  border: '1px solid #ccc', borderRadius: 4,
+  padding: '0.45rem 0.85rem',
+  background: 'transparent',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const confirmBtnStyle = {
-  padding: '0.45rem 0.85rem', background: '#222', color: '#fff',
-  border: 'none', borderRadius: 4, cursor: 'pointer',
-  fontWeight: 600, fontFamily: 'inherit',
+  padding: '0.45rem 0.85rem',
+  background: 'var(--accent)',
+  color: 'var(--bg-base)',
+  border: 'none',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  fontWeight: 700, fontFamily: 'inherit',
 }

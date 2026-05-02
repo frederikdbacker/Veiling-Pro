@@ -227,7 +227,8 @@ veiling-pro/
 │   │   ├── bidSteps.js           nextBidStep / sortByRangeFrom helpers
 │   │   ├── clients.js            Klanten-helpers (zoek, create, seating,
 │   │   │                          koppeling, aankoop-aggregatie)
-│   │   └── spotters.js           Spotter-helpers (globaal + junction)
+│   │   ├── spotters.js           Spotter-helpers (globaal + junction)
+│   │   └── breaks.js             Pauze-helpers (auction_breaks)
 │   ├── pages/
 │   │   ├── HousesPage.jsx           / — lijst van veilinghuizen
 │   │   ├── HousePage.jsx            /houses/:id — veilingen voor een huis

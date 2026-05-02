@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
 import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
-import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import InterestedClientsField from '../components/InterestedClientsField'
 import PedigreeTree from '../components/PedigreeTree'
@@ -166,9 +165,10 @@ export default function LotPage() {
         </Modal>
       )}
 
-      {/* Lot-nummer + prijzen + lot-type — net onder de naam */}
+      {/* Lot-nummer + prijzen + lot-type — alles op één rij onder de naam.
+          Biedstappen worden niet getoond op LotPage (zit op de cockpit). */}
       <Block title="Lot & prijzen" key={`prep-${lotId}`}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-5)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-5)', alignItems: 'flex-end' }}>
           <AutoSaveNumber
             table="lots" id={lotId} fieldName="number"
             initialValue={lot.number} label="Lot-nummer"
@@ -203,17 +203,11 @@ export default function LotPage() {
               }))
             }}
           />
-        </div>
-        <div style={{ marginTop: 'var(--space-4)' }}>
           <LotTypeDropdown
             lotId={lotId}
             auctionId={lot.auction_id}
             currentTypeId={lot.lot_type_id}
             onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId }))}
-          />
-          <BidStepRulesPreview
-            auctionId={lot.auction_id}
-            lotTypeId={lot.lot_type_id}
           />
         </div>
       </Block>

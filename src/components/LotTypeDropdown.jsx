@@ -56,8 +56,13 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
   }
 
   return (
-    <div style={{ marginBottom: '0.75rem' }}>
-      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4 }}>
+    <div>
+      <label style={{
+        display: 'block', fontWeight: 600,
+        marginBottom: 4, fontSize: '0.85em',
+        color: 'var(--text-secondary)',
+        letterSpacing: '0.04em',
+      }}>
         Lot-type
       </label>
       <select
@@ -67,7 +72,9 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
         style={{
           padding: '0.4rem 0.5rem',
           fontFamily: 'inherit', fontSize: '1em',
-          border: '1px solid #ccc', borderRadius: 4,
+          background: 'var(--bg-input)', color: 'var(--text-primary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
           minWidth: '14em',
         }}
       >
@@ -76,15 +83,15 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
           <option key={t.id} value={t.id}>{t.name_nl}</option>
         ))}
       </select>
-      {saving && <small style={{ marginLeft: 8, color: '#aaa' }}>opslaan…</small>}
+      {saving && <small style={{ marginLeft: 8, color: 'var(--text-muted)' }}>opslaan…</small>}
       {!saving && savedAt && (
-        <small style={{ marginLeft: 8, color: '#5A8A5A' }}>
+        <small style={{ marginLeft: 8, color: 'var(--success)' }}>
           💾 {savedAt.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
         </small>
       )}
-      {error && <small style={{ marginLeft: 8, color: '#c33' }}>❌ {error}</small>}
+      {error && <small style={{ marginLeft: 8, color: 'var(--danger)' }}>❌ {error}</small>}
       {options.length === 0 && !error && (
-        <small style={{ display: 'block', color: '#999', marginTop: 4 }}>
+        <small style={{ display: 'block', color: 'var(--text-muted)', marginTop: 4 }}>
           Geen types beschikbaar — selecteer eerst lot-types op de veiling-pagina.
         </small>
       )}

@@ -27,7 +27,7 @@ export default function App() {
           to="/"
           style={{
             textDecoration: 'none',
-            color: 'var(--accent)',
+            color: 'var(--text-primary)',
             fontWeight: 600,
             fontSize: '1.05rem',
             letterSpacing: '0.04em',

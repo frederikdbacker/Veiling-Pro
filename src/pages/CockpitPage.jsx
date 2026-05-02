@@ -644,7 +644,7 @@ function FlowButton({ label, state, busy, onClick, primary }) {
     },
     active: primary ? {
       background: 'var(--accent)',
-      color: '#1A1816',
+      color: 'var(--bg-base)',
       cursor: 'pointer',
       border: '1px solid var(--accent)',
       fontWeight: 700,
@@ -789,7 +789,7 @@ const crumbsStyle = {
 const crumbStyle = { color: 'var(--text-muted)', textDecoration: 'none' }
 const titleStyle = {
   margin: '0 0 var(--space-1) 0',
-  color: 'var(--accent)',
+  color: 'var(--text-primary)',
   letterSpacing: '0.01em',
 }
 const subtitleStyle = {
@@ -844,7 +844,7 @@ const thumbBtnStyle = {
 const lotNameStyle = {
   margin: '0.1rem 0 0.3rem 0',
   fontSize: '1.6rem',
-  color: 'var(--accent)',
+  color: 'var(--text-primary)',
   fontWeight: 600,
 }
 const priceRowStyle = {
@@ -948,7 +948,7 @@ const confirmBtnStyle = {
   flex: 1,
   padding: '0.5rem 1rem',
   background: 'var(--accent)',
-  color: '#1A1816',
+  color: 'var(--bg-base)',
   border: 'none',
   borderRadius: 'var(--radius-sm)',
   cursor: 'pointer',

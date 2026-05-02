@@ -6,31 +6,31 @@
 
 :root {
   /* --- Achtergronden ----------------------------- */
-  --bg-base:      #1A1816;   /* pagina — donkergrijs, warm */
-  --bg-surface:   #23211E;   /* secties */
-  --bg-elevated:  #2C2926;   /* cards, forms */
-  --bg-input:     #2F2C28;   /* input-velden */
-  --bg-overlay:   rgba(0, 0, 0, 0.7);  /* modal-backdrop */
+  --bg-base:      #1A1A1A;   /* pagina — neutraal donkergrijs */
+  --bg-surface:   #242424;   /* secties */
+  --bg-elevated:  #2D2D2D;   /* cards, forms */
+  --bg-input:     #313131;   /* input-velden */
+  --bg-overlay:   rgba(0, 0, 0, 0.75);
 
   /* --- Tekst ------------------------------------- */
-  --text-primary:    #EDE4CF;
-  --text-secondary:  #B5A989;
-  --text-muted:      #8A7C5E;
+  --text-primary:    #F0F0F0;   /* bijna-wit */
+  --text-secondary:  #BFBFBF;   /* licht-grijs */
+  --text-muted:      #808080;   /* middel-grijs */
 
-  /* --- Accenten (goud) --------------------------- */
-  --accent:         #C8A96E;
-  --accent-hover:   #D6BA82;
-  --accent-muted:   #8A7748;
+  /* --- Accent (zacht groen, geen goud) ----------- */
+  --accent:         #6FAF99;
+  --accent-hover:   #88C2AC;
+  --accent-muted:   #4F8076;
 
   /* --- Semantisch -------------------------------- */
-  --success: #6A9A6A;
-  --warning: #D4B43E;
-  --danger:  #C25555;
-  --info:    #7A9AAE;
+  --success: #6FAF99;          /* groen — verkocht, positief */
+  --warning: #C45555;          /* rood — niet verkocht, opletten */
+  --danger:  #C45555;          /* rood — error */
+  --info:    #BFBFBF;          /* grijs — neutrale info */
 
   /* --- Borders ----------------------------------- */
-  --border-default: #3A3631;
-  --border-strong:  #4D4742;
+  --border-default: #3D3D3D;
+  --border-strong:  #555555;
 
   /* --- Spacing (rem) ----------------------------- */
   --space-1: 0.25rem;

@@ -80,16 +80,10 @@ export default function AuctionPage() {
       </p>
 
       {auction && (
-        <>
-          <LotTypesSelector
-            auctionId={auction.id}
-            onChange={setSelectedTypeIds}
-          />
-          <BidStepRulesEditor
-            auctionId={auction.id}
-            selectedTypeIds={selectedTypeIds}
-          />
-        </>
+        <LotTypesSelector
+          auctionId={auction.id}
+          onChange={setSelectedTypeIds}
+        />
       )}
 
       {lots.length > 0 && (
@@ -139,6 +133,16 @@ export default function AuctionPage() {
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Biedstappen onderaan — admin-werk dat los staat van het lot-overzicht */}
+      {auction && (
+        <div style={{ marginTop: 'var(--space-6)' }}>
+          <BidStepRulesEditor
+            auctionId={auction.id}
+            selectedTypeIds={selectedTypeIds}
+          />
+        </div>
       )}
     </section>
   )

@@ -5,9 +5,9 @@
 
 ---
 
-## Huidige status: REDESIGN-MARATHON KLAAR — DONKER THEMA + 7 MODULES LIVE
+## Huidige status: REDESIGN-MARATHON KLAAR — DONKER THEMA + 8 MODULES LIVE
 
-Zeven modules werken end-to-end op productie (https://veiling-pro.vercel.app):
+Acht modules werken end-to-end op productie (https://veiling-pro.vercel.app):
 
 1. **Voorbereidingsmodule** — Veilinghuizen → Veilingen → Lots → Detail.
    LotPage volledig herwerkt 02-05: klein klikbaar thumbnail (geen grote
@@ -40,6 +40,13 @@ Zeven modules werken end-to-end op productie (https://veiling-pro.vercel.app):
    autocomplete (over alle eerder ingevoerde spotters). Cockpit toont
    compacte strip 👥 tussen statusbalk en lot-picker, links→rechts
    gesorteerd.
+8. **Pauzes (BIS-blokken) + sorteer-toggle + online-toggle** —
+   AuctionPage heeft sorteer-toggle (Lotnummer / A-Z), pauzes met
+   automatisch BIS-label, drag-and-drop tussen lots via @dnd-kit,
+   bewerken + verwijderen inline. Action-row bovenaan: 🎬 Cockpit, 📊
+   Overzicht (link naar summary-pagina), 📋 Link kopiëren (clipboard),
+   en checkbox "Online biedingen actief" die de "Verkocht online"-
+   optie in de cockpit hamer-modal verbergt of toont.
 
 **Donker thema** is volledig doorgevoerd (CSS-variabelen in `index.css`):
 neutraal donkergrijs (#1A1A1A) base, witte tekst (#F0F0F0), standaard
@@ -47,8 +54,9 @@ groen (#22C55E) accent, standaard rood (#EF4444) voor warning/danger.
 Geen goud meer, geen Aloga-getinte kleuren — bewust generiek.
 
 Vercel-deploy auto-bij elke push. Database-stand: migraties 0001 t/m
-0010 actief. Eindtijd 22:48 (raming op 7 min/lot). 24 lots met enriched
-data + pedigree.
+0012 actief (0009 wordt overgeslagen want 0010 dropt en herstelt
+spotters-schema). Eindtijd 22:48 (raming op 7 min/lot). 24 lots met
+enriched data + pedigree.
 
 Open vóór 5 mei: iPad-test (visueel) en reset-data via
 `scripts/reset-auction.sql`. Cockpit is volledig bruikbaar op iPad
@@ -276,6 +284,29 @@ via de gepubliceerde URL.
   ↑/↓ herorderen, ✕ unassign (globale spotter blijft)
 - [x] `SpottersStrip` op cockpit tussen statusbalk en lot-picker:
   compacte 👥 + namen, links→rechts, hover toont locatie
+
+### Pauzes + sorteer + online-toggle + summary-link (✅ AF op 02-05-2026)
+- [x] Migratie 0011: `auction_breaks` tabel met `after_lot_number`,
+  `title` (default "Pauze"), `description`, `duration_minutes`
+- [x] Migratie 0012: `auctions.online_bidding_enabled` (bool, default false)
+- [x] `src/lib/breaks.js`: get / create / update / delete helpers
+- [x] AuctionPage uitgebreid met:
+  - Sorteer-toggle (commit 2e11d99): # Lotnummer ↔ A-Z naam, actieve
+    modus accent-groen
+  - Pauzes (commit 2e11d99): "+ Pauze toevoegen" inline-form, BIS-label
+    automatisch (`${after_lot_number} BIS`), bewerken + verwijderen,
+    pauzes ingevoegd in lots-lijst bij Lotnummer-sortering, los onderaan
+    bij A-Z
+  - Drag-and-drop pauzes (commit ba12d3b): @dnd-kit/core +
+    @dnd-kit/sortable + @dnd-kit/utilities geïnstalleerd. Pauzes hebben
+    een ⠿-handle, lots zijn niet sleepbaar maar wel drop-target. Bij
+    drop wordt nieuwe `after_lot_number` automatisch berekend.
+  - Online biedingen-toggle (commit bb9e556): checkbox in action-row,
+    direct DB-patch, hamer-form in cockpit verbergt "Verkocht online"
+    radio-optie als toggle uit staat
+  - 📊 Overzicht-knop (link naar summary) en 📋 Link kopiëren
+    (clipboard-write naar `${origin}/auctions/{id}/summary`) met
+    "✓ Link gekopieerd"-feedback (2.5 sec)
 
 ### Toekomstig (na 5 mei)
 - [ ] "Kopieer bid-step-staffel van vorige veiling" — bv. Aloga 2027 erft

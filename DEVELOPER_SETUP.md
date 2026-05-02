@@ -78,11 +78,15 @@ De *secret* / *service_role* key NIET hier zetten — die mag nooit in client-co
    - `0010_spotters_global.sql` — globale `spotters` + `auction_spotters`
      junction (vervangt 0009 die per-veiling spotters had; 0009 wordt
      overgeslagen want 0010 dropt en herstelt het schema)
+   - `0011_auction_breaks.sql` — `auction_breaks` tabel voor pauzes
+     (BIS-blokken) tussen lots
+   - `0012_online_bidding.sql` — `auctions.online_bidding_enabled` bool
 3. Verifieer in Table Editor dat alle tabellen bestaan:
-   - `auction_houses`, `auctions`, `lots`
+   - `auction_houses`, `auctions` (met `online_bidding_enabled`), `lots`
    - `lot_types`, `auction_lot_types`, `bid_step_rules`
    - `clients`, `lot_interested_clients`, `client_auction_seating`
    - `spotters`, `auction_spotters`
+   - `auction_breaks`
 
 ### Data importeren (eenmalig per veiling)
 

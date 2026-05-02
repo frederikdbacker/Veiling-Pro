@@ -733,12 +733,12 @@ function RadioRow({ label, value, current, onChange }) {
   )
 }
 
-function Card({ title, children }) {
+function Card({ title, children, defaultOpen = true }) {
   return (
-    <section style={cardStyle}>
-      <h3 style={cardTitleStyle}>{title}</h3>
-      {children}
-    </section>
+    <details open={defaultOpen} style={cardStyle}>
+      <summary style={cardTitleStyle}>{title}</summary>
+      <div style={{ marginTop: 'var(--space-3)' }}>{children}</div>
+    </details>
   )
 }
 
@@ -945,12 +945,14 @@ const cardStyle = {
   marginBottom: 'var(--space-4)',
 }
 const cardTitleStyle = {
-  margin: '0 0 var(--space-3) 0',
   fontSize: '0.85rem',
   letterSpacing: '0.08em',
   textTransform: 'uppercase',
   color: 'var(--text-secondary)',
   fontWeight: 600,
+  cursor: 'pointer',
+  userSelect: 'none',
+  outline: 'none',
 }
 const listStyle = { listStyle: 'none', padding: 0, margin: 0 }
 const emptyMutedStyle = { color: 'var(--text-muted)', fontStyle: 'italic', margin: 0 }

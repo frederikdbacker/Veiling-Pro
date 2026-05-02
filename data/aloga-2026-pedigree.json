@@ -1,18 +1,5 @@
 {
-  "_note": "Per slug de gestructureerde pedigree-tree. Wordt door scripts/import-pedigree.mjs in lots.pedigree geschreven. Schaving zelf is incrementeel — pas bij wat je hebt aan.",
-
-  "chackella": {
-    "sire": {
-      "name": "Chacco Blue",
-      "sire": { "name": "Chambertin", "sire": "Cambridge", "dam": "Desiree VII" },
-      "dam":  { "name": "Mom's Contara", "sire": "Contender", "dam": "Godahra II" }
-    },
-    "dam": {
-      "name": "W Delta Mossel Jantje",
-      "sire": { "name": "Pilgrim II", "sire": "Polydor", "dam": "Wilma" },
-      "dam":  { "name": "So Lovely", "sire": "Heartbreaker", "dam": "Nouvelle" }
-    }
-  },
+  "_note": "Per slug de gestructureerde pedigree-tree. Wordt door scripts/import-pedigree.mjs in lots.pedigree geschreven. Gescrapet via WebFetch van aloga-auction.com op 02-05-2026.",
 
   "amaretto-destinys": {
     "sire": {
@@ -76,6 +63,253 @@
       "name": "Zapatero VDL",
       "sire": { "name": "Chin Chin", "sire": "Manieta", "dam": "Jerona" },
       "dam":  { "name": "Ramiro Z", "sire": "Elfie", "dam": null }
+    }
+  },
+
+  "chacco-for-freedom": {
+    "sire": {
+      "name": "Tannenhof's Chacco Chacco",
+      "sire": { "name": "Chacco Blue", "sire": "Chambertin", "dam": "Mom's Contara" },
+      "dam":  { "name": "Shakira", "sire": "Stakkato", "dam": "Grandessa" }
+    },
+    "dam": {
+      "name": "R-Centos Lady",
+      "sire": { "name": "Cento", "sire": "Capitol I", "dam": "Viola XI" },
+      "dam":  { "name": "F-Chica", "sire": "Calypso I", "dam": "Ruhe" }
+    }
+  },
+
+  "chackella": {
+    "sire": {
+      "name": "Chacco Blue",
+      "sire": { "name": "Chambertin", "sire": "Cambridge", "dam": "Desiree VII" },
+      "dam":  { "name": "Mom's Contara", "sire": "Contender", "dam": "Godahra II" }
+    },
+    "dam": {
+      "name": "W Delta Mossel Jantje",
+      "sire": { "name": "Pilgrim II", "sire": "Polydor", "dam": "Wilma" },
+      "dam":  { "name": "So Lovely", "sire": "Heartbreaker", "dam": "Nouvelle" }
+    }
+  },
+
+  "daquito-royal": {
+    "sire": {
+      "name": "Diamant de Casall",
+      "sire": { "name": "Diamant de Semilly", "sire": "Le Tot de Semilly", "dam": "Venise des Cresles" },
+      "dam":  { "name": "D-Casalina", "sire": "Caretino", "dam": "Kira XVII" }
+    },
+    "dam": {
+      "name": "Bella Royal 4",
+      "sire": { "name": "Bellini Royal", "sire": "Balous Bellini", "dam": "Corona" },
+      "dam":  { "name": "Cornetta", "sire": "Contello", "dam": "Panicola" }
+    }
+  },
+
+  "dicondro": {
+    "sire": {
+      "name": "Diaron OLD",
+      "sire": { "name": "Diarado", "sire": "Diamant de Semilly", "dam": "Roxette I" },
+      "dam":  { "name": "Lenda-Cara", "sire": "Come On", "dam": "Lindauway" }
+    },
+    "dam": {
+      "name": "Concenta",
+      "sire": { "name": "Conthargos", "sire": "Converter I", "dam": "Cajandra Z" },
+      "dam":  { "name": "Centina Z", "sire": "Cento", "dam": "Gwendina" }
+    }
+  },
+
+  "ella-gold": {
+    "sire": {
+      "name": "Eldorado van de Zeshoek",
+      "sire": { "name": "Clinton", "sire": "Corrado I", "dam": "Urte I" },
+      "dam":  { "name": "Bijou Orai", "sire": "Toulon", "dam": "Ramourai" }
+    },
+    "dam": {
+      "name": "Commissaria",
+      "sire": { "name": "Commissario", "sire": "Catoki", "dam": "Cassandra" },
+      "dam":  { "name": "C-Nasira", "sire": "Casiro I", "dam": "Nalena" }
+    }
+  },
+
+  "euphoria": {
+    "sire": {
+      "name": "Escolar NRW",
+      "sire": { "name": "Estobar NRW", "sire": "Ehrentusch", "dam": "Florence" },
+      "dam":  { "name": "Farah Dina L", "sire": "Fürst Piccolo", "dam": "Samira" }
+    },
+    "dam": {
+      "name": "Florina",
+      "sire": { "name": "Fürst Fugger", "sire": "Fürst Heinrich", "dam": "Piroschka" },
+      "dam":  { "name": "Desiree", "sire": "Desperados FRH", "dam": "Fürstin Granada" }
+    }
+  },
+
+  "fire-soul": {
+    "sire": {
+      "name": "Fire Jazz",
+      "sire": { "name": "Fürst Jazz", "sire": "Fürst Romancier", "dam": "Borendy" },
+      "dam":  { "name": "Monita", "sire": "Sir Donnerhall I", "dam": "Morena" }
+    },
+    "dam": {
+      "name": "Miss Vita",
+      "sire": { "name": "Vitalis", "sire": "Vivaldi", "dam": "Tolivia" },
+      "dam":  { "name": "Miss Frederic", "sire": "Don Frederic 3", "dam": "Miss Compliment" }
+    }
+  },
+
+  "gagliardo": {
+    "sire": {
+      "name": "Gaillard de la Pomme",
+      "sire": { "name": "Nabab de Reve", "sire": "Quidam de Revel", "dam": "Melodie en Fa" },
+      "dam":  { "name": "Narcotique de Muze II", "sire": "Darco", "dam": "Qerly Chin" }
+    },
+    "dam": {
+      "name": "Hong Kong C",
+      "sire": { "name": "Charisma", "sire": "Zolitaire", "dam": "High Lux van El Picadero" },
+      "dam":  { "name": "Lux Z", "sire": null, "dam": "Diana Ross" }
+    }
+  },
+
+  "hickstead-houdini": {
+    "sire": {
+      "name": "Hickstead White",
+      "sire": { "name": "Hickstead", "sire": "Hamlet", "dam": "Jomara" },
+      "dam":  { "name": "Queentina", "sire": "Coupe de Coeur", "dam": "Quadriga 19" }
+    },
+    "dam": {
+      "name": "Casiopaya",
+      "sire": { "name": "Carinjo HDC", "sire": "Cascavelle", "dam": "Exquisite" },
+      "dam":  { "name": "Ratina Girl Z", "sire": "Rabiat Z", "dam": "Laruschka" }
+    }
+  },
+
+  "jellycat": {
+    "sire": {
+      "name": "Vigo d'Arsouilles",
+      "sire": { "name": "Nabab de Reve", "sire": "Quidam de Revel", "dam": "Melodie en Fa" },
+      "dam":  { "name": "Illico d'Arsouilles", "sire": "Fleuri du Manoir", "dam": "Venzin D Arsouilles" }
+    },
+    "dam": {
+      "name": "Cora",
+      "sire": { "name": "Cesano II", "sire": "Caretino", "dam": "Taura" },
+      "dam":  { "name": "Hotline III", "sire": "Capitol I", "dam": "Unda II" }
+    }
+  },
+
+  "kaccini": {
+    "sire": {
+      "name": "Vivaldi du Seigneur",
+      "sire": { "name": "Chellano Z", "sire": "Contender", "dam": "Fayence" },
+      "dam":  { "name": "Panama du Seigneur", "sire": "Darco", "dam": "Mic Mac du Dieu Demon" }
+    },
+    "dam": {
+      "name": "Glen Of Clover",
+      "sire": { "name": "Pacino", "sire": "Diamant de Semilly", "dam": "Dira Courcelle" },
+      "dam":  { "name": "Garland of Clover", "sire": "Clover Hill", "dam": "Strandfield Girl" }
+    }
+  },
+
+  "lordswood-dancing-diamond-iii": {
+    "sire": {
+      "name": "Dancier",
+      "sire": { "name": "De Niro", "sire": "Donnerhall", "dam": "Alicante" },
+      "dam":  { "name": "Lacarna", "sire": "Lancier", "dam": "Espina" }
+    },
+    "dam": {
+      "name": "Waluga II",
+      "sire": { "name": "Wolkenstein II", "sire": "Weltmeyer", "dam": "Wolke" },
+      "dam":  { "name": "Waluga", "sire": "Wörmann", "dam": "Luneflur" }
+    }
+  },
+
+  "master-of-paradise": {
+    "sire": {
+      "name": "Manchester van 't Paradijs",
+      "sire": { "name": "Elvis ter Putte", "sire": "Diamant de Semilly", "dam": "Ukase ter Putte" },
+      "dam":  { "name": "Cartagena Indias Ecaussinnes", "sire": "Kashmir van Schuttershof", "dam": "Prima Donna van 't Paradijs" }
+    },
+    "dam": {
+      "name": "Alina X",
+      "sire": { "name": "Catoki", "sire": "Cambridge", "dam": "Bilda" },
+      "dam":  { "name": "Operette I", "sire": "Chambertin", "dam": "Eleen" }
+    }
+  },
+
+  "optimus-prime": {
+    "sire": {
+      "name": "Ogrion Des Champs",
+      "sire": { "name": "Kannan", "sire": "Voltaire", "dam": "Cemeta" },
+      "dam":  { "name": "Kara des Champs", "sire": "Domino de Moyon", "dam": "Oriente des Champs" }
+    },
+    "dam": {
+      "name": "Herzdame BS Z",
+      "sire": { "name": "Heartbreaker", "sire": "Nimmerdor", "dam": "Bacarole" },
+      "dam":  { "name": "Catharina S Z", "sire": "Carthago Z", "dam": "Caletta" }
+    }
+  },
+
+  "orient-o": {
+    "sire": {
+      "name": "Jacquet GO",
+      "sire": { "name": "Thunder van de Zuuthoeve", "sire": "Argentinus", "dam": "Jura van Sint-Maarten" },
+      "dam":  { "name": "Trophie Tinea Go", "sire": "Lux Z", "dam": "Ginea" }
+    },
+    "dam": {
+      "name": "Lasino",
+      "sire": { "name": "Landgraf I", "sire": null, "dam": null },
+      "dam":  { "name": "Arina", "sire": "Feline", "dam": "Contender" }
+    }
+  },
+
+  "orpheus": {
+    "sire": {
+      "name": "Pegasus Jappeloup",
+      "sire": { "name": "Comme il faut", "sire": "Cornet Obolensky", "dam": "Ratina Z" },
+      "dam":  { "name": "Coralie", "sire": "Cassini I", "dam": "Padischah" }
+    },
+    "dam": {
+      "name": "Kattebelle M",
+      "sire": { "name": "Chaman", "sire": "Baloubet du Rouet", "dam": "Jadied" },
+      "dam":  { "name": "Gestelle M", "sire": "Toulon", "dam": "Volstelle" }
+    }
+  },
+
+  "tochinsky": {
+    "sire": {
+      "name": "Cornet Obolensky",
+      "sire": { "name": "Clinton", "sire": "Corrado I", "dam": "Urte I" },
+      "dam":  { "name": "Rabanna van Costersveld", "sire": "Heartbreaker", "dam": "Holivea van Costersveld" }
+    },
+    "dam": {
+      "name": "Emerine Z",
+      "sire": { "name": "Emerald", "sire": "Diamant de Semilly", "dam": "Carthina Z" },
+      "dam":  { "name": "Velinda", "sire": "Camus", "dam": "Ria" }
+    }
+  },
+
+  "total-secret": {
+    "sire": {
+      "name": "Glock's Toto Jr.",
+      "sire": { "name": "Totilas", "sire": "Gribaldi", "dam": "Lominka" },
+      "dam":  { "name": "Desparada 2", "sire": "Desperados FRH", "dam": "Regentin" }
+    },
+    "dam": {
+      "name": "Samara",
+      "sire": { "name": "Secret", "sire": "Sezuan 2", "dam": "Seline" },
+      "dam":  { "name": "Amuel", "sire": "Olivi", "dam": "Olivi" }
+    }
+  },
+
+  "valsero": {
+    "sire": {
+      "name": "Venido",
+      "sire": { "name": "Blue Hors Veneziano", "sire": "Vivaldi", "dam": "Fabina" },
+      "dam":  { "name": "Sternchen", "sire": "Sir Donnerhall I", "dam": "Ultimativ" }
+    },
+    "dam": {
+      "name": "Fortuna",
+      "sire": { "name": "Finnigan", "sire": "Füchtels Floriscount OLD", "dam": "Donna Rubina 16" },
+      "dam":  { "name": "Lady Crusador", "sire": "Lauries Crusador xx", "dam": "Wencke" }
     }
   }
 }

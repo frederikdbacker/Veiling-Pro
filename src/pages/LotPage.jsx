@@ -128,11 +128,8 @@ export default function LotPage() {
       <p style={{ color: '#666', marginTop: 0 }}>
         {[lot.discipline, lot.year, lot.gender, lot.studbook, lot.size].filter(Boolean).join(' • ')}
       </p>
-      {(lot.sire || lot.dam) && (
-        <p style={{ color: '#888', fontStyle: 'italic', marginTop: '-0.5rem' }}>
-          {lot.sire ?? '?'} × {lot.dam ?? '?'}
-        </p>
-      )}
+      {/* sire × dam-regel verwijderd — Pedigree-blok hieronder toont
+          al de volledige afstamming */}
 
       {/* Photos */}
       {photos.length > 0 && (

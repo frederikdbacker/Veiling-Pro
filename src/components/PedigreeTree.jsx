@@ -88,39 +88,37 @@ function nameOf(node) {
 const treeStyle = {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
-  gridTemplateRows: 'repeat(8, minmax(36px, auto))',
-  gap: 'var(--space-2)',
+  gridTemplateRows: 'repeat(8, minmax(22px, auto))',
+  gap: '4px',
   width: '100%',
 }
 
 const boxBaseStyle = {
   display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
-  padding: '0.5rem 0.85rem',
-  borderRadius: 'var(--radius-md)',
-  fontSize: '0.85rem',
-  letterSpacing: '0.04em',
+  padding: '2px 8px',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.7rem',
+  letterSpacing: '0.06em',
   textTransform: 'uppercase',
-  fontWeight: 600,
+  fontWeight: 500,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+  color: 'var(--text-primary)',
+  background: 'transparent',
+  border: '1px solid var(--border-default)',
 }
 
-const sireStyle = {
-  background: '#A0A0A0',
-  color: '#1A1A1A',
-}
-
-const damStyle = {
-  background: 'var(--accent)',
-  color: '#1A1A1A',
-}
+// Sire en dam visueel gelijk — geen kleur per kant. De positie in de
+// tree (boven = sire, onder = dam) maakt al duidelijk welk pad het is.
+const sireStyle = {}
+const damStyle  = {}
 
 const emptyBoxStyle = {
-  background: 'var(--bg-input)',
   color: 'var(--text-muted)',
   fontStyle: 'italic',
   fontWeight: 400,
+  border: '1px dashed var(--border-default)',
 }
 
 const emptyStyle = {

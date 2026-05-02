@@ -45,7 +45,7 @@ export default function CockpitPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start')
+          .select('id, number, name, year, gender, studbook, size, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start')
           .eq('auction_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -165,11 +165,19 @@ export default function CockpitPage() {
           style={selectStyle}
         >
           <option value="">— geen lot geselecteerd —</option>
-          {allLots.map((l) => (
-            <option key={l.id} value={l.id}>
-              #{l.number ?? '—'} {l.name}
-            </option>
-          ))}
+          {allLots.map((l) => {
+            const extras = [
+              formatYearAge(l.year),
+              l.gender,
+              l.studbook,
+              l.size,
+            ].filter(Boolean).join(' · ')
+            return (
+              <option key={l.id} value={l.id}>
+                #{l.number ?? '—'} {l.name}{extras && ` — ${extras}`}
+              </option>
+            )
+          })}
         </select>
         <button
           onClick={() => prevLot && setActiveLotById(prevLot.id)}
@@ -271,17 +279,13 @@ function ActiveLotPanel({
               </button>
             )}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
+              {/* Paardennaam staat al in de dropdown bovenaan — niet
+                  herhalen. Hier alleen lot-nummer + type + meta-info. */}
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginBottom: 'var(--space-1)' }}>
                 Lot #{lot.number ?? '—'}
                 {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
               </div>
-              <h2 style={lotNameStyle}>{lot.name}</h2>
-              {meta && <div style={{ color: 'var(--text-secondary)' }}>{meta}</div>}
-              {(lot.sire || lot.dam) && (
-                <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
-                  {lot.sire ?? '?'} × {lot.dam ?? '?'}
-                </div>
-              )}
+              {meta && <div style={{ color: 'var(--text-primary)', fontSize: '1rem' }}>{meta}</div>}
             </div>
           </div>
 

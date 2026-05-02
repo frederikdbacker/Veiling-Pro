@@ -218,42 +218,56 @@ function ActiveLotPanel({
 
   return (
     <div>
-      {/* Compacte lot-identity */}
+      {/* Lot-card: identity boven, drie-knop-flow onderaan in dezelfde kaart */}
       <div style={lotHeaderStyle}>
-        {photos.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setPhotoOpen(true)}
-            title="Bekijk foto's"
-            style={thumbBtnStyle}
-            aria-label="Open fotogalerij"
-          >
-            <img
-              src={photos[activePhoto]}
-              alt={lot.name}
-              width={72} height={72}
-              style={{ objectFit: 'cover', display: 'block', borderRadius: 'var(--radius-sm)' }}
-            />
-          </button>
-        )}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
-            Lot #{lot.number ?? '—'}
-            {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
-          </div>
-          <h2 style={lotNameStyle}>{lot.name}</h2>
-          {meta && <div style={{ color: 'var(--text-secondary)' }}>{meta}</div>}
-          {(lot.sire || lot.dam) && (
-            <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
-              {lot.sire ?? '?'} × {lot.dam ?? '?'}
-            </div>
+        <div style={lotIdentityRowStyle}>
+          {photos.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setPhotoOpen(true)}
+              title="Bekijk foto's"
+              style={thumbBtnStyle}
+              aria-label="Open fotogalerij"
+            >
+              <img
+                src={photos[activePhoto]}
+                alt={lot.name}
+                width={72} height={72}
+                style={{ objectFit: 'cover', display: 'block', borderRadius: 'var(--radius-sm)' }}
+              />
+            </button>
           )}
-          <div style={priceRowStyle} className="num">
-            Start <strong>€{formatNum(lot.start_price)}</strong>
-            {lot.reserve_price != null && <>
-              {' · '}Reserve <strong>€{formatNum(lot.reserve_price)}</strong>
-            </>}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
+              Lot #{lot.number ?? '—'}
+              {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
+            </div>
+            <h2 style={lotNameStyle}>{lot.name}</h2>
+            {meta && <div style={{ color: 'var(--text-secondary)' }}>{meta}</div>}
+            {(lot.sire || lot.dam) && (
+              <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>
+                {lot.sire ?? '?'} × {lot.dam ?? '?'}
+              </div>
+            )}
+            <div style={priceRowStyle} className="num">
+              Start <strong>€{formatNum(lot.start_price)}</strong>
+              {lot.reserve_price != null && <>
+                {' · '}Reserve <strong>€{formatNum(lot.reserve_price)}</strong>
+              </>}
+            </div>
           </div>
+        </div>
+
+        {/* Drie-knop-flow direct onder de identity, in dezelfde kaart */}
+        <div style={lotControlsDividerStyle}>
+          <CockpitControls
+            lot={lot}
+            allLots={allLots}
+            houseId={houseId}
+            interestedClients={interestedClients}
+            onLotUpdated={onLotUpdated}
+            onActiveLotChange={onActiveLotChange}
+          />
         </div>
       </div>
 
@@ -343,6 +357,16 @@ function ActiveLotPanel({
         </Card>
       </div>
 
+      {/* Catalogustekst — uitgeklapt, vóór "Mijn voorbereiding" zodat je
+          tijdens het voorlezen direct je notities ernaast hebt */}
+      {lot.catalog_text && (
+        <Card title="Catalogustekst">
+          <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: 1.6 }}>
+            {lot.catalog_text}
+          </p>
+        </Card>
+      )}
+
       {/* Mijn voorbereiding */}
       <Card title="Mijn voorbereiding">
         <NoteField key={`notes_catalog-${lot.id}`} lotId={lot.id} fieldName="notes_catalog" initialValue={lot.notes_catalog} label="Catalogus" />
@@ -350,25 +374,7 @@ function ActiveLotPanel({
         <NoteField key={`notes_org-${lot.id}`}     lotId={lot.id} fieldName="notes_org"     initialValue={lot.notes_org}     label="Organisatie" />
       </Card>
 
-      {/* Live cockpit-controls (compacte 3-knop-flow + hamer-modal) */}
-      <CockpitControls
-        lot={lot}
-        allLots={allLots}
-        houseId={houseId}
-        interestedClients={interestedClients}
-        onLotUpdated={onLotUpdated}
-        onActiveLotChange={onActiveLotChange}
-      />
-
-      {/* Catalogustekst + EquiRatings — uitklapbaar */}
-      {lot.catalog_text && (
-        <details style={detailsStyle}>
-          <summary style={summaryStyle}>Catalogustekst</summary>
-          <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55 }}>
-            {lot.catalog_text}
-          </p>
-        </details>
-      )}
+      {/* EquiRatings blijft uitklapbaar (minder vaak nodig tijdens veilen) */}
       {lot.equiratings_text && (
         <details style={detailsStyle}>
           <summary style={summaryStyle}>EquiRatings</summary>
@@ -512,7 +518,7 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
   const nextLot = idx >= 0 && idx < allLots.length - 1 ? allLots[idx + 1] : null
 
   return (
-    <div style={controlsCardStyle}>
+    <>
       {/* Live timer + resultaat */}
       {!hammered && (
         <div style={{ ...timersStyle, color: 'var(--text-secondary)' }}>
@@ -572,7 +578,7 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
         </button>
       </div>
 
-      {/* Hamer-modal */}
+      {/* Hamer-modal — fixed-positioned, geen invloed op de DOM-tree */}
       {hamerOpen && bidding && !hammered && (
         <Modal onClose={() => setHamerOpen(false)} maxWidth={520}>
           <h3 style={{ margin: 0, marginBottom: 'var(--space-3)' }}>
@@ -623,7 +629,7 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
           </div>
         </Modal>
       )}
-    </div>
+    </>
   )
 }
 
@@ -815,12 +821,19 @@ const selectStyle = {
   minWidth: '20em',
 }
 const lotHeaderStyle = {
-  display: 'flex', gap: 'var(--space-4)', alignItems: 'flex-start',
   padding: 'var(--space-4)',
   background: 'var(--bg-surface)',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-md)',
   marginBottom: 'var(--space-4)',
+}
+const lotIdentityRowStyle = {
+  display: 'flex', gap: 'var(--space-4)', alignItems: 'flex-start',
+}
+const lotControlsDividerStyle = {
+  marginTop: 'var(--space-4)',
+  paddingTop: 'var(--space-3)',
+  borderTop: '1px solid var(--border-default)',
 }
 const thumbBtnStyle = {
   padding: 0, border: 'none', background: 'transparent',
@@ -866,10 +879,6 @@ const purchasedStyle = {
   color: 'var(--success)',
   fontSize: '0.85em',
   fontWeight: 600,
-}
-const controlsCardStyle = {
-  ...cardStyle,
-  background: 'var(--bg-elevated)',
 }
 const timersStyle = {
   fontFamily: 'var(--font-mono)',

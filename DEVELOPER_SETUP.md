@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 30 april 2026 (sessie-einde)**
+**Laatste update: 2 mei 2026 (sessie-einde)**
 
 ---
 
@@ -95,19 +95,31 @@ auction_houses uit Supabase als verbinding-smoke-test.
 
 ## Vercel deployment
 
-```bash
-npm install -g vercel
-vercel
+**Live URL:** https://veiling-pro.vercel.app
+
+Vercel is gekoppeld aan https://github.com/frederikdbacker/Veiling-Pro.
+Elke `git push` naar `main` triggert automatisch een nieuwe deployment.
+Geen `vercel` CLI nodig voor dagelijks gebruik — push is voldoende.
+
+### `vercel.json` in repo-root
+
+Bevat een SPA-fallback rewrite zodat directe deeplinks (zoals
+`/cockpit/:id` en `/auctions/:id/summary`) niet 404 geven op Vercel:
+
+```json
+{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
 ```
 
-Vercel koppelt automatisch aan de GitHub repo. Elke `git push` naar `main`
-triggert automatisch een nieuwe deployment.
+Niet aanraken tenzij je weet wat je doet — verwijderen breekt alle deeplinks.
 
 ### Environment variables in Vercel
 
-Voeg toe via Vercel dashboard → Settings → Environment Variables:
+Ingesteld via Vercel dashboard → Settings → Environment Variables:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Deze waarden komen uit Supabase Dashboard → Settings → API Keys
+(Publishable key, niet de secret/service_role).
 
 ---
 

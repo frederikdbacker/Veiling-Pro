@@ -1,34 +1,42 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 30 april 2026**
+**Laatste update: 2 mei 2026**
 **Deadline: 5 mei 2026 (Aloga Auction 2026)**
 
 ---
 
-## Huidige status: COCKPIT LIVE (op één detail na)
+## Huidige status: COCKPIT + OVERZICHT LIVE OP VERCEL
 
-Drie modules werken end-to-end:
+Vier modules werken end-to-end op productie (https://veiling-pro.vercel.app):
+
 1. **Voorbereidingsmodule** — Veilinghuizen → Veilingen → Lots → Detail
    met foto-gallery, catalog/EquiRatings, video, drie auto-save notes,
-   inline edit voor lot-nummer/startprijs/reserveprijs, drie URL-velden
-   (Hippomundo/Horsetelex/extra), vorig/volgend met pijltjestoetsen.
+   inline edit voor lot-nummer/startprijs/reserveprijs (met duizendscheiding),
+   drie URL-velden (Hippomundo/Horsetelex/extra), vorig/volgend met
+   pijltjestoetsen.
 2. **Bid-step-systeem** — per veiling welke lot-types, per (veiling, type)
-   een staffel met ranges + steps, lot-type per paard, read-only preview
-   op LotPage, `nextBidStep` helper voor cockpit-lookup.
-3. **Live Cockpit** (3 van 6 stappen af) — `/cockpit/:auctionId` met
-   read-only paard-info (incl. catalog, EquiRatings, foto-gallery,
-   leeftijd-uit-jaar, externe links), drie-knop-flow (IN DE PISTE → START
-   BIEDEN → HAMER) met live timer en next-lot-knop, en hamer-form met
-   verkocht-in-zaal / verkocht-online / niet-verkocht + prijs-invoer.
+   een staffel met ranges + steps (alle bedragen met duizendscheiding),
+   lot-type per paard, read-only preview op LotPage, `nextBidStep` helper.
+3. **Live Cockpit** (5 van 6 stappen af) — `/cockpit/:auctionId` met
+   read-only paard-info, drie-knop-flow (IN DE PISTE → START BIEDEN →
+   HAMER) met live timer en next-lot-knop, hamer-form (zaal/online/niet-
+   verkocht), én bovenin een **statusbalk** met X/24 gehamerd, omzet,
+   gem. duur en verwacht einduur (live update na elke hamer).
+4. **Overzichtspagina einde veiling** — `/auctions/:id/summary` met
+   kerncijfers, splitsing per lot-type en lot-voor-lot resultaat. Werkt
+   ook tijdens lopende veiling (toont "(veiling nog bezig)"). Op cockpit
+   verschijnt een groene "Overzicht einde veiling →"-knop zodra alle
+   lots gehamerd zijn.
 
-Database staat (1 huis, 1 veiling met datum+locatie+starttijd, 24 lots
-met enriched data van aloga-auction.com, 8 lot-types, 0+ bid_step_rules,
+Vercel-deploy is rond met SPA-fallback via `vercel.json`. Elke push naar
+`main` triggert een nieuwe deploy. Database ongewijzigd (1 huis, 1 veiling
+met datum+locatie+starttijd, 24 lots met enriched data, 8 lot-types,
 clients-tabel klaar maar leeg).
 
-Open: cockpit-stap 6 (sessie-statistieken — gem. duur, verwacht einduur),
-klanten-UI (0b uit oorspronkelijk plan), Vercel-deploy, drop deprecated
-columns. Cockpit is **bruikbaar zonder die laatste stap** — Frederik kan
-op 5 mei werken.
+Open vóór 5 mei: notities bewerkbaar in cockpit (stap 5), eindtijd Aloga
+2026 invullen, drop deprecated columns. Geen van deze blokkeert het
+veilen op 5 mei. Cockpit is **volledig bruikbaar op iPad** via de
+gepubliceerde URL.
 
 ---
 
@@ -96,22 +104,22 @@ op 5 mei werken.
 ## Wat nog gebouwd moet worden — MVP voor 5 mei
 
 ### Eerstvolgende stappen
-- [ ] **Cockpit-statusbalk** (toegevoegd 30-04): bovenaan/onderaan altijd zichtbaar:
-  "X/24 lots · Y verkocht · Z niet verkocht · Voorlopige omzet €N"
-- [ ] **Cockpit stap 6**: sessie-statistieken (gem. duur per lot, verwacht einduur,
-  gestart-tijdstip) — kan in dezelfde balk verwerkt worden
-- [ ] **Overzichtspagina einde veiling** (toegevoegd 30-04): nieuwe route
-  `/auctions/:id/summary` of `/auctions/:id/result` met:
-  * Lijst van alle paarden met verkoopprijs en sold/niet-verkocht
-  * Totale omzet
-  * Gemiddelde prijs per lot-type
-  * Gemiddelde prijs per paard (over verkochte lots)
-  Knop "Overzicht openen" verschijnt op cockpit zodra alle 24 paarden gehamerd zijn.
-- [ ] **Cockpit stap 5**: notities bewerkbaar maken in cockpit (kleine ✏-knop per veld)
-- [ ] **Klanten-UI** (0b, uitgesteld): autocomplete op LotPage om klanten te koppelen aan paarden
-- [ ] **Vercel-deployment** zodat cockpit ook op iPad/telefoon bruikbaar is
-- [ ] **Eindtijd Aloga 2026** invullen (starttijd staat op 20:00)
-- [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type` text) in een schoonmaak-migratie
+- [x] ~~Cockpit-statusbalk~~ — AF op 02-05-2026 (commit 24728d4):
+  voortgang, omzet, gem. duur en verwacht einduur, live update na elke hamer
+- [x] ~~Cockpit stap 6~~ — AF op 02-05-2026 (sessie-stats verwerkt in statusbalk)
+- [x] ~~Overzichtspagina einde veiling~~ — AF op 02-05-2026 (commit 6f921c5):
+  `/auctions/:id/summary` met kerncijfers + per-type + per-lot, knop verschijnt
+  op cockpit zodra alle lots gehamerd zijn
+- [x] ~~Vercel-deployment~~ — AF op 02-05-2026, live op https://veiling-pro.vercel.app
+  (auto-deploy bij elke push, SPA-fallback via `vercel.json`)
+- [x] ~~Duizendscheiding op alle bedrag-velden~~ — AF op 02-05-2026 (commit 7c9798b):
+  start/reserve op LotPage, bietstappen op AuctionPage, hamer-form in cockpit
+  tonen nu €15.000 ipv €15000 tijdens invoer
+- [ ] **Cockpit stap 5**: notities bewerkbaar in cockpit (✏-knop per veld) — comfort
+- [ ] **Klanten-UI** (0b, uitgesteld na 5 mei): autocomplete op LotPage
+- [ ] **Eindtijd Aloga 2026** invullen (starttijd staat op 20:00) — REST PATCH, 30 sec
+- [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type` text)
+  in schoonmaak-migratie — na 5 mei
 
 ### Dag 2-3 — Voorbereidingsmodule (✅ AF op 30-04-2026)
 - [x] Veilinghuizen → Veilingen → Lots navigatie
@@ -132,7 +140,7 @@ op 5 mei werken.
 - [x] AuctionPage: LotTypesSelector (checkbox-grid) + BidStepRulesEditor
   (mini-tabel per type met inline-editbare ranges en step)
 
-### Live Cockpit (3 van 6 stappen ✅, commits 73761c5 → c1a8677)
+### Live Cockpit (5 van 6 stappen ✅, commits 73761c5 → 6f921c5)
 - [x] Stap 1: skelet `/cockpit/:auctionId` met read-only paard-info, foto-gallery,
   catalogtekst, EquiRatings, leeftijd-uit-jaar (bv. "2019/7 jaar"), klanten-
   placeholder, biedstaffel-preview
@@ -144,16 +152,74 @@ op 5 mei werken.
   €X om HH:MM (duur MM:SS)"
 - [ ] Stap 4: huidig-bod input — **GESCHRAPT** (Frederik typt enkel finale prijs)
 - [ ] Stap 5: notities bewerkbaar in cockpit
-- [ ] Stap 6: sessie-statistieken
+- [x] Stap 6: sessie-statistieken (commit 24728d4 — verwerkt in CockpitStatusBar:
+  X/N gehamerd, ✓ verkocht / ⊘ niet, omzet, ⌀ duur, verwacht einduur)
 - [x] LotPage: LotTypeDropdown om type per lot te kiezen
 - [x] LotPage: BidStepRulesPreview (read-only) voor referentie
 - [x] Helper `nextBidStep(currentBid, rules)` in src/lib/bidSteps.js
+
+### Overzichtspagina einde veiling (✅ AF op 02-05-2026, commit 6f921c5)
+- [x] Nieuwe route `/auctions/:id/summary` (in App.jsx)
+- [x] Kerncijfers-blok: voortgang, verkocht/niet, totale omzet,
+  gem. verkoopprijs, gem. duur per lot, totale wallclock-duur
+- [x] Per lot-type: aantal, verkocht/niet, gemiddelde en totaal per type
+- [x] Per lot: lijst van alle 24 met resultaat (zaal/online/niet-verkocht)
+  of "nog niet gehamerd" als time_hammer leeg is
+- [x] Werkt ook bij lopende veiling: toont "(veiling nog bezig)" en partial
+- [x] Cockpit-knop "📊 Overzicht einde veiling →" zichtbaar zodra alle
+  lots gehamerd zijn (`allLots.every(l => l.time_hammer != null)`)
+
+### Vercel-deployment (✅ AF op 02-05-2026)
+- [x] Project gekoppeld aan https://github.com/frederikdbacker/Veiling-Pro
+- [x] Auto-deploy bij elke push naar `main`
+- [x] Environment Variables ingesteld (`VITE_SUPABASE_URL`,
+  `VITE_SUPABASE_PUBLISHABLE_KEY`)
+- [x] `vercel.json` met SPA-fallback rewrites zodat deeplinks werken
+  (commit e45be77)
+- [x] Live op https://veiling-pro.vercel.app
+
+### Utilities (✅ AF op 02-05-2026)
+- [x] `scripts/reset-auction.sql` — reset alle hamer-data + active_lot_id
+  voor één veiling. Plak in Supabase SQL Editor en run vóór 5 mei om
+  test-data uit Aloga te wissen.
 
 ### Toekomstig (na 5 mei)
 - [ ] "Kopieer bid-step-staffel van vorige veiling" — bv. Aloga 2027 erft
   staffels van Aloga 2026 automatisch (Frederik's wens 30-04-2026)
 - [ ] Range-overlap-validatie met visuele waarschuwing
 - [ ] Drop deprecated kolommen `lots.bid_steps` (text) en `lots.lot_type` (text)
+
+### Klanten-UI — uitgewerkte specificatie (Frederik's wens 02-05-2026)
+
+Op LotPage een veld "Geïnteresseerden" waarin Frederik per paard namen
+kan invoegen van mensen die interesse hebben getoond. Per persoon:
+
+- **Naam**
+- **Tafelnummer** (waar in de zaal)
+- **Richting** (waar Frederik moet kijken — bv. "links achter", "midden")
+- **Opmerking** (vrij veld)
+
+**Slim gedrag dat hij wil:**
+1. Wanneer dezelfde naam later bij een ánder paard wordt ingevuld,
+   moeten **tafelnummer, richting en opmerking automatisch overgenomen
+   worden** uit de eerste invoer in dezelfde veiling.
+2. **Autocomplete-suggesties:** zodra Frederik begint te typen in het
+   naamveld, krijgt hij een lijstje van klanten die binnen deze veiling
+   al ergens anders zijn ingevoerd en met die letter(s) beginnen.
+
+**Database:** de `clients` + `lot_interested_clients` tabellen bestaan
+al (migratie 0004). De spec sluit aan: `clients.name/country/notes`
+plus `lot_interested_clients.notes`. Wat nog ontbreekt:
+- `clients.table_number` (text of int)
+- `clients.direction` (text)
+- Of beter: `lot_interested_clients.table_number/direction` als die per
+  veiling kunnen verschillen (waarschijnlijk wel — een klant kan in
+  verschillende veilingen op een ander tafelnummer zitten). Bij het
+  bouwen overleggen welke tabel waar woont.
+
+**Cockpit:** "Geïnteresseerde klanten"-sectie heeft nu al een placeholder
+in CockpitPage; vult zich automatisch zodra de UI op LotPage data
+levert via `lot_interested_clients`.
 
 ### Dag 4-5 — Live cockpit
 - [ ] Minimale interface voor tijdens de veiling

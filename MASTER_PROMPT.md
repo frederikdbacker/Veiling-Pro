@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 30 april 2026 (sessie-einde)**
+**Aangemaakt: april 2026 — laatste update: 2 mei 2026 (sessie-einde)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---

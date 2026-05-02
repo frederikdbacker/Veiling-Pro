@@ -1,0 +1,81 @@
+{
+  "_note": "Per slug de gestructureerde pedigree-tree. Wordt door scripts/import-pedigree.mjs in lots.pedigree geschreven. Schaving zelf is incrementeel — pas bij wat je hebt aan.",
+
+  "chackella": {
+    "sire": {
+      "name": "Chacco Blue",
+      "sire": { "name": "Chambertin", "sire": "Cambridge", "dam": "Desiree VII" },
+      "dam":  { "name": "Mom's Contara", "sire": "Contender", "dam": "Godahra II" }
+    },
+    "dam": {
+      "name": "W Delta Mossel Jantje",
+      "sire": { "name": "Pilgrim II", "sire": "Polydor", "dam": "Wilma" },
+      "dam":  { "name": "So Lovely", "sire": "Heartbreaker", "dam": "Nouvelle" }
+    }
+  },
+
+  "amaretto-destinys": {
+    "sire": {
+      "name": "All Star 5",
+      "sire": { "name": "Argentinus", "sire": "Argentan I", "dam": "Dorle" },
+      "dam":  { "name": "April Love ZH", "sire": "Almé Z", "dam": "Rinnetou Z" }
+    },
+    "dam": {
+      "name": "Wysan",
+      "sire": { "name": "Heartbreaker", "sire": "Nimmerdor", "dam": "Bacarole" },
+      "dam":  { "name": "Ischmiran", "sire": "Calvados", "dam": "Assan" }
+    }
+  },
+
+  "annabelle": {
+    "sire": {
+      "name": "Aganix du Seigneur Z",
+      "sire": { "name": "Ogano Sitte", "sire": "Darco", "dam": "Ialta Sitte" },
+      "dam":  { "name": "Cadix Du Seigneur Z", "sire": "Chellano Z", "dam": "Atlanta Sitte Z" }
+    },
+    "dam": {
+      "name": "Constanze 41",
+      "sire": { "name": "Corrado I", "sire": "Cor de la Brière", "dam": "Soleil" },
+      "dam":  { "name": "Stute 210062190", "sire": "Lord", "dam": "Ulistra" }
+    }
+  },
+
+  "baggio-boy": {
+    "sire": {
+      "name": "Baggio",
+      "sire": { "name": "Brantzau", "sire": "Baloubet du Rouet", "dam": "Thorradina JPC" },
+      "dam":  { "name": "U-Charlotta", "sire": "Casall ASK", "dam": "Montana XX" }
+    },
+    "dam": {
+      "name": "Gavi 6",
+      "sire": { "name": "Graf Grannus", "sire": null, "dam": "Wega" },
+      "dam":  { "name": "Heideblume", "sire": "Zeus", "dam": "Herma" }
+    }
+  },
+
+  "california": {
+    "sire": {
+      "name": "VDL Cardento",
+      "sire": { "name": "Capitol I", "sire": null, "dam": null },
+      "dam":  { "name": "Folia", "sire": null, "dam": null }
+    },
+    "dam": {
+      "name": "Cristel Della Caccia",
+      "sire": { "name": "Clinton I", "sire": "Carolus I", "dam": "Cristal" },
+      "dam":  { "name": "Onessa III", "sire": "Carolus I", "dam": null }
+    }
+  },
+
+  "caprice": {
+    "sire": {
+      "name": "Colorit Z",
+      "sire": { "name": "Coriano Z", "sire": "Corrado I", "dam": "Campina" },
+      "dam":  { "name": "Capitol I", "sire": "T-San Sira", "dam": "Donna" }
+    },
+    "dam": {
+      "name": "Zapatero VDL",
+      "sire": { "name": "Chin Chin", "sire": "Manieta", "dam": "Jerona" },
+      "dam":  { "name": "Ramiro Z", "sire": "Elfie", "dam": null }
+    }
+  }
+}

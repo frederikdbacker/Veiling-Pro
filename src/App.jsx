@@ -10,33 +10,12 @@ export default function App() {
   return (
     <main
       style={{
-        padding: 'var(--space-6) var(--space-5)',
+        padding: 'var(--space-5) var(--space-5)',
         maxWidth: 1100,
         margin: '0 auto',
         minHeight: '100vh',
       }}
     >
-      <header
-        style={{
-          marginBottom: 'var(--space-5)',
-          paddingBottom: 'var(--space-3)',
-          borderBottom: '1px solid var(--border-default)',
-        }}
-      >
-        <Link
-          to="/"
-          style={{
-            textDecoration: 'none',
-            color: 'var(--text-primary)',
-            fontWeight: 600,
-            fontSize: '1.05rem',
-            letterSpacing: '0.04em',
-          }}
-        >
-          VEILING PRO
-        </Link>
-      </header>
-
       <Routes>
         <Route path="/" element={<HousesPage />} />
         <Route path="/houses/:houseId" element={<HousePage />} />

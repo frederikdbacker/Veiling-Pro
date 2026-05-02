@@ -17,15 +17,15 @@
   --text-secondary:  #BFBFBF;   /* licht-grijs */
   --text-muted:      #808080;   /* middel-grijs */
 
-  /* --- Accent (zacht groen, geen goud) ----------- */
-  --accent:         #6FAF99;
-  --accent-hover:   #88C2AC;
-  --accent-muted:   #4F8076;
+  /* --- Accent (standaard groen, generiek — geen veiling-styling) --- */
+  --accent:         #22C55E;
+  --accent-hover:   #4ADE80;
+  --accent-muted:   #166534;
 
   /* --- Semantisch -------------------------------- */
-  --success: #6FAF99;          /* groen — verkocht, positief */
-  --warning: #C45555;          /* rood — niet verkocht, opletten */
-  --danger:  #C45555;          /* rood — error */
+  --success: #22C55E;          /* standaard groen — verkocht, positief */
+  --warning: #EF4444;          /* standaard rood — niet verkocht, opletten */
+  --danger:  #EF4444;          /* standaard rood — error */
   --info:    #BFBFBF;          /* grijs — neutrale info */
 
   /* --- Borders ----------------------------------- */

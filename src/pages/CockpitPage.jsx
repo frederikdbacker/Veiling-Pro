@@ -117,9 +117,17 @@ export default function CockpitPage() {
   const houseId   = auction.auction_houses?.id
   const houseName = auction.auction_houses?.name
 
+  // "Volgend lot" — gebruikt in de picker-balk om snel door de
+  // gesorteerde lijst te schuiven, en in CockpitControls niet meer
+  // (Frederik wil het naast de dropdown voor minder muis-/blik-afstand).
+  const activeIdx = activeLot ? allLots.findIndex((l) => l.id === activeLot.id) : -1
+  const nextLot = activeIdx >= 0 && activeIdx < allLots.length - 1
+    ? allLots[activeIdx + 1]
+    : null
+
   return (
     <section>
-      {/* Breadcrumbs (klein, gedempt goud) */}
+      {/* Breadcrumbs */}
       <p style={crumbsStyle}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
@@ -146,9 +154,9 @@ export default function CockpitPage() {
         </div>
       )}
 
-      {/* Lot picker */}
+      {/* Lot picker — dropdown links, "Volgend lot" knop rechts */}
       <div style={pickerStyle}>
-        <label style={{ fontWeight: 600, marginRight: 'var(--space-2)', color: 'var(--text-secondary)' }}>
+        <label style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>
           Actief lot:
         </label>
         <select
@@ -163,6 +171,16 @@ export default function CockpitPage() {
             </option>
           ))}
         </select>
+        <button
+          onClick={() => nextLot && setActiveLotById(nextLot.id)}
+          disabled={!nextLot}
+          style={nextLotBtnStyle(nextLot != null)}
+          title={nextLot ? `Volgend lot — #${nextLot.number ?? '—'} ${nextLot.name}` : 'Einde van de lijst'}
+        >
+          {nextLot
+            ? `Volgend → #${nextLot.number ?? '—'} ${nextLot.name}`
+            : 'Einde van de lijst'}
+        </button>
       </div>
 
       {!auction.active_lot_id && (
@@ -219,9 +237,12 @@ function ActiveLotPanel({
 
   return (
     <div>
-      {/* Lot-card: identity boven, drie-knop-flow onderaan in dezelfde kaart */}
-      <div style={lotHeaderStyle}>
-        <div style={lotIdentityRowStyle}>
+      {/* Lot-card: twee kolommen — identity links, actie-kader rechts.
+          Het actie-kader bundelt prijzen, biedstappen, timer en knoppen
+          omdat dat tijdens veilen samenhoort. */}
+      <div style={lotCardTwoColStyle}>
+        {/* Identity-kolom (basis-info) */}
+        <div style={identityColStyle}>
           {photos.length > 0 && (
             <button
               type="button"
@@ -233,7 +254,7 @@ function ActiveLotPanel({
               <img
                 src={photos[activePhoto]}
                 alt={lot.name}
-                width={72} height={72}
+                width={88} height={88}
                 style={{ objectFit: 'cover', display: 'block', borderRadius: 'var(--radius-sm)' }}
               />
             </button>
@@ -250,25 +271,37 @@ function ActiveLotPanel({
                 {lot.sire ?? '?'} × {lot.dam ?? '?'}
               </div>
             )}
-            <div style={priceRowStyle} className="num">
-              Start <strong>€{formatNum(lot.start_price)}</strong>
-              {lot.reserve_price != null && <>
-                {' · '}Reserve <strong>€{formatNum(lot.reserve_price)}</strong>
-              </>}
-            </div>
           </div>
         </div>
 
-        {/* Drie-knop-flow direct onder de identity, in dezelfde kaart */}
-        <div style={lotControlsDividerStyle}>
-          <CockpitControls
-            lot={lot}
-            allLots={allLots}
-            houseId={houseId}
-            interestedClients={interestedClients}
-            onLotUpdated={onLotUpdated}
-            onActiveLotChange={onActiveLotChange}
-          />
+        {/* Actie-kader: prijzen → biedstappen → timer + 3-knop-flow */}
+        <div style={actionPanelStyle}>
+          <div style={priceBlockStyle} className="num">
+            <div>
+              <span style={priceLabelStyle}>Start</span>{' '}
+              <strong>€{formatNum(lot.start_price)}</strong>
+            </div>
+            {lot.reserve_price != null && (
+              <div>
+                <span style={priceLabelStyle}>Reserve</span>{' '}
+                <strong>€{formatNum(lot.reserve_price)}</strong>
+              </div>
+            )}
+          </div>
+
+          <div style={actionDividerStyle}>
+            <div style={actionSubtitleStyle}>Biedstappen</div>
+            <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
+          </div>
+
+          <div style={actionDividerStyle}>
+            <CockpitControls
+              lot={lot}
+              houseId={houseId}
+              interestedClients={interestedClients}
+              onLotUpdated={onLotUpdated}
+            />
+          </div>
         </div>
       </div>
 
@@ -309,54 +342,49 @@ function ActiveLotPanel({
         </Modal>
       )}
 
-      {/* Twee-koloms: geïnteresseerden | biedstappen */}
-      <div style={twoColStyle}>
-        <Card title="Geïnteresseerden">
-          {interestedClients.length === 0 ? (
-            <p style={emptyMutedStyle}>
-              Nog geen klanten gekoppeld. Voeg ze toe op de lot-detailpagina.
-            </p>
-          ) : (
-            <ul style={listStyle}>
-              {interestedClients.map((entry) => {
-                const purchases = purchasesByClient?.get(entry.client_id)
-                const meta = []
-                if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
-                if (entry.direction)    meta.push(entry.direction)
-                return (
-                  <li key={entry.client_id} style={{ padding: '4px 0' }}>
-                    <div>
-                      <strong style={{ color: 'var(--accent)' }}>★ {entry.name}</strong>
-                      {meta.length > 0 && (
-                        <span style={{ color: 'var(--text-secondary)' }}> · {meta.join(' · ')}</span>
-                      )}
+      {/* Geïnteresseerden — volle breedte (biedstappen verhuisden naar
+          actie-kader binnen de lot-card) */}
+      <Card title="Geïnteresseerden">
+        {interestedClients.length === 0 ? (
+          <p style={emptyMutedStyle}>
+            Nog geen klanten gekoppeld. Voeg ze toe op de lot-detailpagina.
+          </p>
+        ) : (
+          <ul style={listStyle}>
+            {interestedClients.map((entry) => {
+              const purchases = purchasesByClient?.get(entry.client_id)
+              const meta = []
+              if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
+              if (entry.direction)    meta.push(entry.direction)
+              return (
+                <li key={entry.client_id} style={{ padding: '4px 0' }}>
+                  <div>
+                    <strong style={{ color: 'var(--accent)' }}>★ {entry.name}</strong>
+                    {meta.length > 0 && (
+                      <span style={{ color: 'var(--text-secondary)' }}> · {meta.join(' · ')}</span>
+                    )}
+                  </div>
+                  {entry.seating_notes && (
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.9em', fontStyle: 'italic' }}>
+                      "{entry.seating_notes}"
                     </div>
-                    {entry.seating_notes && (
-                      <div style={{ color: 'var(--text-muted)', fontSize: '0.9em', fontStyle: 'italic' }}>
-                        "{entry.seating_notes}"
-                      </div>
-                    )}
-                    {entry.lot_notes && (
-                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em' }}>
-                        ↪ specifiek: {entry.lot_notes}
-                      </div>
-                    )}
-                    {purchases && purchases.length > 0 && (
-                      <div style={purchasedStyle}>
-                        ✓ al gekocht: {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
-                      </div>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-        </Card>
-
-        <Card title="Biedstappen">
-          <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
-        </Card>
-      </div>
+                  )}
+                  {entry.lot_notes && (
+                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em' }}>
+                      ↪ specifiek: {entry.lot_notes}
+                    </div>
+                  )}
+                  {purchases && purchases.length > 0 && (
+                    <div style={purchasedStyle}>
+                      ✓ al gekocht: {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
+                    </div>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </Card>
 
       {/* Pedigree — bracket-tree, mannelijk grijs / vrouwelijk groen */}
       <Card title="Pedigree">
@@ -402,7 +430,7 @@ function ActiveLotPanel({
   )
 }
 
-function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdated, onActiveLotChange }) {
+function CockpitControls({ lot, houseId, interestedClients, onLotUpdated }) {
   const [now, setNow] = useState(() => new Date())
   const [busy, setBusy] = useState(null)
   const [hamerOpen, setHamerOpen] = useState(false)
@@ -520,9 +548,6 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
     }
   }
 
-  const idx = allLots.findIndex((l) => l.id === lot.id)
-  const nextLot = idx >= 0 && idx < allLots.length - 1 ? allLots[idx + 1] : null
-
   return (
     <>
       {/* Live timer + resultaat */}
@@ -555,7 +580,7 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
         </div>
       )}
 
-      {/* Compacte 3-knop + volgend-lot op één regel */}
+      {/* 3-knop-flow — Volgend lot zit in de picker-balk bovenaan */}
       <div style={controlsRowStyle}>
         <FlowButton
           label="In piste" state={inRingState}
@@ -573,15 +598,6 @@ function CockpitControls({ lot, allLots, houseId, interestedClients, onLotUpdate
           onClick={openHamer}
           primary
         />
-        <button
-          onClick={() => nextLot && onActiveLotChange(nextLot.id)}
-          disabled={!nextLot}
-          style={nextLotBtnStyle(nextLot != null)}
-        >
-          {nextLot
-            ? `Volgend → #${nextLot.number ?? '—'} ${nextLot.name}`
-            : 'Einde van de lijst'}
-        </button>
       </div>
 
       {/* Hamer-modal — fixed-positioned, geen invloed op de DOM-tree */}
@@ -818,28 +834,67 @@ const pickerStyle = {
   borderRadius: 'var(--radius-md)',
   padding: 'var(--space-3) var(--space-4)',
   marginBottom: 'var(--space-4)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 'var(--space-3)',
+  flexWrap: 'wrap',
 }
 const selectStyle = {
+  flex: '1 1 16em',
   padding: '0.4rem 0.5rem', fontSize: '1rem',
   background: 'var(--bg-input)', color: 'var(--text-primary)',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-sm)',
-  minWidth: '20em',
+  minWidth: '12em',
 }
-const lotHeaderStyle = {
+const lotCardTwoColStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+  gap: 'var(--space-4)',
   padding: 'var(--space-4)',
   background: 'var(--bg-surface)',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-md)',
   marginBottom: 'var(--space-4)',
 }
-const lotIdentityRowStyle = {
-  display: 'flex', gap: 'var(--space-4)', alignItems: 'flex-start',
+const identityColStyle = {
+  display: 'flex',
+  gap: 'var(--space-4)',
+  alignItems: 'flex-start',
 }
-const lotControlsDividerStyle = {
-  marginTop: 'var(--space-4)',
+const actionPanelStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  padding: 'var(--space-3) var(--space-4)',
+}
+const actionDividerStyle = {
+  marginTop: 'var(--space-3)',
   paddingTop: 'var(--space-3)',
   borderTop: '1px solid var(--border-default)',
+}
+const actionSubtitleStyle = {
+  fontSize: '0.75rem',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'var(--text-muted)',
+  marginBottom: 'var(--space-2)',
+}
+const priceBlockStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 'var(--space-1)',
+  fontSize: '1.05rem',
+  color: 'var(--text-primary)',
+}
+const priceLabelStyle = {
+  color: 'var(--text-muted)',
+  fontSize: '0.85rem',
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  marginRight: 4,
 }
 const thumbBtnStyle = {
   padding: 0, border: 'none', background: 'transparent',
@@ -852,16 +907,6 @@ const lotNameStyle = {
   fontSize: '1.6rem',
   color: 'var(--text-primary)',
   fontWeight: 600,
-}
-const priceRowStyle = {
-  marginTop: 'var(--space-2)',
-  color: 'var(--text-secondary)',
-}
-const twoColStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-  gap: 'var(--space-4)',
-  marginBottom: 'var(--space-4)',
 }
 const cardStyle = {
   background: 'var(--bg-surface)',

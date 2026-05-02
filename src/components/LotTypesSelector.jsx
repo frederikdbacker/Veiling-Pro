@@ -77,14 +77,28 @@ export default function LotTypesSelector({ auctionId, onChange }) {
     <details
       open
       style={{
-        background: '#fafafa', border: '1px solid #eee',
-        borderRadius: 6, padding: '0.5rem 0.85rem', marginBottom: '1rem',
+        background: 'var(--bg-surface)',
+        border: '1px solid var(--border-default)',
+        borderRadius: 'var(--radius-md)',
+        padding: 'var(--space-3) var(--space-4)',
+        marginBottom: 'var(--space-4)',
       }}
     >
-      <summary style={{ cursor: 'pointer', fontWeight: 600 }}>
+      <summary style={{
+        cursor: 'pointer',
+        fontWeight: 600,
+        color: 'var(--text-secondary)',
+        fontSize: '0.85rem',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+      }}>
         Lot-types in deze veiling — {selectedIds.size} aangevinkt
       </summary>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem 1rem', marginTop: 8 }}>
+      <div style={{
+        display: 'flex', flexWrap: 'wrap',
+        gap: 'var(--space-2) var(--space-4)',
+        marginTop: 'var(--space-3)',
+      }}>
         {allTypes.map((t) => {
           const checked = selectedIds.has(t.id)
           const busy = busyIds.has(t.id)
@@ -94,6 +108,7 @@ export default function LotTypesSelector({ auctionId, onChange }) {
               style={{
                 display: 'flex', gap: 6, alignItems: 'center',
                 opacity: busy ? 0.6 : 1, cursor: busy ? 'wait' : 'pointer',
+                color: 'var(--text-primary)',
               }}
             >
               <input
@@ -108,7 +123,7 @@ export default function LotTypesSelector({ auctionId, onChange }) {
         })}
       </div>
       {error && (
-        <p style={{ color: '#c33', fontSize: '0.85em', marginTop: 8 }}>
+        <p style={{ color: 'var(--danger)', fontSize: '0.85em', marginTop: 8 }}>
           ❌ {error}
         </p>
       )}

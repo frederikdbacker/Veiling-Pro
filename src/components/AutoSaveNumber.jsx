@@ -32,9 +32,13 @@ export default function AutoSaveNumber({
   initialValue, label,
   step = 1, min, prefix, suffix, placeholder,
   displayWithThousands = false,
+  presets,
   missingInfoKey,
   onSaved,
 }) {
+  const datalistId = presets && presets.length > 0
+    ? `presets-${table}-${id}-${fieldName}`
+    : null
   const initStr = initialValue == null ? '' : String(initialValue)
   const [value, setValue] = useState(initStr)
   const [status, setStatus] = useState({ state: 'idle' })
@@ -107,7 +111,7 @@ export default function AutoSaveNumber({
 
   const inputEl = (
     <>
-      {prefix && <span style={{ color: '#666' }}>{prefix}</span>}
+      {prefix && <span style={{ color: 'var(--text-muted)' }}>{prefix}</span>}
       <input
         type={displayWithThousands ? 'text' : 'number'}
         inputMode={displayWithThousands ? 'numeric' : undefined}
@@ -117,15 +121,28 @@ export default function AutoSaveNumber({
         min={displayWithThousands ? undefined : min}
         placeholder={placeholder}
         aria-label={label}
+        list={datalistId ?? undefined}
         style={{
           padding: '0.4rem 0.5rem',
           fontFamily: 'inherit', fontSize: '1em',
-          border: '1px solid #ccc', borderRadius: 4,
-          width: '7em',
+          background: 'var(--bg-input)', color: 'var(--text-primary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          width: '8em',
           boxSizing: 'border-box',
         }}
       />
-      {suffix && <span style={{ color: '#666' }}>{suffix}</span>}
+      {datalistId && (
+        <datalist id={datalistId}>
+          {presets.map((p) => (
+            <option
+              key={p}
+              value={displayWithThousands ? formatThousands(p) : p}
+            />
+          ))}
+        </datalist>
+      )}
+      {suffix && <span style={{ color: 'var(--text-muted)' }}>{suffix}</span>}
       <SaveIndicator status={status} />
     </>
   )

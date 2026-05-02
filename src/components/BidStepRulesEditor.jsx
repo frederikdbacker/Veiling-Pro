@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import AutoSaveNumber from './AutoSaveNumber'
 
+// Standaard preset-bedragen voor de range-grenzen (Frederik 02-05-2026).
+const RANGE_PRESETS = [5000, 10000, 20000, 25000, 50000, 100000, 500000, 1000000]
+// Standaard biedstap-bedragen.
+const STEP_PRESETS = [100, 200, 500, 1000, 2000, 5000, 10000, 25000]
+
 /**
  * Staffel-editor: per geselecteerd lot-type een mini-tabel van regels
  * met range_from / range_to / step. Auto-save per cel via AutoSaveNumber.
@@ -136,24 +141,27 @@ function RuleRow({ rule, onRemove }) {
         marginBottom: 4, flexWrap: 'wrap',
       }}
     >
-      <span style={{ color: '#666' }}>Van</span>
+      <span style={{ color: 'var(--text-secondary)' }}>Van</span>
       <AutoSaveNumber
         table="bid_step_rules" id={rule.id} fieldName="range_from"
         initialValue={rule.range_from} step={100} prefix="€"
         displayWithThousands
+        presets={RANGE_PRESETS}
       />
-      <span style={{ color: '#666' }}>tot</span>
+      <span style={{ color: 'var(--text-secondary)' }}>tot</span>
       <AutoSaveNumber
         table="bid_step_rules" id={rule.id} fieldName="range_to"
         initialValue={rule.range_to} step={100} prefix="€"
         placeholder="∞"
         displayWithThousands
+        presets={RANGE_PRESETS}
       />
-      <span style={{ color: '#666' }}>stap</span>
+      <span style={{ color: 'var(--text-secondary)' }}>stap</span>
       <AutoSaveNumber
         table="bid_step_rules" id={rule.id} fieldName="step"
         initialValue={rule.step} step={50} prefix="€"
         displayWithThousands
+        presets={STEP_PRESETS}
       />
       <button
         onClick={onRemove}

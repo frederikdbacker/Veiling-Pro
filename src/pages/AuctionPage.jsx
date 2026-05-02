@@ -59,7 +59,7 @@ export default function AuctionPage() {
         )}
       </p>
       <h1>{auction?.name ?? 'Veiling'}</h1>
-      <p style={{ color: '#666' }}>
+      <p style={{ color: 'var(--text-secondary)' }}>
         {status}
         {auction && (
           <>
@@ -67,9 +67,10 @@ export default function AuctionPage() {
             <Link
               to={`/cockpit/${auction.id}`}
               style={{
-                display: 'inline-block', padding: '0.2rem 0.6rem',
-                background: '#222', color: '#fff', borderRadius: 4,
-                textDecoration: 'none', fontSize: '0.9em',
+                display: 'inline-block', padding: '0.25rem 0.75rem',
+                background: 'var(--accent)', color: 'var(--bg-base)',
+                borderRadius: 'var(--radius-sm)',
+                textDecoration: 'none', fontSize: '0.9em', fontWeight: 600,
               }}
             >
               🎬 Cockpit openen
@@ -94,7 +95,7 @@ export default function AuctionPage() {
       {lots.length > 0 && (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {lots.map((lot) => (
-            <li key={lot.id} style={{ borderBottom: '1px solid #eee' }}>
+            <li key={lot.id} style={{ borderBottom: '1px solid var(--border-default)' }}>
               <Link
                 to={`/lots/${lot.id}`}
                 style={{
@@ -103,13 +104,13 @@ export default function AuctionPage() {
                   gap: '1rem',
                   padding: '0.75rem 0',
                   textDecoration: 'none',
-                  color: '#222',
+                  color: 'var(--text-primary)',
                 }}
               >
                 <Thumb src={lot.photos?.[0]} alt={lot.name} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 600 }}>
-                    <span style={{ color: '#999', marginRight: '0.5em' }}>
+                  <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                    <span style={{ color: 'var(--text-muted)', marginRight: '0.5em' }}>
                       #{lot.number ?? '—'}
                     </span>
                     {lot.name}
@@ -117,7 +118,7 @@ export default function AuctionPage() {
                       <span
                         title={`Ontbreekt: ${translateMissing(lot.missing_info).join(', ')}`}
                         style={{
-                          marginLeft: '0.5em', color: '#C8A02E',
+                          marginLeft: '0.5em', color: 'var(--warning)',
                           fontWeight: 'normal', fontSize: '0.85em',
                         }}
                       >
@@ -125,11 +126,11 @@ export default function AuctionPage() {
                       </span>
                     )}
                   </div>
-                  <div style={{ color: '#666', fontSize: '0.85em', marginTop: '0.15rem' }}>
+                  <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em', marginTop: '0.15rem' }}>
                     {[lot.discipline, lot.year, lot.gender, lot.studbook].filter(Boolean).join(' • ')}
                   </div>
                   {(lot.sire || lot.dam) && (
-                    <div style={{ color: '#888', fontSize: '0.85em', fontStyle: 'italic' }}>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85em', fontStyle: 'italic' }}>
                       {lot.sire ?? '?'} × {lot.dam ?? '?'}
                     </div>
                   )}
@@ -150,9 +151,11 @@ function Thumb({ src, alt }) {
       <div
         style={{
           width: size, height: size, flexShrink: 0,
-          background: '#eee', borderRadius: 4,
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#aaa', fontSize: '0.7em',
+          color: 'var(--text-muted)', fontSize: '0.7em',
         }}
       >
         geen foto
@@ -166,7 +169,10 @@ function Thumb({ src, alt }) {
       width={size}
       height={size}
       loading="lazy"
-      style={{ flexShrink: 0, objectFit: 'cover', borderRadius: 4, background: '#eee' }}
+      style={{
+        flexShrink: 0, objectFit: 'cover',
+        borderRadius: 'var(--radius-sm)', background: 'var(--bg-elevated)',
+      }}
     />
   )
 }

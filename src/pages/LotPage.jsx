@@ -7,6 +7,7 @@ import LotTypeDropdown from '../components/LotTypeDropdown'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import InterestedClientsField from '../components/InterestedClientsField'
+import PedigreeTree from '../components/PedigreeTree'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
@@ -207,6 +208,11 @@ export default function LotPage() {
       {lot.usp && <Block title="USP"><p>{lot.usp}</p></Block>}
       {lot.strong_points && <Block title="Sterke punten"><p>{lot.strong_points}</p></Block>}
       {lot.weak_points && <Block title="Aandachtspunten"><p>{lot.weak_points}</p></Block>}
+
+      {/* Pedigree — bracket-tree, gescrapet of leeg */}
+      <Block title="Pedigree">
+        <PedigreeTree pedigree={lot.pedigree} />
+      </Block>
 
       {/* Voorbereidings-velden — lot-niveau metadata die jij invult */}
       <div key={`prep-${lotId}`} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #ddd' }}>

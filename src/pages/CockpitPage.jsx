@@ -5,6 +5,7 @@ import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import CockpitStatusBar from '../components/CockpitStatusBar'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
 import NoteField from '../components/NoteField'
+import PedigreeTree from '../components/PedigreeTree'
 import {
   getInterestedClientsForLot,
   getPurchasesByClientsInAuction,
@@ -356,6 +357,11 @@ function ActiveLotPanel({
           <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
         </Card>
       </div>
+
+      {/* Pedigree — bracket-tree, mannelijk grijs / vrouwelijk groen */}
+      <Card title="Pedigree">
+        <PedigreeTree pedigree={lot.pedigree} />
+      </Card>
 
       {/* Catalogustekst — uitgeklapt, vóór "Mijn voorbereiding" zodat je
           tijdens het voorlezen direct je notities ernaast hebt */}

@@ -18,6 +18,7 @@ export default function AuctionPage() {
   const [selectedTypeIds, setSelectedTypeIds] = useState(new Set())
   const [sortMode, setSortMode] = useState('number') // 'number' | 'alphabetical'
   const [breakForm, setBreakForm] = useState(null)   // null | { id?, after_lot_number, ... }
+  const [copyFeedback, setCopyFeedback] = useState(null)
 
   useEffect(() => {
     async function load() {
@@ -123,6 +124,28 @@ export default function AuctionPage() {
     } catch (e) { alert(`Fout: ${e.message}`) }
   }
 
+  async function toggleOnlineBidding() {
+    if (!auction) return
+    const newValue = !auction.online_bidding_enabled
+    const { error } = await supabase
+      .from('auctions')
+      .update({ online_bidding_enabled: newValue })
+      .eq('id', auctionId)
+    if (error) { alert(`Fout: ${error.message}`); return }
+    setAuction((prev) => ({ ...prev, online_bidding_enabled: newValue }))
+  }
+
+  async function copySummaryLink() {
+    const url = `${window.location.origin}/auctions/${auctionId}/summary`
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopyFeedback('✓ Link gekopieerd')
+    } catch (e) {
+      setCopyFeedback(`Fout: ${e.message}`)
+    }
+    setTimeout(() => setCopyFeedback(null), 2500)
+  }
+
   return (
     <section>
       <p>
@@ -130,20 +153,35 @@ export default function AuctionPage() {
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={{ color: 'var(--text-muted)' }}>{houseName}</Link></>}
       </p>
       <h1 style={{ color: 'var(--text-primary)' }}>{auction?.name ?? 'Veiling'}</h1>
-      <p style={{ color: 'var(--text-secondary)' }}>
-        {status}
-        {auction && (
-          <>
-            {' · '}
-            <Link
-              to={`/cockpit/${auction.id}`}
-              style={cockpitBtnStyle}
-            >
-              🎬 Cockpit openen
-            </Link>
-          </>
-        )}
-      </p>
+      <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
+
+      {auction && (
+        <div style={actionRowStyle}>
+          <Link to={`/cockpit/${auction.id}`} style={primaryBtnStyle}>
+            🎬 Cockpit openen
+          </Link>
+          <Link to={`/auctions/${auction.id}/summary`} style={secondaryBtnStyle}>
+            📊 Overzicht
+          </Link>
+          <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">
+            📋 Link kopiëren
+          </button>
+          {copyFeedback && (
+            <span style={{ color: 'var(--success)', fontSize: '0.9em', marginLeft: 8 }}>
+              {copyFeedback}
+            </span>
+          )}
+          <label style={onlineToggleLabelStyle}>
+            <input
+              type="checkbox"
+              checked={!!auction.online_bidding_enabled}
+              onChange={toggleOnlineBidding}
+              style={{ marginRight: 6 }}
+            />
+            Online biedingen actief
+          </label>
+        </div>
+      )}
 
       {auction && (
         <LotTypesSelector
@@ -438,11 +476,36 @@ function Thumb({ src, alt }) {
   )
 }
 
-const cockpitBtnStyle = {
-  display: 'inline-block', padding: '0.25rem 0.75rem',
+const actionRowStyle = {
+  display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8,
+  marginBottom: 'var(--space-4)',
+}
+const primaryBtnStyle = {
+  display: 'inline-block', padding: '0.4rem 0.85rem',
   background: 'var(--accent)', color: 'var(--bg-base)',
   borderRadius: 'var(--radius-sm)',
+  textDecoration: 'none', fontSize: '0.9em', fontWeight: 700,
+  border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+}
+const secondaryBtnStyle = {
+  display: 'inline-block', padding: '0.4rem 0.85rem',
+  background: 'transparent', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
   textDecoration: 'none', fontSize: '0.9em', fontWeight: 600,
+  cursor: 'pointer', fontFamily: 'inherit',
+}
+const onlineToggleLabelStyle = {
+  marginLeft: 'auto',
+  display: 'inline-flex', alignItems: 'center',
+  padding: '0.4rem 0.85rem',
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--text-primary)',
+  fontSize: '0.9em',
+  cursor: 'pointer',
+  userSelect: 'none',
 }
 const toolbarStyle = {
   display: 'flex', alignItems: 'center', justifyContent: 'space-between',

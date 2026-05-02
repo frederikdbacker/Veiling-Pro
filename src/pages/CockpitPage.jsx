@@ -51,7 +51,7 @@ export default function CockpitPage() {
       const [auctionRes, lotsRes] = await Promise.all([
         supabase
           .from('auctions')
-          .select('*, auction_houses(id, name)')
+          .select('*, online_bidding_enabled, auction_houses(id, name)')
           .eq('id', auctionId)
           .single(),
         supabase
@@ -228,6 +228,7 @@ export default function CockpitPage() {
           lot={activeLot}
           auctionId={auctionId}
           houseId={houseId}
+          onlineBiddingEnabled={!!auction.online_bidding_enabled}
           interestedClients={interestedClients}
           purchasesByClient={purchasesByClient}
           allLots={allLots}
@@ -250,7 +251,8 @@ export default function CockpitPage() {
 }
 
 function ActiveLotPanel({
-  lot, auctionId, houseId, interestedClients, purchasesByClient, allLots,
+  lot, auctionId, houseId, onlineBiddingEnabled,
+  interestedClients, purchasesByClient, allLots,
   onLotUpdated, onActiveLotChange,
 }) {
   const [activePhoto, setActivePhoto] = useState(0)
@@ -335,6 +337,7 @@ function ActiveLotPanel({
             <CockpitControls
               lot={lot}
               houseId={houseId}
+              onlineBiddingEnabled={onlineBiddingEnabled}
               interestedClients={interestedClients}
               onLotUpdated={onLotUpdated}
             />
@@ -462,7 +465,7 @@ function ActiveLotPanel({
   )
 }
 
-function CockpitControls({ lot, houseId, interestedClients, onLotUpdated }) {
+function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, onLotUpdated }) {
   const [now, setNow] = useState(() => new Date())
   const [busy, setBusy] = useState(null)
   const [hamerOpen, setHamerOpen] = useState(false)
@@ -641,7 +644,9 @@ function CockpitControls({ lot, houseId, interestedClients, onLotUpdated }) {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 'var(--space-3)' }}>
             <RadioRow label="Verkocht in zaal"  value="zaal"    current={outcome} onChange={setOutcome} />
-            <RadioRow label="Verkocht online"   value="online"  current={outcome} onChange={setOutcome} />
+            {onlineBiddingEnabled && (
+              <RadioRow label="Verkocht online" value="online"  current={outcome} onChange={setOutcome} />
+            )}
             <RadioRow label="Niet verkocht"     value="unsold"  current={outcome} onChange={setOutcome} />
           </div>
 

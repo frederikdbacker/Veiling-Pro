@@ -76,7 +76,7 @@ export default function SpottersField({ collectionId }) {
   }
 
   async function handleUnassign(spotterId) {
-    if (!window.confirm('Spotter loskoppelen van deze veiling? (blijft globaal beschikbaar)')) return
+    if (!window.confirm('Spotter loskoppelen van deze collectie? (blijft globaal beschikbaar)')) return
     setBusy(true); setError(null)
     try {
       await unassignSpotter(collectionId, spotterId)
@@ -226,7 +226,7 @@ function FilledRow({
       <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
         <button type="button" onClick={onMoveUp} disabled={disabled || isFirst} style={iconBtnStyle} title="Naar links">↑</button>
         <button type="button" onClick={onMoveDown} disabled={disabled || isLast} style={iconBtnStyle} title="Naar rechts">↓</button>
-        <button type="button" onClick={onUnassign} disabled={disabled} style={iconBtnStyle} title="Verwijder van deze veiling">✕</button>
+        <button type="button" onClick={onUnassign} disabled={disabled} style={iconBtnStyle} title="Verwijder van deze collectie">✕</button>
       </div>
     </div>
   )

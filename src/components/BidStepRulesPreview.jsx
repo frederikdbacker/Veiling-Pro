@@ -40,7 +40,7 @@ export default function BidStepRulesPreview({ collectionId, lotTypeId }) {
   if (rules.length === 0) {
     return (
       <p style={emptyStyle}>
-        Nog geen biedstappen ingesteld voor dit type. Stel ze in op de veiling-pagina.
+        Nog geen biedstappen ingesteld voor dit type. Stel ze in op de collectie-pagina.
       </p>
     )
   }

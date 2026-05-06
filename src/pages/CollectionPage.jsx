@@ -47,7 +47,7 @@ export default function CollectionPage() {
         getBreaks(collectionId),
       ])
 
-      if (collectionRes.error) { setStatus(`Fout bij ophalen veiling: ${collectionRes.error.message}`); return }
+      if (collectionRes.error) { setStatus(`Fout bij ophalen collectie: ${collectionRes.error.message}`); return }
       if (lotsRes.error)    { setStatus(`Fout bij ophalen lots: ${lotsRes.error.message}`); return }
 
       setCollection(collectionRes.data)

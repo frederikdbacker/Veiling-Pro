@@ -54,7 +54,7 @@ export default function BidStepRulesEditor({ collectionId, selectedTypeIds }) {
   if (visibleTypes.length === 0) {
     return (
       <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: 'var(--space-4)' }}>
-        Selecteer hierboven welke lot-types in deze veiling aanwezig zijn,
+        Selecteer hierboven welke lot-types in deze collectie aanwezig zijn,
         dan kan je per type een bied-staffel instellen.
       </p>
     )

@@ -96,7 +96,7 @@ export default function LotTypeDropdown({ lotId, collectionId, currentTypeId, cu
       )}
       {options.length === 0 && !error && (
         <small style={{ display: 'block', color: 'var(--text-muted)', marginTop: 4 }}>
-          Geen types beschikbaar — selecteer eerst lot-types op de veiling-pagina.
+          Geen types beschikbaar — selecteer eerst lot-types op de collectie-pagina.
         </small>
       )}
     </div>

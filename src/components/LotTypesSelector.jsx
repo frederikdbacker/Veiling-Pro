@@ -91,7 +91,7 @@ export default function LotTypesSelector({ collectionId, onChange }) {
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
       }}>
-        Lot-types in deze veiling — {selectedIds.size} aangevinkt
+        Lot-types in deze collectie — {selectedIds.size} aangevinkt
       </summary>
       <div style={{
         display: 'flex', flexWrap: 'wrap',

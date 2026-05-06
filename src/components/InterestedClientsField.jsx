@@ -157,7 +157,7 @@ function ClientRow({ entry, purchases, onEdit, onRemove, disabled }) {
         )}
         {purchases && purchases.length > 0 && (
           <div style={purchasesStyle}>
-            ✓ al gekocht in deze veiling:{' '}
+            ✓ al gekocht in deze collectie:{' '}
             {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
           </div>
         )}
@@ -344,7 +344,7 @@ function ClientForm({
         <input
           type="text" value={seatingNotes}
           onChange={(e) => setSeatingNotes(e.target.value)}
-          placeholder="optioneel — geldt voor de hele veiling" style={inputStyle}
+          placeholder="optioneel — geldt voor de hele collectie" style={inputStyle}
         />
       </FieldRow>
       <FieldRow label="Voor dit paard">

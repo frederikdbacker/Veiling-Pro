@@ -63,7 +63,7 @@ export default function CollectionSummaryPage() {
     )
   }
   if (!collection) {
-    return <section><p style={{ color: '#666' }}>Veiling niet gevonden.</p></section>
+    return <section><p style={{ color: '#666' }}>Collectie niet gevonden.</p></section>
   }
 
   const total = lots.length

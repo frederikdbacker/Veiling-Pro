@@ -5,14 +5,21 @@
 
 ---
 
-> **6 mei 2026:** Fase 0 + Fase 1 van POST_ALOGA_ROADMAP.md voltooid.
-> Fase 0 = iCloud→git overgang + docs. Fase 1 = items #3 (vorig/volgend
-> nav + lot-dropdown), #9 (jaar+leeftijd), #4 (video-warning weg + video-
-> URL-concept opgeruimd), #10b (Extra→Auction page), #16 (lottype-
-> uitlijning). Plus spotter-bug verholpen (migratie 0010 in productie).
-> Audit-rapporten in `reports/2026-05-06_*.md`. De "Huidige status"-
-> sectie hieronder is van 2 mei (pre-Aloga) en wordt bijgewerkt zodra
-> een post-Aloga review plaatsvindt.
+> **6 mei 2026 — ALLE FASES VAN POST_ALOGA_ROADMAP.md AF.**
+> In deze ene marathon-sessie voltooid: Fase 0 (iCloud→git), spotter-bug
+> (migratie 0010), pre-fase Supabase-checks, Fase 1 (5 quick wins),
+> Fase 1.5 (rename auctions→collections, 12+ files), Fase 2 (6 items
+> incl. rich-text-editor en notitievelden-herstructurering), Fase 3
+> (7 items klantenbeheer + globale ClientsPage + foto-upload), Fase 4
+> (5 items cockpit-vernieuwing incl. één VERKOCHT-knop, sticky infobar,
+> rundown, veilingvolgorde drag-and-drop), Fase 5 (charity-lot),
+> Fase 6 (scrape source_url → url_extra).
+>
+> Productie-migraties uitgevoerd: 0010, 0013–0022 (12 stuks).
+> Audit-rapporten in `reports/2026-05-06_*.md` (6 stuks).
+>
+> De "Huidige status"-sectie hieronder is van 2 mei (pre-Aloga). Voor
+> de post-Aloga reality, zie de zes audit-rapporten en de roadmap-doc.
 
 ## Huidige status: REDESIGN-MARATHON KLAAR — DONKER THEMA + 8 MODULES LIVE
 

@@ -56,13 +56,8 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
   }
 
   return (
-    <div>
-      <label style={{
-        display: 'block', fontWeight: 600,
-        marginBottom: 4, fontSize: '0.85em',
-        color: 'var(--text-secondary)',
-        letterSpacing: '0.04em',
-      }}>
+    <div style={{ marginBottom: '0.75rem' }}>
+      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4 }}>
         Lot-type
       </label>
       <select

@@ -458,7 +458,7 @@ function ActiveLotPanel({
         <div style={{ marginTop: 'var(--space-4)', display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {lot.url_hippomundo && <ExternalLink href={lot.url_hippomundo} label="Hippomundo" />}
           {lot.url_horsetelex && <ExternalLink href={lot.url_horsetelex} label="Horsetelex" />}
-          {lot.url_extra      && <ExternalLink href={lot.url_extra}      label="Extra" />}
+          {lot.url_extra      && <ExternalLink href={lot.url_extra}      label="Auction page" />}
         </div>
       )}
     </div>

@@ -5,10 +5,14 @@
 
 ---
 
-> **6 mei 2026:** Fase 0 van POST_ALOGA_ROADMAP.md voltooid (iCloud→git
-> overgang + docs). Zie `reports/2026-05-06_fase-0-icloud-naar-git.md`.
-> De "Huidige status"-sectie hieronder is van 2 mei (pre-Aloga) en
-> wordt bijgewerkt zodra een post-Aloga review/sessie plaatsvindt.
+> **6 mei 2026:** Fase 0 + Fase 1 van POST_ALOGA_ROADMAP.md voltooid.
+> Fase 0 = iCloud→git overgang + docs. Fase 1 = items #3 (vorig/volgend
+> nav + lot-dropdown), #9 (jaar+leeftijd), #4 (video-warning weg + video-
+> URL-concept opgeruimd), #10b (Extra→Auction page), #16 (lottype-
+> uitlijning). Plus spotter-bug verholpen (migratie 0010 in productie).
+> Audit-rapporten in `reports/2026-05-06_*.md`. De "Huidige status"-
+> sectie hieronder is van 2 mei (pre-Aloga) en wordt bijgewerkt zodra
+> een post-Aloga review plaatsvindt.
 
 ## Huidige status: REDESIGN-MARATHON KLAAR — DONKER THEMA + 8 MODULES LIVE
 
@@ -167,8 +171,9 @@ via de gepubliceerde URL.
 - [ ] **Reset productie-data** vóór 5 mei: `scripts/reset-auction.sql`
   in Supabase (sectie 4 voor test-klanten); plus migraties 0009 en 0010
   zijn destructive voor spotters-data — opnieuw invoeren indien nodig
-- [ ] **Frederik moet nog migratie 0010 runnen** in Supabase voor
-  globale spotters (vervangt 0009)
+- [x] ~~**Frederik moet nog migratie 0010 runnen** in Supabase voor
+  globale spotters (vervangt 0009)~~ — AF op 06-05-2026 (gerund tijdens
+  iteratie-sessie; spotter-toevoegen-bug verholpen)
 - [ ] **Drop deprecated columns** (`lots.bid_steps` text, `lots.lot_type`
   text, `lots.buyer` text) — na 5 mei
 

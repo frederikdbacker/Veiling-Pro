@@ -80,7 +80,10 @@ export default function LotPage() {
   const photos = Array.isArray(lot.photos) ? lot.photos : []
   const houseId = auction?.auction_houses?.id
   const houseName = auction?.auction_houses?.name
-  const meta = [lot.discipline, lot.year, lot.gender, lot.studbook, lot.size]
+  const yearWithAge = lot.year
+    ? `${lot.year} / ${Math.max(0, new Date().getFullYear() - lot.year)} jaar`
+    : null
+  const meta = [lot.discipline, yearWithAge, lot.gender, lot.studbook, lot.size]
     .filter(Boolean).join(' · ')
 
   return (
@@ -118,12 +121,40 @@ export default function LotPage() {
           </button>
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h1 style={lotTitleStyle}>
-            <span style={{ color: 'var(--text-muted)', marginRight: '0.4em' }}>
-              #{lot.number ?? '—'}
-            </span>
-            {lot.name}
-          </h1>
+          <div style={titleNavRowStyle}>
+            <button
+              type="button"
+              disabled={!prev}
+              onClick={() => prev && navigate(`/lots/${prev.id}`)}
+              title={prev ? `Vorig: #${prev.number ?? '—'} ${prev.name}` : 'Geen vorig lot'}
+              style={{ ...navBtnStyle, opacity: prev ? 1 : 0.4, cursor: prev ? 'pointer' : 'not-allowed' }}
+              aria-label="Vorig lot"
+            >
+              ←
+            </button>
+            <select
+              value={lotId}
+              onChange={(e) => navigate(`/lots/${e.target.value}`)}
+              style={titleSelectStyle}
+              aria-label="Spring naar ander lot"
+            >
+              {siblings.map((s) => (
+                <option key={s.id} value={s.id}>
+                  #{s.number ?? '—'} — {s.name}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              disabled={!next}
+              onClick={() => next && navigate(`/lots/${next.id}`)}
+              title={next ? `Volgend: #${next.number ?? '—'} ${next.name}` : 'Geen volgend lot'}
+              style={{ ...navBtnStyle, opacity: next ? 1 : 0.4, cursor: next ? 'pointer' : 'not-allowed' }}
+              aria-label="Volgend lot"
+            >
+              →
+            </button>
+          </div>
           {meta && <p style={metaStyle}>{meta}</p>}
         </div>
       </div>
@@ -236,7 +267,7 @@ export default function LotPage() {
           />
           <AutoSaveUrl
             table="lots" id={lotId} fieldName="url_extra"
-            initialValue={lot.url_extra} label="Extra"
+            initialValue={lot.url_extra} label="Auction page"
             placeholder="https://..."
             compact
             onSaved={(value) => setLot((prev) => ({ ...prev, url_extra: value }))}
@@ -266,29 +297,7 @@ export default function LotPage() {
         />
       </Block>
 
-      {/* Video */}
-      <Block title="Video">
-        {lot.video_url ? (
-          <div style={videoWrapStyle}>
-            <iframe
-              src={lot.video_url}
-              title={`Video van ${lot.name}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={videoIframeStyle}
-            />
-          </div>
-        ) : (
-          <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
-            Video nog niet beschikbaar
-            {lot.source_url && (
-              <> — origineel op <a href={lot.source_url} target="_blank" rel="noopener noreferrer">{new URL(lot.source_url).hostname}</a></>
-            )}
-          </p>
-        )}
-      </Block>
-
-      {/* Optional fields */}
+{/* Optional fields */}
       {lot.usp && <Block title="USP"><p>{lot.usp}</p></Block>}
       {lot.strong_points && <Block title="Sterke punten"><p>{lot.strong_points}</p></Block>}
       {lot.weak_points && <Block title="Aandachtspunten"><p>{lot.weak_points}</p></Block>}
@@ -366,7 +375,40 @@ const missingBannerStyle = {
 }
 const headerRowStyle = {
   display: 'flex', gap: 'var(--space-4)', alignItems: 'center',
+  flexWrap: 'wrap',
   marginBottom: 'var(--space-4)',
+}
+const titleNavRowStyle = {
+  display: 'flex', gap: 'var(--space-3)', alignItems: 'center',
+}
+const navBtnStyle = {
+  border: '1px solid var(--border-default)',
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-primary)',
+  padding: '0 var(--space-3)',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '1.1rem',
+  fontWeight: 600,
+  height: '36px',
+  boxSizing: 'border-box',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+}
+const titleSelectStyle = {
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  color: 'var(--text-primary)',
+  fontSize: '1.1rem',
+  fontWeight: 600,
+  padding: '0 var(--space-2)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  maxWidth: '320px',
+  fontFamily: 'inherit',
+  height: '36px',
+  boxSizing: 'border-box',
 }
 const thumbBtnStyle = {
   padding: 0, border: 'none', background: 'transparent',
@@ -392,13 +434,6 @@ const blockTitleStyle = {
   color: 'var(--text-secondary)',
   fontWeight: 600,
   margin: '0 0 var(--space-3) 0',
-}
-const videoWrapStyle = {
-  position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden',
-  borderRadius: 'var(--radius-md)', background: '#000',
-}
-const videoIframeStyle = {
-  position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0,
 }
 const navStyle = {
   display: 'flex', justifyContent: 'space-between', alignItems: 'center',

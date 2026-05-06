@@ -1,6 +1,5 @@
 const LABELS = {
   lot_number: 'lot-nummer',
-  video_url: 'video',
   reserve_price: 'reserveprijs',
   bid_steps: 'biedstap',
   catalog_text: 'catalogustekst',
@@ -13,11 +12,16 @@ const LABELS = {
   dam: 'moeder',
 }
 
+// Velden die wél in missing_info kunnen staan maar niet in de banner
+// getoond worden (geen waarschuwing voor de gebruiker).
+const HIDDEN_FROM_BANNER = new Set(['video_url'])
+
 export function translateMissing(items) {
   if (!Array.isArray(items)) return []
-  return items.map((k) => LABELS[k] ?? k)
+  return items.filter((k) => !HIDDEN_FROM_BANNER.has(k)).map((k) => LABELS[k] ?? k)
 }
 
 export function hasMissing(items) {
-  return Array.isArray(items) && items.length > 0
+  if (!Array.isArray(items)) return false
+  return items.some((k) => !HIDDEN_FROM_BANNER.has(k))
 }

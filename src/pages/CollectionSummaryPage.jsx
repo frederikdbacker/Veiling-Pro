@@ -30,7 +30,7 @@ export default function CollectionSummaryPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
+          .select('id, number, is_charity, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -66,8 +66,12 @@ export default function CollectionSummaryPage() {
     return <section><p style={{ color: '#666' }}>Collectie niet gevonden.</p></section>
   }
 
-  const total = lots.length
-  const hammered = lots.filter((l) => l.time_hammer != null)
+  // Charity-lots tellen niet mee in omzetstatistieken (#6 uit roadmap)
+  const regularLots = lots.filter((l) => !l.is_charity)
+  const charityLots = lots.filter((l) => l.is_charity)
+
+  const total = regularLots.length
+  const hammered = regularLots.filter((l) => l.time_hammer != null)
   const sold     = hammered.filter((l) => l.sold === true)
   const notSold  = hammered.filter((l) => l.sold === false)
   const isFinished = total > 0 && hammered.length === total
@@ -94,10 +98,10 @@ export default function CollectionSummaryPage() {
     ? Math.round((lastHammerMs - firstStartMs) / 1000)
     : null
 
-  // Groepeer alle lots op lot_type_id (ook lots zonder type → 'Onbekend')
+  // Groepeer reguliere lots op lot_type_id (charity uitgesloten — eigen rij hieronder)
   const typeIdToName = new Map(lotTypes.map((t) => [t.id, t.name_nl]))
   const byTypeMap = new Map()
-  for (const lot of lots) {
+  for (const lot of regularLots) {
     const key = lot.lot_type_id ?? '__none__'
     if (!byTypeMap.has(key)) {
       byTypeMap.set(key, {

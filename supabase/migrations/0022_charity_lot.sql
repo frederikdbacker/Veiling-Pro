@@ -1,0 +1,21 @@
+-- Migratie 0022: charity-lot ondersteuning (#6 uit POST_ALOGA_ROADMAP.md).
+--
+-- Een charity-lot is een optioneel weggeef-lot dat vóór lot 1 in de
+-- cockpit verschijnt. Het wordt opgeslagen als een gewoon lot in de
+-- `lots`-tabel met `is_charity = true`. Sortering, statistieken en
+-- visuele markering verschillen:
+--
+--   - Sortering: charity-lots verschijnen vóór alle reguliere lots
+--     (lager auction_order in UI-logica).
+--   - Statistieken: in CollectionSummaryPage worden lots met is_charity
+--     uitgesloten van omzet, gem. prijs, gem. duur en per-type-cijfers.
+--   - Cockpit: badge "Charity" zichtbaar; zelfde VERKOCHT-flow.
+--
+-- Geen aparte tabel nodig — een charity-lot is een gewoon lot met een
+-- vlag. Bid-steps kunnen via het bestaande lot_type-systeem worden
+-- geregeld (gebruiker kan eventueel een lot_type "Charity" met eigen
+-- staffels aanmaken).
+--
+-- Additieve migratie, geen impact op bestaande data.
+
+alter table lots add column is_charity boolean not null default false;

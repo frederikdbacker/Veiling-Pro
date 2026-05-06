@@ -131,6 +131,11 @@ const rows = horses.map(h => ({
   photos:            h.photos ?? [],
   video_url:         h.video_url,
   source_url:        h.source_url,
+  // Auction page-link (#10a uit POST_ALOGA_ROADMAP.md) — bron-URL
+  // automatisch in dit veld zodat het cockpit-logo direct werkt na
+  // import. Frederik kan handmatig overschrijven via LotPage indien
+  // de scrape-bron afwijkt van de gewenste auction-page-URL.
+  url_extra:         h.source_url ?? null,
   start_price:       h.starting_bid,
   reserve_price:     h.reserve_price,
   // bid_steps verhuisd naar collections-tabel (per migratie 0002).

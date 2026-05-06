@@ -62,7 +62,7 @@ export default function CockpitPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, auction_order, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
+          .select('id, number, auction_order, is_charity, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -71,8 +71,10 @@ export default function CockpitPage() {
       if (collectionRes.error) { setError(collectionRes.error.message); return }
       if (lotsRes.error)    { setError(lotsRes.error.message); return }
       setCollection(collectionRes.data)
-      // Sorteer op veilingvolgorde (auction_order ?? number) — #12 uit roadmap
+      // Sorteer: charity eerst (#6), dan op veilingvolgorde (auction_order ?? number) — #12
       const sorted = [...(lotsRes.data ?? [])].sort((a, b) => {
+        if (a.is_charity && !b.is_charity) return -1
+        if (!a.is_charity && b.is_charity) return 1
         const ao = a.auction_order ?? a.number
         const bo = b.auction_order ?? b.number
         if (ao == null && bo == null) return (a.name ?? '').localeCompare(b.name ?? '', 'nl')

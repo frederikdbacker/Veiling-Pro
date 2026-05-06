@@ -287,6 +287,32 @@ export default function LotPage() {
               />
             </div>
           </div>
+          <div style={{ marginBottom: '0.75rem' }}>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: 4 }}>Charity</label>
+            <div style={{ display: 'flex', alignItems: 'center', minHeight: '34px' }}>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={!!lot.is_charity}
+                  onChange={async (e) => {
+                    const next = e.target.checked
+                    setLot((prev) => ({ ...prev, is_charity: next }))
+                    const { error } = await supabase
+                      .from('lots')
+                      .update({ is_charity: next })
+                      .eq('id', lotId)
+                    if (error) {
+                      alert(`Charity-flag opslaan mislukt: ${error.message}`)
+                      setLot((prev) => ({ ...prev, is_charity: !next }))
+                    }
+                  }}
+                />
+                <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>
+                  🎁 Weggeef-lot — telt niet mee in omzetstatistieken
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
       </Block>
 

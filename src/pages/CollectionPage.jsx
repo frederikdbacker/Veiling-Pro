@@ -68,6 +68,9 @@ export default function CollectionPage() {
   // Bij alphabetisch of rating: lots gesorteerd, breaks worden los onderaan getoond.
   const items = useMemo(() => {
     const sortedLots = [...lots].sort((a, b) => {
+      // Charity-lots eerst (#6 uit roadmap)
+      if (a.is_charity && !b.is_charity) return -1
+      if (!a.is_charity && b.is_charity) return 1
       if (sortMode === 'alphabetical') {
         return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
       }
@@ -240,7 +243,7 @@ export default function CollectionPage() {
       alert(`Fout bij volgorde-update: ${firstError.error.message}`)
       // herlaad lots om corrupte state te voorkomen
       const { data } = await supabase.from('lots')
-        .select('id, number, auction_order, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+        .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
         .eq('collection_id', collectionId)
       if (data) setLots(data)
     }
@@ -453,7 +456,7 @@ export default function CollectionPage() {
             // Reload lots zodat bijgewerkte start_prices in de UI staan
             const { data } = await supabase
               .from('lots')
-              .select('id, number, auction_order, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+              .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
               .eq('collection_id', collection.id)
               .order('number', { nullsFirst: false })
               .order('name')
@@ -547,6 +550,11 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
         <Thumb src={lot.photos?.[0]} alt={lot.name} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+            {lot.is_charity && (
+              <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '1px 6px', borderRadius: 'var(--radius-sm)', marginRight: 6, fontWeight: 700, letterSpacing: '0.05em' }}>
+                🎁 CHARITY
+              </span>
+            )}
             <span style={{ color: 'var(--text-muted)', marginRight: '0.5em' }}>
               #{order ?? '—'}
             </span>

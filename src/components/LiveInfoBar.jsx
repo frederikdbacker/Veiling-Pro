@@ -28,6 +28,11 @@ export default function LiveInfoBar({ lot }) {
   return (
     <div style={barStyle}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.6rem' }}>
+        {lot.is_charity && (
+          <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
+            🎁 CHARITY
+          </span>
+        )}
         <span style={lotnrStyle}>#{order}</span>
         <strong style={nameStyle}>{name}</strong>
         {showCatExtra && (

@@ -25,7 +25,7 @@ export default function CollectionSummaryPage() {
       const [collectionRes, lotsRes, typesRes] = await Promise.all([
         supabase
           .from('collections')
-          .select('*, auction_houses(id, name)')
+          .select('*, auction_houses(id, name, logo_url)')
           .eq('id', collectionId)
           .single(),
         supabase
@@ -128,7 +128,26 @@ export default function CollectionSummaryPage() {
       <p style={{ color: '#666', marginTop: 0 }}>
         {formatAuctionDate(collection)}
         {collection.location && ` · ${collection.location}`}
+        {collection.status && ` · ${collection.status}`}
       </p>
+
+      {collection.debrief_text && (
+        <div style={{
+          marginTop: 'var(--space-3)', marginBottom: 'var(--space-4)',
+          padding: 'var(--space-3) var(--space-4)',
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border-default)',
+          borderLeft: '4px solid var(--accent)',
+          borderRadius: 'var(--radius-sm)',
+        }}>
+          <strong style={{ color: 'var(--text-secondary)', fontSize: '0.85em', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Debrief
+          </strong>
+          <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55, color: 'var(--text-primary)' }}>
+            {collection.debrief_text}
+          </p>
+        </div>
+      )}
 
       {hammered.length === 0 ? (
         <EmptyState collectionId={collectionId} />

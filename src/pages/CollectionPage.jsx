@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import StarRating from '../components/StarRating'
 import { Link, useParams } from 'react-router-dom'
 import {
@@ -527,8 +527,70 @@ function CollectionMetaEditor({ collection, onChange }) {
             inputType="datetime-local"
             onSaved={(v) => onChange({ time_auction_start: v })}
           />
+          <DebriefField
+            collectionId={collection.id}
+            initialValue={collection.debrief_text}
+            onSaved={(v) => onChange({ debrief_text: v })}
+          />
         </div>
       )}
+    </div>
+  )
+}
+
+function DebriefField({ collectionId, initialValue, onSaved }) {
+  const [value, setValue] = useState(initialValue ?? '')
+  const [status, setStatus] = useState('idle')
+  const timerRef = useRef(null)
+  const baselineRef = useRef(initialValue ?? '')
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [])
+
+  function handleChange(e) {
+    const v = e.target.value
+    setValue(v)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    if (v === baselineRef.current) { setStatus('idle'); return }
+    setStatus('pending')
+    timerRef.current = setTimeout(async () => {
+      setStatus('saving')
+      const { error } = await supabase
+        .from('collections')
+        .update({ debrief_text: v.trim() || null })
+        .eq('id', collectionId)
+      if (error) { setStatus('error'); return }
+      baselineRef.current = v
+      setStatus('saved')
+      if (onSaved) onSaved(v.trim() || null)
+    }, 800)
+  }
+
+  return (
+    <div style={{ marginTop: '0.75rem' }}>
+      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4, fontSize: '0.9em' }}>
+        Debrief (terugblik na afsluiten)
+      </label>
+      <textarea
+        value={value}
+        onChange={handleChange}
+        rows={6}
+        placeholder="Opmerkingen, terugblik, bijzonderheden van deze veiling…"
+        style={{
+          width: '100%', padding: 10,
+          fontFamily: 'inherit', fontSize: '0.95em',
+          background: 'var(--bg-input, #1a1a1a)',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          resize: 'vertical', boxSizing: 'border-box', lineHeight: 1.5,
+        }}
+      />
+      {status === 'pending' && <small style={{ color: 'var(--text-muted)' }}>typen…</small>}
+      {status === 'saving' && <small style={{ color: 'var(--text-muted)' }}>opslaan…</small>}
+      {status === 'saved' && <small style={{ color: 'var(--success)' }}>💾 opgeslagen</small>}
+      {status === 'error' && <small style={{ color: 'var(--danger)' }}>❌ fout</small>}
     </div>
   )
 }

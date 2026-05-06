@@ -40,6 +40,7 @@ export default function CockpitPage() {
   const [purchasesByClient, setPurchasesByClient] = useState(new Map())
   const [spotters, setSpotters] = useState([])
   const [error, setError] = useState(null)
+  const [closeModalOpen, setCloseModalOpen] = useState(false)
 
   // Spotters laden bij wijzigen van collectionId — tonen in een kleine
   // strip tussen statusbalk en lot-picker (links → rechts in de zaal).
@@ -190,27 +191,24 @@ export default function CockpitPage() {
             🏁 Veiling afgesloten
           </span>
         ) : (
-          <button
-            onClick={async () => {
-              const allHammered = allLots.length > 0 && allLots.every((l) => l.time_hammer != null)
-              const remaining = allLots.filter((l) => l.time_hammer == null).length
-              const confirmMsg = allHammered
-                ? 'Veiling als afgesloten markeren? Status van deze collectie wordt op "afgesloten" gezet.'
-                : `Let op: ${remaining} lot(s) zijn nog niet gehamerd.\n\nToch markeren als afgesloten?`
-              if (!window.confirm(confirmMsg)) return
-              const { error } = await supabase
-                .from('collections')
-                .update({ status: 'afgesloten' })
-                .eq('id', collectionId)
-              if (error) { alert(`Mislukt: ${error.message}`); return }
-              window.location.href = `/collections/${collectionId}/summary`
-            }}
-            style={closeAuctionBtnStyle}
-          >
+          <button onClick={() => setCloseModalOpen(true)} style={closeAuctionBtnStyle}>
             🏁 Veiling afgesloten
           </button>
         )}
       </div>
+
+      {closeModalOpen && (
+        <CloseAuctionModal
+          collectionId={collectionId}
+          allLots={allLots}
+          existingDebrief={collection.debrief_text}
+          onClose={() => setCloseModalOpen(false)}
+          onClosed={(newStatus, newDebrief) => {
+            setCollection((prev) => ({ ...prev, status: newStatus, debrief_text: newDebrief }))
+            window.location.href = `/collections/${collectionId}/summary`
+          }}
+        />
+      )}
 
       {/* Lot picker — Vorig links, dropdown midden, Volgend rechts */}
       <div style={pickerStyle}>
@@ -845,6 +843,89 @@ function Card({ title, children, defaultOpen = true }) {
       <summary style={cardTitleStyle}>{title}</summary>
       <div style={{ marginTop: 'var(--space-3)' }}>{children}</div>
     </details>
+  )
+}
+
+function CloseAuctionModal({ collectionId, allLots, existingDebrief, onClose, onClosed }) {
+  const [debrief, setDebrief] = useState(existingDebrief ?? '')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState(null)
+
+  const allHammered = allLots.length > 0 && allLots.every((l) => l.time_hammer != null)
+  const remaining = allLots.filter((l) => l.time_hammer == null).length
+
+  async function submit() {
+    setBusy(true)
+    setError(null)
+    const payload = {
+      status: 'afgesloten',
+      debrief_text: debrief.trim() || null,
+    }
+    const { error } = await supabase
+      .from('collections')
+      .update(payload)
+      .eq('id', collectionId)
+    setBusy(false)
+    if (error) { setError(error.message); return }
+    onClosed('afgesloten', payload.debrief_text)
+  }
+
+  return (
+    <Modal onClose={busy ? undefined : onClose} maxWidth={620}>
+      <h3 style={{ margin: 0, marginBottom: 'var(--space-3)' }}>🏁 Veiling afsluiten</h3>
+
+      {!allHammered && (
+        <p style={{ color: 'var(--warning)', fontSize: '0.9em', marginTop: 0 }}>
+          ⚠ Let op: {remaining} lot{remaining > 1 ? 's' : ''} {remaining > 1 ? 'zijn' : 'is'} nog niet gehamerd.
+        </p>
+      )}
+
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>
+        Voeg optioneel een debrief toe — opmerkingen, terugblik, bijzonderheden.
+        Later bewerkbaar via de collectie-pagina.
+      </p>
+
+      <textarea
+        value={debrief}
+        onChange={(e) => setDebrief(e.target.value)}
+        rows={8}
+        placeholder="Hoe is de veiling verlopen? Wat moet onthouden worden voor volgende keer?"
+        style={{
+          width: '100%',
+          padding: 10,
+          fontFamily: 'inherit',
+          fontSize: '0.95em',
+          background: 'var(--bg-input, #1a1a1a)',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          resize: 'vertical',
+          boxSizing: 'border-box',
+          lineHeight: 1.5,
+        }}
+        autoFocus
+      />
+
+      {error && <p style={{ color: 'var(--danger)', fontSize: '0.9em' }}>❌ {error}</p>}
+
+      <div style={{ display: 'flex', gap: 8, marginTop: 'var(--space-4)', justifyContent: 'flex-end' }}>
+        <button onClick={onClose} disabled={busy} style={{
+          padding: '6px 14px', border: '1px solid var(--border-default)',
+          background: 'transparent', color: 'var(--text-primary)',
+          borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontFamily: 'inherit',
+        }}>
+          Annuleer
+        </button>
+        <button onClick={submit} disabled={busy} style={{
+          padding: '6px 14px', border: 'none',
+          background: 'var(--accent)', color: '#fff',
+          borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontFamily: 'inherit',
+          fontWeight: 600,
+        }}>
+          {busy ? 'Afsluiten…' : 'Sluit veiling af'}
+        </button>
+      </div>
+    </Modal>
   )
 }
 

@@ -1,10 +1,10 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import HousesPage from './pages/HousesPage'
 import HousePage from './pages/HousePage'
-import AuctionPage from './pages/AuctionPage'
+import CollectionPage from './pages/CollectionPage'
 import LotPage from './pages/LotPage'
 import CockpitPage from './pages/CockpitPage'
-import AuctionSummaryPage from './pages/AuctionSummaryPage'
+import CollectionSummaryPage from './pages/CollectionSummaryPage'
 
 export default function App() {
   return (
@@ -19,8 +19,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HousesPage />} />
         <Route path="/houses/:houseId" element={<HousePage />} />
-        <Route path="/auctions/:auctionId" element={<AuctionPage />} />
-        <Route path="/auctions/:auctionId/summary" element={<AuctionSummaryPage />} />
+        <Route path="/collections/:auctionId" element={<CollectionPage />} />
+        <Route path="/collections/:auctionId/summary" element={<CollectionSummaryPage />} />
         <Route path="/lots/:lotId" element={<LotPage />} />
         <Route path="/cockpit/:auctionId" element={<CockpitPage />} />
         <Route path="*" element={<NotFound />} />

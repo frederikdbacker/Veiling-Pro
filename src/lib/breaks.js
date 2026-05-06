@@ -9,9 +9,9 @@ import { supabase } from './supabase'
 export async function getBreaks(auctionId) {
   if (!auctionId) return []
   const { data, error } = await supabase
-    .from('auction_breaks')
+    .from('collection_breaks')
     .select('*')
-    .eq('auction_id', auctionId)
+    .eq('collection_id', auctionId)
     .order('after_lot_number', { nullsFirst: true })
     .order('created_at')
   if (error) { console.error('getBreaks:', error); return [] }
@@ -20,9 +20,9 @@ export async function getBreaks(auctionId) {
 
 export async function createBreak(auctionId, fields = {}) {
   const { data, error } = await supabase
-    .from('auction_breaks')
+    .from('collection_breaks')
     .insert({
-      auction_id:       auctionId,
+      collection_id:       auctionId,
       after_lot_number: fields.after_lot_number ?? null,
       title:            fields.title?.trim() || 'Pauze',
       description:      fields.description?.trim() || null,
@@ -40,11 +40,11 @@ export async function updateBreak(id, patch) {
   if ('title' in patch)            cleaned.title            = patch.title?.trim() || 'Pauze'
   if ('description' in patch)      cleaned.description      = patch.description?.trim() || null
   if ('duration_minutes' in patch) cleaned.duration_minutes = patch.duration_minutes ?? null
-  const { error } = await supabase.from('auction_breaks').update(cleaned).eq('id', id)
+  const { error } = await supabase.from('collection_breaks').update(cleaned).eq('id', id)
   if (error) throw error
 }
 
 export async function deleteBreak(id) {
-  const { error } = await supabase.from('auction_breaks').delete().eq('id', id)
+  const { error } = await supabase.from('collection_breaks').delete().eq('id', id)
   if (error) throw error
 }

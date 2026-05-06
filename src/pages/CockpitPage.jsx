@@ -52,14 +52,14 @@ export default function CockpitPage() {
     async function load() {
       const [auctionRes, lotsRes] = await Promise.all([
         supabase
-          .from('auctions')
+          .from('collections')
           .select('*, online_bidding_enabled, auction_houses(id, name)')
           .eq('id', auctionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
-          .eq('auction_id', auctionId)
+          .eq('collection_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
       ])
@@ -107,7 +107,7 @@ export default function CockpitPage() {
   async function setActiveLotById(lotId) {
     const value = lotId || null
     const { error } = await supabase
-      .from('auctions')
+      .from('collections')
       .update({ active_lot_id: value })
       .eq('id', auctionId)
     if (!error) {
@@ -144,7 +144,7 @@ export default function CockpitPage() {
       <p style={crumbsStyle}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {' › '}<Link to={`/auctions/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
+        {' › '}<Link to={`/collections/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
         {' › '}<span style={{ color: 'var(--text-secondary)' }}>Cockpit</span>
       </p>
 
@@ -164,7 +164,7 @@ export default function CockpitPage() {
       {/* Overzicht-knop bij volledige veiling */}
       {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
         <div style={{ marginBottom: 'var(--space-4)' }}>
-          <Link to={`/auctions/${auctionId}/summary`} style={summaryBtnStyle}>
+          <Link to={`/collections/${auctionId}/summary`} style={summaryBtnStyle}>
             📊 Overzicht einde veiling →
           </Link>
         </div>

@@ -50,10 +50,10 @@ export async function createClient(houseId, name) {
 /** Haal de seating-row voor (klant, veiling). Geeft null als er nog niets staat. */
 export async function getSeating(clientId, auctionId) {
   const { data, error } = await supabase
-    .from('client_auction_seating')
+    .from('client_collection_seating')
     .select('table_number, direction, notes')
     .eq('client_id', clientId)
-    .eq('auction_id', auctionId)
+    .eq('collection_id', auctionId)
     .maybeSingle()
   if (error) {
     console.error('getSeating:', error)
@@ -66,14 +66,14 @@ export async function getSeating(clientId, auctionId) {
 export async function upsertSeating(clientId, auctionId, fields) {
   const payload = {
     client_id: clientId,
-    auction_id: auctionId,
+    collection_id: auctionId,
     table_number: fields.table_number?.trim() || null,
     direction:    fields.direction?.trim()    || null,
     notes:        fields.notes?.trim()        || null,
   }
   const { error } = await supabase
-    .from('client_auction_seating')
-    .upsert(payload, { onConflict: 'client_id,auction_id' })
+    .from('client_collection_seating')
+    .upsert(payload, { onConflict: 'client_id,collection_id' })
   if (error) throw error
 }
 
@@ -138,9 +138,9 @@ export async function getInterestedClientsForLot(lotId, auctionId) {
 
   const clientIds = rows.map((r) => r.clients.id)
   const { data: seatings } = await supabase
-    .from('client_auction_seating')
+    .from('client_collection_seating')
     .select('client_id, table_number, direction, notes')
-    .eq('auction_id', auctionId)
+    .eq('collection_id', auctionId)
     .in('client_id', clientIds)
 
   const seatingMap = new Map((seatings ?? []).map((s) => [s.client_id, s]))
@@ -167,7 +167,7 @@ export async function getPurchasesByClientsInAuction(auctionId, clientIds) {
   const { data, error } = await supabase
     .from('lots')
     .select('id, number, name, buyer_client_id')
-    .eq('auction_id', auctionId)
+    .eq('collection_id', auctionId)
     .eq('sold', true)
     .in('buyer_client_id', clientIds)
   if (error) { console.error('getPurchasesByClientsInAuction:', error); return new Map() }

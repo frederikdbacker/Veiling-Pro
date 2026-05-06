@@ -4,7 +4,7 @@
  *
  * Leest data/aloga-2026-pedigree.json en updatet voor elke slug
  * het lots.pedigree-veld via Supabase REST API. Slug is uniek per
- * (auction_id, slug); we filteren ook op auction_id zodat als slug
+ * (collection_id, slug); we filteren ook op collection_id zodat als slug
  * in meerdere veilingen voorkomt alleen de Aloga-2026 wordt geraakt.
  *
  * Gebruik:
@@ -46,7 +46,7 @@ let ok = 0, fail = 0, missing = 0
 for (const [slug, pedigree] of entries) {
   const url = `${URL}/rest/v1/lots`
     + `?slug=eq.${encodeURIComponent(slug)}`
-    + `&auction_id=eq.${AUCTION_ID}`
+    + `&collection_id=eq.${AUCTION_ID}`
 
   const res = await fetch(url, {
     method: 'PATCH',
@@ -68,7 +68,7 @@ for (const [slug, pedigree] of entries) {
 
   const updated = await res.json()
   if (!updated || updated.length === 0) {
-    console.warn(`⚠ ${slug} — geen rij gevonden voor deze auction_id (slug klopt niet?)`)
+    console.warn(`⚠ ${slug} — geen rij gevonden voor deze collection_id (slug klopt niet?)`)
     missing++
     continue
   }

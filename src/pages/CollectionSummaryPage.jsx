@@ -8,7 +8,7 @@ import { supabase } from '../lib/supabase'
  * de huidige stand — werkt ook tijdens een lopende veiling (toont dan
  * "veiling nog bezig" en partial cijfers).
  */
-export default function AuctionSummaryPage() {
+export default function CollectionSummaryPage() {
   const { auctionId } = useParams()
   const [auction, setAuction] = useState(null)
   const [lots, setLots] = useState([])
@@ -23,14 +23,14 @@ export default function AuctionSummaryPage() {
       setLoading(true)
       const [auctionRes, lotsRes, typesRes] = await Promise.all([
         supabase
-          .from('auctions')
+          .from('collections')
           .select('*, auction_houses(id, name)')
           .eq('id', auctionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
-          .eq('auction_id', auctionId)
+          .eq('collection_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
         supabase
@@ -116,7 +116,7 @@ export default function AuctionSummaryPage() {
       <p style={{ fontSize: '0.9em', color: '#888' }}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {' › '}<Link to={`/auctions/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
+        {' › '}<Link to={`/collections/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
         {' › '}Overzicht
       </p>
       <h1 style={{ marginBottom: '0.25rem' }}>Overzicht — {auction.name}</h1>

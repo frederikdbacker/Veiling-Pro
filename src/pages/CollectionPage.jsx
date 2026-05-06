@@ -17,7 +17,7 @@ import {
   getBreaks, createBreak, updateBreak, deleteBreak,
 } from '../lib/breaks'
 
-export default function AuctionPage() {
+export default function CollectionPage() {
   const { auctionId } = useParams()
   const [auction, setAuction] = useState(null)
   const [lots, setLots] = useState([])
@@ -33,14 +33,14 @@ export default function AuctionPage() {
     async function load() {
       const [auctionRes, lotsRes, breaksList] = await Promise.all([
         supabase
-          .from('auctions')
+          .from('collections')
           .select('*, auction_houses(id, name)')
           .eq('id', auctionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
-          .eq('auction_id', auctionId)
+          .eq('collection_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
         getBreaks(auctionId),
@@ -125,7 +125,7 @@ export default function AuctionPage() {
     const { error } = await supabase
       .from('lots')
       .update({ rating: null })
-      .eq('auction_id', auctionId)
+      .eq('collection_id', auctionId)
     if (error) { alert(`Wissen mislukt: ${error.message}`); return }
     setLots((prev) => prev.map((l) => ({ ...l, rating: null })))
   }
@@ -160,7 +160,7 @@ export default function AuctionPage() {
     if (!auction) return
     const newValue = !auction.online_bidding_enabled
     const { error } = await supabase
-      .from('auctions')
+      .from('collections')
       .update({ online_bidding_enabled: newValue })
       .eq('id', auctionId)
     if (error) { alert(`Fout: ${error.message}`); return }
@@ -203,7 +203,7 @@ export default function AuctionPage() {
   }
 
   async function copySummaryLink() {
-    const url = `${window.location.origin}/auctions/${auctionId}/summary`
+    const url = `${window.location.origin}/collections/${auctionId}/summary`
     try {
       await navigator.clipboard.writeText(url)
       setCopyFeedback('✓ Link gekopieerd')
@@ -227,7 +227,7 @@ export default function AuctionPage() {
           <Link to={`/cockpit/${auction.id}`} style={primaryBtnStyle}>
             🎬 Cockpit openen
           </Link>
-          <Link to={`/auctions/${auction.id}/summary`} style={secondaryBtnStyle}>
+          <Link to={`/collections/${auction.id}/summary`} style={secondaryBtnStyle}>
             📊 Overzicht
           </Link>
           <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">

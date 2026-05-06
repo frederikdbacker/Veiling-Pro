@@ -39,7 +39,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
     supabase
       .from('bid_step_rules')
       .select('*')
-      .eq('auction_id', auctionId)
+      .eq('collection_id', auctionId)
       .order('range_from')
       .then((res) => {
         if (cancelled) return
@@ -95,7 +95,7 @@ function RulesPerType({ auctionId, lotType, rules, onLocalAdd, onLocalRemove }) 
     const { data, error } = await supabase
       .from('bid_step_rules')
       .insert({
-        auction_id: auctionId,
+        collection_id: auctionId,
         lot_type_id: lotType.id,
         range_from: newFrom,
         range_to: null,

@@ -35,7 +35,7 @@ export default function LotPage() {
     async function load() {
       const { data, error } = await supabase
         .from('lots')
-        .select('*, auctions!auction_id(id, name, auction_houses(id, name))')
+        .select('*, collections!collection_id(id, name, auction_houses(id, name))')
         .eq('id', lotId)
         .single()
 
@@ -47,12 +47,12 @@ export default function LotPage() {
       const sibsRes = await supabase
         .from('lots')
         .select('id, number, name')
-        .eq('auction_id', data.auction_id)
+        .eq('collection_id', data.collection_id)
         .order('number', { nullsFirst: false })
         .order('name')
 
       setLot(data)
-      setAuction(data.auctions)
+      setAuction(data.collections)
       setSiblings(sibsRes.data ?? [])
       setStatus('')
     }
@@ -116,7 +116,7 @@ export default function LotPage() {
       <p style={crumbsStyle}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {auction && <>{' › '}<Link to={`/auctions/${auction.id}`} style={crumbStyle}>{auction.name}</Link></>}
+        {auction && <>{' › '}<Link to={`/collections/${auction.id}`} style={crumbStyle}>{auction.name}</Link></>}
       </p>
 
       {/* Missing info banner */}
@@ -269,7 +269,7 @@ export default function LotPage() {
           />
           <LotTypeDropdown
             lotId={lotId}
-            auctionId={lot.auction_id}
+            auctionId={lot.collection_id}
             currentTypeId={lot.lot_type_id}
             currentAuto={lot.lot_type_auto}
             onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId, lot_type_auto: false }))}
@@ -350,7 +350,7 @@ export default function LotPage() {
       {auction && (
         <InterestedClientsField
           lotId={lotId}
-          auctionId={lot.auction_id}
+          auctionId={lot.collection_id}
           houseId={auction.auction_houses?.id}
         />
       )}

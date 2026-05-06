@@ -51,7 +51,7 @@ console.log(`🏛  House: ${house.name} (${house.id})`)
 
 // 2) auction — upsert op (house_id, name)
 const { data: auction, error: aErr } = await supabase
-  .from('auctions')
+  .from('collections')
   .upsert(
     { house_id: house.id, name: meta.auction },
     { onConflict: 'house_id,name' }
@@ -102,7 +102,7 @@ console.log(`📋 Lot types: ${lotTypes.length} — embryo:${!!embryoType} veule
 const { count } = await supabase
   .from('lots')
   .select('id', { count: 'exact', head: true })
-  .eq('auction_id', auction.id)
+  .eq('collection_id', auction.id)
 
 if (count && count > 0) {
   console.error(`⚠  Er staan al ${count} lots voor deze veiling. Import afgebroken.`)
@@ -112,7 +112,7 @@ if (count && count > 0) {
 
 // 4) map horses naar lot-rijen
 const rows = horses.map(h => ({
-  auction_id:        auction.id,
+  collection_id:        auction.id,
   lot_type_id:       deriveLotType(h),
   lot_type_auto:     true,
   number:            h.lot_number,

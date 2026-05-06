@@ -24,7 +24,7 @@ export default function LotTypesSelector({ auctionId, onChange }) {
     async function load() {
       const [typesRes, junctionRes] = await Promise.all([
         supabase.from('lot_types').select('*').order('display_order'),
-        supabase.from('auction_lot_types').select('lot_type_id').eq('auction_id', auctionId),
+        supabase.from('collection_lot_types').select('lot_type_id').eq('collection_id', auctionId),
       ])
       if (typesRes.error) { setError(typesRes.error.message); return }
       if (junctionRes.error) { setError(junctionRes.error.message); return }
@@ -44,14 +44,14 @@ export default function LotTypesSelector({ auctionId, onChange }) {
     let err
     if (checked) {
       const { error } = await supabase
-        .from('auction_lot_types')
-        .insert({ auction_id: auctionId, lot_type_id: typeId })
+        .from('collection_lot_types')
+        .insert({ collection_id: auctionId, lot_type_id: typeId })
       err = error
     } else {
       const { error } = await supabase
-        .from('auction_lot_types')
+        .from('collection_lot_types')
         .delete()
-        .match({ auction_id: auctionId, lot_type_id: typeId })
+        .match({ collection_id: auctionId, lot_type_id: typeId })
       err = error
     }
 

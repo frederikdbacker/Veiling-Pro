@@ -12,7 +12,7 @@ export default function HousePage() {
     async function load() {
       const [houseRes, auctionsRes] = await Promise.all([
         supabase.from('auction_houses').select('*').eq('id', houseId).single(),
-        supabase.from('auctions').select('*').eq('house_id', houseId).order('date', { ascending: true }),
+        supabase.from('collections').select('*').eq('house_id', houseId).order('date', { ascending: true }),
       ])
 
       if (houseRes.error) {
@@ -45,7 +45,7 @@ export default function HousePage() {
               borderBottom: '1px solid var(--border-default)',
             }}>
               <Link
-                to={`/auctions/${a.id}`}
+                to={`/collections/${a.id}`}
                 style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
               >
                 {a.name}

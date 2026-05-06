@@ -21,7 +21,7 @@ export default function BidStepRulesPreview({ auctionId, lotTypeId }) {
     supabase
       .from('bid_step_rules')
       .select('*')
-      .eq('auction_id', auctionId)
+      .eq('collection_id', auctionId)
       .eq('lot_type_id', lotTypeId)
       .then((res) => {
         if (cancelled) return

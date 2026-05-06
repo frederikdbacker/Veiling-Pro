@@ -13,12 +13,12 @@ import { supabase } from './supabase'
 export async function getSpotters(auctionId) {
   if (!auctionId) return []
   const { data, error } = await supabase
-    .from('auction_spotters')
+    .from('collection_spotters')
     .select(`
       location, display_order,
       spotters!inner ( id, name, photo_url, notes )
     `)
-    .eq('auction_id', auctionId)
+    .eq('collection_id', auctionId)
     .order('display_order')
   if (error) { console.error('getSpotters:', error); return [] }
   return (data ?? []).map((row) => ({
@@ -74,9 +74,9 @@ export async function updateSpotter(id, patch) {
 /** Wijs een spotter toe aan een veiling met locatie en positie. */
 export async function assignSpotter(auctionId, spotterId, fields = {}) {
   const { error } = await supabase
-    .from('auction_spotters')
+    .from('collection_spotters')
     .insert({
-      auction_id:    auctionId,
+      collection_id:    auctionId,
       spotter_id:    spotterId,
       location:      fields.location?.trim() || null,
       display_order: fields.display_order ?? 0,
@@ -87,9 +87,9 @@ export async function assignSpotter(auctionId, spotterId, fields = {}) {
 /** Verwijder de toewijzing — globale spotter blijft staan voor andere veilingen. */
 export async function unassignSpotter(auctionId, spotterId) {
   const { error } = await supabase
-    .from('auction_spotters')
+    .from('collection_spotters')
     .delete()
-    .match({ auction_id: auctionId, spotter_id: spotterId })
+    .match({ collection_id: auctionId, spotter_id: spotterId })
   if (error) throw error
 }
 
@@ -99,9 +99,9 @@ export async function updateAssignment(auctionId, spotterId, patch) {
   if ('location' in patch) cleaned.location = patch.location?.trim?.() || null
   if ('display_order' in patch) cleaned.display_order = patch.display_order
   const { error } = await supabase
-    .from('auction_spotters')
+    .from('collection_spotters')
     .update(cleaned)
-    .match({ auction_id: auctionId, spotter_id: spotterId })
+    .match({ collection_id: auctionId, spotter_id: spotterId })
   if (error) throw error
 }
 

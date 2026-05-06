@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import CountryAutocomplete from '../components/CountryAutocomplete'
 
 export default function HousesPage() {
   const [status, setStatus] = useState('Laden…')
@@ -107,9 +108,10 @@ function AddHouseForm({ onSave, onCancel }) {
         value={name} onChange={(e) => setName(e.target.value)}
         style={formInputStyle}
       />
-      <input
-        type="text" placeholder="Land (bv. België, Nederland)"
-        value={country} onChange={(e) => setCountry(e.target.value)}
+      <CountryAutocomplete
+        value={country}
+        onChange={setCountry}
+        placeholder="Land (typ bv. 'Be' → België)"
         style={formInputStyle}
       />
       <input

@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import Breadcrumbs from '../components/Breadcrumbs'
 import AutoSaveText from '../components/AutoSaveText'
 import AutoSaveUrl from '../components/AutoSaveUrl'
+import CountryAutocomplete from '../components/CountryAutocomplete'
 
 export default function HousePage() {
   const { houseId } = useParams()
@@ -64,10 +65,9 @@ export default function HousePage() {
                 initialValue={house.name} label="Naam"
                 onSaved={(v) => setHouse((p) => ({ ...p, name: v }))}
               />
-              <AutoSaveText
-                table="auction_houses" id={house.id} fieldName="country"
-                initialValue={house.country} label="Land"
-                placeholder="bv. België, Nederland, Duitsland"
+              <CountryAutoSaveRow
+                houseId={house.id}
+                initialValue={house.country}
                 onSaved={(v) => setHouse((p) => ({ ...p, country: v }))}
               />
               <AutoSaveUrl
@@ -139,6 +139,39 @@ export default function HousePage() {
         </p>
       )}
     </section>
+  )
+}
+
+function CountryAutoSaveRow({ houseId, initialValue, onSaved }) {
+  const [value, setValue] = useState(initialValue ?? '')
+  const [status, setStatus] = useState('idle')
+
+  async function commit(v) {
+    if (v === (initialValue ?? '')) { setStatus('idle'); return }
+    setStatus('saving')
+    const { error } = await supabase
+      .from('auction_houses')
+      .update({ country: v.trim() || null })
+      .eq('id', houseId)
+    if (error) { setStatus('error'); return }
+    setStatus('saved')
+    if (onSaved) onSaved(v.trim() || null)
+  }
+
+  return (
+    <div style={{ marginTop: '0.75rem' }}>
+      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4, fontSize: '0.9em' }}>Land</label>
+      <CountryAutocomplete
+        value={value}
+        onChange={(v) => { setValue(v); setStatus('pending') }}
+        onBlur={() => commit(value)}
+        placeholder="typ 'Be' → België, 'Ne' → Nederland, …"
+      />
+      {status === 'pending' && <small style={{ color: 'var(--text-muted)', marginLeft: 6 }}>typen…</small>}
+      {status === 'saving'  && <small style={{ color: 'var(--text-muted)', marginLeft: 6 }}>opslaan…</small>}
+      {status === 'saved'   && <small style={{ color: 'var(--success)',     marginLeft: 6 }}>💾 opgeslagen</small>}
+      {status === 'error'   && <small style={{ color: 'var(--danger)',      marginLeft: 6 }}>❌ fout</small>}
+    </div>
   )
 }
 

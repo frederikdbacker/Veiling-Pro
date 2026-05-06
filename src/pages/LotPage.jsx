@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
 import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
+import StarRating from '../components/StarRating'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import InterestedClientsField from '../components/InterestedClientsField'
 import PedigreeTree from '../components/PedigreeTree'
@@ -241,6 +242,17 @@ export default function LotPage() {
             currentAuto={lot.lot_type_auto}
             onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId, lot_type_auto: false }))}
           />
+          <div style={{ marginBottom: '0.75rem' }}>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: 4 }}>Rating</label>
+            <div style={{ display: 'flex', alignItems: 'center', minHeight: '34px' }}>
+              <StarRating
+                lotId={lotId}
+                initialValue={lot.rating}
+                size="1.05em"
+                onSaved={(rating) => setLot((prev) => ({ ...prev, rating }))}
+              />
+            </div>
+          </div>
         </div>
       </Block>
 

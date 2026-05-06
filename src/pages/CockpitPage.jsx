@@ -7,6 +7,7 @@ import SpottersStrip from '../components/SpottersStrip'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
 import NoteField from '../components/NoteField'
 import PedigreeTree from '../components/PedigreeTree'
+import StarRating from '../components/StarRating'
 import {
   getInterestedClientsForLot,
   getPurchasesByClientsInAuction,
@@ -302,6 +303,14 @@ function ActiveLotPanel({
                 {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
               </div>
               {meta && <div style={{ color: 'var(--text-primary)', fontSize: '1rem' }}>{meta}</div>}
+              <div style={{ marginTop: 'var(--space-2)' }}>
+                <StarRating
+                  lotId={lot.id}
+                  initialValue={lot.rating}
+                  size="0.95em"
+                  readOnly
+                />
+              </div>
             </div>
           </div>
 

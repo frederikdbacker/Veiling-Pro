@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import StarRating from '../components/StarRating'
 import { Link, useParams } from 'react-router-dom'
 import {
   DndContext, closestCenter, PointerSensor, useSensor, useSensors,
@@ -23,7 +24,8 @@ export default function AuctionPage() {
   const [breaks, setBreaks] = useState([])
   const [status, setStatus] = useState('Laden…')
   const [selectedTypeIds, setSelectedTypeIds] = useState(new Set())
-  const [sortMode, setSortMode] = useState('number') // 'number' | 'alphabetical'
+  const [sortMode, setSortMode] = useState('number') // 'number' | 'alphabetical' | 'rating'
+  const [hideRatings, setHideRatings] = useState(false)
   const [breakForm, setBreakForm] = useState(null)   // null | { id?, after_lot_number, ... }
   const [copyFeedback, setCopyFeedback] = useState(null)
 
@@ -37,7 +39,7 @@ export default function AuctionPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info')
+          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating')
           .eq('auction_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -59,10 +61,17 @@ export default function AuctionPage() {
   const houseName = auction?.auction_houses?.name
 
   // Sorteer + voeg breaks tussen lots in (alleen bij number-sortering).
-  // Bij alphabetisch: lots A-Z, breaks worden los onderaan getoond.
+  // Bij alphabetisch of rating: lots gesorteerd, breaks worden los onderaan getoond.
   const items = useMemo(() => {
     const sortedLots = [...lots].sort((a, b) => {
       if (sortMode === 'alphabetical') {
+        return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
+      }
+      if (sortMode === 'rating') {
+        // Hoge rating eerst, null/0 onderaan; bij gelijke rating op naam
+        const ra = a.rating ?? 0
+        const rb = b.rating ?? 0
+        if (ra !== rb) return rb - ra
         return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
       }
       // number
@@ -72,7 +81,7 @@ export default function AuctionPage() {
       return a.number - b.number
     })
 
-    if (sortMode === 'alphabetical') {
+    if (sortMode === 'alphabetical' || sortMode === 'rating') {
       return sortedLots.map((l) => ({ type: 'lot', key: l.id, data: l }))
     }
 
@@ -101,9 +110,13 @@ export default function AuctionPage() {
         b.after_lot_number == null || !lotNumbers.has(b.after_lot_number)
       )
     }
-    // bij alfabetisch: alle breaks zijn los
+    // bij alfabetisch of rating: alle breaks zijn los
     return breaks
   }, [breaks, lots, sortMode])
+
+  function handleRatingChanged(lotId, newRating) {
+    setLots((prev) => prev.map((l) => l.id === lotId ? { ...l, rating: newRating } : l))
+  }
 
   async function reloadBreaks() {
     setBreaks(await getBreaks(auctionId))
@@ -249,6 +262,29 @@ export default function AuctionPage() {
             >
               A-Z naam
             </SortToggleButton>
+            <SortToggleButton
+              active={sortMode === 'rating'}
+              onClick={() => setSortMode('rating')}
+            >
+              ★ Rating
+            </SortToggleButton>
+            <button
+              type="button"
+              onClick={() => setHideRatings((v) => !v)}
+              title={hideRatings ? 'Toon ratings' : 'Verberg ratings'}
+              style={{
+                border: '1px solid var(--border-default)',
+                background: 'var(--bg-elevated)',
+                color: 'var(--text-secondary)',
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '0.85em',
+                cursor: 'pointer',
+                marginLeft: 8,
+              }}
+            >
+              {hideRatings ? '👁 toon ratings' : '🙈 verberg ratings'}
+            </button>
           </div>
           <button
             onClick={() => setBreakForm({
@@ -289,7 +325,7 @@ export default function AuctionPage() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {items.map((item) =>
                 item.type === 'lot'
-                  ? <SortableLotRow key={item.key} item={item} />
+                  ? <SortableLotRow key={item.key} item={item} onRatingChanged={handleRatingChanged} hideRating={hideRatings} />
                   : <SortableBreakRow
                       key={item.key}
                       item={item}
@@ -302,7 +338,7 @@ export default function AuctionPage() {
         </DndContext>
       ) : items.length > 0 ? (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {items.map((item) => <LotRow key={item.key} lot={item.data} />)}
+          {items.map((item) => <LotRow key={item.key} lot={item.data} onRatingChanged={handleRatingChanged} hideRating={hideRatings} />)}
         </ul>
       ) : null}
 
@@ -341,13 +377,13 @@ export default function AuctionPage() {
 
 /* ---------- Sortable wrappers ---------- */
 
-function SortableLotRow({ item }) {
+function SortableLotRow({ item, onRatingChanged, hideRating }) {
   // Lots zijn niet sleepbaar maar wél drop-target zodat breaks tussen
   // lots gedropt kunnen worden. disabled=true op useSortable.
   const { setNodeRef } = useSortable({ id: item.key, disabled: true })
   return (
     <div ref={setNodeRef}>
-      <LotRow lot={item.data} />
+      <LotRow lot={item.data} onRatingChanged={onRatingChanged} hideRating={hideRating} />
     </div>
   )
 }
@@ -375,12 +411,16 @@ function SortableBreakRow({ item, onEdit, onDelete }) {
 
 /* ---------- Lot-rij ---------- */
 
-function LotRow({ lot }) {
+function LotRow({ lot, onRatingChanged, hideRating }) {
   return (
-    <li style={{ borderBottom: '1px solid var(--border-default)' }}>
+    <li style={{
+      borderBottom: '1px solid var(--border-default)',
+      display: 'flex', alignItems: 'center', gap: '0.5rem', paddingRight: '0.5rem',
+    }}>
       <Link
         to={`/lots/${lot.id}`}
         style={{
+          flex: 1, minWidth: 0,
           display: 'flex', alignItems: 'center', gap: '1rem',
           padding: '0.75rem 0',
           textDecoration: 'none', color: 'var(--text-primary)',
@@ -415,6 +455,14 @@ function LotRow({ lot }) {
           )}
         </div>
       </Link>
+      {!hideRating && (
+        <StarRating
+          lotId={lot.id}
+          initialValue={lot.rating}
+          size="0.85em"
+          onSaved={(rating) => onRatingChanged?.(lot.id, rating)}
+        />
+      )}
     </li>
   )
 }

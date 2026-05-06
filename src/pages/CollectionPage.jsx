@@ -13,6 +13,7 @@ import { hasMissing, translateMissing } from '../lib/missingInfo'
 import Breadcrumbs from '../components/Breadcrumbs'
 import BulkStartPriceModal from '../components/BulkStartPriceModal'
 import RundownField from '../components/RundownField'
+import AutoSaveText from '../components/AutoSaveText'
 import LotTypesSelector from '../components/LotTypesSelector'
 import BidStepRulesEditor from '../components/BidStepRulesEditor'
 import SpottersField from '../components/SpottersField'
@@ -243,7 +244,7 @@ export default function CollectionPage() {
       alert(`Fout bij volgorde-update: ${firstError.error.message}`)
       // herlaad lots om corrupte state te voorkomen
       const { data } = await supabase.from('lots')
-        .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+        .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
         .eq('collection_id', collectionId)
       if (data) setLots(data)
     }
@@ -268,7 +269,19 @@ export default function CollectionPage() {
         { label: collection?.name ?? 'Collectie' },
       ].filter(Boolean)} />
       <h1 style={{ color: 'var(--text-primary)' }}>{collection?.name ?? 'Collectie'}</h1>
-      <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
+      <p style={{ color: 'var(--text-secondary)' }}>
+        {collection?.date && new Date(collection.date).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}
+        {collection?.location && ` · ${collection.location}`}
+        {collection?.status && ` · ${collection.status}`}
+        {' · '}{status}
+      </p>
+
+      {collection && (
+        <CollectionMetaEditor
+          collection={collection}
+          onChange={(patch) => setCollection((prev) => ({ ...prev, ...patch }))}
+        />
+      )}
 
       {collection && (
         <div style={actionRowStyle}>
@@ -456,7 +469,7 @@ export default function CollectionPage() {
             // Reload lots zodat bijgewerkte start_prices in de UI staan
             const { data } = await supabase
               .from('lots')
-              .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+              .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
               .eq('collection_id', collection.id)
               .order('number', { nullsFirst: false })
               .order('name')
@@ -469,6 +482,71 @@ export default function CollectionPage() {
 }
 
 /* ---------- Sortable wrappers ---------- */
+
+function CollectionMetaEditor({ collection, onChange }) {
+  const [open, setOpen] = useState(false)
+
+  // Voor de date+time inputs: splits time_auction_start in date- en time-deel.
+  const startDate = collection.time_auction_start ? new Date(collection.time_auction_start) : null
+  const startTime = startDate ? startDate.toTimeString().slice(0, 5) : ''
+
+  return (
+    <div style={{ marginBottom: 'var(--space-4)' }}>
+      <button onClick={() => setOpen((v) => !v)} style={metaToggleStyle}>
+        {open ? '▴ Inklappen' : '▾ Bewerk veiling-metadata'}
+      </button>
+      {open && (
+        <div style={metaPanelStyle}>
+          <AutoSaveText
+            table="collections" id={collection.id} fieldName="name"
+            initialValue={collection.name} label="Naam"
+            onSaved={(v) => onChange({ name: v })}
+          />
+          <AutoSaveText
+            table="collections" id={collection.id} fieldName="date"
+            initialValue={collection.date} label="Datum"
+            inputType="date"
+            onSaved={(v) => onChange({ date: v })}
+          />
+          <AutoSaveText
+            table="collections" id={collection.id} fieldName="location"
+            initialValue={collection.location} label="Locatie"
+            placeholder="bv. Sentower Park"
+            onSaved={(v) => onChange({ location: v })}
+          />
+          <AutoSaveText
+            table="collections" id={collection.id} fieldName="status"
+            initialValue={collection.status} label="Status"
+            placeholder="bv. gepland, aangekondigd, afgesloten"
+            onSaved={(v) => onChange({ status: v })}
+          />
+          <AutoSaveText
+            table="collections" id={collection.id} fieldName="time_auction_start"
+            initialValue={collection.time_auction_start ? collection.time_auction_start.slice(0, 16) : ''}
+            label="Starttijd (datum + uur)"
+            inputType="datetime-local"
+            onSaved={(v) => onChange({ time_auction_start: v })}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+const metaToggleStyle = {
+  padding: '6px 12px',
+  background: 'transparent', color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9em',
+  marginBottom: 'var(--space-2)',
+}
+const metaPanelStyle = {
+  padding: 'var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  maxWidth: 540,
+}
 
 function SortableLotRow({ item, onRatingChanged, hideRating }) {
   // Lots zijn nu sleepbaar voor veilingvolgorde-aanpassing (#12 uit roadmap).
@@ -587,6 +665,16 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
           {(lot.sire || lot.dam) && (
             <div style={{ color: 'var(--text-muted)', fontSize: '0.85em', fontStyle: 'italic' }}>
               {lot.sire ?? '?'} × {lot.dam ?? '?'}
+            </div>
+          )}
+          {lot.sold === true && lot.sale_price != null && (
+            <div style={{ color: 'var(--success)', fontSize: '0.9em', fontWeight: 600, marginTop: '0.15rem' }}>
+              ✓ Verkocht{lot.sale_channel ? ` ${lot.sale_channel === 'zaal' ? 'in zaal' : 'online'}` : ''}: €{Number(lot.sale_price).toLocaleString('nl-BE')}
+            </div>
+          )}
+          {lot.sold === false && (
+            <div style={{ color: 'var(--warning)', fontSize: '0.9em', fontWeight: 600, marginTop: '0.15rem' }}>
+              ⊘ Niet verkocht
             </div>
           )}
         </div>

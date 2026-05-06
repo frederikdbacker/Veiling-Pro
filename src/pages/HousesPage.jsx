@@ -5,23 +5,35 @@ import { supabase } from '../lib/supabase'
 export default function HousesPage() {
   const [status, setStatus] = useState('Laden…')
   const [houses, setHouses] = useState([])
+  const [adding, setAdding] = useState(false)
+  const [error, setError] = useState(null)
 
-  useEffect(() => {
-    async function load() {
-      const { data, error } = await supabase
-        .from('auction_houses')
-        .select('*')
-        .order('name')
-
-      if (error) {
-        setStatus(`Fout bij ophalen: ${error.message}`)
-        return
-      }
-      setStatus(`${data.length} veilinghuizen gevonden`)
-      setHouses(data)
+  async function load() {
+    const { data, error } = await supabase
+      .from('auction_houses')
+      .select('*')
+      .order('name')
+    if (error) {
+      setStatus(`Fout bij ophalen: ${error.message}`)
+      return
     }
-    load()
-  }, [])
+    setStatus(`${data.length} veilinghuizen`)
+    setHouses(data)
+  }
+
+  useEffect(() => { load() }, [])
+
+  async function handleAdd(payload) {
+    setError(null)
+    const { error } = await supabase.from('auction_houses').insert(payload)
+    if (error) {
+      setError(error.message)
+      return false
+    }
+    setAdding(false)
+    await load()
+    return true
+  }
 
   return (
     <section>
@@ -32,6 +44,17 @@ export default function HousesPage() {
           👥 Alle klanten →
         </Link>
       </p>
+
+      {error && <p style={{ color: 'var(--danger)' }}>❌ {error}</p>}
+
+      {!adding ? (
+        <button onClick={() => setAdding(true)} style={addBtnStyle}>
+          + Veilinghuis toevoegen
+        </button>
+      ) : (
+        <AddHouseForm onSave={handleAdd} onCancel={() => setAdding(false)} />
+      )}
+
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {houses.map((h) => (
           <li key={h.id} style={{
@@ -52,4 +75,99 @@ export default function HousesPage() {
       </ul>
     </section>
   )
+}
+
+function AddHouseForm({ onSave, onCancel }) {
+  const [name, setName] = useState('')
+  const [country, setCountry] = useState('')
+  const [website, setWebsite] = useState('')
+  const [contact, setContact] = useState('')
+  const [busy, setBusy] = useState(false)
+
+  async function submit(e) {
+    e.preventDefault()
+    if (!name.trim()) return
+    setBusy(true)
+    const ok = await onSave({
+      name: name.trim(),
+      country: country.trim() || null,
+      website: website.trim() || null,
+      contact: contact.trim() || null,
+    })
+    setBusy(false)
+    if (ok) {
+      setName(''); setCountry(''); setWebsite(''); setContact('')
+    }
+  }
+
+  return (
+    <form onSubmit={submit} style={formStyle}>
+      <input
+        autoFocus type="text" placeholder="Naam (verplicht, bv. Zangersheide)"
+        value={name} onChange={(e) => setName(e.target.value)}
+        style={formInputStyle}
+      />
+      <input
+        type="text" placeholder="Land (bv. België, Nederland)"
+        value={country} onChange={(e) => setCountry(e.target.value)}
+        style={formInputStyle}
+      />
+      <input
+        type="url" placeholder="Website (https://...)"
+        value={website} onChange={(e) => setWebsite(e.target.value)}
+        style={formInputStyle}
+      />
+      <input
+        type="text" placeholder="Contact (e-mail of telefoon, optioneel)"
+        value={contact} onChange={(e) => setContact(e.target.value)}
+        style={formInputStyle}
+      />
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button type="submit" disabled={busy || !name.trim()} style={confirmBtnStyle}>
+          {busy ? 'Bewaren…' : 'Bewaar'}
+        </button>
+        <button type="button" onClick={onCancel} disabled={busy} style={cancelBtnStyle}>
+          Annuleer
+        </button>
+      </div>
+    </form>
+  )
+}
+
+const addBtnStyle = {
+  padding: '8px 16px',
+  background: 'var(--accent)', color: '#fff',
+  border: 'none', borderRadius: 'var(--radius-sm)',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+  marginBottom: 'var(--space-3)',
+}
+const formStyle = {
+  display: 'flex', flexDirection: 'column', gap: 8,
+  padding: 'var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  marginBottom: 'var(--space-3)',
+  maxWidth: 480,
+}
+const formInputStyle = {
+  padding: '6px 10px',
+  background: 'var(--bg-input, #1a1a1a)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  fontFamily: 'inherit', fontSize: '0.95em',
+}
+const confirmBtnStyle = {
+  padding: '6px 14px',
+  background: 'var(--accent)', color: '#fff',
+  border: 'none', borderRadius: 'var(--radius-sm)',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+}
+const cancelBtnStyle = {
+  padding: '6px 14px',
+  border: '1px solid var(--border-default)',
+  background: 'transparent',
+  color: 'var(--text-primary)',
+  borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontFamily: 'inherit',
 }

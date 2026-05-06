@@ -314,6 +314,18 @@ export default function LotPage() {
             </div>
           </div>
         </div>
+        {/* Verkocht-resultaat — getoond zodra de cockpit een hamer heeft geslagen */}
+        {lot.sold === true && lot.sale_price != null && (
+          <div style={soldStyle}>
+            ✓ Verkocht{lot.sale_channel ? ` ${lot.sale_channel === 'zaal' ? 'in zaal' : 'online'}` : ''}{' '}
+            voor <strong>€{Number(lot.sale_price).toLocaleString('nl-BE')}</strong>
+          </div>
+        )}
+        {lot.sold === false && (
+          <div style={notSoldStyle}>
+            ⊘ Niet verkocht{lot.sale_price != null ? ` (hoogste bod €${Number(lot.sale_price).toLocaleString('nl-BE')})` : ''}
+          </div>
+        )}
       </Block>
 
       {/* Pedigree — onder de prijzen */}
@@ -553,6 +565,26 @@ const lotTitleStyle = {
 }
 const metaStyle = {
   color: 'var(--text-secondary)', margin: '0.25rem 0 0 0',
+}
+const soldStyle = {
+  marginTop: 'var(--space-3)',
+  padding: 'var(--space-2) var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--success)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--success)',
+  fontSize: '0.95em',
+  fontWeight: 600,
+}
+const notSoldStyle = {
+  marginTop: 'var(--space-3)',
+  padding: 'var(--space-2) var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--warning)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--warning)',
+  fontSize: '0.95em',
+  fontWeight: 600,
 }
 const blockStyle = {
   marginTop: 'var(--space-5)',

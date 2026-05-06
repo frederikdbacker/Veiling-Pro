@@ -178,14 +178,39 @@ export default function CockpitPage() {
       {/* Spotters-strip — links → rechts zoals in de zaal opgesteld */}
       <SpottersStrip spotters={spotters} />
 
-      {/* Overzicht-knop bij volledige veiling */}
-      {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
-        <div style={{ marginBottom: 'var(--space-4)' }}>
+      {/* Overzicht-knop bij volledige veiling + Veiling afgesloten */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
+        {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
           <Link to={`/collections/${collectionId}/summary`} style={summaryBtnStyle}>
             📊 Overzicht einde veiling →
           </Link>
-        </div>
-      )}
+        )}
+        {collection.status === 'afgesloten' ? (
+          <span style={{ ...summaryBtnStyle, background: 'var(--bg-elevated)', color: 'var(--success)', cursor: 'default' }}>
+            🏁 Veiling afgesloten
+          </span>
+        ) : (
+          <button
+            onClick={async () => {
+              const allHammered = allLots.length > 0 && allLots.every((l) => l.time_hammer != null)
+              const remaining = allLots.filter((l) => l.time_hammer == null).length
+              const confirmMsg = allHammered
+                ? 'Veiling als afgesloten markeren? Status van deze collectie wordt op "afgesloten" gezet.'
+                : `Let op: ${remaining} lot(s) zijn nog niet gehamerd.\n\nToch markeren als afgesloten?`
+              if (!window.confirm(confirmMsg)) return
+              const { error } = await supabase
+                .from('collections')
+                .update({ status: 'afgesloten' })
+                .eq('id', collectionId)
+              if (error) { alert(`Mislukt: ${error.message}`); return }
+              window.location.href = `/collections/${collectionId}/summary`
+            }}
+            style={closeAuctionBtnStyle}
+          >
+            🏁 Veiling afgesloten
+          </button>
+        )}
+      </div>
 
       {/* Lot picker — Vorig links, dropdown midden, Volgend rechts */}
       <div style={pickerStyle}>
@@ -909,6 +934,17 @@ const summaryBtnStyle = {
   borderRadius: 'var(--radius-sm)',
   textDecoration: 'none',
   fontWeight: 600,
+}
+const closeAuctionBtnStyle = {
+  padding: 'var(--space-2) var(--space-4)',
+  background: 'var(--accent)',
+  color: '#fff',
+  border: 'none',
+  borderRadius: 'var(--radius-sm)',
+  fontWeight: 600,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  fontSize: '1rem',
 }
 const pickerStyle = {
   background: 'var(--bg-surface)',

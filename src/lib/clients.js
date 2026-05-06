@@ -64,6 +64,12 @@ export async function updateClient(clientId, patch) {
   if (error) throw error
 }
 
+/** Verwijder een klant. Faalt met FK-error als er nog koppelingen bestaan. */
+export async function deleteClient(clientId) {
+  const { error } = await supabase.from('clients').delete().eq('id', clientId)
+  if (error) throw error
+}
+
 /** Lijst alle klanten (over alle huizen heen) voor de globale ClientsPage. */
 export async function listAllClients() {
   const { data, error } = await supabase

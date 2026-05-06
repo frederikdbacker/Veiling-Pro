@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { listAllClients, updateClient, createClient } from '../lib/clients'
+import { listAllClients, updateClient, createClient, deleteClient } from '../lib/clients'
 import { supabase } from '../lib/supabase'
 import Breadcrumbs from '../components/Breadcrumbs'
 import CountrySelect from '../components/CountrySelect'
@@ -73,6 +73,21 @@ export default function ClientsPage() {
     }
   }
 
+  async function handleDelete(client) {
+    if (!window.confirm(
+      `Klant "${client.name}" definitief verwijderen?\n\n` +
+      `Dit kan mislukken als de klant nog gekoppeld is aan lots of seating ` +
+      `in een collectie. Verwijder die koppelingen eerst.`
+    )) return
+    setError(null)
+    try {
+      await deleteClient(client.id)
+      setClients((prev) => prev.filter((c) => c.id !== client.id))
+    } catch (e) {
+      setError(`Verwijderen mislukt: ${e.message}`)
+    }
+  }
+
   return (
     <section>
       <Breadcrumbs trail={[
@@ -122,6 +137,7 @@ export default function ClientsPage() {
               <th style={{ padding: '8px 4px' }}>Naam</th>
               <th style={{ padding: '8px 4px', width: 240 }}>Land</th>
               <th style={{ padding: '8px 4px' }}>Veilinghuis</th>
+              <th style={{ padding: '8px 4px', width: 60 }}></th>
             </tr>
           </thead>
           <tbody>
@@ -130,6 +146,7 @@ export default function ClientsPage() {
                 key={client.id}
                 client={client}
                 onPatch={(patch) => handlePatch(client.id, patch)}
+                onDelete={() => handleDelete(client)}
               />
             ))}
           </tbody>
@@ -139,7 +156,7 @@ export default function ClientsPage() {
   )
 }
 
-function ClientRow({ client, onPatch }) {
+function ClientRow({ client, onPatch, onDelete }) {
   const [name, setName] = useState(client.name)
   const flag = flagFromCode(client.country_code)
 
@@ -181,6 +198,16 @@ function ClientRow({ client, onPatch }) {
         <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>
           {client.auction_houses?.name ?? '—'}
         </span>
+      </td>
+      <td style={cellStyle}>
+        <button
+          onClick={onDelete}
+          title="Klant verwijderen"
+          aria-label="Klant verwijderen"
+          style={deleteBtnStyle}
+        >
+          ✕
+        </button>
       </td>
     </tr>
   )
@@ -262,6 +289,16 @@ const rowStyle = {
 }
 const cellStyle = {
   padding: '8px 4px', verticalAlign: 'middle',
+}
+const deleteBtnStyle = {
+  padding: '4px 8px',
+  border: '1px solid var(--border-default)',
+  background: 'transparent',
+  color: 'var(--text-muted)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  fontSize: '0.85em',
 }
 const inlineInputStyle = {
   width: '100%',

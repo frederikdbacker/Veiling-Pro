@@ -14,7 +14,7 @@ export async function searchClientsInHouse(houseId, query) {
   if (!houseId || !query || query.trim().length < 1) return []
   const { data, error } = await supabase
     .from('clients')
-    .select('id, name')
+    .select('id, name, country_code')
     .eq('house_id', houseId)
     .ilike('name', `${query.trim()}%`)
     .order('name')
@@ -34,24 +34,40 @@ export async function searchClientsInHouse(houseId, query) {
  * Bewust GEEN deduplicatie op exacte naam: één huis kan twee mensen met
  * dezelfde naam hebben. De UI dedupliceert via autocomplete-suggesties.
  */
-export async function createClient(houseId, name) {
+export async function createClient(houseId, name, fields = {}) {
   const trimmed = name.trim()
   if (!trimmed) throw new Error('Naam mag niet leeg zijn')
   if (!houseId) throw new Error('Veilinghuis-id ontbreekt')
+  const payload = { name: trimmed, house_id: houseId }
+  if (fields.country_code !== undefined) payload.country_code = fields.country_code || null
   const { data, error } = await supabase
     .from('clients')
-    .insert({ name: trimmed, house_id: houseId })
-    .select('id, name')
+    .insert(payload)
+    .select('id, name, country_code')
     .single()
   if (error) throw error
   return data
+}
+
+/** Generiek update — partial patch op clients-row. Gebruik voor naam, country_code, etc. */
+export async function updateClient(clientId, patch) {
+  const cleaned = {}
+  if ('name' in patch) {
+    const trimmed = (patch.name ?? '').trim()
+    if (!trimmed) throw new Error('Naam mag niet leeg zijn')
+    cleaned.name = trimmed
+  }
+  if ('country_code' in patch) cleaned.country_code = patch.country_code || null
+  if (Object.keys(cleaned).length === 0) return
+  const { error } = await supabase.from('clients').update(cleaned).eq('id', clientId)
+  if (error) throw error
 }
 
 /** Haal de seating-row voor (klant, veiling). Geeft null als er nog niets staat. */
 export async function getSeating(clientId, collectionId) {
   const { data, error } = await supabase
     .from('client_collection_seating')
-    .select('table_number, direction, notes')
+    .select('table_number, direction, notes, bidding_mode')
     .eq('client_id', clientId)
     .eq('collection_id', collectionId)
     .maybeSingle()
@@ -62,7 +78,7 @@ export async function getSeating(clientId, collectionId) {
   return data
 }
 
-/** Insert of update tafel/richting/opmerking voor (klant, veiling). */
+/** Insert of update tafel/richting/opmerking + bidding_mode voor (klant, veiling). */
 export async function upsertSeating(clientId, collectionId, fields) {
   const payload = {
     client_id: clientId,
@@ -71,6 +87,7 @@ export async function upsertSeating(clientId, collectionId, fields) {
     direction:    fields.direction?.trim()    || null,
     notes:        fields.notes?.trim()        || null,
   }
+  if (fields.bidding_mode) payload.bidding_mode = fields.bidding_mode
   const { error } = await supabase
     .from('client_collection_seating')
     .upsert(payload, { onConflict: 'client_id,collection_id' })
@@ -131,7 +148,7 @@ export async function unlinkClientFromLot(clientId, lotId) {
 export async function getInterestedClientsForLot(lotId, collectionId) {
   const { data: rows, error } = await supabase
     .from('lot_interested_clients')
-    .select('notes, clients(id, name, house_id)')
+    .select('notes, clients(id, name, house_id, country_code)')
     .eq('lot_id', lotId)
   if (error) { console.error('getInterestedClientsForLot:', error); return [] }
   if (!rows || rows.length === 0) return []
@@ -139,7 +156,7 @@ export async function getInterestedClientsForLot(lotId, collectionId) {
   const clientIds = rows.map((r) => r.clients.id)
   const { data: seatings } = await supabase
     .from('client_collection_seating')
-    .select('client_id, table_number, direction, notes')
+    .select('client_id, table_number, direction, notes, bidding_mode')
     .eq('collection_id', collectionId)
     .in('client_id', clientIds)
 
@@ -150,10 +167,12 @@ export async function getInterestedClientsForLot(lotId, collectionId) {
     return {
       client_id:     r.clients.id,
       name:          r.clients.name,
+      country_code:  r.clients.country_code ?? null,
       lot_notes:     r.notes,
       table_number:  seating?.table_number ?? null,
       direction:     seating?.direction ?? null,
       seating_notes: seating?.notes ?? null,
+      bidding_mode:  seating?.bidding_mode ?? 'onsite',
     }
   })
 }

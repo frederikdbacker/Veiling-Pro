@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   searchClientsInHouse,
   createClient,
-  updateClientName,
+  updateClient,
   updateLotInterestedNotes,
   getSeating,
   upsertSeating,
@@ -11,6 +11,8 @@ import {
   getInterestedClientsForLot,
   getPurchasesByClientsInAuction,
 } from '../lib/clients'
+import CountrySelect from './CountrySelect'
+import { flagFromCode } from '../lib/countries'
 
 /**
  * "Geïnteresseerde klanten" sectie op LotPage.
@@ -136,10 +138,21 @@ function ClientRow({ entry, purchases, onEdit, onRemove, disabled }) {
   if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
   if (entry.direction)    meta.push(entry.direction)
 
+  const flag = flagFromCode(entry.country_code)
+  const modeLabel = entry.bidding_mode === 'online' ? 'Online'
+                  : entry.bidding_mode === 'phone'  ? 'Phone'
+                  : 'Onsite'
+
   return (
     <li style={rowStyle}>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontWeight: 600 }}>{entry.name}</div>
+        <div style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          {flag && <span title={entry.country_code} aria-label={entry.country_code}>{flag}</span>}
+          <span>{entry.name}</span>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', fontWeight: 400 }}>
+            ({modeLabel})
+          </span>
+        </div>
         {meta.length > 0 && (
           <div style={{ color: '#555', fontSize: '0.9em' }}>
             {meta.join(' · ')}
@@ -196,9 +209,11 @@ function ClientForm({
   const isEdit = mode === 'edit'
 
   const [name, setName] = useState(initialEntry?.name ?? '')
+  const [countryCode, setCountryCode] = useState(initialEntry?.country_code ?? null)
   const [tableNumber, setTableNumber] = useState(initialEntry?.table_number ?? '')
   const [direction, setDirection] = useState(initialEntry?.direction ?? '')
   const [seatingNotes, setSeatingNotes] = useState(initialEntry?.seating_notes ?? '')
+  const [biddingMode, setBiddingMode] = useState(initialEntry?.bidding_mode ?? 'onsite')
   const [lotNotes, setLotNotes] = useState(initialEntry?.lot_notes ?? '')
 
   const [suggestions, setSuggestions] = useState([])
@@ -230,12 +245,14 @@ function ClientForm({
   async function selectSuggestion(client) {
     setName(client.name)
     setSelectedClientId(client.id)
+    setCountryCode(client.country_code ?? null)
     setShowSuggestions(false)
     const seating = await getSeating(client.id, collectionId)
     if (seating) {
       setTableNumber(seating.table_number ?? '')
       setDirection(seating.direction ?? '')
       setSeatingNotes(seating.notes ?? '')
+      setBiddingMode(seating.bidding_mode ?? 'onsite')
     }
   }
 
@@ -247,34 +264,38 @@ function ClientForm({
 
     setBusy(true)
     try {
+      // Bij online/phone-modus zijn tafel + richting niet relevant — verwerp ze
+      const seatingPayload = biddingMode === 'onsite'
+        ? { table_number: tableNumber, direction, notes: seatingNotes, bidding_mode: biddingMode }
+        : { table_number: '', direction: '', notes: seatingNotes, bidding_mode: biddingMode }
+
       if (isEdit) {
-        if (trimmed !== initialEntry.name) {
-          await updateClientName(initialEntry.client_id, trimmed)
+        const patch = {}
+        if (trimmed !== initialEntry.name) patch.name = trimmed
+        if ((countryCode ?? null) !== (initialEntry.country_code ?? null)) patch.country_code = countryCode
+        if (Object.keys(patch).length > 0) {
+          await updateClient(initialEntry.client_id, patch)
         }
-        await upsertSeating(initialEntry.client_id, collectionId, {
-          table_number: tableNumber,
-          direction,
-          notes: seatingNotes,
-        })
+        await upsertSeating(initialEntry.client_id, collectionId, seatingPayload)
         if ((lotNotes ?? '') !== (initialEntry.lot_notes ?? '')) {
           await updateLotInterestedNotes(initialEntry.client_id, lotId, lotNotes)
         }
       } else {
         let clientId = selectedClientId
         if (!clientId) {
-          const created = await createClient(houseId, trimmed)
+          const created = await createClient(houseId, trimmed, { country_code: countryCode })
           clientId = created.id
+        } else if (countryCode != null) {
+          // Bestaande klant geselecteerd via autocomplete: country_code kan
+          // afwijken van wat in de UI geselecteerd staat — pas aan indien gewijzigd
+          await updateClient(clientId, { country_code: countryCode })
         }
         if (existingClientIds.has(clientId)) {
           setError(`${trimmed} staat al gekoppeld aan dit lot.`)
           setBusy(false)
           return
         }
-        await upsertSeating(clientId, collectionId, {
-          table_number: tableNumber,
-          direction,
-          notes: seatingNotes,
-        })
+        await upsertSeating(clientId, collectionId, seatingPayload)
         await linkClientToLot(clientId, lotId, lotNotes)
       }
       onSaved()
@@ -326,20 +347,43 @@ function ClientForm({
         )}
       </FieldRow>
 
-      <FieldRow label="Tafel">
-        <input
-          type="text" value={tableNumber}
-          onChange={(e) => setTableNumber(e.target.value)}
-          placeholder="bv. 12" style={inputStyle}
-        />
+      <FieldRow label="Land">
+        <CountrySelect value={countryCode} onChange={setCountryCode} />
       </FieldRow>
-      <FieldRow label="Richting">
-        <input
-          type="text" value={direction}
-          onChange={(e) => setDirection(e.target.value)}
-          placeholder="bv. links voor" style={inputStyle}
-        />
+      <FieldRow label="Modus">
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          {['onsite', 'online', 'phone'].map((m) => (
+            <label key={m} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
+              <input
+                type="radio"
+                name="bidding_mode"
+                value={m}
+                checked={biddingMode === m}
+                onChange={() => setBiddingMode(m)}
+              />
+              {m === 'onsite' ? 'Onsite' : m === 'online' ? 'Online' : 'Phone'}
+            </label>
+          ))}
+        </div>
       </FieldRow>
+      {biddingMode === 'onsite' && (
+        <>
+          <FieldRow label="Tafel">
+            <input
+              type="text" value={tableNumber}
+              onChange={(e) => setTableNumber(e.target.value)}
+              placeholder="bv. 12" style={inputStyle}
+            />
+          </FieldRow>
+          <FieldRow label="Richting">
+            <input
+              type="text" value={direction}
+              onChange={(e) => setDirection(e.target.value)}
+              placeholder="bv. links voor" style={inputStyle}
+            />
+          </FieldRow>
+        </>
+      )}
       <FieldRow label="Opmerking">
         <input
           type="text" value={seatingNotes}

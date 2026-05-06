@@ -8,6 +8,7 @@ import BuyerAutocomplete from '../components/BuyerAutocomplete'
 import NoteField from '../components/NoteField'
 import RichNoteField, { isRichEmpty } from '../components/RichNoteField'
 import Breadcrumbs from '../components/Breadcrumbs'
+import { flagFromCode } from '../lib/countries'
 import PedigreeTree from '../components/PedigreeTree'
 import StarRating from '../components/StarRating'
 import {
@@ -405,10 +406,19 @@ function ActiveLotPanel({
               const meta = []
               if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
               if (entry.direction)    meta.push(entry.direction)
+              const flag = flagFromCode(entry.country_code)
+              const modeLabel = entry.bidding_mode === 'online' ? 'Online'
+                              : entry.bidding_mode === 'phone'  ? 'Phone'
+                              : 'Onsite'
               return (
                 <li key={entry.client_id} style={{ padding: '4px 0' }}>
                   <div>
-                    <strong style={{ color: 'var(--accent)' }}>★ {entry.name}</strong>
+                    <strong style={{ color: 'var(--accent)' }}>
+                      ★ {flag && <span style={{ marginRight: 4 }}>{flag}</span>}{entry.name}
+                    </strong>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 6 }}>
+                      ({modeLabel})
+                    </span>
                     {meta.length > 0 && (
                       <span style={{ color: 'var(--text-secondary)' }}> · {meta.join(' · ')}</span>
                     )}

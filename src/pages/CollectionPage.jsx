@@ -11,6 +11,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 import Breadcrumbs from '../components/Breadcrumbs'
+import BulkStartPriceModal from '../components/BulkStartPriceModal'
 import LotTypesSelector from '../components/LotTypesSelector'
 import BidStepRulesEditor from '../components/BidStepRulesEditor'
 import SpottersField from '../components/SpottersField'
@@ -29,6 +30,7 @@ export default function CollectionPage() {
   const [hideRatings, setHideRatings] = useState(false)
   const [breakForm, setBreakForm] = useState(null)   // null | { id?, after_lot_number, ... }
   const [copyFeedback, setCopyFeedback] = useState(null)
+  const [bulkPriceOpen, setBulkPriceOpen] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -235,6 +237,9 @@ export default function CollectionPage() {
           <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">
             📋 Link kopiëren
           </button>
+          <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
+            💰 Bulk startbedrag
+          </button>
           {copyFeedback && (
             <span style={{ color: 'var(--success)', fontSize: '0.9em', marginLeft: 8 }}>
               {copyFeedback}
@@ -383,6 +388,23 @@ export default function CollectionPage() {
           />
           <SpottersField collectionId={collection.id} />
         </div>
+      )}
+
+      {bulkPriceOpen && collection && (
+        <BulkStartPriceModal
+          collectionId={collection.id}
+          onClose={() => setBulkPriceOpen(false)}
+          onApplied={async () => {
+            // Reload lots zodat bijgewerkte start_prices in de UI staan
+            const { data } = await supabase
+              .from('lots')
+              .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+              .eq('collection_id', collection.id)
+              .order('number', { nullsFirst: false })
+              .order('name')
+            if (data) setLots(data)
+          }}
+        />
       )}
     </section>
   )

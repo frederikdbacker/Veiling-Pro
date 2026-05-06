@@ -438,9 +438,16 @@ function ActiveLotPanel({
 
       {/* Mijn voorbereiding */}
       <Card title="Mijn voorbereiding">
-        <NoteField key={`notes_catalog-${lot.id}`} lotId={lot.id} fieldName="notes_catalog" initialValue={lot.notes_catalog} label="Catalogus" />
-        <NoteField key={`notes_video-${lot.id}`}   lotId={lot.id} fieldName="notes_video"   initialValue={lot.notes_video}   label="Video" />
-        <NoteField key={`notes_org-${lot.id}`}     lotId={lot.id} fieldName="notes_org"     initialValue={lot.notes_org}     label="Organisatie" />
+        {lot.notes_familie        && <NoteField key={`notes_familie-${lot.id}`}        lotId={lot.id} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />}
+        {lot.notes_resultaten     && <NoteField key={`notes_resultaten-${lot.id}`}     lotId={lot.id} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />}
+        {lot.notes_kenmerken      && <NoteField key={`notes_kenmerken-${lot.id}`}      lotId={lot.id} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />}
+        {lot.notes_organisatie    && <NoteField key={`notes_organisatie-${lot.id}`}    lotId={lot.id} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />}
+        {lot.notes_bijzonderheden && <NoteField key={`notes_bijzonderheden-${lot.id}`} lotId={lot.id} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />}
+      </Card>
+
+      {/* Opmerkingen verkoop — alleen in cockpit, altijd zichtbaar (ook leeg) */}
+      <Card title="Opmerkingen verkoop">
+        <NoteField key={`notes_verkoop-${lot.id}`} lotId={lot.id} fieldName="notes_verkoop" initialValue={lot.notes_verkoop} compact />
       </Card>
 
       {/* EquiRatings blijft uitklapbaar (minder vaak nodig tijdens veilen) */}

@@ -3,11 +3,12 @@ import { supabase } from '../lib/supabase'
 
 const DEBOUNCE_MS = 800
 
-export default function NoteField({ lotId, fieldName, initialValue, label }) {
+export default function NoteField({ lotId, fieldName, initialValue, label, compact = false }) {
   const [value, setValue] = useState(initialValue ?? '')
   const [status, setStatus] = useState({ state: 'idle' })
   const baselineRef = useRef(initialValue ?? '')
   const timerRef = useRef(null)
+  const textareaRef = useRef(null)
 
   // Cancel pending save on unmount (bv. bij navigatie naar ander lot)
   useEffect(() => {
@@ -15,6 +16,15 @@ export default function NoteField({ lotId, fieldName, initialValue, label }) {
       if (timerRef.current) clearTimeout(timerRef.current)
     }
   }, [])
+
+  // Auto-resize textarea in compact-modus zodat hoogte matcht met inhoud
+  useEffect(() => {
+    if (!compact) return
+    const ta = textareaRef.current
+    if (!ta) return
+    ta.style.height = 'auto'
+    ta.style.height = ta.scrollHeight + 'px'
+  }, [value, compact])
 
   function handleChange(e) {
     const newValue = e.target.value
@@ -46,21 +56,26 @@ export default function NoteField({ lotId, fieldName, initialValue, label }) {
   }
 
   return (
-    <div style={{ marginTop: '1rem' }}>
-      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4 }}>
-        {label}
-      </label>
+    <div style={{ marginTop: compact ? '0.2rem' : '1rem' }}>
+      {label && (
+        <label style={{ display: 'block', fontWeight: 600, marginBottom: 2 }}>
+          {label}
+        </label>
+      )}
       <textarea
+        ref={textareaRef}
         value={value}
         onChange={handleChange}
-        rows={4}
+        rows={compact ? 1 : 4}
         style={{
           width: '100%', padding: 8, fontFamily: 'inherit', fontSize: '0.95em',
-          border: '1px solid #ccc', borderRadius: 4, resize: 'vertical',
+          border: '1px solid #ccc', borderRadius: 4,
+          resize: compact ? 'none' : 'vertical',
+          overflow: compact ? 'hidden' : 'auto',
           boxSizing: 'border-box',
         }}
       />
-      <div style={{ minHeight: '1.2em', marginTop: 2 }}>
+      <div style={{ minHeight: compact ? 0 : '1.2em', marginTop: compact ? 0 : 2 }}>
         <SaveIndicator status={status} />
       </div>
     </div>
@@ -70,7 +85,7 @@ export default function NoteField({ lotId, fieldName, initialValue, label }) {
 function SaveIndicator({ status }) {
   const small = { fontSize: '0.8em' }
   switch (status.state) {
-    case 'idle':    return <small style={{ ...small, color: '#bbb' }}>·</small>
+    case 'idle':    return null
     case 'pending': return <small style={{ ...small, color: '#aaa' }}>typen…</small>
     case 'saving':  return <small style={{ ...small, color: '#aaa' }}>opslaan…</small>
     case 'saved':   return (

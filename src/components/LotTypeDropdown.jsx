@@ -9,9 +9,12 @@ import { supabase } from '../lib/supabase'
  *   lotId          UUID van het lot
  *   auctionId      UUID van de veiling (om de juiste types te tonen)
  *   currentTypeId  huidige lot.lot_type_id (mag null zijn)
+ *   currentAuto    huidige lot.lot_type_auto — true als het type automatisch
+ *                  is afgeleid bij import. Toont een marker; bij user-wissel
+ *                  wordt de flag op false gezet.
  *   onSaved(id)    callback na succesvolle save
  */
-export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSaved }) {
+export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, currentAuto, onSaved }) {
   const [options, setOptions] = useState([])
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState(null)
@@ -39,12 +42,14 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
   }, [auctionId])
 
   async function handleChange(e) {
-    const newId = e.target.value || null
+    const newId = e.target.value
+    if (!newId) return // Onmogelijk via UI sinds NOT NULL constraint, defensief
     setSaving(true)
     setError(null)
+    setSavedAt(null)
     const { error } = await supabase
       .from('lots')
-      .update({ lot_type_id: newId })
+      .update({ lot_type_id: newId, lot_type_auto: false })
       .eq('id', lotId)
     setSaving(false)
     if (error) {
@@ -73,7 +78,6 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
           minWidth: '14em',
         }}
       >
-        <option value="">— kies —</option>
         {options.map((t) => (
           <option key={t.id} value={t.id}>{t.name_nl}</option>
         ))}
@@ -85,6 +89,11 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
         </small>
       )}
       {error && <small style={{ marginLeft: 8, color: 'var(--danger)' }}>❌ {error}</small>}
+      {currentAuto && !savedAt && !saving && (
+        <small style={{ marginLeft: 8, color: 'var(--accent)', fontStyle: 'italic' }}>
+          ✨ automatisch toegekend, klik om te wijzigen
+        </small>
+      )}
       {options.length === 0 && !error && (
         <small style={{ display: 'block', color: 'var(--text-muted)', marginTop: 4 }}>
           Geen types beschikbaar — selecteer eerst lot-types op de veiling-pagina.

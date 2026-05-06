@@ -62,6 +62,42 @@ const { data: auction, error: aErr } = await supabase
 if (aErr) { console.error('❌ Auction:', aErr.message); process.exit(1) }
 console.log(`🎯 Auction: ${auction.name} (${auction.id})`)
 
+// 2b) lot_types ophalen voor auto-derive (zie migratie 0013)
+const { data: lotTypes, error: tErr } = await supabase
+  .from('lot_types')
+  .select('id, name_nl')
+
+if (tErr) { console.error('❌ Lot types:', tErr.message); process.exit(1) }
+if (!lotTypes || lotTypes.length === 0) {
+  console.error('❌ Geen lot_types gevonden — seed-rows ontbreken.')
+  process.exit(1)
+}
+
+const findType = (re) => lotTypes.find(t => re.test(t.name_nl))
+const embryoType = findType(/embryo/i)
+const veulenType = findType(/veulen/i)
+const fallbackType = findType(/spring/i) ?? lotTypes[0]
+const currentYear = new Date().getFullYear()
+
+function deriveLotType(h) {
+  // Regel 1: geen jaar → embryo (auto)
+  if (!h.year && embryoType) return embryoType.id
+  // Regel 2: jaar = lopend kalenderjaar → veulen (auto)
+  if (h.year === currentYear && veulenType) return veulenType.id
+  // Regel 3: discipline matchen op type-naam
+  if (h.discipline) {
+    const d = h.discipline.toLowerCase()
+    const match = lotTypes.find(t =>
+      t.name_nl.toLowerCase().includes(d) || d.includes(t.name_nl.toLowerCase())
+    )
+    if (match) return match.id
+  }
+  // Fallback
+  return fallbackType.id
+}
+
+console.log(`📋 Lot types: ${lotTypes.length} — embryo:${!!embryoType} veulen:${!!veulenType}`)
+
 // 3) check of er al lots staan voor deze auction (geen dubbele import)
 const { count } = await supabase
   .from('lots')
@@ -77,6 +113,8 @@ if (count && count > 0) {
 // 4) map horses naar lot-rijen
 const rows = horses.map(h => ({
   auction_id:        auction.id,
+  lot_type_id:       deriveLotType(h),
+  lot_type_auto:     true,
   number:            h.lot_number,
   name:              h.name,
   slug:              h.slug,

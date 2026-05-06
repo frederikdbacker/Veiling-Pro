@@ -238,7 +238,8 @@ export default function LotPage() {
             lotId={lotId}
             auctionId={lot.auction_id}
             currentTypeId={lot.lot_type_id}
-            onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId }))}
+            currentAuto={lot.lot_type_auto}
+            onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId, lot_type_auto: false }))}
           />
         </div>
       </Block>
@@ -313,10 +314,37 @@ export default function LotPage() {
 
       {/* Mijn notities */}
       <Block title="Mijn notities" key={`notes-${lotId}`}>
-        <NoteField lotId={lotId} fieldName="notes_catalog" initialValue={lot.notes_catalog} label="Catalogus" />
-        <NoteField lotId={lotId} fieldName="notes_video"   initialValue={lot.notes_video}   label="Video" />
-        <NoteField lotId={lotId} fieldName="notes_org"     initialValue={lot.notes_org}     label="Organisatie" />
+        <NoteField lotId={lotId} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />
+        <NoteField lotId={lotId} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />
+        <NoteField lotId={lotId} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />
+        <NoteField lotId={lotId} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />
+        <NoteField lotId={lotId} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />
       </Block>
+
+      {/* Verouderde notities — alleen tonen zolang notes_catalog of notes_video nog data bevatten.
+          Read-only zodat Frederik content kan kopiëren naar de nieuwe rubrieken; ✕ verwijdert. */}
+      {(lot.notes_catalog || lot.notes_video) && (
+        <Block title="Verouderde notities (overzetten en verwijderen)">
+          {lot.notes_catalog && (
+            <LegacyNoteRow
+              lotId={lotId}
+              fieldName="notes_catalog"
+              value={lot.notes_catalog}
+              label="Catalogus"
+              onCleared={() => setLot((prev) => ({ ...prev, notes_catalog: null }))}
+            />
+          )}
+          {lot.notes_video && (
+            <LegacyNoteRow
+              lotId={lotId}
+              fieldName="notes_video"
+              value={lot.notes_video}
+              label="Video"
+              onCleared={() => setLot((prev) => ({ ...prev, notes_video: null }))}
+            />
+          )}
+        </Block>
+      )}
 
       {/* Vorig/volgend lot */}
       <nav style={navStyle}>
@@ -327,6 +355,39 @@ export default function LotPage() {
         <NavLink lot={next} dir="next" />
       </nav>
     </section>
+  )
+}
+
+function LegacyNoteRow({ lotId, fieldName, value, label, onCleared }) {
+  const [clearing, setClearing] = useState(false)
+
+  async function handleClear() {
+    if (!confirm(`"${label}"-notitie verwijderen? Backup-CSV is nog beschikbaar als je iets terug wil.`)) return
+    setClearing(true)
+    const { error } = await supabase.from('lots').update({ [fieldName]: null }).eq('id', lotId)
+    setClearing(false)
+    if (error) { alert(error.message); return }
+    onCleared()
+  }
+
+  return (
+    <div style={legacyRowStyle}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+        <strong style={{ color: 'var(--text-muted)', fontSize: '0.85em', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          {label}
+        </strong>
+        <button
+          type="button"
+          onClick={handleClear}
+          disabled={clearing}
+          title="Verwijderen na overzetten"
+          style={legacyClearBtnStyle}
+        >
+          {clearing ? '…' : '✕ verwijder'}
+        </button>
+      </div>
+      <pre style={legacyTextStyle}>{value}</pre>
+    </div>
   )
 }
 
@@ -434,6 +495,31 @@ const blockTitleStyle = {
   color: 'var(--text-secondary)',
   fontWeight: 600,
   margin: '0 0 var(--space-3) 0',
+}
+const legacyRowStyle = {
+  background: 'var(--bg-elevated)',
+  border: '1px dashed var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  padding: 'var(--space-3)',
+  marginBottom: 'var(--space-3)',
+  opacity: 0.85,
+}
+const legacyTextStyle = {
+  margin: 0,
+  whiteSpace: 'pre-wrap',
+  color: 'var(--text-secondary)',
+  fontFamily: 'inherit',
+  fontSize: '0.95em',
+  lineHeight: 1.4,
+}
+const legacyClearBtnStyle = {
+  border: '1px solid var(--border-default)',
+  background: 'transparent',
+  color: 'var(--text-muted)',
+  padding: '2px 8px',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.85em',
+  cursor: 'pointer',
 }
 const navStyle = {
   display: 'flex', justifyContent: 'space-between', alignItems: 'center',

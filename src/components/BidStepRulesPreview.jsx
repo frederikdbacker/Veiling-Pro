@@ -7,13 +7,13 @@ import { sortByRangeFrom } from '../lib/bidSteps'
  * binnen een veiling. Updaten gebeurt op de AuctionPage; hier puur
  * informatief.
  */
-export default function BidStepRulesPreview({ auctionId, lotTypeId }) {
+export default function BidStepRulesPreview({ collectionId, lotTypeId }) {
   const [rules, setRules] = useState([])
   const [error, setError] = useState(null)
 
   useEffect(() => {
     setError(null)
-    if (!auctionId || !lotTypeId) {
+    if (!collectionId || !lotTypeId) {
       setRules([])
       return
     }
@@ -21,7 +21,7 @@ export default function BidStepRulesPreview({ auctionId, lotTypeId }) {
     supabase
       .from('bid_step_rules')
       .select('*')
-      .eq('collection_id', auctionId)
+      .eq('collection_id', collectionId)
       .eq('lot_type_id', lotTypeId)
       .then((res) => {
         if (cancelled) return
@@ -29,7 +29,7 @@ export default function BidStepRulesPreview({ auctionId, lotTypeId }) {
         else setRules(res.data ?? [])
       })
     return () => { cancelled = true }
-  }, [auctionId, lotTypeId])
+  }, [collectionId, lotTypeId])
 
   if (!lotTypeId) {
     return <p style={emptyStyle}>Kies eerst een lot-type om de biedstappen te zien.</p>

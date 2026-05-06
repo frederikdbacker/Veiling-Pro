@@ -7,14 +7,14 @@ import { supabase } from '../lib/supabase'
  *
  * Props:
  *   lotId          UUID van het lot
- *   auctionId      UUID van de veiling (om de juiste types te tonen)
+ *   collectionId      UUID van de veiling (om de juiste types te tonen)
  *   currentTypeId  huidige lot.lot_type_id (mag null zijn)
  *   currentAuto    huidige lot.lot_type_auto — true als het type automatisch
  *                  is afgeleid bij import. Toont een marker; bij user-wissel
  *                  wordt de flag op false gezet.
  *   onSaved(id)    callback na succesvolle save
  */
-export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, currentAuto, onSaved }) {
+export default function LotTypeDropdown({ lotId, collectionId, currentTypeId, currentAuto, onSaved }) {
   const [options, setOptions] = useState([])
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState(null)
@@ -26,7 +26,7 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, curre
       const { data, error } = await supabase
         .from('collection_lot_types')
         .select('lot_types(id, name_nl, display_order)')
-        .eq('collection_id', auctionId)
+        .eq('collection_id', collectionId)
 
       if (cancelled) return
       if (error) { setError(error.message); return }
@@ -39,7 +39,7 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, curre
     }
     load()
     return () => { cancelled = true }
-  }, [auctionId])
+  }, [collectionId])
 
   async function handleChange(e) {
     const newId = e.target.value

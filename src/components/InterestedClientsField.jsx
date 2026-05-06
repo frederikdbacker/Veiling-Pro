@@ -21,7 +21,7 @@ import {
  * Kan klanten toevoegen (autocomplete over hele huis, auto-overname van
  * seating uit eerdere koppeling), bewerken (✏ per rij) of verwijderen (✕).
  */
-export default function InterestedClientsField({ lotId, auctionId, houseId }) {
+export default function InterestedClientsField({ lotId, collectionId, houseId }) {
   const [entries, setEntries] = useState([])
   const [purchases, setPurchases] = useState(new Map())
   const [formMode, setFormMode] = useState(null)        // null | 'add' | 'edit'
@@ -31,11 +31,11 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
 
   async function reload() {
     setError(null)
-    const list = await getInterestedClientsForLot(lotId, auctionId)
+    const list = await getInterestedClientsForLot(lotId, collectionId)
     setEntries(list)
     if (list.length > 0) {
       const map = await getPurchasesByClientsInAuction(
-        auctionId,
+        collectionId,
         list.map((e) => e.client_id),
       )
       setPurchases(map)
@@ -47,7 +47,7 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
   useEffect(() => {
     reload()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lotId, auctionId])
+  }, [lotId, collectionId])
 
   async function handleRemove(clientId) {
     if (!window.confirm('Klant van dit lot loskoppelen?')) return
@@ -108,7 +108,7 @@ export default function InterestedClientsField({ lotId, auctionId, houseId }) {
           mode={formMode}
           initialEntry={editingEntry}
           lotId={lotId}
-          auctionId={auctionId}
+          collectionId={collectionId}
           houseId={houseId}
           existingClientIds={new Set(entries.map((e) => e.client_id))}
           onSaved={async () => {
@@ -190,7 +190,7 @@ function ClientRow({ entry, purchases, onEdit, onRemove, disabled }) {
 
 function ClientForm({
   mode, initialEntry,
-  lotId, auctionId, houseId, existingClientIds,
+  lotId, collectionId, houseId, existingClientIds,
   onSaved, onCancel,
 }) {
   const isEdit = mode === 'edit'
@@ -231,7 +231,7 @@ function ClientForm({
     setName(client.name)
     setSelectedClientId(client.id)
     setShowSuggestions(false)
-    const seating = await getSeating(client.id, auctionId)
+    const seating = await getSeating(client.id, collectionId)
     if (seating) {
       setTableNumber(seating.table_number ?? '')
       setDirection(seating.direction ?? '')
@@ -251,7 +251,7 @@ function ClientForm({
         if (trimmed !== initialEntry.name) {
           await updateClientName(initialEntry.client_id, trimmed)
         }
-        await upsertSeating(initialEntry.client_id, auctionId, {
+        await upsertSeating(initialEntry.client_id, collectionId, {
           table_number: tableNumber,
           direction,
           notes: seatingNotes,
@@ -270,7 +270,7 @@ function ClientForm({
           setBusy(false)
           return
         }
-        await upsertSeating(clientId, auctionId, {
+        await upsertSeating(clientId, collectionId, {
           table_number: tableNumber,
           direction,
           notes: seatingNotes,

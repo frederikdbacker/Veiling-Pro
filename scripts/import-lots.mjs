@@ -1,9 +1,9 @@
 // Import lots vanuit een JSON-bestand naar de Supabase lots-tabel.
 //
 // Verwacht JSON-vorm:
-//   { meta: { auction, website, ... }, horses: [ { ...lot fields } ] }
+//   { meta: { collection, website, ... }, horses: [ { ...lot fields } ] }
 //
-// Auction house wordt afgeleid uit het eerste woord van meta.auction
+// Auction house wordt afgeleid uit het eerste woord van meta.collection
 // (bv. "Aloga Auction 2026" → house "Aloga").
 //
 // Gebruik:
@@ -31,15 +31,15 @@ const supabase = createClient(url, key)
 const json = JSON.parse(await readFile(file, 'utf8'))
 const { meta, horses } = json
 
-if (!meta?.auction || !Array.isArray(horses)) {
-  console.error('❌ JSON heeft geen meta.auction of horses[] — formaat klopt niet.')
+if (!meta?.collection || !Array.isArray(horses)) {
+  console.error('❌ JSON heeft geen meta.collection of horses[] — formaat klopt niet.')
   process.exit(1)
 }
 
-console.log(`📦 ${meta.auction}: ${horses.length} paarden`)
+console.log(`📦 ${meta.collection}: ${horses.length} paarden`)
 
 // 1) auction_house — upsert op naam
-const houseName = meta.auction.split(' ')[0]
+const houseName = meta.collection.split(' ')[0]
 const { data: house, error: hErr } = await supabase
   .from('auction_houses')
   .upsert({ name: houseName, website: meta.website }, { onConflict: 'name' })
@@ -49,18 +49,18 @@ const { data: house, error: hErr } = await supabase
 if (hErr) { console.error('❌ House:', hErr.message); process.exit(1) }
 console.log(`🏛  House: ${house.name} (${house.id})`)
 
-// 2) auction — upsert op (house_id, name)
-const { data: auction, error: aErr } = await supabase
+// 2) collection — upsert op (house_id, name)
+const { data: collection, error: aErr } = await supabase
   .from('collections')
   .upsert(
-    { house_id: house.id, name: meta.auction },
+    { house_id: house.id, name: meta.collection },
     { onConflict: 'house_id,name' }
   )
   .select()
   .single()
 
 if (aErr) { console.error('❌ Auction:', aErr.message); process.exit(1) }
-console.log(`🎯 Auction: ${auction.name} (${auction.id})`)
+console.log(`🎯 Auction: ${collection.name} (${collection.id})`)
 
 // 2b) lot_types ophalen voor auto-derive (zie migratie 0013)
 const { data: lotTypes, error: tErr } = await supabase
@@ -98,11 +98,11 @@ function deriveLotType(h) {
 
 console.log(`📋 Lot types: ${lotTypes.length} — embryo:${!!embryoType} veulen:${!!veulenType}`)
 
-// 3) check of er al lots staan voor deze auction (geen dubbele import)
+// 3) check of er al lots staan voor deze collection (geen dubbele import)
 const { count } = await supabase
   .from('lots')
   .select('id', { count: 'exact', head: true })
-  .eq('collection_id', auction.id)
+  .eq('collection_id', collection.id)
 
 if (count && count > 0) {
   console.error(`⚠  Er staan al ${count} lots voor deze veiling. Import afgebroken.`)
@@ -112,7 +112,7 @@ if (count && count > 0) {
 
 // 4) map horses naar lot-rijen
 const rows = horses.map(h => ({
-  collection_id:        auction.id,
+  collection_id:        collection.id,
   lot_type_id:       deriveLotType(h),
   lot_type_auto:     true,
   number:            h.lot_number,
@@ -133,9 +133,9 @@ const rows = horses.map(h => ({
   source_url:        h.source_url,
   start_price:       h.starting_bid,
   reserve_price:     h.reserve_price,
-  // bid_steps verhuisd naar auctions-tabel (per migratie 0002).
+  // bid_steps verhuisd naar collections-tabel (per migratie 0002).
   // Niet meer per lot mappen; eventueel toekomstige meta.bid_steps
-  // wordt op auction-niveau geüpsert.
+  // wordt op collection-niveau geüpsert.
   notes_catalog:     h.notes?.catalog || null,
   notes_video:       h.notes?.video || null,
   notes_org:         h.notes?.org || null,

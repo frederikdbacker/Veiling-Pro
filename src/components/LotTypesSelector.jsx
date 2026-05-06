@@ -10,11 +10,11 @@ import { supabase } from '../lib/supabase'
  * statuslijn getoond.
  *
  * Props:
- *   auctionId        UUID van de veiling
+ *   collectionId        UUID van de veiling
  *   onChange         optionele callback (selectedIds) zodat de parent
  *                    afgeleide UI kan updaten (bv. staffel-editor)
  */
-export default function LotTypesSelector({ auctionId, onChange }) {
+export default function LotTypesSelector({ collectionId, onChange }) {
   const [allTypes, setAllTypes] = useState([])
   const [selectedIds, setSelectedIds] = useState(new Set())
   const [error, setError] = useState(null)
@@ -24,7 +24,7 @@ export default function LotTypesSelector({ auctionId, onChange }) {
     async function load() {
       const [typesRes, junctionRes] = await Promise.all([
         supabase.from('lot_types').select('*').order('display_order'),
-        supabase.from('collection_lot_types').select('lot_type_id').eq('collection_id', auctionId),
+        supabase.from('collection_lot_types').select('lot_type_id').eq('collection_id', collectionId),
       ])
       if (typesRes.error) { setError(typesRes.error.message); return }
       if (junctionRes.error) { setError(junctionRes.error.message); return }
@@ -35,7 +35,7 @@ export default function LotTypesSelector({ auctionId, onChange }) {
       if (onChange) onChange(ids)
     }
     load()
-  }, [auctionId])
+  }, [collectionId])
 
   async function toggle(typeId, checked) {
     setBusyIds((prev) => new Set(prev).add(typeId))
@@ -45,13 +45,13 @@ export default function LotTypesSelector({ auctionId, onChange }) {
     if (checked) {
       const { error } = await supabase
         .from('collection_lot_types')
-        .insert({ collection_id: auctionId, lot_type_id: typeId })
+        .insert({ collection_id: collectionId, lot_type_id: typeId })
       err = error
     } else {
       const { error } = await supabase
         .from('collection_lot_types')
         .delete()
-        .match({ collection_id: auctionId, lot_type_id: typeId })
+        .match({ collection_id: collectionId, lot_type_id: typeId })
       err = error
     }
 

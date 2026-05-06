@@ -18,8 +18,8 @@ import {
 } from '../lib/breaks'
 
 export default function CollectionPage() {
-  const { auctionId } = useParams()
-  const [auction, setAuction] = useState(null)
+  const { collectionId } = useParams()
+  const [collection, setCollection] = useState(null)
   const [lots, setLots] = useState([])
   const [breaks, setBreaks] = useState([])
   const [status, setStatus] = useState('Laden…')
@@ -31,34 +31,34 @@ export default function CollectionPage() {
 
   useEffect(() => {
     async function load() {
-      const [auctionRes, lotsRes, breaksList] = await Promise.all([
+      const [collectionRes, lotsRes, breaksList] = await Promise.all([
         supabase
           .from('collections')
           .select('*, auction_houses(id, name)')
-          .eq('id', auctionId)
+          .eq('id', collectionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
-          .eq('collection_id', auctionId)
+          .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
-        getBreaks(auctionId),
+        getBreaks(collectionId),
       ])
 
-      if (auctionRes.error) { setStatus(`Fout bij ophalen veiling: ${auctionRes.error.message}`); return }
+      if (collectionRes.error) { setStatus(`Fout bij ophalen veiling: ${collectionRes.error.message}`); return }
       if (lotsRes.error)    { setStatus(`Fout bij ophalen lots: ${lotsRes.error.message}`); return }
 
-      setAuction(auctionRes.data)
+      setCollection(collectionRes.data)
       setLots(lotsRes.data)
       setBreaks(breaksList)
       setStatus(`${lotsRes.data.length} lots`)
     }
     load()
-  }, [auctionId])
+  }, [collectionId])
 
-  const houseId = auction?.auction_houses?.id
-  const houseName = auction?.auction_houses?.name
+  const houseId = collection?.auction_houses?.id
+  const houseName = collection?.auction_houses?.name
 
   // Sorteer + voeg breaks tussen lots in (alleen bij number-sortering).
   // Bij alphabetisch of rating: lots gesorteerd, breaks worden los onderaan getoond.
@@ -125,13 +125,13 @@ export default function CollectionPage() {
     const { error } = await supabase
       .from('lots')
       .update({ rating: null })
-      .eq('collection_id', auctionId)
+      .eq('collection_id', collectionId)
     if (error) { alert(`Wissen mislukt: ${error.message}`); return }
     setLots((prev) => prev.map((l) => ({ ...l, rating: null })))
   }
 
   async function reloadBreaks() {
-    setBreaks(await getBreaks(auctionId))
+    setBreaks(await getBreaks(collectionId))
   }
 
   async function handleSaveBreak(draft) {
@@ -139,7 +139,7 @@ export default function CollectionPage() {
       if (draft.id) {
         await updateBreak(draft.id, draft)
       } else {
-        await createBreak(auctionId, draft)
+        await createBreak(collectionId, draft)
       }
       setBreakForm(null)
       await reloadBreaks()
@@ -157,14 +157,14 @@ export default function CollectionPage() {
   }
 
   async function toggleOnlineBidding() {
-    if (!auction) return
-    const newValue = !auction.online_bidding_enabled
+    if (!collection) return
+    const newValue = !collection.online_bidding_enabled
     const { error } = await supabase
       .from('collections')
       .update({ online_bidding_enabled: newValue })
-      .eq('id', auctionId)
+      .eq('id', collectionId)
     if (error) { alert(`Fout: ${error.message}`); return }
-    setAuction((prev) => ({ ...prev, online_bidding_enabled: newValue }))
+    setCollection((prev) => ({ ...prev, online_bidding_enabled: newValue }))
   }
 
   // Drag-and-drop voor pauzes — bepaalt nieuwe after_lot_number
@@ -203,7 +203,7 @@ export default function CollectionPage() {
   }
 
   async function copySummaryLink() {
-    const url = `${window.location.origin}/collections/${auctionId}/summary`
+    const url = `${window.location.origin}/collections/${collectionId}/summary`
     try {
       await navigator.clipboard.writeText(url)
       setCopyFeedback('✓ Link gekopieerd')
@@ -219,15 +219,15 @@ export default function CollectionPage() {
         <Link to="/" style={{ color: 'var(--text-muted)' }}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={{ color: 'var(--text-muted)' }}>{houseName}</Link></>}
       </p>
-      <h1 style={{ color: 'var(--text-primary)' }}>{auction?.name ?? 'Veiling'}</h1>
+      <h1 style={{ color: 'var(--text-primary)' }}>{collection?.name ?? 'Veiling'}</h1>
       <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
 
-      {auction && (
+      {collection && (
         <div style={actionRowStyle}>
-          <Link to={`/cockpit/${auction.id}`} style={primaryBtnStyle}>
+          <Link to={`/cockpit/${collection.id}`} style={primaryBtnStyle}>
             🎬 Cockpit openen
           </Link>
-          <Link to={`/collections/${auction.id}/summary`} style={secondaryBtnStyle}>
+          <Link to={`/collections/${collection.id}/summary`} style={secondaryBtnStyle}>
             📊 Overzicht
           </Link>
           <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">
@@ -241,7 +241,7 @@ export default function CollectionPage() {
           <label style={onlineToggleLabelStyle}>
             <input
               type="checkbox"
-              checked={!!auction.online_bidding_enabled}
+              checked={!!collection.online_bidding_enabled}
               onChange={toggleOnlineBidding}
               style={{ marginRight: 6 }}
             />
@@ -250,9 +250,9 @@ export default function CollectionPage() {
         </div>
       )}
 
-      {auction && (
+      {collection && (
         <LotTypesSelector
-          auctionId={auction.id}
+          collectionId={collection.id}
           onChange={setSelectedTypeIds}
         />
       )}
@@ -373,13 +373,13 @@ export default function CollectionPage() {
       )}
 
       {/* Onderste blokken */}
-      {auction && (
+      {collection && (
         <div style={{ marginTop: 'var(--space-6)' }}>
           <BidStepRulesEditor
-            auctionId={auction.id}
+            collectionId={collection.id}
             selectedTypeIds={selectedTypeIds}
           />
-          <SpottersField auctionId={auction.id} />
+          <SpottersField collectionId={collection.id} />
         </div>
       )}
     </section>

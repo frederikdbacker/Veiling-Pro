@@ -10,15 +10,15 @@ import { supabase } from './supabase'
  */
 
 /** Geef alle spotters die toegewezen zijn aan deze veiling, gesorteerd. */
-export async function getSpotters(auctionId) {
-  if (!auctionId) return []
+export async function getSpotters(collectionId) {
+  if (!collectionId) return []
   const { data, error } = await supabase
     .from('collection_spotters')
     .select(`
       location, display_order,
       spotters!inner ( id, name, photo_url, notes )
     `)
-    .eq('collection_id', auctionId)
+    .eq('collection_id', collectionId)
     .order('display_order')
   if (error) { console.error('getSpotters:', error); return [] }
   return (data ?? []).map((row) => ({
@@ -72,11 +72,11 @@ export async function updateSpotter(id, patch) {
 }
 
 /** Wijs een spotter toe aan een veiling met locatie en positie. */
-export async function assignSpotter(auctionId, spotterId, fields = {}) {
+export async function assignSpotter(collectionId, spotterId, fields = {}) {
   const { error } = await supabase
     .from('collection_spotters')
     .insert({
-      collection_id:    auctionId,
+      collection_id:    collectionId,
       spotter_id:    spotterId,
       location:      fields.location?.trim() || null,
       display_order: fields.display_order ?? 0,
@@ -85,30 +85,30 @@ export async function assignSpotter(auctionId, spotterId, fields = {}) {
 }
 
 /** Verwijder de toewijzing — globale spotter blijft staan voor andere veilingen. */
-export async function unassignSpotter(auctionId, spotterId) {
+export async function unassignSpotter(collectionId, spotterId) {
   const { error } = await supabase
     .from('collection_spotters')
     .delete()
-    .match({ collection_id: auctionId, spotter_id: spotterId })
+    .match({ collection_id: collectionId, spotter_id: spotterId })
   if (error) throw error
 }
 
 /** Update junction-velden (location, display_order) van een toewijzing. */
-export async function updateAssignment(auctionId, spotterId, patch) {
+export async function updateAssignment(collectionId, spotterId, patch) {
   const cleaned = {}
   if ('location' in patch) cleaned.location = patch.location?.trim?.() || null
   if ('display_order' in patch) cleaned.display_order = patch.display_order
   const { error } = await supabase
     .from('collection_spotters')
     .update(cleaned)
-    .match({ collection_id: auctionId, spotter_id: spotterId })
+    .match({ collection_id: collectionId, spotter_id: spotterId })
   if (error) throw error
 }
 
 /** Wissel display_order tussen twee assignments (voor ↑/↓-knoppen). */
-export async function swapOrder(auctionId, spotterA, spotterB) {
+export async function swapOrder(collectionId, spotterA, spotterB) {
   const orderA = spotterA.display_order
   const orderB = spotterB.display_order
-  await updateAssignment(auctionId, spotterA.id, { display_order: orderB })
-  await updateAssignment(auctionId, spotterB.id, { display_order: orderA })
+  await updateAssignment(collectionId, spotterA.id, { display_order: orderB })
+  await updateAssignment(collectionId, spotterB.id, { display_order: orderA })
 }

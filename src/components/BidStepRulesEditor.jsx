@@ -12,10 +12,10 @@ const STEP_PRESETS = [100, 200, 500, 1000, 2000, 5000, 10000, 25000]
  * met range_from / range_to / step. Auto-save per cel via AutoSaveNumber.
  *
  * Props:
- *   auctionId          UUID van de veiling
+ *   collectionId          UUID van de veiling
  *   selectedTypeIds    Set van lot_type_ids die in deze veiling actief zijn
  */
-export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
+export default function BidStepRulesEditor({ collectionId, selectedTypeIds }) {
   const [allTypes, setAllTypes] = useState([])
   const [rules, setRules] = useState([])
   const [error, setError] = useState(null)
@@ -31,7 +31,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
     return () => { cancelled = true }
   }, [])
 
-  // bid_step_rules opnieuw fetchen wanneer auction of de selectie verandert.
+  // bid_step_rules opnieuw fetchen wanneer collection of de selectie verandert.
   // Dat dekt de edge-case waar uittinkt → opnieuw aantinkt soms een leeg
   // staffel-blok toonde — DB blijft bron van waarheid.
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
     supabase
       .from('bid_step_rules')
       .select('*')
-      .eq('collection_id', auctionId)
+      .eq('collection_id', collectionId)
       .order('range_from')
       .then((res) => {
         if (cancelled) return
@@ -47,7 +47,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
         else setRules(res.data ?? [])
       })
     return () => { cancelled = true }
-  }, [auctionId, selectedTypeIds])
+  }, [collectionId, selectedTypeIds])
 
   const visibleTypes = allTypes.filter((t) => selectedTypeIds?.has(t.id))
 
@@ -73,7 +73,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
       {visibleTypes.map((type) => (
         <RulesPerType
           key={type.id}
-          auctionId={auctionId}
+          collectionId={collectionId}
           lotType={type}
           rules={rules.filter((r) => r.lot_type_id === type.id)}
           onLocalAdd={(rule) => setRules((prev) => [...prev, rule])}
@@ -84,7 +84,7 @@ export default function BidStepRulesEditor({ auctionId, selectedTypeIds }) {
   )
 }
 
-function RulesPerType({ auctionId, lotType, rules, onLocalAdd, onLocalRemove }) {
+function RulesPerType({ collectionId, lotType, rules, onLocalAdd, onLocalRemove }) {
   const sorted = [...rules].sort(
     (a, b) => Number(a.range_from ?? 0) - Number(b.range_from ?? 0)
   )
@@ -95,7 +95,7 @@ function RulesPerType({ auctionId, lotType, rules, onLocalAdd, onLocalRemove }) 
     const { data, error } = await supabase
       .from('bid_step_rules')
       .insert({
-        collection_id: auctionId,
+        collection_id: collectionId,
         lot_type_id: lotType.id,
         range_from: newFrom,
         range_to: null,

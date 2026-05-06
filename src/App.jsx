@@ -19,10 +19,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HousesPage />} />
         <Route path="/houses/:houseId" element={<HousePage />} />
-        <Route path="/collections/:auctionId" element={<CollectionPage />} />
-        <Route path="/collections/:auctionId/summary" element={<CollectionSummaryPage />} />
+        <Route path="/collections/:collectionId" element={<CollectionPage />} />
+        <Route path="/collections/:collectionId/summary" element={<CollectionSummaryPage />} />
         <Route path="/lots/:lotId" element={<LotPage />} />
-        <Route path="/cockpit/:auctionId" element={<CockpitPage />} />
+        <Route path="/cockpit/:collectionId" element={<CockpitPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>

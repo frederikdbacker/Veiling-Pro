@@ -6,23 +6,23 @@ import { supabase } from './supabase'
  * automatisch een BIS-label "${N} BIS".
  */
 
-export async function getBreaks(auctionId) {
-  if (!auctionId) return []
+export async function getBreaks(collectionId) {
+  if (!collectionId) return []
   const { data, error } = await supabase
     .from('collection_breaks')
     .select('*')
-    .eq('collection_id', auctionId)
+    .eq('collection_id', collectionId)
     .order('after_lot_number', { nullsFirst: true })
     .order('created_at')
   if (error) { console.error('getBreaks:', error); return [] }
   return data ?? []
 }
 
-export async function createBreak(auctionId, fields = {}) {
+export async function createBreak(collectionId, fields = {}) {
   const { data, error } = await supabase
     .from('collection_breaks')
     .insert({
-      collection_id:       auctionId,
+      collection_id:       collectionId,
       after_lot_number: fields.after_lot_number ?? null,
       title:            fields.title?.trim() || 'Pauze',
       description:      fields.description?.trim() || null,

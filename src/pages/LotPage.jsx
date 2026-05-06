@@ -18,7 +18,7 @@ export default function LotPage() {
   const { lotId } = useParams()
   const navigate = useNavigate()
   const [lot, setLot] = useState(null)
-  const [auction, setAuction] = useState(null)
+  const [collection, setCollection] = useState(null)
   const [siblings, setSiblings] = useState([])
   const [status, setStatus] = useState('Laden…')
   const [photoModalOpen, setPhotoModalOpen] = useState(false)
@@ -26,7 +26,7 @@ export default function LotPage() {
 
   useEffect(() => {
     setLot(null)
-    setAuction(null)
+    setCollection(null)
     setSiblings([])
     setActivePhoto(0)
     setPhotoModalOpen(false)
@@ -52,7 +52,7 @@ export default function LotPage() {
         .order('name')
 
       setLot(data)
-      setAuction(data.collections)
+      setCollection(data.collections)
       setSiblings(sibsRes.data ?? [])
       setStatus('')
     }
@@ -81,8 +81,8 @@ export default function LotPage() {
   }
 
   const photos = Array.isArray(lot.photos) ? lot.photos : []
-  const houseId = auction?.auction_houses?.id
-  const houseName = auction?.auction_houses?.name
+  const houseId = collection?.auction_houses?.id
+  const houseName = collection?.auction_houses?.name
   const yearWithAge = lot.year
     ? `${lot.year} / ${Math.max(0, new Date().getFullYear() - lot.year)} jaar`
     : null
@@ -116,7 +116,7 @@ export default function LotPage() {
       <p style={crumbsStyle}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {auction && <>{' › '}<Link to={`/collections/${auction.id}`} style={crumbStyle}>{auction.name}</Link></>}
+        {collection && <>{' › '}<Link to={`/collections/${collection.id}`} style={crumbStyle}>{collection.name}</Link></>}
       </p>
 
       {/* Missing info banner */}
@@ -269,7 +269,7 @@ export default function LotPage() {
           />
           <LotTypeDropdown
             lotId={lotId}
-            auctionId={lot.collection_id}
+            collectionId={lot.collection_id}
             currentTypeId={lot.lot_type_id}
             currentAuto={lot.lot_type_auto}
             onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId, lot_type_auto: false }))}
@@ -347,11 +347,11 @@ export default function LotPage() {
       {lot.weak_points && <Block title="Aandachtspunten"><p>{lot.weak_points}</p></Block>}
 
       {/* Geïnteresseerde klanten */}
-      {auction && (
+      {collection && (
         <InterestedClientsField
           lotId={lotId}
-          auctionId={lot.collection_id}
-          houseId={auction.auction_houses?.id}
+          collectionId={lot.collection_id}
+          houseId={collection.auction_houses?.id}
         />
       )}
 

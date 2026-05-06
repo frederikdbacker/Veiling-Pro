@@ -28,8 +28,8 @@ import { getSpotters } from '../lib/spotters'
  *   - Catalogustekst en EquiRatings ingeklapt (klap open indien nodig)
  */
 export default function CockpitPage() {
-  const { auctionId } = useParams()
-  const [auction, setAuction] = useState(null)
+  const { collectionId } = useParams()
+  const [collection, setCollection] = useState(null)
   const [allLots, setAllLots] = useState([])
   const [activeLot, setActiveLot] = useState(null)
   const [interestedClients, setInterestedClients] = useState([])
@@ -37,64 +37,64 @@ export default function CockpitPage() {
   const [spotters, setSpotters] = useState([])
   const [error, setError] = useState(null)
 
-  // Spotters laden bij wijzigen van auctionId — tonen in een kleine
+  // Spotters laden bij wijzigen van collectionId — tonen in een kleine
   // strip tussen statusbalk en lot-picker (links → rechts in de zaal).
   useEffect(() => {
     let cancelled = false
-    getSpotters(auctionId).then((list) => { if (!cancelled) setSpotters(list) })
+    getSpotters(collectionId).then((list) => { if (!cancelled) setSpotters(list) })
     return () => { cancelled = true }
-  }, [auctionId])
+  }, [collectionId])
 
   // 1. Veiling + alle lots
   useEffect(() => {
-    setAuction(null); setActiveLot(null); setAllLots([]); setError(null)
+    setCollection(null); setActiveLot(null); setAllLots([]); setError(null)
     let cancelled = false
     async function load() {
-      const [auctionRes, lotsRes] = await Promise.all([
+      const [collectionRes, lotsRes] = await Promise.all([
         supabase
           .from('collections')
           .select('*, online_bidding_enabled, auction_houses(id, name)')
-          .eq('id', auctionId)
+          .eq('id', collectionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
-          .eq('collection_id', auctionId)
+          .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
       ])
       if (cancelled) return
-      if (auctionRes.error) { setError(auctionRes.error.message); return }
+      if (collectionRes.error) { setError(collectionRes.error.message); return }
       if (lotsRes.error)    { setError(lotsRes.error.message); return }
-      setAuction(auctionRes.data)
+      setCollection(collectionRes.data)
       setAllLots(lotsRes.data ?? [])
     }
     load()
     return () => { cancelled = true }
-  }, [auctionId])
+  }, [collectionId])
 
   // 2. Actief lot + geïnteresseerden + aankopen
   useEffect(() => {
     setActiveLot(null)
     setInterestedClients([])
     setPurchasesByClient(new Map())
-    if (!auction?.active_lot_id) return
+    if (!collection?.active_lot_id) return
     let cancelled = false
     async function loadLot() {
       const [lotRes, clients] = await Promise.all([
         supabase
           .from('lots')
           .select('*, lot_types(name_nl)')
-          .eq('id', auction.active_lot_id)
+          .eq('id', collection.active_lot_id)
           .single(),
-        getInterestedClientsForLot(auction.active_lot_id, auctionId),
+        getInterestedClientsForLot(collection.active_lot_id, collectionId),
       ])
       if (cancelled) return
       if (!lotRes.error) setActiveLot(lotRes.data)
       setInterestedClients(clients)
       if (clients.length > 0) {
         const map = await getPurchasesByClientsInAuction(
-          auctionId,
+          collectionId,
           clients.map((c) => c.client_id),
         )
         if (!cancelled) setPurchasesByClient(map)
@@ -102,16 +102,16 @@ export default function CockpitPage() {
     }
     loadLot()
     return () => { cancelled = true }
-  }, [auction?.active_lot_id, auctionId])
+  }, [collection?.active_lot_id, collectionId])
 
   async function setActiveLotById(lotId) {
     const value = lotId || null
     const { error } = await supabase
       .from('collections')
       .update({ active_lot_id: value })
-      .eq('id', auctionId)
+      .eq('id', collectionId)
     if (!error) {
-      setAuction((prev) => ({ ...prev, active_lot_id: value }))
+      setCollection((prev) => ({ ...prev, active_lot_id: value }))
     }
   }
 
@@ -123,12 +123,12 @@ export default function CockpitPage() {
       </section>
     )
   }
-  if (!auction) {
+  if (!collection) {
     return <section><p style={{ color: 'var(--text-muted)' }}>Cockpit laden…</p></section>
   }
 
-  const houseId   = auction.auction_houses?.id
-  const houseName = auction.auction_houses?.name
+  const houseId   = collection.auction_houses?.id
+  const houseName = collection.auction_houses?.name
 
   // Vorig/volgend lot — gebruikt in de picker-balk om snel door de
   // gesorteerde lijst te schuiven.
@@ -144,15 +144,15 @@ export default function CockpitPage() {
       <p style={crumbsStyle}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {' › '}<Link to={`/collections/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
+        {' › '}<Link to={`/collections/${collectionId}`} style={crumbStyle}>{collection.name}</Link>
         {' › '}<span style={{ color: 'var(--text-secondary)' }}>Cockpit</span>
       </p>
 
       {/* Veiling-titel + datum */}
-      <h1 style={titleStyle}>{auction.name}</h1>
+      <h1 style={titleStyle}>{collection.name}</h1>
       <p style={subtitleStyle}>
-        {formatAuctionDate(auction)}
-        {auction.location && ` · ${auction.location}`}
+        {formatAuctionDate(collection)}
+        {collection.location && ` · ${collection.location}`}
       </p>
 
       {/* Statusbalk */}
@@ -164,7 +164,7 @@ export default function CockpitPage() {
       {/* Overzicht-knop bij volledige veiling */}
       {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
         <div style={{ marginBottom: 'var(--space-4)' }}>
-          <Link to={`/collections/${auctionId}/summary`} style={summaryBtnStyle}>
+          <Link to={`/collections/${collectionId}/summary`} style={summaryBtnStyle}>
             📊 Overzicht einde veiling →
           </Link>
         </div>
@@ -187,7 +187,7 @@ export default function CockpitPage() {
             Actief lot:
           </label>
           <select
-            value={auction.active_lot_id ?? ''}
+            value={collection.active_lot_id ?? ''}
             onChange={(e) => setActiveLotById(e.target.value)}
             style={selectStyle}
           >
@@ -211,20 +211,20 @@ export default function CockpitPage() {
         </button>
       </div>
 
-      {!auction.active_lot_id && (
+      {!collection.active_lot_id && (
         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
           Kies hierboven welk lot in de piste is om te beginnen.
         </p>
       )}
-      {auction.active_lot_id && !activeLot && (
+      {collection.active_lot_id && !activeLot && (
         <p style={{ color: 'var(--text-muted)' }}>Lot laden…</p>
       )}
       {activeLot && (
         <ActiveLotPanel
           lot={activeLot}
-          auctionId={auctionId}
+          collectionId={collectionId}
           houseId={houseId}
-          onlineBiddingEnabled={!!auction.online_bidding_enabled}
+          onlineBiddingEnabled={!!collection.online_bidding_enabled}
           interestedClients={interestedClients}
           purchasesByClient={purchasesByClient}
           allLots={allLots}
@@ -233,7 +233,7 @@ export default function CockpitPage() {
             setAllLots((prev) => prev.map((l) => l.id === updated.id ? { ...l, ...updated } : l))
             if (interestedClients.length > 0) {
               const map = await getPurchasesByClientsInAuction(
-                auctionId,
+                collectionId,
                 interestedClients.map((c) => c.client_id),
               )
               setPurchasesByClient(map)
@@ -247,7 +247,7 @@ export default function CockpitPage() {
 }
 
 function ActiveLotPanel({
-  lot, auctionId, houseId, onlineBiddingEnabled,
+  lot, collectionId, houseId, onlineBiddingEnabled,
   interestedClients, purchasesByClient, allLots,
   onLotUpdated, onActiveLotChange,
 }) {
@@ -339,7 +339,7 @@ function ActiveLotPanel({
 
           <div style={actionDividerStyle}>
             <div style={actionSubtitleStyle}>Biedstappen</div>
-            <BidStepRulesPreview auctionId={auctionId} lotTypeId={lot.lot_type_id} />
+            <BidStepRulesPreview collectionId={collectionId} lotTypeId={lot.lot_type_id} />
           </div>
 
           <div style={actionDividerStyle}>
@@ -833,12 +833,12 @@ function formatElapsed(ms) {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
-function formatAuctionDate(auction) {
-  if (!auction.date) return '(datum onbekend)'
-  const d = new Date(auction.date)
+function formatAuctionDate(collection) {
+  if (!collection.date) return '(datum onbekend)'
+  const d = new Date(collection.date)
   const datePart = d.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
-  if (!auction.time_auction_start) return datePart
-  const t = new Date(auction.time_auction_start)
+  if (!collection.time_auction_start) return datePart
+  const t = new Date(collection.time_auction_start)
   const timePart = t.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })
   return `${datePart} · ${timePart}`
 }

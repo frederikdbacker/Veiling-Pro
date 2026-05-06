@@ -25,22 +25,22 @@ import {
  */
 const SLOT_OPTIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
 
-export default function SpottersField({ auctionId }) {
+export default function SpottersField({ collectionId }) {
   const [spotters, setSpotters] = useState([])
   const [slotCount, setSlotCount] = useState(0)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
-    getSpotters(auctionId).then((list) => {
+    getSpotters(collectionId).then((list) => {
       setSpotters(list)
       // Default: minimaal zoveel slots als er spotters zijn, anders 5
       setSlotCount(Math.max(list.length, list.length === 0 ? 5 : list.length))
     })
-  }, [auctionId])
+  }, [collectionId])
 
   async function reload() {
-    setSpotters(await getSpotters(auctionId))
+    setSpotters(await getSpotters(collectionId))
   }
 
   function nextDisplayOrder() {
@@ -53,7 +53,7 @@ export default function SpottersField({ auctionId }) {
   async function handleSelectExisting(spotter) {
     setBusy(true); setError(null)
     try {
-      await assignSpotter(auctionId, spotter.id, {
+      await assignSpotter(collectionId, spotter.id, {
         display_order: nextDisplayOrder(),
       })
       await reload()
@@ -67,7 +67,7 @@ export default function SpottersField({ auctionId }) {
     setBusy(true); setError(null)
     try {
       const created = await createSpotter({ name })
-      await assignSpotter(auctionId, created.id, {
+      await assignSpotter(collectionId, created.id, {
         display_order: nextDisplayOrder(),
       })
       await reload()
@@ -79,7 +79,7 @@ export default function SpottersField({ auctionId }) {
     if (!window.confirm('Spotter loskoppelen van deze veiling? (blijft globaal beschikbaar)')) return
     setBusy(true); setError(null)
     try {
-      await unassignSpotter(auctionId, spotterId)
+      await unassignSpotter(collectionId, spotterId)
       await reload()
     } catch (e) { setError(e.message) }
     setBusy(false)
@@ -90,7 +90,7 @@ export default function SpottersField({ auctionId }) {
     if (!target) return
     setBusy(true); setError(null)
     try {
-      await swapOrder(auctionId, spotters[idx], target)
+      await swapOrder(collectionId, spotters[idx], target)
       await reload()
     } catch (e) { setError(e.message) }
     setBusy(false)
@@ -99,7 +99,7 @@ export default function SpottersField({ auctionId }) {
   async function handleLocationChange(spotterId, location) {
     setError(null)
     try {
-      await updateAssignment(auctionId, spotterId, { location })
+      await updateAssignment(collectionId, spotterId, { location })
       setSpotters((prev) => prev.map((s) =>
         s.id === spotterId ? { ...s, location } : s
       ))

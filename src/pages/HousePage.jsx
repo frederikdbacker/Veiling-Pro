@@ -5,12 +5,12 @@ import { supabase } from '../lib/supabase'
 export default function HousePage() {
   const { houseId } = useParams()
   const [house, setHouse] = useState(null)
-  const [auctions, setAuctions] = useState([])
+  const [collections, setCollections] = useState([])
   const [status, setStatus] = useState('Laden…')
 
   useEffect(() => {
     async function load() {
-      const [houseRes, auctionsRes] = await Promise.all([
+      const [houseRes, collectionsRes] = await Promise.all([
         supabase.from('auction_houses').select('*').eq('id', houseId).single(),
         supabase.from('collections').select('*').eq('house_id', houseId).order('date', { ascending: true }),
       ])
@@ -19,14 +19,14 @@ export default function HousePage() {
         setStatus(`Fout bij ophalen huis: ${houseRes.error.message}`)
         return
       }
-      if (auctionsRes.error) {
-        setStatus(`Fout bij ophalen veilingen: ${auctionsRes.error.message}`)
+      if (collectionsRes.error) {
+        setStatus(`Fout bij ophalen veilingen: ${collectionsRes.error.message}`)
         return
       }
 
       setHouse(houseRes.data)
-      setAuctions(auctionsRes.data)
-      setStatus(`${auctionsRes.data.length} veilingen`)
+      setCollections(collectionsRes.data)
+      setStatus(`${collectionsRes.data.length} veilingen`)
     }
     load()
   }, [houseId])
@@ -37,9 +37,9 @@ export default function HousePage() {
       <h1 style={{ color: 'var(--text-primary)' }}>{house?.name ?? 'Veilinghuis'}</h1>
       <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
 
-      {auctions.length > 0 && (
+      {collections.length > 0 && (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {auctions.map((a) => (
+          {collections.map((a) => (
             <li key={a.id} style={{
               padding: 'var(--space-3) 0',
               borderBottom: '1px solid var(--border-default)',

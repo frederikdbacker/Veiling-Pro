@@ -9,8 +9,8 @@ import { supabase } from '../lib/supabase'
  * "veiling nog bezig" en partial cijfers).
  */
 export default function CollectionSummaryPage() {
-  const { auctionId } = useParams()
-  const [auction, setAuction] = useState(null)
+  const { collectionId } = useParams()
+  const [collection, setCollection] = useState(null)
   const [lots, setLots] = useState([])
   const [lotTypes, setLotTypes] = useState([])
   const [error, setError] = useState(null)
@@ -21,16 +21,16 @@ export default function CollectionSummaryPage() {
     async function load() {
       setError(null)
       setLoading(true)
-      const [auctionRes, lotsRes, typesRes] = await Promise.all([
+      const [collectionRes, lotsRes, typesRes] = await Promise.all([
         supabase
           .from('collections')
           .select('*, auction_houses(id, name)')
-          .eq('id', auctionId)
+          .eq('id', collectionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
-          .eq('collection_id', auctionId)
+          .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
         supabase
@@ -39,16 +39,16 @@ export default function CollectionSummaryPage() {
       ])
       if (cancelled) return
       setLoading(false)
-      if (auctionRes.error) return setError(auctionRes.error.message)
+      if (collectionRes.error) return setError(collectionRes.error.message)
       if (lotsRes.error)    return setError(lotsRes.error.message)
       if (typesRes.error)   return setError(typesRes.error.message)
-      setAuction(auctionRes.data)
+      setCollection(collectionRes.data)
       setLots(lotsRes.data ?? [])
       setLotTypes(typesRes.data ?? [])
     }
     load()
     return () => { cancelled = true }
-  }, [auctionId])
+  }, [collectionId])
 
   if (loading) {
     return <section><p style={{ color: '#666' }}>Overzicht laden…</p></section>
@@ -61,7 +61,7 @@ export default function CollectionSummaryPage() {
       </section>
     )
   }
-  if (!auction) {
+  if (!collection) {
     return <section><p style={{ color: '#666' }}>Veiling niet gevonden.</p></section>
   }
 
@@ -108,25 +108,25 @@ export default function CollectionSummaryPage() {
   }
   const groups = [...byTypeMap.values()].sort((a, b) => b.lots.length - a.lots.length)
 
-  const houseId = auction.auction_houses?.id
-  const houseName = auction.auction_houses?.name
+  const houseId = collection.auction_houses?.id
+  const houseName = collection.auction_houses?.name
 
   return (
     <section>
       <p style={{ fontSize: '0.9em', color: '#888' }}>
         <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
         {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {' › '}<Link to={`/collections/${auctionId}`} style={crumbStyle}>{auction.name}</Link>
+        {' › '}<Link to={`/collections/${collectionId}`} style={crumbStyle}>{collection.name}</Link>
         {' › '}Overzicht
       </p>
-      <h1 style={{ marginBottom: '0.25rem' }}>Overzicht — {auction.name}</h1>
+      <h1 style={{ marginBottom: '0.25rem' }}>Overzicht — {collection.name}</h1>
       <p style={{ color: '#666', marginTop: 0 }}>
-        {formatAuctionDate(auction)}
-        {auction.location && ` · ${auction.location}`}
+        {formatAuctionDate(collection)}
+        {collection.location && ` · ${collection.location}`}
       </p>
 
       {hammered.length === 0 ? (
-        <EmptyState auctionId={auctionId} />
+        <EmptyState collectionId={collectionId} />
       ) : (
         <>
           <CoreStats
@@ -148,14 +148,14 @@ export default function CollectionSummaryPage() {
   )
 }
 
-function EmptyState({ auctionId }) {
+function EmptyState({ collectionId }) {
   return (
     <div style={blockStyle}>
       <p style={{ color: '#888', fontStyle: 'italic', margin: 0 }}>
         Nog geen lots gehamerd. Het overzicht vult zich automatisch zodra de eerste hamer is gevallen.
       </p>
       <p style={{ marginTop: '0.75rem', marginBottom: 0 }}>
-        <Link to={`/cockpit/${auctionId}`}>→ Naar cockpit</Link>
+        <Link to={`/cockpit/${collectionId}`}>→ Naar cockpit</Link>
       </p>
     </div>
   )
@@ -320,9 +320,9 @@ function formatHoursMinutes(sec) {
   return `${m}m`
 }
 
-function formatAuctionDate(auction) {
-  if (!auction.date) return '(datum onbekend)'
-  const d = new Date(auction.date)
+function formatAuctionDate(collection) {
+  if (!collection.date) return '(datum onbekend)'
+  const d = new Date(collection.date)
   return d.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 

@@ -48,12 +48,12 @@ export async function createClient(houseId, name) {
 }
 
 /** Haal de seating-row voor (klant, veiling). Geeft null als er nog niets staat. */
-export async function getSeating(clientId, auctionId) {
+export async function getSeating(clientId, collectionId) {
   const { data, error } = await supabase
     .from('client_collection_seating')
     .select('table_number, direction, notes')
     .eq('client_id', clientId)
-    .eq('collection_id', auctionId)
+    .eq('collection_id', collectionId)
     .maybeSingle()
   if (error) {
     console.error('getSeating:', error)
@@ -63,10 +63,10 @@ export async function getSeating(clientId, auctionId) {
 }
 
 /** Insert of update tafel/richting/opmerking voor (klant, veiling). */
-export async function upsertSeating(clientId, auctionId, fields) {
+export async function upsertSeating(clientId, collectionId, fields) {
   const payload = {
     client_id: clientId,
-    collection_id: auctionId,
+    collection_id: collectionId,
     table_number: fields.table_number?.trim() || null,
     direction:    fields.direction?.trim()    || null,
     notes:        fields.notes?.trim()        || null,
@@ -128,7 +128,7 @@ export async function unlinkClientFromLot(clientId, lotId) {
  * direct-filter op embedded relations met where-clauses voor onze
  * specifieke vorm.
  */
-export async function getInterestedClientsForLot(lotId, auctionId) {
+export async function getInterestedClientsForLot(lotId, collectionId) {
   const { data: rows, error } = await supabase
     .from('lot_interested_clients')
     .select('notes, clients(id, name, house_id)')
@@ -140,7 +140,7 @@ export async function getInterestedClientsForLot(lotId, auctionId) {
   const { data: seatings } = await supabase
     .from('client_collection_seating')
     .select('client_id, table_number, direction, notes')
-    .eq('collection_id', auctionId)
+    .eq('collection_id', collectionId)
     .in('client_id', clientIds)
 
   const seatingMap = new Map((seatings ?? []).map((s) => [s.client_id, s]))
@@ -162,12 +162,12 @@ export async function getInterestedClientsForLot(lotId, auctionId) {
  * Geef per klant-id de lijst van lots die hij/zij heeft gekocht binnen
  * deze veiling. Voor de "✓ al gekocht: #5"-indicator op LotPage / cockpit.
  */
-export async function getPurchasesByClientsInAuction(auctionId, clientIds) {
+export async function getPurchasesByClientsInAuction(collectionId, clientIds) {
   if (!clientIds || clientIds.length === 0) return new Map()
   const { data, error } = await supabase
     .from('lots')
     .select('id, number, name, buyer_client_id')
-    .eq('collection_id', auctionId)
+    .eq('collection_id', collectionId)
     .eq('sold', true)
     .in('buyer_client_id', clientIds)
   if (error) { console.error('getPurchasesByClientsInAuction:', error); return new Map() }

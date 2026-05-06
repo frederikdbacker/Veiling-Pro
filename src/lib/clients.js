@@ -49,7 +49,7 @@ export async function createClient(houseId, name, fields = {}) {
   return data
 }
 
-/** Generiek update — partial patch op clients-row. Gebruik voor naam, country_code, etc. */
+/** Generiek update — partial patch op clients-row. Gebruik voor naam, country_code, photo_url, etc. */
 export async function updateClient(clientId, patch) {
   const cleaned = {}
   if ('name' in patch) {
@@ -58,9 +58,20 @@ export async function updateClient(clientId, patch) {
     cleaned.name = trimmed
   }
   if ('country_code' in patch) cleaned.country_code = patch.country_code || null
+  if ('photo_url' in patch)    cleaned.photo_url    = patch.photo_url    || null
   if (Object.keys(cleaned).length === 0) return
   const { error } = await supabase.from('clients').update(cleaned).eq('id', clientId)
   if (error) throw error
+}
+
+/** Lijst alle klanten (over alle huizen heen) voor de globale ClientsPage. */
+export async function listAllClients() {
+  const { data, error } = await supabase
+    .from('clients')
+    .select('id, name, country_code, photo_url, house_id, auction_houses(id, name)')
+    .order('name')
+  if (error) { console.error('listAllClients:', error); return [] }
+  return data ?? []
 }
 
 /** Haal de seating-row voor (klant, veiling). Geeft null als er nog niets staat. */

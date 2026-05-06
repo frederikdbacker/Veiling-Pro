@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import PhotoUpload from './PhotoUpload'
 import {
   getSpotters,
   searchSpotters,
@@ -189,19 +190,21 @@ function FilledRow({
 }) {
   const [name, setName]         = useState(spotter.name)
   const [location, setLocation] = useState(spotter.location ?? '')
-  const [photoUrl, setPhotoUrl] = useState(spotter.photo_url ?? '')
 
   // Sync wanneer parent state wijzigt
   useEffect(() => { setName(spotter.name) }, [spotter.name])
   useEffect(() => { setLocation(spotter.location ?? '') }, [spotter.location])
-  useEffect(() => { setPhotoUrl(spotter.photo_url ?? '') }, [spotter.photo_url])
 
   return (
     <div style={rowStyle}>
-      {photoUrl
-        ? <img src={photoUrl} alt={name} width={40} height={40} style={photoStyle} />
-        : <div style={photoPlaceholderStyle} aria-hidden>👤</div>
-      }
+      <PhotoUpload
+        ownerId={spotter.id}
+        pathPrefix="spotters"
+        currentUrl={spotter.photo_url}
+        onUploaded={(url) => onSpotterFieldChange('photo_url', url)}
+        onCleared={() => onSpotterFieldChange('photo_url', null)}
+        size={40}
+      />
       <input
         type="text" value={name}
         onChange={(e) => setName(e.target.value)}
@@ -215,13 +218,6 @@ function FilledRow({
         onBlur={() => location !== (spotter.location ?? '') && onLocationChange(location)}
         placeholder="locatie (bv. links vlakbij)"
         style={{ ...inputStyle, flex: '2 1 12em' }}
-      />
-      <input
-        type="url" value={photoUrl}
-        onChange={(e) => setPhotoUrl(e.target.value)}
-        onBlur={() => photoUrl !== (spotter.photo_url ?? '') && onSpotterFieldChange('photo_url', photoUrl)}
-        placeholder="foto-url (optioneel)"
-        style={{ ...inputStyle, flex: '1 1 12em' }}
       />
       <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
         <button type="button" onClick={onMoveUp} disabled={disabled || isFirst} style={iconBtnStyle} title="Naar links">↑</button>

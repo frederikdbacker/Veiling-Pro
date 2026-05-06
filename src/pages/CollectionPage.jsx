@@ -240,6 +240,9 @@ export default function CollectionPage() {
           <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
             💰 Bulk startbedrag
           </button>
+          <Link to={`/collections/${collection.id}/clients`} style={secondaryBtnStyle}>
+            👥 Klanten
+          </Link>
           {copyFeedback && (
             <span style={{ color: 'var(--success)', fontSize: '0.9em', marginLeft: 8 }}>
               {copyFeedback}

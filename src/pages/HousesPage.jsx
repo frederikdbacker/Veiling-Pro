@@ -27,6 +27,11 @@ export default function HousesPage() {
     <section>
       <h1 style={{ color: 'var(--text-primary)' }}>Veilinghuizen</h1>
       <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
+      <p style={{ marginBottom: 'var(--space-3)' }}>
+        <Link to="/clients" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+          👥 Alle klanten →
+        </Link>
+      </p>
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {houses.map((h) => (
           <li key={h.id} style={{

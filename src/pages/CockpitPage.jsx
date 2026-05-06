@@ -9,6 +9,7 @@ import NoteField from '../components/NoteField'
 import RichNoteField, { isRichEmpty } from '../components/RichNoteField'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { flagFromCode } from '../lib/countries'
+import LogoLink from '../components/LogoLink'
 import PedigreeTree from '../components/PedigreeTree'
 import StarRating from '../components/StarRating'
 import {
@@ -55,7 +56,7 @@ export default function CockpitPage() {
       const [collectionRes, lotsRes] = await Promise.all([
         supabase
           .from('collections')
-          .select('*, online_bidding_enabled, auction_houses(id, name)')
+          .select('*, online_bidding_enabled, auction_houses(id, name, logo_url)')
           .eq('id', collectionId)
           .single(),
         supabase
@@ -225,6 +226,7 @@ export default function CockpitPage() {
           lot={activeLot}
           collectionId={collectionId}
           houseId={houseId}
+          houseLogoUrl={collection.auction_houses?.logo_url}
           onlineBiddingEnabled={!!collection.online_bidding_enabled}
           interestedClients={interestedClients}
           purchasesByClient={purchasesByClient}
@@ -248,7 +250,7 @@ export default function CockpitPage() {
 }
 
 function ActiveLotPanel({
-  lot, collectionId, houseId, onlineBiddingEnabled,
+  lot, collectionId, houseId, houseLogoUrl, onlineBiddingEnabled,
   interestedClients, purchasesByClient, allLots,
   onLotUpdated, onActiveLotChange,
 }) {
@@ -314,6 +316,27 @@ function ActiveLotPanel({
               </div>
             </div>
           </div>
+
+          {/* Externe links als logo-pillen — tussen basisinfo en pedigree.
+              Alleen tonen wanneer URL ingevuld is. */}
+          {(lot.url_hippomundo || lot.url_horsetelex || lot.url_extra) && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'var(--space-3)' }}>
+              {lot.url_hippomundo && (
+                <LogoLink href={lot.url_hippomundo} brand="HippoMundo" title="HippoMundo openen" />
+              )}
+              {lot.url_horsetelex && (
+                <LogoLink href={lot.url_horsetelex} brand="Horsetelex" title="Horsetelex openen" />
+              )}
+              {lot.url_extra && (
+                <LogoLink
+                  href={lot.url_extra}
+                  src={houseLogoUrl}
+                  brand="Auction page"
+                  title="Auction page openen"
+                />
+              )}
+            </div>
+          )}
 
           {/* Pedigree direct onder de basisinfo, vult de vrije ruimte naast
               het actie-kader rechts */}
@@ -479,14 +502,6 @@ function ActiveLotPanel({
         </details>
       )}
 
-      {/* Externe links — pillen */}
-      {(lot.url_hippomundo || lot.url_horsetelex || lot.url_extra) && (
-        <div style={{ marginTop: 'var(--space-4)', display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {lot.url_hippomundo && <ExternalLink href={lot.url_hippomundo} label="Hippomundo" />}
-          {lot.url_horsetelex && <ExternalLink href={lot.url_horsetelex} label="Horsetelex" />}
-          {lot.url_extra      && <ExternalLink href={lot.url_extra}      label="Auction page" />}
-        </div>
-      )}
     </div>
   )
 }
@@ -816,23 +831,6 @@ function Modal({ children, onClose, maxWidth = 600 }) {
   )
 }
 
-function ExternalLink({ href, label }) {
-  return (
-    <a
-      href={href} target="_blank" rel="noopener noreferrer"
-      style={{
-        display: 'inline-flex', alignItems: 'center', gap: 4,
-        padding: '0.3rem 0.7rem',
-        background: 'var(--bg-elevated)', color: 'var(--accent)',
-        textDecoration: 'none', borderRadius: 'var(--radius-full)',
-        fontSize: '0.85rem',
-        border: '1px solid var(--border-default)',
-      }}
-    >
-      🔗 {label}
-    </a>
-  )
-}
 
 /* ----- helpers ----- */
 

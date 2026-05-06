@@ -39,7 +39,7 @@ export default function AuctionPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating')
+          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
           .eq('auction_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -116,6 +116,18 @@ export default function AuctionPage() {
 
   function handleRatingChanged(lotId, newRating) {
     setLots((prev) => prev.map((l) => l.id === lotId ? { ...l, rating: newRating } : l))
+  }
+
+  async function handleClearAllRatings() {
+    const rated = lots.filter((l) => l.rating != null).length
+    if (rated === 0) { alert('Er zijn geen ratings om te wissen.'); return }
+    if (!confirm(`Alle ratings wissen voor deze veiling? ${rated} lot${rated > 1 ? 's' : ''} verliezen hun sterren-waarde.`)) return
+    const { error } = await supabase
+      .from('lots')
+      .update({ rating: null })
+      .eq('auction_id', auctionId)
+    if (error) { alert(`Wissen mislukt: ${error.message}`); return }
+    setLots((prev) => prev.map((l) => ({ ...l, rating: null })))
   }
 
   async function reloadBreaks() {
@@ -272,18 +284,17 @@ export default function AuctionPage() {
               type="button"
               onClick={() => setHideRatings((v) => !v)}
               title={hideRatings ? 'Toon ratings' : 'Verberg ratings'}
-              style={{
-                border: '1px solid var(--border-default)',
-                background: 'var(--bg-elevated)',
-                color: 'var(--text-secondary)',
-                padding: '4px 10px',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '0.85em',
-                cursor: 'pointer',
-                marginLeft: 8,
-              }}
+              style={ratingActionBtnStyle}
             >
               {hideRatings ? '👁 toon ratings' : '🙈 verberg ratings'}
+            </button>
+            <button
+              type="button"
+              onClick={handleClearAllRatings}
+              title="Alle ratings van deze veiling wissen"
+              style={ratingActionBtnStyle}
+            >
+              ✕ wis alle ratings
             </button>
           </div>
           <button
@@ -446,7 +457,12 @@ function LotRow({ lot, onRatingChanged, hideRating }) {
             )}
           </div>
           <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em', marginTop: '0.15rem' }}>
-            {[lot.discipline, lot.year, lot.gender, lot.studbook].filter(Boolean).join(' • ')}
+            {[
+              lot.discipline,
+              lot.year,
+              lot.gender + (lot.stallion_approved ? ' ggk' : ''),
+              lot.studbook,
+            ].filter(Boolean).join(' • ')}
           </div>
           {(lot.sire || lot.dam) && (
             <div style={{ color: 'var(--text-muted)', fontSize: '0.85em', fontStyle: 'italic' }}>
@@ -674,6 +690,16 @@ const addBreakBtnStyle = {
   borderRadius: 'var(--radius-sm)',
   cursor: 'pointer', fontFamily: 'inherit',
   fontSize: '0.9em',
+}
+const ratingActionBtnStyle = {
+  border: '1px solid var(--border-default)',
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-secondary)',
+  padding: '4px 10px',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.85em',
+  cursor: 'pointer',
+  marginLeft: 8,
 }
 const breakRowStyle = {
   display: 'flex', alignItems: 'center', gap: 12,

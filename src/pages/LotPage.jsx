@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
 import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
 import StarRating from '../components/StarRating'
+import StallionApprovalField from '../components/StallionApprovalField'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import InterestedClientsField from '../components/InterestedClientsField'
 import PedigreeTree from '../components/PedigreeTree'
@@ -84,8 +85,29 @@ export default function LotPage() {
   const yearWithAge = lot.year
     ? `${lot.year} / ${Math.max(0, new Date().getFullYear() - lot.year)} jaar`
     : null
-  const meta = [lot.discipline, yearWithAge, lot.gender, lot.studbook, lot.size]
-    .filter(Boolean).join(' · ')
+  const isStallion = (lot.gender ?? '').toLowerCase() === 'hengst'
+
+  const metaPieces = []
+  if (lot.discipline) metaPieces.push(<span key="d">{lot.discipline}</span>)
+  if (yearWithAge)    metaPieces.push(<span key="y">{yearWithAge}</span>)
+  if (lot.gender) {
+    metaPieces.push(
+      <span key="g" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+        {lot.gender}
+        {isStallion && (
+          <StallionApprovalField
+            lotId={lotId}
+            currentApproved={lot.stallion_approved}
+            currentStudbooks={lot.approved_studbooks}
+            onSaved={(patch) => setLot((prev) => ({ ...prev, ...patch }))}
+            inline
+          />
+        )}
+      </span>
+    )
+  }
+  if (lot.studbook) metaPieces.push(<span key="s">{lot.studbook}</span>)
+  if (lot.size)     metaPieces.push(<span key="sz">{lot.size}</span>)
 
   return (
     <section>
@@ -156,7 +178,16 @@ export default function LotPage() {
               →
             </button>
           </div>
-          {meta && <p style={metaStyle}>{meta}</p>}
+          {metaPieces.length > 0 && (
+            <div style={{ ...metaStyle, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0 0.4em' }}>
+              {metaPieces.map((piece, i) => (
+                <Fragment key={i}>
+                  {i > 0 && <span style={{ color: 'var(--text-muted)' }}>·</span>}
+                  {piece}
+                </Fragment>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -261,6 +292,7 @@ export default function LotPage() {
         <PedigreeTree pedigree={lot.pedigree} />
       </Block>
 
+
       {/* Externe links — direct onder pedigree, drie naast elkaar */}
       <Block title="Externe links">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
@@ -288,8 +320,9 @@ export default function LotPage() {
         </div>
       </Block>
 
-      {/* Catalogustekst — bewerkbaar via ✏ als de scrape niets vond */}
-      <Block title="Catalogustekst">
+      {/* Beschrijving — catalogustekst + EquiRatings samengevoegd in één blok.
+          Allebei bewerkbaar via ✏ wanneer de scrape niets vond. */}
+      <Block title="Beschrijving">
         <EditableLongText
           key={`cat-${lotId}`}
           id={lotId}
@@ -297,10 +330,7 @@ export default function LotPage() {
           initialValue={lot.catalog_text}
           placeholder="catalogustekst"
         />
-      </Block>
-
-      {/* EquiRatings — idem bewerkbaar */}
-      <Block title="EquiRatings">
+        <div style={{ height: 'var(--space-4)' }} />
         <EditableLongText
           key={`equi-${lotId}`}
           id={lotId}

@@ -57,7 +57,7 @@ export default function CockpitPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, year, gender, studbook, size, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start')
+          .select('id, number, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
           .eq('auction_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -169,31 +169,8 @@ export default function CockpitPage() {
         </div>
       )}
 
-      {/* Lot picker — dropdown links, Vorig en Volgend knoppen rechts */}
+      {/* Lot picker — Vorig links, dropdown midden, Volgend rechts */}
       <div style={pickerStyle}>
-        <label style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>
-          Actief lot:
-        </label>
-        <select
-          value={auction.active_lot_id ?? ''}
-          onChange={(e) => setActiveLotById(e.target.value)}
-          style={selectStyle}
-        >
-          <option value="">— geen lot geselecteerd —</option>
-          {allLots.map((l) => {
-            const extras = [
-              formatYearAge(l.year),
-              l.gender,
-              l.studbook,
-              l.size,
-            ].filter(Boolean).join(' · ')
-            return (
-              <option key={l.id} value={l.id}>
-                #{l.number ?? '—'} {l.name}{extras && ` — ${extras}`}
-              </option>
-            )
-          })}
-        </select>
         <button
           onClick={() => prevLot && setActiveLotById(prevLot.id)}
           disabled={!prevLot}
@@ -204,6 +181,23 @@ export default function CockpitPage() {
             ? `← Vorig · #${prevLot.number ?? '—'} ${prevLot.name}`
             : '← Begin'}
         </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', justifyContent: 'center', minWidth: 0 }}>
+          <label style={{ fontWeight: 600, color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+            Actief lot:
+          </label>
+          <select
+            value={auction.active_lot_id ?? ''}
+            onChange={(e) => setActiveLotById(e.target.value)}
+            style={selectStyle}
+          >
+            <option value="">— geen lot geselecteerd —</option>
+            {allLots.map((l) => (
+              <option key={l.id} value={l.id}>
+                #{l.number ?? '—'} {l.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <button
           onClick={() => nextLot && setActiveLotById(nextLot.id)}
           disabled={!nextLot}
@@ -262,10 +256,17 @@ function ActiveLotPanel({
   useEffect(() => { setActivePhoto(0); setPhotoOpen(false) }, [lot.id])
 
   const photos = Array.isArray(lot.photos) ? lot.photos : []
+  const genderText = lot.gender
+    ? lot.gender
+      + (lot.stallion_approved ? ' ggk' : '')
+      + (lot.stallion_approved && Array.isArray(lot.approved_studbooks) && lot.approved_studbooks.length > 0
+          ? ` (${lot.approved_studbooks.join(', ')})`
+          : '')
+    : null
   const meta = [
     lot.discipline,
     formatYearAge(lot.year),
-    lot.gender,
+    genderText,
     lot.studbook,
     lot.size,
   ].filter(Boolean).join(' · ')
@@ -296,8 +297,6 @@ function ActiveLotPanel({
               </button>
             )}
             <div style={{ flex: 1, minWidth: 0 }}>
-              {/* Paardennaam staat al in de dropdown bovenaan — niet
-                  herhalen. Hier alleen lot-nummer + type + meta-info. */}
               <div style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginBottom: 'var(--space-1)' }}>
                 Lot #{lot.number ?? '—'}
                 {lot.lot_types?.name_nl && ` · ${lot.lot_types.name_nl}`}
@@ -887,10 +886,10 @@ const pickerStyle = {
   borderRadius: 'var(--radius-md)',
   padding: 'var(--space-3) var(--space-4)',
   marginBottom: 'var(--space-4)',
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: 'auto 1fr auto',
   alignItems: 'center',
   gap: 'var(--space-3)',
-  flexWrap: 'wrap',
 }
 const selectStyle = {
   flex: '1 1 16em',
@@ -948,8 +947,9 @@ const actionSubtitleStyle = {
 }
 const priceBlockStyle = {
   display: 'flex',
-  flexDirection: 'column',
-  gap: 'var(--space-1)',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  gap: 'var(--space-4)',
   fontSize: '1.05rem',
   color: 'var(--text-primary)',
 }

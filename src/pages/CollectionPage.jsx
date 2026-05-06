@@ -12,6 +12,7 @@ import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 import Breadcrumbs from '../components/Breadcrumbs'
 import BulkStartPriceModal from '../components/BulkStartPriceModal'
+import RundownField from '../components/RundownField'
 import LotTypesSelector from '../components/LotTypesSelector'
 import BidStepRulesEditor from '../components/BidStepRulesEditor'
 import SpottersField from '../components/SpottersField'
@@ -77,11 +78,13 @@ export default function CollectionPage() {
         if (ra !== rb) return rb - ra
         return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
       }
-      // number
-      if (a.number == null && b.number == null) return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
-      if (a.number == null) return 1
-      if (b.number == null) return -1
-      return a.number - b.number
+      // number-modus: sorteer op veilingvolgorde (auction_order ?? number)
+      const ao = a.auction_order ?? a.number
+      const bo = b.auction_order ?? b.number
+      if (ao == null && bo == null) return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
+      if (ao == null) return 1
+      if (bo == null) return -1
+      return ao - bo
     })
 
     if (sortMode === 'alphabetical' || sortMode === 'rating') {
@@ -184,24 +187,62 @@ export default function CollectionPage() {
     const newIdx = items.findIndex((i) => i.key === over.id)
     if (oldIdx === -1 || newIdx === -1) return
     const dragged = items[oldIdx]
-    if (dragged.type !== 'break') return
 
     const newOrder = arrayMove(items, oldIdx, newIdx)
 
-    // Vind het lot direct boven de gedropte break in de nieuwe volgorde
-    let afterLotNumber = null
-    for (let i = newIdx; i >= 0; i--) {
-      if (newOrder[i].type === 'lot') {
-        afterLotNumber = newOrder[i].data.number
-        break
+    if (dragged.type === 'break') {
+      // Vind het lot direct boven de gedropte break in de nieuwe volgorde
+      let afterLotNumber = null
+      for (let i = newIdx; i >= 0; i--) {
+        if (newOrder[i].type === 'lot') {
+          afterLotNumber = newOrder[i].data.number
+          break
+        }
       }
+      try {
+        await updateBreak(dragged.data.id, { after_lot_number: afterLotNumber })
+        await reloadBreaks()
+      } catch (e) {
+        alert(`Fout bij verplaatsen pauze: ${e.message}`)
+      }
+      return
     }
 
-    try {
-      await updateBreak(dragged.data.id, { after_lot_number: afterLotNumber })
-      await reloadBreaks()
-    } catch (e) {
-      alert(`Fout bij verplaatsen: ${e.message}`)
+    // Lot-drag: hertel veilingvolgorde voor alle lots in nieuwe volgorde.
+    // Wanneer alle lots een catalogusnummer hebben (lot.number != null),
+    // blijven die staan en wijzigt enkel auction_order. Anders: beide
+    // worden samen herschreven (sequentieel 1..N).
+    const lotItemsInOrder = newOrder.filter((i) => i.type === 'lot')
+    const allHaveNumbers = lots.every((l) => l.number != null)
+
+    const updates = lotItemsInOrder.map((item, idx) => {
+      const lot = item.data
+      const newAuctionOrder = idx + 1
+      const patch = { auction_order: newAuctionOrder }
+      if (!allHaveNumbers) patch.number = newAuctionOrder
+      return { id: lot.id, patch }
+    })
+
+    // Optimistic update lokale state zodat de UI direct herrangschikt
+    setLots((prev) => prev.map((l) => {
+      const u = updates.find((x) => x.id === l.id)
+      return u ? { ...l, ...u.patch } : l
+    }))
+
+    // DB-updates parallel
+    const results = await Promise.all(
+      updates.map((u) =>
+        supabase.from('lots').update(u.patch).eq('id', u.id)
+      )
+    )
+    const firstError = results.find((r) => r.error)
+    if (firstError) {
+      alert(`Fout bij volgorde-update: ${firstError.error.message}`)
+      // herlaad lots om corrupte state te voorkomen
+      const { data } = await supabase.from('lots')
+        .select('id, number, auction_order, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+        .eq('collection_id', collectionId)
+      if (data) setLots(data)
     }
   }
 
@@ -390,6 +431,17 @@ export default function CollectionPage() {
             selectedTypeIds={selectedTypeIds}
           />
           <SpottersField collectionId={collection.id} />
+
+          <div style={{ marginTop: 'var(--space-5)', paddingTop: 'var(--space-4)', borderTop: '1px solid var(--border-default)' }}>
+            <h2 style={{ fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-secondary)', fontWeight: 600, margin: '0 0 var(--space-3) 0' }}>
+              Rundown — startscherm in cockpit vóór lot 1
+            </h2>
+            <RundownField
+              collectionId={collection.id}
+              initialValue={collection.rundown_text}
+              onSaved={(text) => setCollection((prev) => ({ ...prev, rundown_text: text }))}
+            />
+          </div>
         </div>
       )}
 
@@ -401,7 +453,7 @@ export default function CollectionPage() {
             // Reload lots zodat bijgewerkte start_prices in de UI staan
             const { data } = await supabase
               .from('lots')
-              .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+              .select('id, number, auction_order, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
               .eq('collection_id', collection.id)
               .order('number', { nullsFirst: false })
               .order('name')
@@ -416,12 +468,25 @@ export default function CollectionPage() {
 /* ---------- Sortable wrappers ---------- */
 
 function SortableLotRow({ item, onRatingChanged, hideRating }) {
-  // Lots zijn niet sleepbaar maar wél drop-target zodat breaks tussen
-  // lots gedropt kunnen worden. disabled=true op useSortable.
-  const { setNodeRef } = useSortable({ id: item.key, disabled: true })
+  // Lots zijn nu sleepbaar voor veilingvolgorde-aanpassing (#12 uit roadmap).
+  // De breaks zijn ook sleepbaar; beide soorten kunnen door elkaar gedropt
+  // worden, en handleDragEnd in de parent regelt het juiste gedrag per type.
+  const {
+    attributes, listeners, setNodeRef, transform, transition, isDragging,
+  } = useSortable({ id: item.key })
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
   return (
-    <div ref={setNodeRef}>
-      <LotRow lot={item.data} onRatingChanged={onRatingChanged} hideRating={hideRating} />
+    <div ref={setNodeRef} style={style}>
+      <LotRow
+        lot={item.data}
+        onRatingChanged={onRatingChanged}
+        hideRating={hideRating}
+        dragHandleProps={{ ...attributes, ...listeners }}
+      />
     </div>
   )
 }
@@ -449,12 +514,27 @@ function SortableBreakRow({ item, onEdit, onDelete }) {
 
 /* ---------- Lot-rij ---------- */
 
-function LotRow({ lot, onRatingChanged, hideRating }) {
+function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
+  const order = lot.auction_order ?? lot.number
+  const showCatExtra = lot.auction_order != null && lot.number != null && lot.auction_order !== lot.number
   return (
     <li style={{
       borderBottom: '1px solid var(--border-default)',
       display: 'flex', alignItems: 'center', gap: '0.5rem', paddingRight: '0.5rem',
     }}>
+      {dragHandleProps && (
+        <button
+          {...dragHandleProps}
+          style={{
+            border: 'none', background: 'transparent', color: 'var(--text-muted)',
+            cursor: 'grab', padding: '4px 6px', fontSize: '1.1em', touchAction: 'none',
+          }}
+          title="Versleep om de veilingvolgorde te wijzigen"
+          aria-label="Versleep lot"
+        >
+          ⠿
+        </button>
+      )}
       <Link
         to={`/lots/${lot.id}`}
         style={{
@@ -468,9 +548,14 @@ function LotRow({ lot, onRatingChanged, hideRating }) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
             <span style={{ color: 'var(--text-muted)', marginRight: '0.5em' }}>
-              #{lot.number ?? '—'}
+              #{order ?? '—'}
             </span>
             {lot.name}
+            {showCatExtra && (
+              <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.85em', marginLeft: 8 }}>
+                (Cat. nr {lot.number})
+              </span>
+            )}
             {hasMissing(lot.missing_info) && (
               <span
                 title={`Ontbreekt: ${translateMissing(lot.missing_info).join(', ')}`}

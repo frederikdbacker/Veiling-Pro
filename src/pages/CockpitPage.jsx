@@ -10,6 +10,7 @@ import RichNoteField, { isRichEmpty } from '../components/RichNoteField'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { flagFromCode } from '../lib/countries'
 import LogoLink from '../components/LogoLink'
+import LiveInfoBar from '../components/LiveInfoBar'
 import PedigreeTree from '../components/PedigreeTree'
 import StarRating from '../components/StarRating'
 import {
@@ -61,7 +62,7 @@ export default function CockpitPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
+          .select('id, number, auction_order, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -70,7 +71,16 @@ export default function CockpitPage() {
       if (collectionRes.error) { setError(collectionRes.error.message); return }
       if (lotsRes.error)    { setError(lotsRes.error.message); return }
       setCollection(collectionRes.data)
-      setAllLots(lotsRes.data ?? [])
+      // Sorteer op veilingvolgorde (auction_order ?? number) — #12 uit roadmap
+      const sorted = [...(lotsRes.data ?? [])].sort((a, b) => {
+        const ao = a.auction_order ?? a.number
+        const bo = b.auction_order ?? b.number
+        if (ao == null && bo == null) return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
+        if (ao == null) return 1
+        if (bo == null) return -1
+        return ao - bo
+      })
+      setAllLots(sorted)
     }
     load()
     return () => { cancelled = true }
@@ -143,6 +153,9 @@ export default function CockpitPage() {
 
   return (
     <section>
+      {/* Sticky infobar — blijft zichtbaar tijdens scrollen (#24) */}
+      <LiveInfoBar lot={activeLot} />
+
       <Breadcrumbs trail={[
         { label: 'Veilinghuizen', to: '/' },
         houseId && { label: houseName, to: `/houses/${houseId}` },
@@ -194,11 +207,14 @@ export default function CockpitPage() {
             style={selectStyle}
           >
             <option value="">— geen lot geselecteerd —</option>
-            {allLots.map((l) => (
-              <option key={l.id} value={l.id}>
-                #{l.number ?? '—'} {l.name}
-              </option>
-            ))}
+            {allLots.map((l) => {
+              const order = l.auction_order ?? l.number
+              return (
+                <option key={l.id} value={l.id}>
+                  #{order ?? '—'} {l.name}
+                </option>
+              )
+            })}
           </select>
         </div>
         <button
@@ -214,9 +230,22 @@ export default function CockpitPage() {
       </div>
 
       {!collection.active_lot_id && (
-        <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
-          Kies hierboven welk lot in de piste is om te beginnen.
-        </p>
+        <div>
+          {collection.rundown_text ? (
+            <div style={rundownStyle}>
+              <h2 style={{ fontSize: '1rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 var(--space-3) 0' }}>
+                Rundown
+              </h2>
+              <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: 1.6, color: 'var(--text-primary)' }}>
+                {collection.rundown_text}
+              </p>
+            </div>
+          ) : (
+            <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
+              Kies hierboven welk lot in de piste is om te beginnen.
+            </p>
+          )}
+        </div>
       )}
       {collection.active_lot_id && !activeLot && (
         <p style={{ color: 'var(--text-muted)' }}>Lot laden…</p>
@@ -231,6 +260,7 @@ export default function CockpitPage() {
           interestedClients={interestedClients}
           purchasesByClient={purchasesByClient}
           allLots={allLots}
+          spotters={spotters}
           onLotUpdated={async (updated) => {
             setActiveLot((prev) => ({ ...prev, ...updated }))
             setAllLots((prev) => prev.map((l) => l.id === updated.id ? { ...l, ...updated } : l))
@@ -251,7 +281,7 @@ export default function CockpitPage() {
 
 function ActiveLotPanel({
   lot, collectionId, houseId, houseLogoUrl, onlineBiddingEnabled,
-  interestedClients, purchasesByClient, allLots,
+  interestedClients, purchasesByClient, allLots, spotters,
   onLotUpdated, onActiveLotChange,
 }) {
   const [activePhoto, setActivePhoto] = useState(0)
@@ -372,6 +402,8 @@ function ActiveLotPanel({
               houseId={houseId}
               onlineBiddingEnabled={onlineBiddingEnabled}
               interestedClients={interestedClients}
+              spotters={spotters}
+              allLots={allLots}
               onLotUpdated={onLotUpdated}
             />
           </div>
@@ -506,49 +538,41 @@ function ActiveLotPanel({
   )
 }
 
-function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, onLotUpdated }) {
-  const [now, setNow] = useState(() => new Date())
+function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, spotters, allLots, onLotUpdated }) {
   const [busy, setBusy] = useState(null)
   const [hamerOpen, setHamerOpen] = useState(false)
   const [outcome, setOutcome] = useState('zaal')
   const [priceInput, setPriceInput] = useState('')
   const [buyer, setBuyer] = useState({ client_id: null, name: '' })
-
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000)
-    return () => clearInterval(id)
-  }, [])
+  const [spotterId, setSpotterId] = useState(null)
 
   useEffect(() => {
     setHamerOpen(false)
     setOutcome('zaal')
     setPriceInput('')
     setBuyer({ client_id: null, name: '' })
+    setSpotterId(lot.spotter_id ?? null)
   }, [lot.id])
 
-  const inRing   = lot.time_entered_ring  != null
-  const bidding  = lot.time_bidding_start != null
-  const hammered = lot.time_hammer        != null
+  const hammered = lot.time_hammer != null
 
-  const inRingState = !inRing  ? 'active' : 'done'
-  const startState  = !inRing  ? 'pending' : (!bidding  ? 'active' : 'done')
-  const hammerState = !bidding ? 'pending' : (!hammered ? 'active' : 'done')
-
-  async function patchTimestamp(field, busyKey) {
-    setBusy(busyKey)
-    const { data, error } = await supabase
-      .from('lots')
-      .update({ [field]: new Date().toISOString() })
-      .eq('id', lot.id)
-      .select()
-      .single()
-    setBusy(null)
-    if (!error && data) onLotUpdated(data)
-  }
-
+  /**
+   * Bereken duur op basis van vorige hamer (#23 uit roadmap).
+   * Vorige lot in de gesorteerde lijst dat al ge-hamered is bepaalt
+   * de starttijd. Eerste lot van de veiling: null (geen referentie).
+   */
   function calcDurationSeconds() {
-    if (!lot.time_entered_ring) return null
-    return Math.floor((Date.now() - new Date(lot.time_entered_ring).getTime()) / 1000)
+    if (!Array.isArray(allLots)) return null
+    const idx = allLots.findIndex((l) => l.id === lot.id)
+    if (idx <= 0) return null
+    // Zoek het meest recente eerder lot dat al ge-hamered is
+    for (let i = idx - 1; i >= 0; i--) {
+      const prev = allLots[i]
+      if (prev.time_hammer) {
+        return Math.floor((Date.now() - new Date(prev.time_hammer).getTime()) / 1000)
+      }
+    }
+    return null
   }
 
   function openHamer() {
@@ -556,6 +580,7 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
     setOutcome('zaal')
     setPriceInput('')
     setBuyer({ client_id: null, name: '' })
+    setSpotterId(lot.spotter_id ?? null)
   }
 
   async function resolveBuyer() {
@@ -589,6 +614,7 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
           duration_seconds: calcDurationSeconds(),
           buyer_client_id: resolved.id,
           buyer: resolved.name,
+          spotter_id: spotterId,
         })
         .eq('id', lot.id)
         .select()
@@ -614,6 +640,7 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
           duration_seconds: calcDurationSeconds(),
           buyer_client_id: null,
           buyer: null,
+          spotter_id: spotterId,
         })
         .eq('id', lot.id)
         .select()
@@ -626,25 +653,7 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
 
   return (
     <>
-      {/* Live timer + resultaat */}
-      {!hammered && (
-        <div style={{ ...timersStyle, color: 'var(--text-secondary)' }}>
-          {inRing && (
-            <span>⏱ <strong style={{ color: 'var(--text-primary)' }}>{formatElapsed(now - new Date(lot.time_entered_ring))}</strong> in piste</span>
-          )}
-          {bidding && (
-            <span style={{ marginLeft: '1rem' }}>
-              ⏱ <strong style={{ color: 'var(--text-primary)' }}>{formatElapsed(now - new Date(lot.time_bidding_start))}</strong> bieden
-            </span>
-          )}
-          {!inRing && (
-            <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
-              Klik "In piste" zodra het paard binnenkomt.
-            </span>
-          )}
-        </div>
-      )}
-
+      {/* Verkocht-resultaat na hamer */}
       {hammered && (
         <div style={{ ...timersStyle, color: lot.sold ? 'var(--success)' : 'var(--warning)' }}>
           {lot.sold
@@ -656,28 +665,20 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
         </div>
       )}
 
-      {/* 3-knop-flow — Volgend lot zit in de picker-balk bovenaan */}
+      {/* Eén grote VERKOCHT-knop (#23 uit roadmap) */}
       <div style={controlsRowStyle}>
-        <FlowButton
-          label="In piste" state={inRingState}
-          busy={busy === 'in-ring'}
-          onClick={() => patchTimestamp('time_entered_ring', 'in-ring')}
-        />
-        <FlowButton
-          label="Start bieden" state={startState}
-          busy={busy === 'start'}
-          onClick={() => patchTimestamp('time_bidding_start', 'start')}
-        />
-        <FlowButton
-          label="Hamer" state={hammerState}
-          busy={busy === 'hamer-form'}
+        <button
+          type="button"
           onClick={openHamer}
-          primary
-        />
+          disabled={hammered || busy === 'hamer-form'}
+          style={hammered ? doneBtnStyle : verkochtBtnStyle}
+        >
+          {hammered ? '✓ Afgehandeld' : (busy === 'hamer-form' ? '…' : 'VERKOCHT')}
+        </button>
       </div>
 
       {/* Hamer-modal — fixed-positioned, geen invloed op de DOM-tree */}
-      {hamerOpen && bidding && !hammered && (
+      {hamerOpen && !hammered && (
         <Modal onClose={() => setHamerOpen(false)} maxWidth={520}>
           <h3 style={{ margin: 0, marginBottom: 'var(--space-3)' }}>
             Hamer — #{lot.number ?? '—'} {lot.name}
@@ -716,6 +717,24 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
                 onChange={setBuyer}
                 disabled={busy === 'hamer-form'}
               />
+            </div>
+          )}
+
+          {/* Spotter-attributie (#26) — wie heeft het bod gemeld */}
+          {Array.isArray(spotters) && spotters.length > 0 && (
+            <div style={fieldRowStyle}>
+              <label style={modalLabelStyle}>Spotter:</label>
+              <select
+                value={spotterId ?? ''}
+                onChange={(e) => setSpotterId(e.target.value || null)}
+                disabled={busy === 'hamer-form'}
+                style={priceInputStyle}
+              >
+                <option value="">— geen spotter —</option>
+                {spotters.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
             </div>
           )}
 
@@ -988,6 +1007,14 @@ const cardStyle = {
   padding: 'var(--space-4)',
   marginBottom: 'var(--space-4)',
 }
+const rundownStyle = {
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  padding: 'var(--space-5)',
+  marginTop: 'var(--space-3)',
+  maxWidth: 800,
+}
 const cardTitleStyle = {
   fontSize: '0.85rem',
   letterSpacing: '0.08em',
@@ -1015,6 +1042,31 @@ const controlsRowStyle = {
   display: 'flex', flexWrap: 'wrap', gap: 8,
   marginTop: 'var(--space-3)',
   alignItems: 'center',
+}
+const verkochtBtnStyle = {
+  flex: 1,
+  padding: '14px 20px',
+  fontSize: '1.1rem',
+  fontWeight: 700,
+  letterSpacing: '0.06em',
+  background: 'var(--accent)',
+  color: '#fff',
+  border: '1px solid var(--accent)',
+  borderRadius: 'var(--radius-md)',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+}
+const doneBtnStyle = {
+  flex: 1,
+  padding: '14px 20px',
+  fontSize: '1.05rem',
+  fontWeight: 600,
+  background: 'transparent',
+  color: 'var(--success)',
+  border: '1px solid var(--success)',
+  borderRadius: 'var(--radius-md)',
+  cursor: 'default',
+  fontFamily: 'inherit',
 }
 const detailsStyle = {
   background: 'var(--bg-surface)',

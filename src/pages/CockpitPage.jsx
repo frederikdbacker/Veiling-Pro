@@ -6,6 +6,7 @@ import CockpitStatusBar from '../components/CockpitStatusBar'
 import SpottersStrip from '../components/SpottersStrip'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
 import NoteField from '../components/NoteField'
+import RichNoteField, { isRichEmpty } from '../components/RichNoteField'
 import PedigreeTree from '../components/PedigreeTree'
 import StarRating from '../components/StarRating'
 import {
@@ -446,11 +447,11 @@ function ActiveLotPanel({
 
       {/* Mijn voorbereiding */}
       <Card title="Mijn voorbereiding">
-        {lot.notes_familie        && <NoteField key={`notes_familie-${lot.id}`}        lotId={lot.id} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />}
-        {lot.notes_resultaten     && <NoteField key={`notes_resultaten-${lot.id}`}     lotId={lot.id} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />}
-        {lot.notes_kenmerken      && <NoteField key={`notes_kenmerken-${lot.id}`}      lotId={lot.id} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />}
-        {lot.notes_organisatie    && <NoteField key={`notes_organisatie-${lot.id}`}    lotId={lot.id} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />}
-        {lot.notes_bijzonderheden && <NoteField key={`notes_bijzonderheden-${lot.id}`} lotId={lot.id} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />}
+        {!isRichEmpty(lot.notes_familie)        && <RichNoteField key={`notes_familie-${lot.id}`}        lotId={lot.id} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />}
+        {!isRichEmpty(lot.notes_resultaten)     && <RichNoteField key={`notes_resultaten-${lot.id}`}     lotId={lot.id} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />}
+        {!isRichEmpty(lot.notes_kenmerken)      && <RichNoteField key={`notes_kenmerken-${lot.id}`}      lotId={lot.id} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />}
+        {!isRichEmpty(lot.notes_organisatie)    && <RichNoteField key={`notes_organisatie-${lot.id}`}    lotId={lot.id} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />}
+        {!isRichEmpty(lot.notes_bijzonderheden) && <RichNoteField key={`notes_bijzonderheden-${lot.id}`} lotId={lot.id} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />}
       </Card>
 
       {/* Opmerkingen verkoop — alleen in cockpit, altijd zichtbaar (ook leeg) */}

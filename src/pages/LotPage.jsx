@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import NoteField from '../components/NoteField'
+import RichNoteField from '../components/RichNoteField'
 import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
 import StarRating from '../components/StarRating'
@@ -356,11 +357,11 @@ export default function LotPage() {
 
       {/* Mijn notities */}
       <Block title="Mijn notities" key={`notes-${lotId}`}>
-        <NoteField lotId={lotId} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />
-        <NoteField lotId={lotId} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />
-        <NoteField lotId={lotId} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />
-        <NoteField lotId={lotId} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />
-        <NoteField lotId={lotId} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />
+        <RichNoteField key={`fam-${lotId}`} lotId={lotId} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />
+        <RichNoteField key={`res-${lotId}`} lotId={lotId} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />
+        <RichNoteField key={`ken-${lotId}`} lotId={lotId} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />
+        <RichNoteField key={`org-${lotId}`} lotId={lotId} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />
+        <RichNoteField key={`biz-${lotId}`} lotId={lotId} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />
       </Block>
 
       {/* Verouderde notities — alleen tonen zolang notes_catalog of notes_video nog data bevatten.

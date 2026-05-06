@@ -146,6 +146,14 @@ testen op 5 mei zelf, of nu, of nooit.
 MacBook gaat via GitHub. Als je op de andere Mac werkt: `git pull`
 voor je begint.
 
+**Geschiedenis:** op 5 mei 2026 is de projectmap kort naar iCloud
+verplaatst (zie POST_ALOGA_ROADMAP.md). Op 6 mei is dat teruggedraaid
+omdat iCloud + Node.js + git slecht samengaan: `node_modules`
+corrumpeert tijdens sync, `.git/index.lock` raakt in conflict bij
+gelijktijdige edits van twee Macs, en bestanden worden door iCloud
+soms ge-evict (alleen-in-cloud) waardoor de build breekt. Git is
+het juiste antwoord voor multi-Mac code-sync — dat blijft zo.
+
 ## Wat NIET aanraken zonder plan
 
 - `supabase/migrations/0001-0006` — al uitgevoerd, niet wijzigen

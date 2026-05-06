@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 2 mei 2026 (sessie-einde)**
+**Laatste update: 6 mei 2026 (Fase 0 iteratie)**
 
 ---
 
@@ -30,6 +30,25 @@ git clone https://github.com/frederikdbacker/Veiling-Pro.git veiling-pro
 cd veiling-pro
 npm install
 ```
+
+---
+
+## Multi-machine sync (Mac mini + MacBook)
+
+Werk je vanaf meerdere Macs aan dit project? Dan is **git/GitHub** het
+sync-mechanisme — niet iCloud Drive.
+
+- Begin van werksessie: `git pull`
+- Einde van werksessie: `git add . && git commit -m "..." && git push`
+- `.env.local` zit in `.gitignore` (bevat secrets) en wordt **niet**
+  gesynchroniseerd via git — kopieer die file apart wanneer je een
+  nieuwe machine opzet.
+
+iCloud Drive werd op 5 mei 2026 kort gebruikt en op 6 mei verworpen
+omdat `node_modules` corrumpeert tijdens iCloud-sync, `.git/index.lock`
+in conflict raakt bij gelijktijdige edits, en bestanden ge-evict
+worden door iCloud waardoor builds breken. Niet doen. Zie HANDOVER.md
+gotcha #6 voor details.
 
 ---
 

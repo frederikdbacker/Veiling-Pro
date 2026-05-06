@@ -21,6 +21,15 @@ Claude Code-sessie.
 
 ## Belangrijke wijziging — project staat nu in iCloud Drive
 
+> **UPDATE 6 mei 2026 — deze sectie is achterhaald.** De iCloud-verhuis
+> van 5 mei is op 6 mei teruggedraaid: project staat weer in
+> `~/veiling-pro/` (lokale map, niet in iCloud) met GitHub als
+> sync-route tussen Mac mini en MacBook. Zie HANDOVER.md gotcha #6 en
+> `reports/2026-05-06_fase-0-icloud-naar-git.md` voor toelichting.
+> De drie iCloud-valkuilen hieronder (node_modules-sync, .git-conflicten,
+> file-watching) zijn niet meer van toepassing, maar blijven hieronder
+> voor historische referentie.
+
 **Tot eind april 2026** stond `~/veiling-pro/` op de Mac mini, niet in iCloud.
 Sync tussen Mac mini en MacBook ging via GitHub (zie HANDOVER.md gotcha #6).
 
@@ -356,6 +365,12 @@ werkwijze, migratie-bevestiging, visuele check, build-check en audit-rapport
 zoals voorgeschreven in MASTER_PROMPT.md.
 
 ### Fase 0 — iCloud-setup
+
+> **UPDATE 6 mei 2026 — Fase 0 voltooid via git/GitHub-route.**
+> Stappen "los `node_modules`-sync op" en "iCloud-vertraging testen"
+> vervallen omdat het project niet (meer) in iCloud zit. Documentatie-
+> updates en build/dev-checks zijn wel uitgevoerd. Zie audit-rapport
+> `reports/2026-05-06_fase-0-icloud-naar-git.md`. Volgende: Fase 1.
 
 **Geschat: 30-60 min · 1 sessie**
 

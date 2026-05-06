@@ -1,9 +1,14 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 2 mei 2026**
-**Deadline: 5 mei 2026 (Aloga Auction 2026)**
+**Laatste update: 6 mei 2026 (Fase 0 iteratie)**
+**Aloga Auction 2026 voorbij — iteratie volgens POST_ALOGA_ROADMAP.md gestart**
 
 ---
+
+> **6 mei 2026:** Fase 0 van POST_ALOGA_ROADMAP.md voltooid (iCloud→git
+> overgang + docs). Zie `reports/2026-05-06_fase-0-icloud-naar-git.md`.
+> De "Huidige status"-sectie hieronder is van 2 mei (pre-Aloga) en
+> wordt bijgewerkt zodra een post-Aloga review/sessie plaatsvindt.
 
 ## Huidige status: REDESIGN-MARATHON KLAAR — DONKER THEMA + 8 MODULES LIVE
 

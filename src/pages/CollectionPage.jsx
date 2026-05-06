@@ -10,6 +10,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
+import Breadcrumbs from '../components/Breadcrumbs'
 import LotTypesSelector from '../components/LotTypesSelector'
 import BidStepRulesEditor from '../components/BidStepRulesEditor'
 import SpottersField from '../components/SpottersField'
@@ -215,11 +216,12 @@ export default function CollectionPage() {
 
   return (
     <section>
-      <p>
-        <Link to="/" style={{ color: 'var(--text-muted)' }}>Veilinghuizen</Link>
-        {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={{ color: 'var(--text-muted)' }}>{houseName}</Link></>}
-      </p>
-      <h1 style={{ color: 'var(--text-primary)' }}>{collection?.name ?? 'Veiling'}</h1>
+      <Breadcrumbs trail={[
+        { label: 'Veilinghuizen', to: '/' },
+        houseId && { label: houseName, to: `/houses/${houseId}` },
+        { label: collection?.name ?? 'Collectie' },
+      ].filter(Boolean)} />
+      <h1 style={{ color: 'var(--text-primary)' }}>{collection?.name ?? 'Collectie'}</h1>
       <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
 
       {collection && (

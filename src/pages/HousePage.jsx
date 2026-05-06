@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 export default function HousePage() {
   const { houseId } = useParams()
@@ -33,7 +34,10 @@ export default function HousePage() {
 
   return (
     <section>
-      <p><Link to="/" style={{ color: 'var(--text-muted)' }}>← Veilinghuizen</Link></p>
+      <Breadcrumbs trail={[
+        { label: 'Veilinghuizen', to: '/' },
+        { label: house?.name ?? 'Veilinghuis' },
+      ]} />
       <h1 style={{ color: 'var(--text-primary)' }}>{house?.name ?? 'Veilinghuis'}</h1>
       <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
 

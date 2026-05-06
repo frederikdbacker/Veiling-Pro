@@ -13,6 +13,7 @@ import PedigreeTree from '../components/PedigreeTree'
 import EditableLongText from '../components/EditableLongText'
 import Modal from '../components/Modal'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 export default function LotPage() {
   const { lotId } = useParams()
@@ -113,11 +114,12 @@ export default function LotPage() {
   return (
     <section>
       {/* Breadcrumb */}
-      <p style={crumbsStyle}>
-        <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
-        {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {collection && <>{' › '}<Link to={`/collections/${collection.id}`} style={crumbStyle}>{collection.name}</Link></>}
-      </p>
+      <Breadcrumbs trail={[
+        { label: 'Veilinghuizen', to: '/' },
+        houseId   && { label: houseName,       to: `/houses/${houseId}` },
+        collection && { label: collection.name, to: `/collections/${collection.id}` },
+        { label: lot.name },
+      ].filter(Boolean)} />
 
       {/* Missing info banner */}
       {hasMissing(lot.missing_info) && (

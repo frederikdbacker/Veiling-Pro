@@ -7,6 +7,7 @@ import SpottersStrip from '../components/SpottersStrip'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
 import NoteField from '../components/NoteField'
 import RichNoteField, { isRichEmpty } from '../components/RichNoteField'
+import Breadcrumbs from '../components/Breadcrumbs'
 import PedigreeTree from '../components/PedigreeTree'
 import StarRating from '../components/StarRating'
 import {
@@ -140,13 +141,12 @@ export default function CockpitPage() {
 
   return (
     <section>
-      {/* Breadcrumbs */}
-      <p style={crumbsStyle}>
-        <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
-        {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {' › '}<Link to={`/collections/${collectionId}`} style={crumbStyle}>{collection.name}</Link>
-        {' › '}<span style={{ color: 'var(--text-secondary)' }}>Cockpit</span>
-      </p>
+      <Breadcrumbs trail={[
+        { label: 'Veilinghuizen', to: '/' },
+        houseId && { label: houseName, to: `/houses/${houseId}` },
+        { label: collection.name, to: `/collections/${collectionId}` },
+        { label: 'Cockpit' },
+      ].filter(Boolean)} />
 
       {/* Veiling-titel + datum */}
       <h1 style={titleStyle}>{collection.name}</h1>

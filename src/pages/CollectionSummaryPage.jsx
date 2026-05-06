@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 /**
  * Overzichtspagina einde veiling. Toont kerncijfers, splitsing per
@@ -113,12 +114,12 @@ export default function CollectionSummaryPage() {
 
   return (
     <section>
-      <p style={{ fontSize: '0.9em', color: '#888' }}>
-        <Link to="/" style={crumbStyle}>Veilinghuizen</Link>
-        {houseId && <>{' › '}<Link to={`/houses/${houseId}`} style={crumbStyle}>{houseName}</Link></>}
-        {' › '}<Link to={`/collections/${collectionId}`} style={crumbStyle}>{collection.name}</Link>
-        {' › '}Overzicht
-      </p>
+      <Breadcrumbs trail={[
+        { label: 'Veilinghuizen', to: '/' },
+        houseId && { label: houseName, to: `/houses/${houseId}` },
+        { label: collection.name, to: `/collections/${collectionId}` },
+        { label: 'Overzicht' },
+      ].filter(Boolean)} />
       <h1 style={{ marginBottom: '0.25rem' }}>Overzicht — {collection.name}</h1>
       <p style={{ color: '#666', marginTop: 0 }}>
         {formatAuctionDate(collection)}

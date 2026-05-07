@@ -5,6 +5,7 @@ import Breadcrumbs from '../components/Breadcrumbs'
 import AutoSaveText from '../components/AutoSaveText'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import CountryAutocomplete from '../components/CountryAutocomplete'
+import CommitteeSection from '../components/CommitteeSection'
 
 export default function HousePage() {
   const { houseId } = useParams()
@@ -98,6 +99,8 @@ export default function HousePage() {
           )}
         </div>
       )}
+
+      {house && <CommitteeSection houseId={house.id} />}
 
       <h2 style={subheadStyle}>Veilingen</h2>
 

@@ -19,7 +19,8 @@ export default function HousePage() {
   async function load() {
     const [houseRes, collectionsRes] = await Promise.all([
       supabase.from('auction_houses').select('*').eq('id', houseId).single(),
-      supabase.from('collections').select('*').eq('house_id', houseId).order('date', { ascending: true }),
+      supabase.from('collections').select('*').eq('house_id', houseId)
+        .order('date', { ascending: false, nullsFirst: false }),
     ])
     if (houseRes.error) { setStatus(`Fout: ${houseRes.error.message}`); return }
     if (collectionsRes.error) { setStatus(`Fout: ${collectionsRes.error.message}`); return }
@@ -29,6 +30,32 @@ export default function HousePage() {
   }
 
   useEffect(() => { load() }, [houseId])
+
+  // Lot-zoekfunctie binnen alle collecties van dit huis
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState(null)
+  const [searching, setSearching] = useState(false)
+
+  useEffect(() => {
+    if (!search.trim() || collections.length === 0) {
+      setSearchResults(null)
+      return
+    }
+    const t = setTimeout(async () => {
+      setSearching(true)
+      const collIds = collections.map((c) => c.id)
+      const { data, error } = await supabase
+        .from('lots')
+        .select('id, number, name, collection_id, collections(name)')
+        .in('collection_id', collIds)
+        .ilike('name', `%${search.trim()}%`)
+        .order('name')
+        .limit(100)
+      if (!error) setSearchResults(data ?? [])
+      setSearching(false)
+    }, 300)
+    return () => clearTimeout(t)
+  }, [search, collections])
 
   async function handleAddCollection(payload) {
     setError(null)
@@ -101,6 +128,53 @@ export default function HousePage() {
       )}
 
       {house && <CommitteeSection houseId={house.id} />}
+
+      <h2 style={subheadStyle}>Lots zoeken</h2>
+      <input
+        type="search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Zoek op lot-naam binnen dit veilinghuis…"
+        style={{
+          width: '100%', maxWidth: 480,
+          padding: '8px 12px',
+          background: 'var(--bg-input, #1a1a1a)',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-sm)',
+          fontFamily: 'inherit', fontSize: '0.95em',
+          marginBottom: 'var(--space-3)',
+        }}
+      />
+      {searching && <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>zoeken…</p>}
+      {searchResults && (
+        <div style={{ marginBottom: 'var(--space-4)' }}>
+          {searchResults.length === 0 ? (
+            <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
+              Geen lots gevonden voor "{search}".
+            </p>
+          ) : (
+            <>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginBottom: 'var(--space-2)' }}>
+                {searchResults.length} resultaat{searchResults.length !== 1 ? 'en' : ''}{searchResults.length === 100 ? ' (top 100)' : ''}:
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {searchResults.map((lot) => (
+                  <li key={lot.id} style={{ padding: '6px 0', borderBottom: '1px solid var(--border-default)' }}>
+                    <Link to={`/lots/${lot.id}`} style={{ textDecoration: 'none', color: 'var(--text-primary)' }}>
+                      <span style={{ color: 'var(--text-muted)', marginRight: 6 }}>#{lot.number ?? '—'}</span>
+                      <strong>{lot.name}</strong>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 8 }}>
+                        in {lot.collections?.name ?? '—'}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
 
       <h2 style={subheadStyle}>Veilingen</h2>
 

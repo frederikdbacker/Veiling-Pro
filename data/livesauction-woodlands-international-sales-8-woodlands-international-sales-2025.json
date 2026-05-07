@@ -1,0 +1,598 @@
+{
+  "meta": {
+    "collection": "Woodlands International Sales 2025",
+    "house": "Woodlands International Sales",
+    "website": "https://woodlandsinternational.eu",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T12:08:59.484Z",
+    "total": 25,
+    "data_source": "livesauction-scraper, base=https://woodlandsinternational.eu, id=8"
+  },
+  "horses": [
+    {
+      "lot_number": 11,
+      "name": "5. TEXAS VAN DE PADENBORRE",
+      "slug": "5-texas-van-de-padenborre",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "hengst",
+      "size": "L",
+      "studbook": "BWP",
+      "sire": "van de Padenborre TANGELO VD ZUUTHOEVE",
+      "dam": "CHIN CHIN",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/texas-01438201.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/texas-vd-padenborre-014-dsc052451.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/texas-vd-padenborre-014-dsc053371.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=ZQxSLmFIS1c",
+      "source_url": "https://woodlandsinternational.eu/auction/Texas-van-de-Padenborre-TANGELO-VD-ZUUTHOEVE-x-CHIN-CHIN",
+      "catalog_text": "A striking BWP-approved stallion by Tangelo van de Zuuthoeve, out of the powerful Dirka van de Padenborre line (Chin Chin dam), Texas combines elite genetics with genuine athleticism. Carefully produced by Nick Vrins since he was three years-old and through his stallion competition career with many good results. He&rsquo;s a big, expressive horse with a sweeping, ground-covering canter, exceptional rideability, and plenty of scope&mdash;a stallion clearly destined for big arenas.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Chestnut."
+      }
+    },
+    {
+      "lot_number": 10,
+      "name": "13. CONTHIRANDA PS",
+      "slug": "13-conthiranda-ps",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "merrie",
+      "size": "M",
+      "studbook": null,
+      "sire": "PS CONTHARGOS",
+      "dam": "DIARADO",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/conthiranda-01342671.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/conthiranda-ps-013-dsc058201.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/conthiranda-ps-013-dsc059031.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=oTBV2K57fGs",
+      "source_url": "https://woodlandsinternational.eu/auction/Conthiranda-PS-CONTHARGOS-x-DIARADO",
+      "catalog_text": null,
+      "starting_bid": null,
+      "notes": null
+    },
+    {
+      "lot_number": 9,
+      "name": "1. CHACONBET PS",
+      "slug": "1-chaconbet-ps",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "hengst",
+      "size": "M",
+      "studbook": "OS",
+      "sire": "PS CHACOON BLUE",
+      "dam": "CONTHARGOS",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/chaconbet-01261141.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/chaconbet-01261251.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/chaconbet-ps-0123904-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/chaconbet-ps-0123967-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=9E_hmQ55vIM",
+      "source_url": "https://woodlandsinternational.eu/auction/Chaconbet-PS-CHACOON-BLUE-x-CONTHARGOS",
+      "catalog_text": "A striking gray stallion of modern type, Chaconbet PS immediately impresses with his quality, presence, and sharpness. He is still a little green for his age, but shows rare talent, super mentality, and rideability&mdash;the kind of raw ability that, with the right production, can develop into something extraordinary.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Grey."
+      }
+    },
+    {
+      "lot_number": 1,
+      "name": "10. ECHELPOEL Z",
+      "slug": "10-echelpoel-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "ruin",
+      "size": "L",
+      "studbook": "Zangersheide",
+      "sire": "Z EMERALD VAN T RUYTERSHOF",
+      "dam": "HARLEY VDL",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/echelpoel-00151951.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/echelpoel-z-0223445-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/echelpoel-z-0223474-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=mJyPGIPeJdo",
+      "source_url": "https://woodlandsinternational.eu/auction/Echelpoel-Z-EMERALD-VAN-T-RUYTERSHOF-x-HARLEY-VDL",
+      "catalog_text": "A striking young gelding with all the qualities of a future Grand Prix horse. Tall and athletic, Echelpoel Z combines size with modern blood, giving him an uphill balance, lightness off the ground, and exceptional rideability. His powerful push, careful technique, and limitless scope convinced our selection team that he has everything it takes to develop into a genuine top-level competitor.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Chestnut."
+      }
+    },
+    {
+      "lot_number": 14,
+      "name": "11. SJAAKIE VAN D' ABELENDREEF",
+      "slug": "11-sjaakie-van-d-abelendreef",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "hengst",
+      "size": "M",
+      "studbook": "BWP",
+      "sire": "van d Abelendreef VERDI",
+      "dam": "BERLIN",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/sjaakie-02152641.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/sjaakie-van-dabelendreef-0223386-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/sjaakie-van-dabelendreef-0223414-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=TcbAw-QIJfA",
+      "source_url": "https://woodlandsinternational.eu/auction/Sjaakie-van-d-Abelendreef-VERDI-x-BERLIN",
+      "catalog_text": "A beautifully modern gray stallion, Sjaakie van d&rsquo;Abelendreef is by the Olympic stallion Verdi TN and out of a Berlin mare, bringing together two of the most reliable names in international showjumping. Bred at the prestigious d&rsquo;Abelendreef stud, he descends from a dam line known for producing sporthorses with rideability, scope, and a competitive mindset.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Grey."
+      }
+    },
+    {
+      "lot_number": 17,
+      "name": "12. CHARISMA P VAN DE DONKHOEVE Z",
+      "slug": "12-charisma-p-van-de-donkhoeve-z",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "merrie",
+      "size": "M",
+      "studbook": null,
+      "sire": "P van de Donkhoeve Z CASALL",
+      "dam": "MALITO DE REVE",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/charisma-02449491.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/charisma-02449561.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/charisma-0223835-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/charisma-0223848-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=86e0x6Bwb48",
+      "source_url": "https://woodlandsinternational.eu/auction/Charisma-P-van-de-Donkhoeve-Z-CASALL-x-MALITO-DE-REVE",
+      "catalog_text": "A modern mare with the perfect blend of type, blood, and attitude, Charisma P van de Donkhoeve Z is by the legendary Casall ASK out of a Malito de R&ecirc;ve dam&mdash;an exceptional pedigree for both sport and breeding.",
+      "starting_bid": null,
+      "notes": null
+    },
+    {
+      "lot_number": 8,
+      "name": "2. DARK LIZARD DE NYZE Z",
+      "slug": "2-dark-lizard-de-nyze-z",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "hengst",
+      "size": "L",
+      "studbook": "Zangersheide",
+      "sire": "lizard de Nyze Z DIAMANT DE SEMILLY",
+      "dam": "DARCO",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/dark-lizzard-01051221.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/darc-lizard-de-nyze-z-010-dsc073851.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/darc-lizard-de-nyze-z-010-dsc074501.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/darc-lizard-de-nyze-z-010-dsc075461.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=WGACnYrJRbU",
+      "source_url": "https://woodlandsinternational.eu/auction/Darc-lizard-de-Nyze-Z-DIAMANT-DE-SEMILLY-x-DARCO",
+      "catalog_text": "A standout gray stallion bred by Stoeterij de Nyze, Dark Lizard de Nyze Z is approved by Zangersheide (ZANG) and carries the prestige of a respected breeding program. He is built in a taller, classic style yet remains remarkably rideable&mdash;boasting an uphill frame, powerful canter, and an explosive, careful jump that promises competitive scope in the ring.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Grey."
+      }
+    },
+    {
+      "lot_number": 13,
+      "name": "15. THINKPINK VAN HET BINNENVELD",
+      "slug": "15-thinkpink-van-het-binnenveld",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "merrie",
+      "size": "M",
+      "studbook": "BWP",
+      "sire": "van het Binnenveld IRON MAN VAN DE PADENBORRE",
+      "dam": "ECHO VAN T SPIEVELD",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/think-pink-01645981.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/think-pink-01645841.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/think-pink-01646181.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=QNKPoe6IlzY",
+      "source_url": "https://woodlandsinternational.eu/auction/Thinkpink-van-het-Binnenveld-IRON-MAN-VAN-DE-PADENBORRE-x-ECHO-VAN-T-SPIEVELD",
+      "catalog_text": "A modern, athletic mare with striking type and plenty of natural ability, Thinkpink van het Binnenveld is by Iron Man van de Padenborre and out of an Echo van &rsquo;t Spieveld mare&mdash;two proven stallions known for passing on scope, mentality, and quality.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Bay."
+      }
+    },
+    {
+      "lot_number": 12,
+      "name": "24. CORTA LVP Z",
+      "slug": "24-corta-lvp-z",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "merrie",
+      "size": "M",
+      "studbook": "Zangersheide",
+      "sire": "LVP z CATOKI",
+      "dam": "BAMAKO DE MUZE",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/corta-01544971.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/corta-lvp-z-0223575-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/corta-lvp-z-015-dsc065601.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=sxma2fm88C4",
+      "source_url": "https://woodlandsinternational.eu/auction/Corta-LVP-z-CATOKI-x-BAMAKO-DE-MUZE",
+      "catalog_text": "A modern sport mare with presence, pedigree, and unmistakable talent, Corta LVP Z is sired by Catoki&mdash;a proven 1.60 m Grand Prix stallion renowned for producing brilliance and scope&mdash;and out of Bamako de Muze, a Darco son whose offspring consistently excel at the highest levels of sport.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Bay."
+      }
+    },
+    {
+      "lot_number": 18,
+      "name": "21. NASHVILLE DH Z",
+      "slug": "21-nashville-dh-z",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "ruin",
+      "size": "M",
+      "studbook": "Zangersheide",
+      "sire": "DH Z NONO VD WITHOEVE",
+      "dam": "QUASIMODO VD MOLENDREEF",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/nashville-0265426-copy.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/nashville-026-dsc07766-copy.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/nashville-026-dsc07805-copy-14-52-56.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=z9IcQSUfDQU",
+      "source_url": "https://woodlandsinternational.eu/auction/Nashville-DH-Z-NONO-VD-WITHOEVE-x-QUASIMODO-VD-MOLENDREEF",
+      "catalog_text": "Nashville DH Z combines athletic pedigree with modern rideability. His sire, Nono van de Withoeve, competed successfully up to the 1.55 m Grand Prix level, renowned for his careful technique and competitive consistency. On the dam side, the influence of Quasimodo van de Molendreef adds a legacy of international quality, producing numerous top-level performers, including the legendary Hello Sanctos.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Grey."
+      }
+    },
+    {
+      "lot_number": 16,
+      "name": "23. CORNETUS OL",
+      "slug": "23-cornetus-ol",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": "L",
+      "studbook": "AES",
+      "sire": "OL CORNET OBOLENSKY",
+      "dam": "QUINTUS",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/cornetus-02355111.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/cornetus-ol-023-dsc078661.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/cornetus-ol-023-dsc079191.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=3Eh8bjALO6w",
+      "source_url": "https://woodlandsinternational.eu/auction/Cornetus-OL-CORNET-OBOLENSKY-x-QUINTUS",
+      "catalog_text": "A modern sporthorse in every sense, Cornetus OL is a tall, long-legged gelding by Cornet Obolensky out of a Quintus mare. His pedigree combines two proven sires renowned for producing rideability, scope, and athleticism&mdash;qualities that Cornetus clearly embodies.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Black."
+      }
+    },
+    {
+      "lot_number": 15,
+      "name": "3. SEELORD DC",
+      "slug": "3-seelord-dc",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": "M",
+      "studbook": "BWP",
+      "sire": "DC BY CERA DICK",
+      "dam": "MYLORD CARTHAGO",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/seelord-02244211.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/seelord-dc-0223520-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/seelord-dc-0223528-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=p632LNDXY4E",
+      "source_url": "https://woodlandsinternational.eu/auction/Seelord-DC-BY-CERA-DICK-x-MYLORD-CARTHAGO",
+      "catalog_text": "A bigger-framed gelding with scope and generosity, Seelord DC is by By Ceira d&rsquo;Ick and out of a Mylord Carthago mare&mdash;two proven lines well regarded for rideability and power. He has the size, scope, and balance to step into bigger classes, while offering the kind of temperament that makes him a reliable and confidence-giving partner.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Bay."
+      }
+    },
+    {
+      "lot_number": 3,
+      "name": "19. PRASOLINN",
+      "slug": "19-prasolinn",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "merrie",
+      "size": "L",
+      "studbook": "KWPN",
+      "sire": "GULLIT HBC",
+      "dam": "GLENFIDDICH VDL",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/prasolin-00340391.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/prasolin-003-dsc054031.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/prasolin-003-dsc054981.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=9RBQVpYA6Lw",
+      "source_url": "https://woodlandsinternational.eu/auction/Prasolinn-GULLIT-HBC-x-GLENFIDDICH-VDL",
+      "catalog_text": "A truly modern sport type, Prasolinn combines elegant looks with perfect blood and outstanding rideability. She already shows herself to be careful, talented, and reliable in the ring&mdash;qualities that make her both a pleasure to produce and a horse capable of delivering results.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Bay."
+      }
+    },
+    {
+      "lot_number": 5,
+      "name": "4. OKINAWA SITTE",
+      "slug": "4-okinawa-sitte",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "merrie",
+      "size": "M",
+      "studbook": "SBS",
+      "sire": "Sitte FIDELGO DU HOUSSOIT",
+      "dam": "TANGELO VD ZUUTHOEVE",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/okinawa-00759681.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/okinawa-sitte-0223683-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/okinawa-sitte-0223747-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=-1Bf1U8WbnQ",
+      "source_url": "https://woodlandsinternational.eu/auction/Okinawa-Sitte-FIDELGO-DU-HOUSSOIT-x-TANGELO-VD-ZUUTHOEVE",
+      "catalog_text": "A striking pinto mare who offers far more than just eye-catching color. Okinawa Sitte combines modern type, careful technique, and a proven pedigree with consistent results in the national young horse cycle. For her age, she is exactly on level and shows herself as a clever, competitive partner with clear quality.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Pie."
+      }
+    },
+    {
+      "lot_number": 22,
+      "name": "6. EMBRYO CORNET OBOLENSKY X GANCIA DE MUZE",
+      "slug": "6-embryo-cornet-obolensky-x-gancia-de-muze",
+      "discipline": "Springen",
+      "year": 2026,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Cornet Obolensky x Gancia De Muze CORNET OBOLENSKY",
+      "dam": "MALITO DE REVE",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/cornet-obolensky-marco-kutscher.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/embryo-gancia.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=muf-YO7qQdU",
+      "source_url": "https://woodlandsinternational.eu/auction/Embryo-Cornet-Obolensky-x-Gancia-De-Muze-CORNET-OBOLENSKY-x-MALITO-DE-REVE",
+      "catalog_text": "Expected date of birth: 11/03/2026",
+      "starting_bid": null,
+      "notes": null
+    },
+    {
+      "lot_number": 24,
+      "name": "7. EMBRYO DARRY LOU X HH AZUR",
+      "slug": "7-embryo-darry-lou-x-hh-azur",
+      "discipline": "Springen",
+      "year": 2026,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Darry Lou x HH Azur DARRY LOU",
+      "dam": "THUNDER VAN DE ZUUTHOEVE",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/darry-lou-harrie-smolders.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/h-azur-mclain-ward.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=S7G3DuYWv8Q",
+      "source_url": "https://woodlandsinternational.eu/auction/Embryo-Darry-Lou-x-HH-Azur-DARRY-LOU-x-THUNDER-VAN-DE-ZUUTHOEVE",
+      "catalog_text": "Expected date of birth: 20/07/2026",
+      "starting_bid": null,
+      "notes": null
+    },
+    {
+      "lot_number": 2,
+      "name": "14. MAGNA EPONA W Z",
+      "slug": "14-magna-epona-w-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "merrie",
+      "size": "L",
+      "studbook": "Zangersheide",
+      "sire": "Epona W Z MAGNUS ROMEO",
+      "dam": "LANCER III",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/magna-epona-00247471.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/magna-epona-standdsc06843-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/magna-epona-w-z-002-dsc068891.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=n5_Lro04r8I",
+      "source_url": "https://woodlandsinternational.eu/auction/Magna-Epona-W-Z-MAGNUS-ROMEO-x-LANCER-III",
+      "catalog_text": "A modern, blood-typed mare who combines natural ability with a strong willingness to work. Magna Epona W Z may still be green for her age, but she impresses with a cooperative mentality, carefulness, and natural scope. She is the type of horse that learns quickly, works with her rider, and will rise to the level asked of her.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Bay."
+      }
+    },
+    {
+      "lot_number": 6,
+      "name": "20. OSAKA SITTE",
+      "slug": "20-osaka-sitte",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "merrie",
+      "size": "L",
+      "studbook": "SBS",
+      "sire": "Sitte APARDI",
+      "dam": "EMERALD VAN T RUYTERSHOF",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/osaka-sitte-00837491.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/osaka-sitte-008-0693310-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/osaka-sitte-008-0693368-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=tdcTI4Rst4E",
+      "source_url": "https://woodlandsinternational.eu/auction/Osaka-Sitte-APARDI-x-EMERALD-VAN-T-RUYTERSHOF",
+      "catalog_text": "This elegant mare combines rarity and talent in one package.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Bay."
+      }
+    },
+    {
+      "lot_number": 25,
+      "name": "9. EMBRYO UNITED TOUCH X CHINA TOUCH HERO",
+      "slug": "9-embryo-united-touch-x-china-touch-hero",
+      "discipline": "Springen",
+      "year": 2026,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "United Touch",
+      "dam": "China Touch Hero x",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/united-touch-s-richard-vogel.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/embryo-chinatouchhero.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=1QH-r5hPpKs",
+      "source_url": "https://woodlandsinternational.eu/auction/Embryo-United-Touch-x-China-Touch-Hero-x-",
+      "catalog_text": "Expected date of birth: 08/03/2026",
+      "starting_bid": null,
+      "notes": null
+    },
+    {
+      "lot_number": 4,
+      "name": "22. UBALDO VAN 'T MERELSNEST",
+      "slug": "22-ubaldo-van-t-merelsnest",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "ruin",
+      "size": "M",
+      "studbook": "BWP",
+      "sire": "van t Merelsnest LEANDRO",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/krismar-00543421-10-39-35.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/krismar-stand1-10-39-28.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/krismar-dsc096901-10-39-15.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=SIjGzp1rnWs",
+      "source_url": "https://woodlandsinternational.eu/auction/Ulomi-van-t-Merelsnest-LEANDRO-x-DIAMANT-DE-SEMILLY",
+      "catalog_text": "A dark bay gelding of exceptional type, Ubaldo is by Leandro out of a Diamant de Semilly dam line&mdash;a pedigree that blends modern blood with proven power. He is a horse that immediately catches the eye with his elegance, balance, and rideability.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Black."
+      }
+    },
+    {
+      "lot_number": 23,
+      "name": "8. EMBRYO POINT BREAK X JEUNESSE",
+      "slug": "8-embryo-point-break-x-jeunesse",
+      "discipline": "Springen",
+      "year": 2026,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Point Break x Jeunesse POINT BREAK",
+      "dam": "ELDORADO VAN DE ZESHOEK TN",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/point-break-ben-maher.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/embryo-jeunesse-14-20-24.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=Ia4020A0s98",
+      "source_url": "https://woodlandsinternational.eu/auction/Embryo-Point-Break-x-Jeunesse-POINT-BREAK-x-ELDORADO-VAN-DE-ZESHOEK-TN",
+      "catalog_text": "Expected date of birth: 04/06/2026",
+      "starting_bid": null,
+      "notes": null
+    },
+    {
+      "lot_number": 19,
+      "name": "16. UTOPIA DU SEIGNEUR Z",
+      "slug": "16-utopia-du-seigneur-z",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": "Zangersheide",
+      "sire": "du Seigneur Z UTAMARO DECAUSSINES",
+      "dam": "HORTAXE DU SEIGNEUR",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/utopia-du-seigneur-z-10141311.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/utopia-du-seigneur-z-10141841.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/utopia-du-seigneur-z-10141071.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/utopia-du-seigneur-z-10140021.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/utopia-du-seigneur-z-10142081.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=rvGr46QUuFw",
+      "source_url": "https://woodlandsinternational.eu/auction/Utopia-du-Seigneur-Z-UTAMARO-DECAUSSINES-x-HORTAXE-DU-SEIGNEUR",
+      "catalog_text": "A remarkable filly blending Utamaro d&rsquo;Ecaussines Z&rsquo;s proven brilliance with the modern jumping prowess of Hortaxe du Seigneur.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Pie."
+      }
+    },
+    {
+      "lot_number": 20,
+      "name": "17. IMEA-K VAN KATTENHEYE Z",
+      "slug": "17-imea-k-van-kattenheye-z",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": "Zangersheide",
+      "sire": "K van Kattenheye Z IMPRESS K VAN T KATTENHEYE",
+      "dam": "STAKKATO GOLD",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/imea-k-van-kattenheye-z-10243191.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/imea-k-van-kattenheye-z-1024277-copy1.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/imea-k-van-kattenheye-z-1024375-copy1.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=RRvkWpGAO_w",
+      "source_url": "https://woodlandsinternational.eu/auction/Imea-K-van-Kattenheye-Z-IMPRESS-K-VAN-T-KATTENHEYE-x-STAKKATO-GOLD",
+      "catalog_text": "Imea-K van Kattenheye Z melds two powerhouse lineages&mdash;modern athleticism on the sire side and proven jumping pedigree via Stakkato Gold on the dam side.",
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Dark bay."
+      }
+    },
+    {
+      "lot_number": 21,
+      "name": "18. EMELON Z",
+      "slug": "18-emelon-z",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": "Zangersheide",
+      "sire": "Z EMERALD VAN T RUYTERSHOF",
+      "dam": "GLOCKS LONDON",
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/emelon-z-10344511.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/emelon-z-10345051.jpg",
+        "https://woodlandsinternational.eu/userfiles/image/emelon-z-10344221.jpg"
+      ],
+      "video_url": "https://youtube.com/watch?v=rusQW_8xZYo",
+      "source_url": "https://woodlandsinternational.eu/auction/Emelon-Z-EMERALD-VAN-T-RUYTERSHOF-x-GLOCKS-LONDON",
+      "catalog_text": null,
+      "starting_bid": null,
+      "notes": {
+        "catalog": "Kleur: Chestnut."
+      }
+    },
+    {
+      "lot_number": null,
+      "name": "0. CHARITY LOT BY ARTIST SASKIA VAN ELST",
+      "slug": "0-charity-lot-by-artist-saskia-van-elst",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://woodlandsinternational.eu/userfiles/image/img6822.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.eu/auction/charity-lot-by-artist-Saskia-van-Elst-x-",
+      "catalog_text": null,
+      "starting_bid": null,
+      "notes": null
+    }
+  ]
+}

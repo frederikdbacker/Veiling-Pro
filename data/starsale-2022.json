@@ -1,0 +1,1196 @@
+{
+  "meta": {
+    "collection": "Starsale Veulenoverzicht 2022",
+    "house": "Starsale Auction",
+    "house_country": "Nederland",
+    "website": "https://www.starsaleauctions.com",
+    "date": "2022-08-01",
+    "location": "Online",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T12:00:44.135Z",
+    "total": 59,
+    "data_source": "Starsale-scraper, year=2022"
+  },
+  "horses": [
+    {
+      "lot_number": 1153,
+      "name": "Stenley H",
+      "slug": "stenley-h",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Mowgli V.O.D.",
+      "dam": "Charmeur",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1153a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1153b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=-DRXMaqYfrc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1153-stenley-h",
+      "catalog_text": "Kleur: Donkere vos. Fokker: D. Hoekstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1155,
+      "name": "Slash Fan Sklenboarch",
+      "slug": "slash-fan-sklenboarch",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Chatinue",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1155a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1155b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Y68xLCOyYRY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1155-slash-fan-sklenboarch",
+      "catalog_text": "Kleur: Bruin. Fokker: E. Haijma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1156,
+      "name": "Sarcato",
+      "slug": "sarcato",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kannan Jr",
+      "dam": "Crown Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1156a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1156b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ipjb-G8mM20",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1156-sarcato",
+      "catalog_text": "Kleur: Schimmel (vos geboren). Fokker: T. Dijkstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1157,
+      "name": "Sverre",
+      "slug": "sverre",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "New Pleasure VDL",
+      "dam": "Jenssen VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1157a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1157b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=rLHEIlT4G-o",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1157-sverre",
+      "catalog_text": "Kleur: Bruin. Fokker: Sj. de Groot.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1158,
+      "name": "Sirocco",
+      "slug": "sirocco",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Zirocco Blue VDL",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1158a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1158b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ZrhTXtuKF8I",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1158-sirocco",
+      "catalog_text": "Kleur: Donkere vos. Fokker: Stoeterij la Strade.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1159,
+      "name": "Dfalaise De Muze Re",
+      "slug": "dfalaise-de-muze-re",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "D'agani",
+      "dam": "2000 Z x Falaise De Muze",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1159a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1159b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=cLF7-WoWQJg",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1159-dfalaise-de-muze-re",
+      "catalog_text": "Kleur: Bruin. Fokker: R. Elders.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1160,
+      "name": "Smart",
+      "slug": "smart",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Zinelord VDL",
+      "dam": "Zirocco Blue VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1160a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1160b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ScuYxEWwRvI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1160-smart",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Dikkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1161,
+      "name": "Saristo",
+      "slug": "saristo",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kjento",
+      "dam": "Vivaldi",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1161a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1161b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=1qGXQDHE2yI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1161-saristo",
+      "catalog_text": "Kleur: Vos. Fokker: A. Dijkstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1162,
+      "name": "Solana",
+      "slug": "solana",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Lord Europe",
+      "dam": "Vivaldi",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1162a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1162b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ADrOK_YVUKU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1162-solana",
+      "catalog_text": "Kleur: Zwartbruin. Fokker: A. Dijkstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1163,
+      "name": "Samorka D",
+      "slug": "samorka-d",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Mister Maserati",
+      "dam": "Daily Diamond",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1163a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1163b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=hzreKjT-2-k",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1163-samorka-d",
+      "catalog_text": "Kleur: Donkere vos. Fokker: J. Dikkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1164,
+      "name": "Sis",
+      "slug": "sis",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Zinelord VDL",
+      "dam": "Carrera VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1164a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1164b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=vUnUlcLEoJM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1164-sis",
+      "catalog_text": "Kleur: Bruin. Fokker: Lufting.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1165,
+      "name": "Supernova",
+      "slug": "supernova",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Diarado",
+      "dam": "I'm Special De Muze",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1165a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1165b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=P0xLWxebnm8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1165-supernova",
+      "catalog_text": "Kleur: Bruin. Fokker: Molema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1166,
+      "name": "Sylvester Jl",
+      "slug": "sylvester-jl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Landino VDL",
+      "dam": "Zirocco Blue VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1166a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1166b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Fg7tx9Bq_mw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1166-sylvester-jl",
+      "catalog_text": "Kleur: Bruin. Fokker: L. en J. Katoele-Elling.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1167,
+      "name": "Samantica",
+      "slug": "samantica",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "New Pleasure VDL",
+      "dam": "Hold Up Premier",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1167a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1167b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=z1j6qElrebA",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1167-samantica",
+      "catalog_text": "Kleur: Bruin. Fokker: A. Vos.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1168,
+      "name": "Santos Jr",
+      "slug": "santos-jr",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Jenssen VDL",
+      "dam": "Numero Uno",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1168a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1168b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=D_OmBU-fv8c",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1168-santos-jr",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Otten / R. Boer.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1169,
+      "name": "Star Folia Sps",
+      "slug": "star-folia-sps",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Petrossian Bc",
+      "dam": "Calato",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1169a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1169b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=j96xzf4ovUs",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1169-star-folia-sps",
+      "catalog_text": "Kleur: Bruin. Fokker: Snijders.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1170,
+      "name": "Secrets Star",
+      "slug": "secrets-star",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Secret",
+      "dam": "Superio",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1170a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1170b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=h7gIxGdSd2Q",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1170-secrets-star",
+      "catalog_text": "Kleur: Zwartbruin. Fokker: G. Nieboer / S. Benthem.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1171,
+      "name": "Spitfire A",
+      "slug": "spitfire-a",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "For Romance I",
+      "dam": "Wynton",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1171a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1171b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=6H0mACkuYlc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1171-spitfire-a",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: A. Adriaansen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1172,
+      "name": "Santa Cruz W",
+      "slug": "santa-cruz-w",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Valverde NRW",
+      "dam": "Painted Black",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1172a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1172b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=z7OHhL1l_e4",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1172-santa-cruz-w",
+      "catalog_text": "Kleur: Bruin. Fokker: B. Wezenberg.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1173,
+      "name": "Summer W",
+      "slug": "summer-w",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Fynch Hatton",
+      "dam": "Blue Hors Zatchmo",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1173a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1173b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=5POb3u4jlAw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1173-summer-w",
+      "catalog_text": "Kleur: Vos. Fokker: B. Wezenberg.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1174,
+      "name": "Sharif Re",
+      "slug": "sharif-re",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "For Dance",
+      "dam": "Dolany",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1174a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1174b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=GBXReUW0C5E",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1174-sharif-re",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: Rendering.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1175,
+      "name": "Sundance Re",
+      "slug": "sundance-re",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Florida TN",
+      "dam": "Blue Hors Farrell",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1175a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1175b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=4KUhsH9vq4Y",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1175-sundance-re",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Rendering.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1176,
+      "name": "Sky High",
+      "slug": "sky-high",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Dallas VDL",
+      "dam": "Calvaro Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1176a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1176b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=80yk3mHG_jI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1176-sky-high",
+      "catalog_text": "Kleur: Bruin. Fokker: J.B. Ausma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1177,
+      "name": "Shadow Vl",
+      "slug": "shadow-vl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Arezzo VDL",
+      "dam": "Cornet Obolensky",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1177a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1177b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=XU_woYdeta0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1177-shadow-vl",
+      "catalog_text": "Kleur: Bruin. Fokker: B. van Leur.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1178,
+      "name": "Saliesa",
+      "slug": "saliesa",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "VDL Liamant W",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1178a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1178b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=K3B74L3-tv8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1178-saliesa",
+      "catalog_text": "Kleur: Zwart. Fokker: J. Koops.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1179,
+      "name": "Sicco",
+      "slug": "sicco",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Ma",
+      "dam": "imus VDL x Graziano",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1179a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1179b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=jHDA1mc9gNE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1179-sicco",
+      "catalog_text": "Kleur: Vos. Fokker: K.J. vd Veen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1180,
+      "name": "Sunking Re",
+      "slug": "sunking-re",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Chatinue",
+      "dam": "Lasino",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1180a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1180b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=9Mg5mxtaD4U",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1180-sunking-re",
+      "catalog_text": "Kleur: Bruin. Fokker: Rendering.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1181,
+      "name": "Sipke",
+      "slug": "sipke",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Impressive VDL",
+      "dam": "Zapatero VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1181a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1181b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=41R3wQyRHX8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1181-sipke",
+      "catalog_text": "Kleur: Bruin. Fokker: van Ulden / M.C. van Valkengoed.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1182,
+      "name": "Same",
+      "slug": "same",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "New Pleasure VDL",
+      "dam": "Zapatero VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1182a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1182b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=tC5PcuZiC2c",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1182-same",
+      "catalog_text": "Kleur: Vos. Fokker: D. Sinnema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1183,
+      "name": "Seolytha T",
+      "slug": "seolytha-t",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Kallmar VDL",
+      "dam": "Etoulon VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1183a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1183b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=JuxAT_SPoHI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1183-seolytha-t",
+      "catalog_text": "Kleur: Vos. Fokker: M. Terpstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1184,
+      "name": "Syolitha T",
+      "slug": "syolitha-t",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Carrera VDL",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1184a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1184b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=AbAUCC8HH7o",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1184-syolitha-t",
+      "catalog_text": "Kleur: Bruin. Fokker: M. Terpstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1186,
+      "name": "Serran De Bun",
+      "slug": "serran-de-bun",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Douglas",
+      "dam": "Tangelo Van De Zuuthoeve",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1186a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1186b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=SUnez8I8Kgo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1186-serran-de-bun",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Bosch.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1187,
+      "name": "Sandro Vl",
+      "slug": "sandro-vl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Pommerol De Muze",
+      "dam": "Oberon Du Moulin",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1187a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1187b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=39j-s-8W4uo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1187-sandro-vl",
+      "catalog_text": "Kleur: Bruin. Fokker: B. van Leur.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1188,
+      "name": "Indigo Z",
+      "slug": "indigo-z",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "I'm Special De Muze",
+      "dam": "Canabis Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1188a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1188b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=S7YAWIbgiaY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1188-indigo-z",
+      "catalog_text": "Kleur: Bruin. Fokker: M. Trip.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1189,
+      "name": "Chakira",
+      "slug": "chakira",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Chaccothage Blue PS",
+      "dam": "Clinton I",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1189a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1189b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=fu8dwI_r3ZQ",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1189-chakira",
+      "catalog_text": "Kleur: Zwartschimmel. Fokker: A. Oosterveld.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1190,
+      "name": "Smirnoff Rj",
+      "slug": "smirnoff-rj",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Carrera VDL",
+      "dam": "Tangelo Van De Zuuthoeve",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1190a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1190b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=-sdc6Q0buP4",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1190-smirnoff-rj",
+      "catalog_text": "Kleur: Bruin. Fokker: R.J. Ebbinge.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1191,
+      "name": "Sambuca Van De Stikelpleats",
+      "slug": "sambuca-van-de-stikelpleats",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Harley VDL",
+      "dam": "Sydney",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1191a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1191b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=wMpRxVcQj4U",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1191-sambuca-van-de-stikelpleats",
+      "catalog_text": "Kleur: Schimmel. Fokker: Stal Falkena-Olff.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1193,
+      "name": "Toner",
+      "slug": "toner",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Total Mclaren",
+      "dam": "Stedinger",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1193a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1193b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=CA3nyqwx-qg",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1193-toner",
+      "catalog_text": "Kleur: Zwart. Fokker: J.J. Blonk.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1194,
+      "name": "Selexy",
+      "slug": "selexy",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Livius",
+      "dam": "Rafurstinels",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1194a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1194b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=DTd3tuBIYVY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1194-selexy",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: J. Wilting.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1195,
+      "name": "Seresto",
+      "slug": "seresto",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Carrera VDL",
+      "dam": "Corland",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1195a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1195b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=RzwtjtA8AEs",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1195-seresto",
+      "catalog_text": "Kleur: Bruin. Fokker: W. Hageman.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1196,
+      "name": "She Shs",
+      "slug": "she-shs",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Scuderia 1918 Tobago Z",
+      "dam": "Zapatero VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1196a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1196b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=1AD7J9gbjL8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1196-she-shs",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: J. Bron.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1197,
+      "name": "Sandieno",
+      "slug": "sandieno",
+      "discipline": "Dressuur",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Ne",
+      "dam": "t Romancier x Dante Weltino Old",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1197a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1197b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=9mnP3uI56uU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1197-sandieno",
+      "catalog_text": "Kleur: Zwart. Fokker: J. Gnodde.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1198,
+      "name": "Cartani Van Het Sterrebos",
+      "slug": "cartani-van-het-sterrebos",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Cartani",
+      "dam": "Untouched",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1198a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1198b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=k7hNHC6Bqmg",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1198-cartani-van-het-sterrebos",
+      "catalog_text": "Kleur: Zwartbruin. Fokker: R. Zielman.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1199,
+      "name": "Sir Monator Re",
+      "slug": "sir-monator-re",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Monator Vd Radstake",
+      "dam": "Cornet Obolensky",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1199a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1199b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=95vNkTn0c0c",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1199-sir-monator-re",
+      "catalog_text": "Kleur: Bruin. Fokker: R. Elders.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1200,
+      "name": "Castor Galaxy Z",
+      "slug": "castor-galaxy-z",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Casallo Z",
+      "dam": "Cantos",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1200a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1200b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=cGNqJ44euHk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1200-castor-galaxy-z",
+      "catalog_text": "Kleur: Bruin. Fokker: A. Regeling.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1201,
+      "name": "Sarissa",
+      "slug": "sarissa",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Landino VDL",
+      "dam": "Cantos",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1201a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1201b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=y1hEjuQB9Lc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1201-sarissa",
+      "catalog_text": "Kleur: Bruin. Fokker: D. Markhorst-van der Velde.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1202,
+      "name": "Sunny Boy",
+      "slug": "sunny-boy",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "New Pleasure VDL",
+      "dam": "Cassiano",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1202a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1202b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=JFAyGelgOsc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1202-sunny-boy",
+      "catalog_text": "Kleur: Vos. Fokker: mts. Naber.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1203,
+      "name": "Salvarlinde",
+      "slug": "salvarlinde",
+      "discipline": "Dressuur",
+      "year": 2022,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Nacho",
+      "dam": "Rousseau",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1203a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1203b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=2FKBlYnMq38",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1203-salvarlinde",
+      "catalog_text": "Kleur: Zwart. Fokker: J. Dikkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1204,
+      "name": "Soprano Sr",
+      "slug": "soprano-sr",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Livius",
+      "dam": "El Capone",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1204a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1204b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=JdiQqRHxYwU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1204-soprano-sr",
+      "catalog_text": "Kleur: Bruin. Fokker: F. Rouwkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1205,
+      "name": "Senna",
+      "slug": "senna",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Blue Hors Santiano",
+      "dam": "Glock's Dream Boy N.O.P.",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1205a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1205b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=LjexjJ-k11Q",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1205-senna",
+      "catalog_text": "Kleur: Vos. Fokker: Oosterhof.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1206,
+      "name": "Dazzler Van Seldsum Z",
+      "slug": "dazzler-van-seldsum-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Dourkhan Hero Z",
+      "dam": "Numero Uno",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1206a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1206b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=iPezOsR_dBE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1206-dazzler-van-seldsum-z",
+      "catalog_text": "Kleur: Bruin. Fokker: E. Hovenga.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1207,
+      "name": "Utamaro Blue",
+      "slug": "utamaro-blue",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Utamaro D'Ecaussines",
+      "dam": "Chacco-blue",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1207a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1207b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ShxpmzUyRkY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1207-utamaro-blue",
+      "catalog_text": "Kleur: Bruin. Fokker: A. Oosterveld.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1208,
+      "name": "San Diego",
+      "slug": "san-diego",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Sambucci De Muze",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1208a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1208b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=jlFXgqUbn5s",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1208-san-diego",
+      "catalog_text": "Kleur: Bruin. Fokker: N. Bijlsma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1209,
+      "name": "Softice Heringa Horses",
+      "slug": "softice-heringa-horses",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "New Pleasure VDL",
+      "dam": "Now Or Never M",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1209a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1209b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=J36Plxpu1f4",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1209-softice-heringa-horses",
+      "catalog_text": "Kleur: Vos. Fokker: J. Heringa.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1210,
+      "name": "Ziroc Jones Rdg Z",
+      "slug": "ziroc-jones-rdg-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Zirocco Blue VDL",
+      "dam": "Flipper D'elle",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1210a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1210b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=_re7p-chTl0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1210-ziroc-jones-rdg-z",
+      "catalog_text": "Kleur: Bruin. Fokker: Veltmaat.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1211,
+      "name": "Spotify",
+      "slug": "spotify",
+      "discipline": "Dressuur",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kjento",
+      "dam": "Charmeur",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1211a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1211b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Jo92B2mFK1w",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1211-spotify",
+      "catalog_text": "Kleur: Vos. Fokker: M. Van Mensvoort.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1212,
+      "name": "Selly A",
+      "slug": "selly-a",
+      "discipline": "Dressuur",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "For Romance I",
+      "dam": "Zardando",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1212a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1212b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=AOR-0Zk3-_w",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1212-selly-a",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: A. Adriaansen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1213,
+      "name": "Salinas Vdh",
+      "slug": "salinas-vdh",
+      "discipline": "Dressuur",
+      "year": 2022,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Florida TN",
+      "dam": "Fiamingho Ms",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1213a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1213b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=KNXb_jacJJk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1213-salinas-vdh",
+      "catalog_text": "Kleur: Bruin. Fokker: B. van der Haar.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1214,
+      "name": "Sofia",
+      "slug": "sofia",
+      "discipline": "Dressuur",
+      "year": 2022,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Vaderland",
+      "dam": "Laudabilis",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2022/1214a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2022/1214b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=eQTHrRLhlhs",
+      "source_url": "https://www.starsaleauctions.com/veulens/2022/1214-sofia",
+      "catalog_text": "Kleur: Bruin. Fokker: H. Lufting.",
+      "starting_bid": null
+    }
+  ]
+}

@@ -1,0 +1,976 @@
+{
+  "meta": {
+    "collection": "Starsale Veulenoverzicht 2025",
+    "house": "Starsale Auction",
+    "house_country": "Nederland",
+    "website": "https://www.starsaleauctions.com",
+    "date": "2025-08-01",
+    "location": "Online",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T11:59:43.689Z",
+    "total": 48,
+    "data_source": "Starsale-scraper, year=2025"
+  },
+  "horses": [
+    {
+      "lot_number": 1332,
+      "name": "Van De Moore",
+      "slug": "van-de-moore",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "ZIROCCO BLUE VDL",
+      "dam": "LIAMANT W",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1332a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1332b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=-kc2Usun2cg",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1332-van-de-moore",
+      "catalog_text": "Kleur: Bruin. Fokker: Mrs. A. Moore.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1333,
+      "name": "Vigotaire Van T Oosterzand",
+      "slug": "vigotaire-van-t-oosterzand",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "VDL SAMBUCCI DE MUZE",
+      "dam": "AREZZO VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1333a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1333b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=htuu2fSSgTs",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1333-vigotaire-van-t-oosterzand",
+      "catalog_text": "Kleur: vos. Fokker: Mw. Wielsma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1334,
+      "name": "Vina Tinto Jp",
+      "slug": "vina-tinto-jp",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "VINO TINTO",
+      "dam": "DAILY DIAMOND",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1334a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1334b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=IeznDUFKF1I",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1334-vina-tinto-jp",
+      "catalog_text": "Kleur: donkerbruin. Fokker: Dhr. J. Paas.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1335,
+      "name": "Valiance",
+      "slug": "valiance",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "ONASSIS TN",
+      "dam": "TANGELO VAN DE ZUUTHOEVE",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1335a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1335b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=dyURWlbWAC8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1335-valiance",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: Fam. Klomp.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1336,
+      "name": "Vic Van De Anjershof",
+      "slug": "vic-van-de-anjershof",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "REAL DREAM",
+      "dam": "BON COURAGE",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1336a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1336b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=SP_5bR-XSjM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1336-vic-van-de-anjershof",
+      "catalog_text": "Kleur: Donker bruin. Fokker: Fam. Harms.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1337,
+      "name": "Vogue",
+      "slug": "vogue",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "VDL GLASGOW VH MERELSNEST",
+      "dam": "CARRERA VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1337a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1337b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=0GiAdqCA7do",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1337-vogue",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. J.H. Lufting.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1338,
+      "name": "Vanille Rose Bsw  Et",
+      "slug": "vanille-rose-bsw-et",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "POWERBANK",
+      "dam": "BORDEAU x",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1338a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1338b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=9xhO8clmXgI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1338-vanille-rose-bsw--et",
+      "catalog_text": "Kleur: Vos. Fokker: Dhr. B.S Wichers.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1339,
+      "name": "Vita  ",
+      "slug": "vita",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "GRAND SLAM VDL",
+      "dam": "QUIDAM DE REVEL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1339a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1339b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=sT5Qsv8aknc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1339-vita--",
+      "catalog_text": "Kleur: Bruin. Fokker: M. Hageman.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1340,
+      "name": "Very Special Van De Rheehoeve",
+      "slug": "very-special-van-de-rheehoeve",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "ESCAMILLO",
+      "dam": "CHARMEUR",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1340a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1340b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=CSzd-r-M2Z0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1340-very-special-van-de-rheehoeve",
+      "catalog_text": "Kleur: Vos. Fokker: Fam. Roggen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1341,
+      "name": "Vido Dido",
+      "slug": "vido-dido",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "MINDSET ES",
+      "dam": "CANTOS",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1341a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1341b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=CUSYJqfZrQE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1341-vido-dido",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. S. de Groot.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1342,
+      "name": "Valenthe Dc Et",
+      "slug": "valenthe-dc-et",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "LANTANAS",
+      "dam": "BLUE HORS DON SCHUFRO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1342a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1342b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=odlPeRj_yhM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1342-valenthe-dc-et",
+      "catalog_text": "Kleur: Vos. Fokker: Fam. van Zandwijk.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1343,
+      "name": "Volbeat ",
+      "slug": "volbeat",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "COMTHAGO VDL",
+      "dam": "VOLTAIRE",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1343a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1343b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=HxDfD89cbUo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1343-volbeat-",
+      "catalog_text": "Kleur: Donkere Vos. Fokker: Mw. Markhorst.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1344,
+      "name": "Valoubet Blue",
+      "slug": "valoubet-blue",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "PURE BLUE VDL",
+      "dam": "TALOUBET Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1344a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1344b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=IDQQaKwKYVQ",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1344-valoubet-blue",
+      "catalog_text": "Kleur: vos. Fokker: Fam. Bouwers.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1345,
+      "name": "Vulcanus",
+      "slug": "vulcanus",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "POWER DUTCH",
+      "dam": "JUST WIMPHOF",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1345a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1345b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=5vxymjxKNbU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1345-vulcanus",
+      "catalog_text": "Kleur: Zwart. Fokker: Fam. Hoeksema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1346,
+      "name": "Voledo H",
+      "slug": "voledo-h",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "TOLEDO VDL",
+      "dam": "LORD Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1346a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1346b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=dBK0MslOlaQ",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1346-voledo-h",
+      "catalog_text": "Kleur: vos. Fokker: K. Hatzmann.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1347,
+      "name": "Van Vollenhove",
+      "slug": "van-vollenhove",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "DANTE U.S.",
+      "dam": "LADIGNAC",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1347a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1347b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=xNjY8hEtVfE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1347-van-vollenhove",
+      "catalog_text": "Kleur: Zwart. Fokker: Dhr. H. Koers / Mw. J. Kieft.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1348,
+      "name": "Vajen",
+      "slug": "vajen",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "POMMEROL DE MUZE",
+      "dam": "CROWN Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1348a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1348b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=BI4g-hROpVo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1348-vajen",
+      "catalog_text": "Kleur: Bruin. Fokker: M. Hageman.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1349,
+      "name": "Viva La Vida",
+      "slug": "viva-la-vida",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "BON COURAGE",
+      "dam": "UFO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1349a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1349b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=nPDCWtFaGSk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1349-viva-la-vida",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. N. Postma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1350,
+      "name": "Victoria Vl",
+      "slug": "victoria-vl",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "NIGHT LIFE VDL",
+      "dam": "CORNET OBOLENSKY",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1350a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1350b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Wz3oQvidX08",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1350-victoria-vl",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. B.A. Van Leur.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1351,
+      "name": "Vieanna Vw",
+      "slug": "vieanna-vw",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "E",
+      "dam": "TREME U.S. x OLIVI",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1351a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1351b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=xhfH_DE7taE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1351-vieanna-vw",
+      "catalog_text": "Kleur: Bruin. Fokker: Fam. van Wijk.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1352,
+      "name": "Vegas",
+      "slug": "vegas",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "BOSTON VDL",
+      "dam": "ZAPATERO VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1352a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1352b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=k0E9PvL5ChA",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1352-vegas",
+      "catalog_text": "Kleur: bruin. Fokker: Dhr. C van Ulden / M.C. van Valkengoed.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1353,
+      "name": "Vidieni",
+      "slug": "vidieni",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "ONE MILLION",
+      "dam": "ESCOLAR",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1353a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1353b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=cd5ZdQ4atYE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1353-vidieni",
+      "catalog_text": "Kleur: bruin. Fokker: Mw. Z. Vincourt.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1354,
+      "name": "Vancouver",
+      "slug": "vancouver",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "VDL SAMBUCCI DE MUZE",
+      "dam": "CAMPBELL VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1354a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1354b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=NxSRfxmgFR0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1354-vancouver",
+      "catalog_text": "Kleur: Bruin. Fokker: Fam. de Jong.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1355,
+      "name": "Dinan",
+      "slug": "dinan",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "DRUMMER 2000 TN Z",
+      "dam": "I'M SPECIAL DE MUZE",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1355a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1355b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Bsf0ceFZugg",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1355-dinan",
+      "catalog_text": "Kleur: bruin. Fokker: Fam. Vroom.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1356,
+      "name": "Venturi",
+      "slug": "venturi",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "MINDSET ES",
+      "dam": "CORNET OBOLENSKY",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1356a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1356b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ip8-NIMKe6Q",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1356-venturi",
+      "catalog_text": "Kleur: Bruin. Fokker: Mrs. A. Moore.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1357,
+      "name": "Valencio Van De Broeken",
+      "slug": "valencio-van-de-broeken",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "SARAI L",
+      "dam": "NEGRO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1357a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1357b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=6tK3x3C0FNQ",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1357-valencio-van-de-broeken",
+      "catalog_text": "Kleur: Zwart Bruin. Fokker: T.A.J. Bouwens en S Bouwens.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1358,
+      "name": "Cuby Orange",
+      "slug": "cuby-orange",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "CATCHUNO",
+      "dam": "LUDWIGS AS",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1358a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1358b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=4uh-lIIXTu4",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1358-cuby-orange",
+      "catalog_text": "Kleur: Bruin. Fokker: Mevr. H. van der Berg.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1359,
+      "name": "Vsquez De Jeu  Et",
+      "slug": "vsquez-de-jeu-et",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "SERAPHIN",
+      "dam": "NEGRO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1359a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1359b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=HHGSxWMRsNg",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1359-vsquez-de-jeu--et",
+      "catalog_text": "Kleur: donkerbruin. Fokker: Emmy de Jeu.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1360,
+      "name": "Viva Renze Hk",
+      "slug": "viva-renze-hk",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "LAMBORGHINI U.S.",
+      "dam": "GLOCK'S DREAM BOY",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1360a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1360b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Up09giJdhAE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1360-viva-renze-hk",
+      "catalog_text": "Kleur: Zwart Bruin. Fokker: Fam. J.H. Koers.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1361,
+      "name": "Vinnie Jl",
+      "slug": "vinnie-jl",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "BALTIC VDL",
+      "dam": "ZIROCCO BLUE VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1361a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1361b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=CCTPEjNwzs0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1361-vinnie-jl",
+      "catalog_text": "Kleur: Donker vos. Fokker: Fam. Katoele.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1362,
+      "name": "Verozette",
+      "slug": "verozette",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "CERO BLUE TN",
+      "dam": "ZAPATERO VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1362a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1362b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=vyudxzs7Wfw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1362-verozette",
+      "catalog_text": "Kleur: Donker bruin. Fokker: R.M. ter Veer-van Pelt / B. de Boer.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1363,
+      "name": "Va Va Voom",
+      "slug": "va-va-voom",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "SARAI L",
+      "dam": "GLOCK'S TOTO JR",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1363a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1363b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=tVtMurKjGh8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1363-va-va-voom",
+      "catalog_text": "Kleur: donkerbruin. Fokker: Dhr. P. Dekker.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1364,
+      "name": "Vieux W",
+      "slug": "vieux-w",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "O'BAILEY VH BROUWERSHOF N.O.P.",
+      "dam": "QUIDAM DE REVEL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1364a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1364b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=3tmj44BsUPU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1364-vieux-w",
+      "catalog_text": "Kleur: bruin. Fokker: Dhr. G. Wezenberg.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1365,
+      "name": "Van Paas",
+      "slug": "van-paas",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "BON SUCCES",
+      "dam": "JAZZ",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1365a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1365b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=6JwO2nCapes",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1365-van-paas",
+      "catalog_text": "Kleur: vos. Fokker: Dhr. J. Paas.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1366,
+      "name": "Dexx Z",
+      "slug": "dexx-z",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "DOURKING HERO Z",
+      "dam": "WARRANT",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1366a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1366b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=TiS5UF2HWmw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1366-dexx-z",
+      "catalog_text": "Kleur: bruin. Fokker: Dhr. A. Oosterveld.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1367,
+      "name": "Volodo Bsw  Et",
+      "slug": "volodo-bsw-et",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "FOR ROMANCE I",
+      "dam": "FERRO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1367a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1367b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=qIiIJLtQNxQ",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1367-volodo-bsw--et",
+      "catalog_text": "Kleur: D Bruin. Fokker: Dhr. B.S. Wichers.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1368,
+      "name": "Volbeattaire Van T Oosterzand",
+      "slug": "volbeattaire-van-t-oosterzand",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "HARDROCK Z",
+      "dam": "VDL GLASGOW VH MERELSNEST",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1368a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1368b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=8qSV896FvZE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1368-volbeattaire-van-t-oosterzand",
+      "catalog_text": "Kleur: Bruin. Fokker: Mevr. C. Wielsma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1369,
+      "name": "Velicia Makea",
+      "slug": "velicia-makea",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "LANTANAS",
+      "dam": "GLOCK'S DREAM BOY",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1369a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1369b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=81KW-Aa9Rp8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1369-velicia-makea",
+      "catalog_text": "Kleur: Zwart. Fokker: Fam. Meijerink.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1370,
+      "name": "Vitali Van T Wiede Et",
+      "slug": "vitali-van-t-wiede-et",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "STAKKATO GOLD",
+      "dam": "CARETINO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1370a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1370b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=KofNol8_pZ4",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1370-vitali-van-t-wiede-et",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. W. Liezen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1371,
+      "name": "Viel Spass Bm",
+      "slug": "viel-spass-bm",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "FANEGRO",
+      "dam": "FERDINAND",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1371a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1371b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=UWF_u2WlaWA",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1371-viel-spass-bm",
+      "catalog_text": "Kleur: zwart. Fokker: Fam. Beugel Meijers.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1372,
+      "name": "Vique",
+      "slug": "vique",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "ALL I WANT L",
+      "dam": "GRAZIANO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1372a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1372b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=d9rT7q1JHIM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1372-vique",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. J.H. Lufting.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1373,
+      "name": "Vesper Vw",
+      "slug": "vesper-vw",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "FOR ROMANCE I",
+      "dam": "HIGH FIVE U.S.",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1373a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1373b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Qr_FHMWOZf8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1373-vesper-vw",
+      "catalog_text": "Kleur: Vos. Fokker: Fam. van Wijk.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1374,
+      "name": "Victory Du Sinaa",
+      "slug": "victory-du-sinaa",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "COMTHAGO VDL",
+      "dam": "MODESTO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1374a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1374b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=404PKlq1_iY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1374-victory-du-sinaa",
+      "catalog_text": "Kleur: zwartbruin. Fokker: W. Hageman.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1375,
+      "name": "Viva Hollandia",
+      "slug": "viva-hollandia",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "LE FORMIDABLE",
+      "dam": "JOHNSON",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1375a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1375b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=HuvH2A1HkJo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1375-viva-hollandia",
+      "catalog_text": "Kleur: Zwart. Fokker: Fam. Huizinga.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1376,
+      "name": "Hinch Z",
+      "slug": "hinch-z",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "HIGHWAY TN NOP",
+      "dam": "CANDILLO",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1376a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1376b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=bRTlaK28Rcc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1376-hinch-z",
+      "catalog_text": "Kleur: Bruin. Fokker: J. G. M. Meijer en A.R van de Vrie.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1377,
+      "name": "Vitalis",
+      "slug": "vitalis",
+      "discipline": "Dressuur",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "ONE MILLION",
+      "dam": "GLOCK'S TOTO JR",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1377a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1377b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=3N_ngv_456M",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1377-vitalis",
+      "catalog_text": "Kleur: Zwart. Fokker: Fam. Hoeksema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1378,
+      "name": "Vibe Van De Fryochaborg",
+      "slug": "vibe-van-de-fryochaborg",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "BUSTIQUE",
+      "dam": "NAMELUS R",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1378a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1378b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ri6ad6Jn2jo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1378-vibe-van-de-fryochaborg",
+      "catalog_text": "Kleur: Bruin. Fokker: Dhr. F. Verselewel de Witt Hamer.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1379,
+      "name": "Vegas",
+      "slug": "vegas",
+      "discipline": "Springen",
+      "year": 2025,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "PURE BLUE VDL",
+      "dam": "VAGABOND DE LA POMME",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2025/1379a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2025/1379b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=k70pozExn_g",
+      "source_url": "https://www.starsaleauctions.com/veulens/2025/1379-vegas",
+      "catalog_text": "Kleur: schimmel. Fokker: Fam. Bosch.",
+      "starting_bid": null
+    }
+  ]
+}

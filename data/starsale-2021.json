@@ -1,0 +1,1156 @@
+{
+  "meta": {
+    "collection": "Starsale Veulenoverzicht 2021",
+    "house": "Starsale Auction",
+    "house_country": "Nederland",
+    "website": "https://www.starsaleauctions.com",
+    "date": "2021-08-01",
+    "location": "Online",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T12:00:51.647Z",
+    "total": 57,
+    "data_source": "Starsale-scraper, year=2021"
+  },
+  "horses": [
+    {
+      "lot_number": 1091,
+      "name": "Romano",
+      "slug": "romano",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kjento",
+      "dam": "Fuerst Heinrich",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1091a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1091b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=y504WHvb398",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1091-romano",
+      "catalog_text": "Kleur: Vos. Fokker: H. Germs.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1092,
+      "name": "Riorisja",
+      "slug": "riorisja",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Impressive VDL",
+      "dam": "Hampshire VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1092a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1092b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=XF0pGGWvr4g",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1092-riorisja",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Dikkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1094,
+      "name": "Royalcinthe Jd",
+      "slug": "royalcinthe-jd",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Zirocco Blue VDL",
+      "dam": "Zavall VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1094a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1094b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=wPc6Z-g2Mjk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1094-royalcinthe-jd",
+      "catalog_text": "Kleur: Schimmel. Fokker: J. Dikkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1095,
+      "name": "Rarina",
+      "slug": "rarina",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Chopano VA",
+      "dam": "Arezzo VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1095a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1095b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=YACXLbkGuvc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1095-rarina",
+      "catalog_text": "Kleur: Bruin. Fokker: Fam. van Rooijen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1096,
+      "name": "Rille Van De Valckenborg",
+      "slug": "rille-van-de-valckenborg",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Tangelo Van De Zuuthoeve",
+      "dam": "Cicero Z Van Paemel",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1096a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1096b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Ikrd4v2_9Uo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1096-rille-van-de-valckenborg",
+      "catalog_text": "Kleur: Schimmel. Fokker: L. Havinga.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1097,
+      "name": "Rasputin Abba",
+      "slug": "rasputin-abba",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Tangelo Van De Zuuthoeve",
+      "dam": "Zirocco Blue VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1097a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1097b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=5owyb5pTIYI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1097-rasputin-abba",
+      "catalog_text": "Kleur: Vos. Fokker: AB Stud en Fam. L. Zwanepol.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1098,
+      "name": "Royal Princess Mh",
+      "slug": "royal-princess-mh",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Arezzo VDL",
+      "dam": "Grandorado TN",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1098a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1098b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=WuZeOKYXy54",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1098-royal-princess-mh",
+      "catalog_text": "Kleur: Bruin. Fokker: M. Meppelink.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1099,
+      "name": "Ramazotti M",
+      "slug": "ramazotti-m",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kjento",
+      "dam": "Gribaldi",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1099a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1099b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=iNo_s2zXM80",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1099-ramazotti-m",
+      "catalog_text": "Kleur: Zwart. Fokker: D. Mozes.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1101,
+      "name": "Ronaldo Van De Rheehoeve",
+      "slug": "ronaldo-van-de-rheehoeve",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Ferguson",
+      "dam": "Charmeur",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1101a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1101b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=WQjfeFoGZTY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1101-ronaldo-van-de-rheehoeve",
+      "catalog_text": "Kleur: Vos. Fokker: Fam. K. Roggen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1102,
+      "name": "Raffa H",
+      "slug": "raffa-h",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Ladignac",
+      "dam": "Sandreo",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1102a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1102b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=8teELlt2P1c",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1102-raffa-h",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: H. Huiting.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1103,
+      "name": "Romorkus D",
+      "slug": "romorkus-d",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Jameson Rs2",
+      "dam": "Daily Diamond",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1103a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1103b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=-N3VLj39D-w",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1103-romorkus-d",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: J. Dikkema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1104,
+      "name": "Remus",
+      "slug": "remus",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Toto's Design US",
+      "dam": "Jazz",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1104a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1104b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=XNIWXJhnRJ8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1104-remus",
+      "catalog_text": "Kleur: Vos. Fokker: B.F. Hoeksema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1105,
+      "name": "Rocky",
+      "slug": "rocky",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Toto's Design US",
+      "dam": "Everdale",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1105a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1105b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Q5mVx4jJMy8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1105-rocky",
+      "catalog_text": "Kleur: Zwart. Fokker: B.F. Hoeksema.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1106,
+      "name": "Radetski T",
+      "slug": "radetski-t",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kallmar VDL",
+      "dam": "Etoulon VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1106a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1106b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Z0Gji5COBGM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1106-radetski-t",
+      "catalog_text": "Kleur: Bruin. Fokker: M.S. Terpstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1107,
+      "name": "Riamant",
+      "slug": "riamant",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Liamant W VDL",
+      "dam": "Grand Slam VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1107a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1107b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=uZ4RjuqEx7Y",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1107-riamant",
+      "catalog_text": "Kleur: Bruin. Fokker: S. de Groot.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1108,
+      "name": "Rocco",
+      "slug": "rocco",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Opium JW van de Moerhoeve",
+      "dam": "Calvaro Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1108a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1108b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=LQAEpQB670U",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1108-rocco",
+      "catalog_text": "Kleur: Bruin. Fokker: E. Vermeer.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1109,
+      "name": "Ryolitha T",
+      "slug": "ryolitha-t",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Carrera VDL",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1109a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1109b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=3wn_A4s7rxc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1109-ryolitha-t",
+      "catalog_text": "Kleur: Vos. Fokker: M.S. Terpstra.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1110,
+      "name": "Rallas",
+      "slug": "rallas",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Kallas",
+      "dam": "Tangelo van de Zuuthoeve",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1110a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1110b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=fi6RnTaJ2cY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1110-rallas",
+      "catalog_text": "Kleur: Bruin. Fokker: C.B. Henniphof.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1111,
+      "name": "Ray Special Van De Suydersee",
+      "slug": "ray-special-van-de-suydersee",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "I'm Special De Muze",
+      "dam": "Larino",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1111a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1111b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=MXhedGnEkLE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1111-ray-special-van-de-suydersee",
+      "catalog_text": "Kleur: Schimmel. Fokker: Suydersee Stud.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1112,
+      "name": "Rubens Sps",
+      "slug": "rubens-sps",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Petrossian BC",
+      "dam": "Calato",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1112a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1112b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=GWZkVzJU2Js",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1112-rubens-sps",
+      "catalog_text": "Kleur: Schimmel. Fokker: P. Snijders.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1113,
+      "name": "Check Me Out W   Et Veulen",
+      "slug": "check-me-out-w-et-veulen",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Christian's Chacco",
+      "dam": "Quidam De Revel",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1113a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1113b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=WW-h1ld34W8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1113-check-me-out-w---et-veulen",
+      "catalog_text": "Kleur: Bruin. Fokker: B.J.M. Wezenberg.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1114,
+      "name": "Ranita L",
+      "slug": "ranita-l",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Chacco Blue II",
+      "dam": "Quite Easy I",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1114a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1114b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=JDdffmDVaUQ",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1114-ranita-l",
+      "catalog_text": "Kleur: Bruin. Fokker: G.J. Lucas.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1115,
+      "name": "Radina",
+      "slug": "radina",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Dakar VDL",
+      "dam": "Biscayo",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1115a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1115b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=GYGsRNjDwWM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1115-radina",
+      "catalog_text": "Kleur: Bruin. Fokker: G.B. Groeneveld.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1116,
+      "name": "Raikkonen",
+      "slug": "raikkonen",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Harley VDL",
+      "dam": "Chin Chin",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1116a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1116b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=A-bBAJoLiSI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1116-raikkonen",
+      "catalog_text": "Kleur: Vos. Fokker: A.P. Lunsche.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1117,
+      "name": "Carville Van De Zeijerweg Z",
+      "slug": "carville-van-de-zeijerweg-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Cape Coral RBF Z",
+      "dam": "Hamlet",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1117a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1117b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=KCuZ6hxXD-A",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1117-carville-van-de-zeijerweg-z",
+      "catalog_text": null,
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1118,
+      "name": "Roegkopje An",
+      "slug": "roegkopje-an",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Landino VDL",
+      "dam": "Montreal VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1118a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1118b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ms7dmtc2CaM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1118-roegkopje-an",
+      "catalog_text": "Kleur: Bruin. Fokker: J.C. Lakenvelt.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1119,
+      "name": "Rexton",
+      "slug": "rexton",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Hardrock Z",
+      "dam": "Champion Du Lys",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1119a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1119b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=rx7Lw5qfxt8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1119-rexton",
+      "catalog_text": "Kleur: Bruin. Fokker: M. Hageman.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1120,
+      "name": "Ranea",
+      "slug": "ranea",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Kallmar VDL",
+      "dam": "Pacific",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1120a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1120b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=8ub5TwD1WGc",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1120-ranea",
+      "catalog_text": "Kleur: Bruin. Fokker: N. Bijlsma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1121,
+      "name": "Rinook Sps",
+      "slug": "rinook-sps",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "All Star 5",
+      "dam": "Baloubet Du Rouet",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1121a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1121b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=GvxCZbnQliU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1121-rinook-sps",
+      "catalog_text": "Kleur: Bruin. Fokker: P. Snijders.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1122,
+      "name": "Rivka Pendence",
+      "slug": "rivka-pendence",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "O'neill Van't Eigenlo",
+      "dam": "Harley VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1122a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1122b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=OKTM-RC1oiU",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1122-rivka-pendence",
+      "catalog_text": "Kleur: Bruin. Fokker: M. van Dijk.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1123,
+      "name": "Riverton Mwe",
+      "slug": "riverton-mwe",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Spielberg",
+      "dam": "Apache",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1123a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1123b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=9zsSjHPCsCo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1123-riverton-mwe",
+      "catalog_text": "Kleur: Bruin. Fokker: W. Bandringa.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1124,
+      "name": "Ralph Lauren Nc",
+      "slug": "ralph-lauren-nc",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Hermès",
+      "dam": "Atleet",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1124a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1124b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=w6V5BrFikP8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1124-ralph-lauren-nc",
+      "catalog_text": "Kleur: Bruin. Fokker: N. Calis.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1125,
+      "name": "Rowinta Vl",
+      "slug": "rowinta-vl",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Grand Slam VDL",
+      "dam": "Cornet Obolensky",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1125a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1125b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Yb1L5CYXTdY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1125-rowinta-vl",
+      "catalog_text": "Kleur: Bruin. Fokker: B. van Leur.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1126,
+      "name": "Rocky Zen Senti",
+      "slug": "rocky-zen-senti",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Arezzo VDL",
+      "dam": "Numero Uno",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1126a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1126b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ekAP0dzoPU0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1126-rocky-zen-senti",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: Fam. Hindriks.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1127,
+      "name": "Ricardo",
+      "slug": "ricardo",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Carrera VDL",
+      "dam": "Impressive VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1127a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1127b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=S89gPbA047k",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1127-ricardo",
+      "catalog_text": "Kleur: Bruin. Fokker: S. de Groot.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1128,
+      "name": "Rinchidee Dn",
+      "slug": "rinchidee-dn",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Dallas VDL",
+      "dam": "Etoulon VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1128a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1128b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=zYwmoSSG-k8",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1128-rinchidee-dn",
+      "catalog_text": "Kleur: Schimmel. Fokker: D. Noordhuis.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1129,
+      "name": "Rico",
+      "slug": "rico",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Arezzo VDL",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1129a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1129b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=1yoidSU7hVo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1129-rico",
+      "catalog_text": "Kleur: Zwart. Fokker: J. Koops.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1130,
+      "name": "Royal Blue N   Icsi Veulen",
+      "slug": "royal-blue-n-icsi-veulen",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Mr. Blue",
+      "dam": "Quidam De Revel",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1130a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1130b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=GJN4dccqQgw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1130-royal-blue-n---icsi-veulen",
+      "catalog_text": "Kleur: Bruin. Fokker: W. van Nispen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1132,
+      "name": "Rezzo",
+      "slug": "rezzo",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Arezzo VDL",
+      "dam": "Indoctro",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1132a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1132b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=OnlzsYwz_Ec",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1132-rezzo",
+      "catalog_text": "Kleur: Vos. Fokker: Stoeterij la Strade.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1133,
+      "name": "Ranieque Ww",
+      "slug": "ranieque-ww",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Grand Slam VDL",
+      "dam": "Hold Up Premier",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1133a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1133b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=-I6eJsAJifw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1133-ranieque-ww",
+      "catalog_text": "Kleur: Bruin. Fokker: Stal Wilting.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1134,
+      "name": "Ralaika L",
+      "slug": "ralaika-l",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Cum Laude",
+      "dam": "Wolfgang",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1134a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1134b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=heKvHEQrTxY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1134-ralaika-l",
+      "catalog_text": "Kleur: Bruin. Fokker: G.J. Lucas.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1135,
+      "name": "Rambo Van De Rheehoeve",
+      "slug": "rambo-van-de-rheehoeve",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Secret",
+      "dam": "Jazz",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1135a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1135b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=FjoZJL7JTnY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1135-rambo-van-de-rheehoeve",
+      "catalog_text": "Kleur: Bruin. Fokker: K. Roggen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1136,
+      "name": "Rinola Jl",
+      "slug": "rinola-jl",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Mac Madison",
+      "dam": "Dream Boy",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1136a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1136b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=NxJZe8EbcSw",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1136-rinola-jl",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Lensing.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1137,
+      "name": "Rockedine Sz",
+      "slug": "rockedine-sz",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Hardrock Z",
+      "dam": "Marlon",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1137a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1137b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=e_WzLsRb22c",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1137-rockedine-sz",
+      "catalog_text": "Kleur: Schimmel. Fokker: G.W.M. Zwartjens.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1138,
+      "name": "I Am Z",
+      "slug": "i-am-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "I'm Special De Muze",
+      "dam": "Canabis Z",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1138a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1138b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=IaHrCBSoH0Y",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1138-i-am-z",
+      "catalog_text": "Kleur: Vos. Fokker: M. Trip.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1139,
+      "name": "Romanof A",
+      "slug": "romanof-a",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "For Romance I",
+      "dam": "Wynton",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1139a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1139b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=LWRgMleB0UY",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1139-romanof-a",
+      "catalog_text": "Kleur: Zwart. Fokker: A. Adriaansen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1140,
+      "name": "Rasputin A",
+      "slug": "rasputin-a",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "For Romance I",
+      "dam": "Lancet",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1140a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1140b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=j1Me92_FMsk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1140-rasputin-a",
+      "catalog_text": "Kleur: Bruin. Fokker: A. Adriaansen.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1142,
+      "name": "Rhapsody Ee",
+      "slug": "rhapsody-ee",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "El Salvador",
+      "dam": "Canturano I",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1142a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1142b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=BEvsaJqxrWM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1142-rhapsody-ee",
+      "catalog_text": "Kleur: Bruin. Fokker: E. Punte.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1143,
+      "name": "Raevyn Shs",
+      "slug": "raevyn-shs",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Emerald Van 't Ruytershof",
+      "dam": "Zapatero VDL",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1143a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1143b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=3hbnI6ZMLqk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1143-raevyn-shs",
+      "catalog_text": "Kleur: Bruin. Fokker: J. Bron.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1144,
+      "name": "Ravel De Malval",
+      "slug": "ravel-de-malval",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Arezzo VDL",
+      "dam": "Contender",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1144a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1144b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=_r9TeawolFE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1144-ravel-de-malval",
+      "catalog_text": "Kleur: Bruin. Fokker: A. Holstein.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1145,
+      "name": "Royalty",
+      "slug": "royalty",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Gullit HBC",
+      "dam": "Douglas",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1145a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1145b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=SLuke_XRPKM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1145-royalty",
+      "catalog_text": "Kleur: Donkerbruin. Fokker: Celebrity Stables.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1146,
+      "name": "Leonardo Z",
+      "slug": "leonardo-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Lambourgini",
+      "dam": "Clinton I",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1146a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1146b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=rF6KmWf3GZE",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1146-leonardo-z",
+      "catalog_text": "Kleur: Bruin. Fokker: A.P. Oosterveld.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1148,
+      "name": "Rokade Bsw Et Veulen",
+      "slug": "rokade-bsw-et-veulen",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Glock's Toto Jr N.O.P.",
+      "dam": "Dream Boy",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1148a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1148b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=HZihWZnrERM",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1148-rokade-bsw-et-veulen",
+      "catalog_text": "Kleur: Vos. Fokker: B. Wichers.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1149,
+      "name": "Romario",
+      "slug": "romario",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Bonds",
+      "dam": "Westpoint",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1149a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1149b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=j4KWTSZ_zK0",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1149-romario",
+      "catalog_text": "Kleur: Bruin. Fokker: D. Markhorst-van der Velde.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1150,
+      "name": "Virginia",
+      "slug": "virginia",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Vivaldos",
+      "dam": "Stedinger",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1150a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1150b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=ile7AcVV9oI",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1150-virginia",
+      "catalog_text": "Kleur: Vos. Fokker: A. Oosterveld.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1151,
+      "name": "Ragnarok",
+      "slug": "ragnarok",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Glamourdale",
+      "dam": "Apache",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1151a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1151b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=cQftH7TU-lo",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1151-ragnarok",
+      "catalog_text": "Kleur: Bruin. Fokker: G. Sibma.",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 1152,
+      "name": "Rio Diamond W",
+      "slug": "rio-diamond-w",
+      "discipline": "Dressuur",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Mr. Diamond",
+      "dam": "Rhodium",
+      "photos": [
+        "https://www.starsaleauctions.com/storage/veulens/2021/1152a.jpg",
+        "https://www.starsaleauctions.com/storage/veulens/2021/1152b.jpg"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=gsyp_czyrEk",
+      "source_url": "https://www.starsaleauctions.com/veulens/2021/1152-rio-diamond-w",
+      "catalog_text": "Kleur: Zwart. Fokker: G. Wildeboer.",
+      "starting_bid": null
+    }
+  ]
+}

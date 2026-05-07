@@ -1,0 +1,373 @@
+{
+  "meta": {
+    "collection": "Zangersheide Live Stallion Auction @ Sentower Park 2023",
+    "house": "Zangersheide",
+    "house_country": "België",
+    "website": "https://www.zangersheide.com",
+    "date": "2023-02-18",
+    "location": "Online & Live",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T11:49:57.543Z",
+    "total": 17,
+    "data_source": "Zangersheide-scraper, slug=zangersheide-live-stallion-auction-sentower-park"
+  },
+  "horses": [
+    {
+      "lot_number": 1,
+      "name": "DON CAMILLON 123 Z",
+      "slug": "don-camillon-123-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "DER SENAAT 111",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/218-DON%20CAMILLON%20123%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/don-camillon-123-z",
+      "catalog_text": "Powerhouse by Ahlmann's superstar DOMINATOR 2000 Z!",
+      "starting_bid": 34000
+    },
+    {
+      "lot_number": 2,
+      "name": "U2 T&M",
+      "slug": "u2-t-m",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "174 cm",
+      "studbook": "BWP",
+      "sire": "EMERALD",
+      "dam": "TARAN DE LA POMME",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/208-U2%20T%26M.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/u2-t-m",
+      "catalog_text": "Emerald out of the dam line of 1m60 jumping FUNKY MUSIC!",
+      "starting_bid": 115000
+    },
+    {
+      "lot_number": 3,
+      "name": "MONSIEUR CLAUDE SB Z",
+      "slug": "monsieur-claude-sb-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "MILLION DOLLAR",
+      "dam": "PILOT",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/843-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/843-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/211-MONSIEUR%20CLAUDE%20SB%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/monsieur-claude-sb-z",
+      "catalog_text": "Million Dollar out of the dam line of SONORA LA SILLA!",
+      "starting_bid": 36000
+    },
+    {
+      "lot_number": 4,
+      "name": "ADAMSKI VLS Z",
+      "slug": "adamski-vls-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "173 cm",
+      "studbook": "Z",
+      "sire": "AMADEO VAN'T VOSSENHOF Z",
+      "dam": "SCENDRO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/212-ADAMSKI%20VLS%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/adamski-vls-z",
+      "catalog_text": "Modern sport stallion by Amadeo and Scendro!",
+      "starting_bid": 36000
+    },
+    {
+      "lot_number": 5,
+      "name": "ARCHIE T Z",
+      "slug": "archie-t-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "ASCA Z",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/213-ARCHIE%20T%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/archie-t-z",
+      "catalog_text": "Brother to 1m50 jumping LARKO DE LAUBRY!",
+      "starting_bid": 48000
+    },
+    {
+      "lot_number": 6,
+      "name": "DESPACITO VH MOLENHOF Z",
+      "slug": "despacito-vh-molenhof-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "175 cm",
+      "studbook": "Z",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "INAR C",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/220-DESPACITO%20VH%20MOLENHOF%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/despacito-vh-molenhof-z",
+      "catalog_text": "Dominator Z out of the sister to 1m60 jumping HAVINIA VAN DE ROSHOEVE & CICERO'S ISAURA!",
+      "starting_bid": 52000
+    },
+    {
+      "lot_number": 7,
+      "name": "UMBROSSO TER SPELONCK",
+      "slug": "umbrosso-ter-spelonck",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "174 cm",
+      "studbook": "BWP",
+      "sire": "DIAMANT DE SEMILLY",
+      "dam": "KANNAN",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/214-UMBROSSO%20TER%20SPELONCK.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/umbrosso-ter-spelonck",
+      "catalog_text": "Coloured star out of multiple winner of the 7y olds Kan Da ter Spelonck Z!",
+      "starting_bid": 58000
+    },
+    {
+      "lot_number": 8,
+      "name": "PAVAROTTI VAN DE SCHUTSKOOI",
+      "slug": "pavarotti-van-de-schutskooi",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "KWPN",
+      "sire": "AMADEO VAN'T VOSSENHOF Z",
+      "dam": "VIGARO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/221-PAVAROTTI%20VAN%20DE%20SCHUTSKOOI.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/pavarotti-van-de-schutskooi",
+      "catalog_text": "Athletic Amadeo out of a top performing international dam line!",
+      "starting_bid": 46000
+    },
+    {
+      "lot_number": 9,
+      "name": "CAP DU NORD",
+      "slug": "cap-du-nord",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "172 cm",
+      "studbook": "Holstein",
+      "sire": "CASALL",
+      "dam": "CLEARWAY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/217-CAP%20DU%20NORD.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/cap-du-nord",
+      "catalog_text": "Unique son of CASALL ASK out of an international dam line!",
+      "starting_bid": 42000
+    },
+    {
+      "lot_number": 10,
+      "name": "DEVIL 2000 Z",
+      "slug": "devil-2000-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "165 cm",
+      "studbook": "Z",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "CHIN CHIN",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/206-DEVIL%202000%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/devil-2000-z",
+      "catalog_text": "Brother to AKARAD HERO Z, ESPRIT DE LA ROQUE, JAGUAR DE TIJI & DON'T TOUCH TIJI HERO!",
+      "starting_bid": 190000
+    },
+    {
+      "lot_number": 11,
+      "name": "DIEGO VAN DE ZESHOEK TN Z",
+      "slug": "diego-van-de-zeshoek-tn-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "173 cm",
+      "studbook": "Z",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "QUITE CAPITOL",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/219-DIEGO%20VAN%20DE%20ZESHOEK%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/diego-van-de-zeshoek-z",
+      "catalog_text": "Dominator Z out of the dam line of ELDORADO VAN DE ZESHOEK!",
+      "starting_bid": 78000
+    },
+    {
+      "lot_number": 12,
+      "name": "AGASSI WS Z",
+      "slug": "agassi-ws-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "CASSINI I",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/215-AGASSI%20WS%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/agassi-ws-z",
+      "catalog_text": "From the direct dam line of CARETINA DE JOTER & CASSINI GOLD!",
+      "starting_bid": 90000
+    },
+    {
+      "lot_number": 13,
+      "name": "UNIKO HYLANDERHOF Z",
+      "slug": "uniko-hylanderhof-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "UNTOUCHABLE",
+      "dam": "NUMERO UNO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/210-UNIKO%20HYLANDERHOF%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/uniko-hylanderhof-z",
+      "catalog_text": null,
+      "starting_bid": 62000
+    },
+    {
+      "lot_number": 14,
+      "name": "COLVIS DE MUZE",
+      "slug": "colvis-de-muze",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Holstein",
+      "sire": "CORNET'S QUAPRICE (EX CORNETTO PB Z)",
+      "dam": "NABAB DE REVE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/222-COLVIS%20DE%20MUZE.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/colvis-de-muze",
+      "catalog_text": null,
+      "starting_bid": 68000
+    },
+    {
+      "lot_number": 15,
+      "name": "ELECTRIC VAN KONINGSHOF Z",
+      "slug": "electric-van-koningshof-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "164 cm",
+      "studbook": "Z",
+      "sire": "ECHO VAN T SPIEVELD",
+      "dam": "VOLTAIRE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/209-ELECTRIC%20VAN%20KONINGSHOF%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/electric-van-koningshof-z",
+      "catalog_text": "Son of Eric Lamaze's 1m60 jumping ATLETE VAN 'T HEIKE!",
+      "starting_bid": 50000
+    },
+    {
+      "lot_number": 16,
+      "name": "COLDPLAY VDM Z",
+      "slug": "coldplay-vdm-z",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "CHACFLY PS",
+      "dam": "MAUI LA SILLA",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/216-COLDPLAY%20VDM%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/coldplay-vdm-z",
+      "catalog_text": "Grandson of Nick Skelton's world famous DOLLAR GIRL!",
+      "starting_bid": 205000
+    },
+    {
+      "lot_number": 17,
+      "name": "DIAMANT TOUCHED LB",
+      "slug": "diamant-touched-lb",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "hengst",
+      "size": "168 cm",
+      "studbook": "Westfalen",
+      "sire": "DIAMANT DE SEMILLY",
+      "dam": "CORNET OBOLENSKY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/844-placeholder_portrait.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/207-DIAMANT%20TOUCHED%20LB.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-live-stallion-auction-sentower-park/diamant-touched-lb",
+      "catalog_text": null,
+      "starting_bid": 82000
+    }
+  ]
+}

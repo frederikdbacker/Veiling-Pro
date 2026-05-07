@@ -1,0 +1,415 @@
+{
+  "meta": {
+    "collection": "Zangersheide Stallion Auction @ Sentower Park 2025",
+    "house": "Zangersheide",
+    "house_country": "België",
+    "website": "https://www.zangersheide.com",
+    "date": "2025-02-15",
+    "location": "Online & Live",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T11:49:54.390Z",
+    "total": 19,
+    "data_source": "Zangersheide-scraper, slug=zangersheide-stallion-auction-sentower-park-2025"
+  },
+  "horses": [
+    {
+      "lot_number": 5,
+      "name": "POURLUI C&T Z",
+      "slug": "pourlui-c-t-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "PEGASE VAN 'T RUYTERSHOF",
+      "dam": "NONSTOP",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/9151-pourlui.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/9151-pourlui.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/9146-Pourlui%20C%26T%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/pourlui-c-t-z",
+      "catalog_text": "Pegase out of sister to three 1.60m jumpers!",
+      "starting_bid": 48000
+    },
+    {
+      "lot_number": 17,
+      "name": "BUMBLEBEE EC Z",
+      "slug": "bumblebee-ec-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "171 cm",
+      "studbook": "Z",
+      "sire": "BALOU DU REVENTON Z",
+      "dam": "CASALL",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/9175-bumblebee%20vert%202.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/9175-bumblebee%20vert%202.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/9174-bumblebee%202.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/bumblebee-ec-z",
+      "catalog_text": "Brother to 1.55m performing Dianca Z!",
+      "starting_bid": 62000
+    },
+    {
+      "lot_number": 24,
+      "name": "PROSECCO DU BONHEUR Z",
+      "slug": "prosecco-du-bonheur-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "164 cm",
+      "studbook": "Z",
+      "sire": "POKER DE MARIPOSA",
+      "dam": "E.T. CRYOZOOTECH Z (CL)",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/07/9167-prosceco%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/9167-prosceco%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/9168-prosceco.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/prosecco-du-bonheur-z",
+      "catalog_text": "Eyecatcher out of the line of Emerald!",
+      "starting_bid": 22000
+    },
+    {
+      "lot_number": 31,
+      "name": "WOLFGANG JB",
+      "slug": "wolfgang-jb",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "BWP",
+      "sire": "ESCAPE Z",
+      "dam": "CATOKI Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/9154-wolfgang.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/9154-wolfgang.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/9138-Wolfgang%20JB.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/wolfgang-jb",
+      "catalog_text": "Brother to 5yo Belgian Championship Gold Medal Winner!",
+      "starting_bid": 34000
+    },
+    {
+      "lot_number": 42,
+      "name": "CENTO Z",
+      "slug": "cento-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "171 cm",
+      "studbook": "Z",
+      "sire": "CHATINUE",
+      "dam": "CANTURANO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/9181-cento%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/9181-cento%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/9180-cento.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/cento-z",
+      "catalog_text": "Powerhouse closely related to eight 1.50m - 1.60m performers!",
+      "starting_bid": 66000
+    },
+    {
+      "lot_number": 44,
+      "name": "UNIVERS DELUXE Z",
+      "slug": "univers-deluxe-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "UNITED TOUCH S",
+      "dam": "EXCALIBUR DE LA TOUR VIDAL",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/9152-univers.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/9152-univers.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/9143-Univers%20Deluxe%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/univers-deluxe-z",
+      "catalog_text": "Spectacular son of United Touch S out of direct damline Ayade de Septon HDC!",
+      "starting_bid": 100000
+    },
+    {
+      "lot_number": 45,
+      "name": "CHARCOAL VD BERGHOEVE Z",
+      "slug": "charcoal-vd-berghoeve-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "CHACCO-BLUE",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/9163-charcoal.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/9163-charcoal.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/9140-Charcoal%20vd%20Berghoeve%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/charcoal-vd-berghoeve-z",
+      "catalog_text": "Phenomenal son of MoM’s Gatoucha van’t Roosakker!",
+      "starting_bid": 125000
+    },
+    {
+      "lot_number": 60,
+      "name": "MADNIK D",
+      "slug": "madnik-d",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "175 cm",
+      "studbook": "Holstein",
+      "sire": "MADNESS",
+      "dam": "DINKEN",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/9155-madnik.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/9155-madnik.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/9145-Madnik%20D.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/madnik-d",
+      "catalog_text": "Grandson of Janne Friederike Meyer’s 1.60m jumping Bali 32!",
+      "starting_bid": 52000
+    },
+    {
+      "lot_number": 66,
+      "name": "CANOUBIO S",
+      "slug": "canoubio-s",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Oldenburger Springpferd",
+      "sire": "CONTHALOU",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/9165-canubio.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/9165-canubio.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/9166-canubio.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/canoubio-s",
+      "catalog_text": "Roosakker quality at its best!",
+      "starting_bid": 56000
+    },
+    {
+      "lot_number": 71,
+      "name": "WARRIOR ST.HUBERTUSHOEVE",
+      "slug": "warrior-st-hubertushoeve",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "BWP",
+      "sire": "COMMANDER HK Z",
+      "dam": "CICERO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/09/9149-warrior.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/9149-warrior.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/9137-Warrior%20St.%20Hubertushoeve.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/warrior-st-hubertushoeve",
+      "catalog_text": "Striking and athletic stallion out of international performing family!",
+      "starting_bid": 28000
+    },
+    {
+      "lot_number": 79,
+      "name": "SJORS VAN HET LOO",
+      "slug": "sjors-van-het-loo",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "KWPN",
+      "sire": "MESSINI DE F",
+      "dam": "PADINUS",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/9176-sjors%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/9176-sjors%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/9177-sjors.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/sjors-van-het-loo",
+      "catalog_text": "Black eye-catcher out of damline Gold Medal winner Pan Am Games IVAR!",
+      "starting_bid": 28000
+    },
+    {
+      "lot_number": 81,
+      "name": "COSMOS VAN DEN DOORN Z",
+      "slug": "cosmos-van-den-doorn-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "CHACCO-BLUE",
+      "dam": "ARKO III",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/9164-cosmos.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/9164-cosmos.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/9134-Cosmos%20van%20den%20Doorn%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/cosmos-van-den-doorn-z",
+      "catalog_text": "Powerful son of 1.55m jumping Jakarta Royals D.S., sired by Chacco Blue!",
+      "starting_bid": 46000
+    },
+    {
+      "lot_number": 85,
+      "name": "SIR DOMINATOR DDH",
+      "slug": "sir-dominator-ddh",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "KWPN",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "QUIWI DREAM",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/9153-sir%20dominator.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/9153-sir%20dominator.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/9141-Sir%20Dominator.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/sir-dominator",
+      "catalog_text": "The power of Dominator 2000 Z meets the star studded family of Capitol I!",
+      "starting_bid": 46000
+    },
+    {
+      "lot_number": 99,
+      "name": "ARMSTRONG",
+      "slug": "armstrong",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "166 cm",
+      "studbook": "Holstein",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "CORDOBES II",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/09/9159-Amstrong.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/9159-Amstrong.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/9147-Armstrong.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/armstrong",
+      "catalog_text": "Striking brother of GP winner and 1.60m performing D Mark 2!",
+      "starting_bid": 52000
+    },
+    {
+      "lot_number": 101,
+      "name": "AMADEUS SIH Z",
+      "slug": "amadeus-sih-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "COMME IL FAUT",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/9183-amadeus%20vert.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/9183-amadeus%20vert.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/9182-amadeus.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/amadeus-sih-z",
+      "catalog_text": "Son of 1.55m performing I’m Special Power SIH, out of the line of 1.65m Fellow Castlefield!",
+      "starting_bid": 44000
+    },
+    {
+      "lot_number": 106,
+      "name": "VINOCELLO BV",
+      "slug": "vinocello-bv",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "172 cm",
+      "studbook": "BWP",
+      "sire": "NAXCEL V",
+      "dam": "LECTOR VD BISSCHOP",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/00/9150-vinocello.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/9150-vinocello.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/9135-Vinocello%20BV.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/vinocello-bv",
+      "catalog_text": "Out of sister to five 1.50m - 1.60m performers - family of Artos Z!",
+      "starting_bid": 42000
+    },
+    {
+      "lot_number": 109,
+      "name": "DOMINANCE 2000 Z",
+      "slug": "dominance-2000-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "174 cm",
+      "studbook": "Z",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "ECHO VAN T SPIEVELD",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/9162-dominance.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/9162-dominance.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/9142-Dominance%202000%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/dominance-2000-z",
+      "catalog_text": "Exceptional grandson of Electra van ‘t Roosakker!",
+      "starting_bid": 120000
+    },
+    {
+      "lot_number": 110,
+      "name": "QUQUSETTETE DI VILLAGANA",
+      "slug": "ququsettete-di-villagana",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "165 cm",
+      "studbook": "Sella Italiano",
+      "sire": "BALOU DU REVENTON Z",
+      "dam": "ANDIAMO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/9184-ququsettete%20vert.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/9184-ququsettete%20vert.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/9185-ququsettete.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/ququsettete-di-villagana",
+      "catalog_text": "Brother of Olympic Gold Medalist H&M All In!",
+      "starting_bid": 72000
+    },
+    {
+      "lot_number": 119,
+      "name": "VDM DE MUZE",
+      "slug": "vdm-de-muze",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "174 cm",
+      "studbook": "BWP",
+      "sire": "EMERALD",
+      "dam": "MARIUS CLAUDIUS",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/08/9188-VDM%20de%20Muze%20vert.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/9188-VDM%20de%20Muze%20vert.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/9189-VDM%20de%20Muze.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-sentower-park-2025/vdm-de-muze",
+      "catalog_text": "1.55m jumping Chatel de la Pomme - Gazelle de la Pomme - Sauterelle de la Pomme!",
+      "starting_bid": 72000
+    }
+  ]
+}

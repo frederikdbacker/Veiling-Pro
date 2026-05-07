@@ -1,0 +1,394 @@
+{
+  "meta": {
+    "collection": "Zangersheide Stallion Auction 2026",
+    "house": "Zangersheide",
+    "house_country": "België",
+    "website": "https://www.zangersheide.com",
+    "date": "2026-02-28",
+    "location": "Online & Live",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T11:45:33.413Z",
+    "total": 18,
+    "data_source": "Zangersheide-scraper, slug=zangersheide-stallion-auction-2026"
+  },
+  "horses": [
+    {
+      "lot_number": 2,
+      "name": "AVENTI VAN’T GOBENHOF",
+      "slug": "aventi-van-t-gobenhof",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "BWP",
+      "sire": "UNITED TOUCH S",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/11051-Aventi%20van%27t%20Gobenhof.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/11051-Aventi%20van%27t%20Gobenhof.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/11037-Avanti%20van%27t%20Gobenhof.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/aventi-van-t-gobenhof",
+      "catalog_text": "United Touch S x Diamant de Semilly; Olympic blood combined!",
+      "starting_bid": 60000
+    },
+    {
+      "lot_number": 15,
+      "name": "CAYENNE VAN 'T KIEZELHOF Z",
+      "slug": "cayenne-van-t-kiezelhof-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "168 cm",
+      "studbook": "Z",
+      "sire": "CAVALIER RUSSE Z",
+      "dam": "KASSANDER VAN'T ROOSAKKER Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/09/11079-cayenne.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/11079-cayenne.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/11078-Cayenne%20van%27t%20Kiezelhof%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/cayenne-van-t-kiezelhof-z",
+      "catalog_text": "Grandson of 1m60 jumping COLIBELLE HERO Z (Darragh Kenny)",
+      "starting_bid": 30000
+    },
+    {
+      "lot_number": 20,
+      "name": "CADIX DU BERLIOZ",
+      "slug": "cadix-du-berlioz",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "168 cm",
+      "studbook": "Oldenburger Springpferd",
+      "sire": "CASINO BERLIN",
+      "dam": "AGANIX DU SEIGNEUR Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/11061-Cadix%20du%20Berlioz.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/11061-Cadix%20du%20Berlioz.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/11044-Cadix%20du%20Berlioz.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/cadix-du-berlioz",
+      "catalog_text": "Athletic power meets Aganix du Seigneur Z scope!",
+      "starting_bid": 86000
+    },
+    {
+      "lot_number": 21,
+      "name": "ASAP VAN DE PADENBORRE",
+      "slug": "asap-van-de-padenborre",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "168 cm",
+      "studbook": "BWP",
+      "sire": "ERMITAGE KALONE",
+      "dam": "IRON MAN VAN DE PADENBORRE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/07/11067-Asap%20van%20de%20Padenborre.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/11067-Asap%20van%20de%20Padenborre.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/11034-Asap%20van%20de%20Padenborre.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/asap-van-de-padenborre",
+      "catalog_text": "ERMITAGE KALONE power!",
+      "starting_bid": 54000
+    },
+    {
+      "lot_number": 23,
+      "name": "EPIC WALDSTAR Z",
+      "slug": "epic-waldstar-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "168 cm",
+      "studbook": "Z",
+      "sire": "EMERALD",
+      "dam": "THUNDER VAN DE ZUUTHOEVE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/11064-Epic%20Waldstar%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/11064-Epic%20Waldstar%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/11031-Epic%20Waldstar%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/epic-waldstar-z",
+      "catalog_text": "Son of Jessica Springsteens 1m65 jumping FLEUR DE L'AUBE!",
+      "starting_bid": 82000
+    },
+    {
+      "lot_number": 24,
+      "name": "CHAMPION Z",
+      "slug": "champion-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "CHACCO-BLUE",
+      "dam": "KASSANDER VAN'T ROOSAKKER Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/00/11060-Champion%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/11060-Champion%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/11036-Champion%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/champion-z",
+      "catalog_text": "Brother of Dourking Hero Z, out of QUEEN KINMAR HERO!",
+      "starting_bid": 165000
+    },
+    {
+      "lot_number": 31,
+      "name": "EXCLUSIVE Z",
+      "slug": "exclusive-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "163 cm",
+      "studbook": "Z",
+      "sire": "EPLEASER VAN 'T HEIKE Z",
+      "dam": "TALOUBET Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/11063-Exclusive%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/11063-Exclusive%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/11033-Exclusive%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/exclusive-z",
+      "catalog_text": "Out of the sister to Olympic champion BIG STAR!",
+      "starting_bid": 52000
+    },
+    {
+      "lot_number": 34,
+      "name": "CHOUFFE VAN 'T HOOGEINDE Z",
+      "slug": "chouffe-van-t-hoogeinde-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "165 cm",
+      "studbook": "Z",
+      "sire": "CONTHARGOS",
+      "dam": "NIXON VAN 'T MEULENHOF",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/11065-Chouffe%20van%20%27t%20Hoogeinde%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/11065-Chouffe%20van%20%27t%20Hoogeinde%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/11042-Chouffe%20van%20%27t%20Hoogeinde%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/chouffe-van-t-hoogeinde-z",
+      "catalog_text": "The brilliance of the Roosakker line!",
+      "starting_bid": 50000
+    },
+    {
+      "lot_number": 46,
+      "name": "HIGHLANDER SH L3B Z",
+      "slug": "highlander-sh-l3b-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "HEARTBREAKER",
+      "dam": "QUICKLY DE KREISKER",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/00/11070-Highlander%20SH%20L3B%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/11070-Highlander%20SH%20L3B%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/11030-Highlander%20SH%20L3B%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/highlander-sh-l3b-z",
+      "catalog_text": "Out of sister to RIESLING VAN’T ROOSAKKER!",
+      "starting_bid": 50000
+    },
+    {
+      "lot_number": 59,
+      "name": "UNO VD BERGHOEVE Z",
+      "slug": "uno-vd-berghoeve-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "URICAS V/D KATTEVENNEN",
+      "dam": "VIGO D'ARSOUILLES",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/11074-Uno%20vd%20Berghoeve%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/11074-Uno%20vd%20Berghoeve%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/11026-Uno%20vd%20Berghoeve%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/uno-vd-berghoeve-z",
+      "catalog_text": "URICAS VAN DE KATTEVENNEN out of 1.55m Grand Prix mare ONATELLA VAN’T ROOSAKKER!",
+      "starting_bid": 60000
+    },
+    {
+      "lot_number": 63,
+      "name": "DAKOTA M Z",
+      "slug": "dakota-m-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "DORIAN GREY TN Z (EX. DORIAN GREY BR Z)",
+      "dam": "CARDENTO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/11081-Dakota%20M%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/11081-Dakota%20M%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/11080-Dakota%20M%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/dakota-m-z",
+      "catalog_text": "Scope, carefulness & blood!",
+      "starting_bid": 46000
+    },
+    {
+      "lot_number": 66,
+      "name": "CHILL OUT ZOETENDAELE Z",
+      "slug": "chill-out-zoetendaele-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "172 cm",
+      "studbook": "Z",
+      "sire": "CHACCO-BLUE",
+      "dam": "ERCO VAN 'T ROOSAKKER",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/11056-Chill%20Out%20Zoetendaele%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/11056-Chill%20Out%20Zoetendaele%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/11019-Chill%20Out%20Zoetendaele%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/chill-out-zoetendaele-z",
+      "catalog_text": "The scope from Calgary winner CANDY!",
+      "starting_bid": 50000
+    },
+    {
+      "lot_number": 73,
+      "name": "CIVETTO",
+      "slug": "civetto",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "175 cm",
+      "studbook": "Oldenburger Springpferd",
+      "sire": "CHECKER",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/11091-civetto%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/11091-civetto%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/11087-73-395944-288_5604.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/civetto",
+      "catalog_text": "Sublime quality and technique!",
+      "starting_bid": 40000
+    },
+    {
+      "lot_number": 80,
+      "name": "POMEROL DE SEPTON Z",
+      "slug": "pomerol-de-septon-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "PEGASE VAN 'T RUYTERSHOF",
+      "dam": "CALVARO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/00/11090-pomerol%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/11090-pomerol%20vertical.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/11089-Pomerol%20de%20Septon%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/pomerol-de-septon-z",
+      "catalog_text": "PEGASE VAN’T RUYTERSHOF combined with 1.50m jumping ESPRIT!",
+      "starting_bid": 70000
+    },
+    {
+      "lot_number": 81,
+      "name": "TOLENTINO Z",
+      "slug": "tolentino-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "172 cm",
+      "studbook": "Z",
+      "sire": "TOÈMME DE REGOR Z",
+      "dam": "CASALL",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/11086-394672-288_3125.jpg",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/11086-394672-288_3125.jpg",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/11084-Tolentino.png"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/tolentino-z",
+      "catalog_text": "First generation of TOÈMME DE REGOR Z!",
+      "starting_bid": 42000
+    },
+    {
+      "lot_number": 85,
+      "name": "TIJUANA BG Z",
+      "slug": "tijuana-bg-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "TOBAGO Z",
+      "dam": "BALOUBET DU ROUET",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/11072-Tijuana%20BG%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/11072-Tijuana%20BG%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/11024-Tijuana%20BG%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/tijuana-bg-z",
+      "catalog_text": "Precision and scope from Tobago Z and Baloubet du Rouet combined!",
+      "starting_bid": 58000
+    },
+    {
+      "lot_number": 103,
+      "name": "HALITO VAN DE WITTERT Z",
+      "slug": "halito-van-de-wittert-z",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "HEARTBREAKER",
+      "dam": "MALITO DE REVE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/11083-HALITO.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/11083-HALITO.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/11085-394891-288_3571.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/halito-van-de-wittert-z",
+      "catalog_text": "Exquisite grandson of WALNUT DE MUZE!",
+      "starting_bid": 42000
+    },
+    {
+      "lot_number": 114,
+      "name": "CEEWATCH LL Z",
+      "slug": "ceewatch-ll-z",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "hengst",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "CHACCO-BLUE",
+      "dam": "CANABIS Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/11055-Ceewatch%20LL%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/11055-Ceewatch%20LL%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/11023-Ceewatch%20LL%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026/ceewatch-ll-z",
+      "catalog_text": "Direct damline of the Olympic HARDROCK Z!",
+      "starting_bid": 50000
+    }
+  ]
+}

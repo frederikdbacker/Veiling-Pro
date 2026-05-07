@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "collection": "Zangersheide Quality Jumpers - powered by MBA 2024",
+    "house": "Zangersheide",
+    "house_country": "België",
+    "website": "https://www.zangersheide.com",
+    "date": "2024-09-19",
+    "location": "Online & Live",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T11:49:51.782Z",
+    "total": 26,
+    "data_source": "Zangersheide-scraper, slug=zangersheide-quality-jumpers-powered-by-mba"
+  },
+  "horses": [
+    {
+      "lot_number": 1,
+      "name": "DIRTY DIANA TD Z",
+      "slug": "dirty-diana-td-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": "162 cm",
+      "studbook": "Z",
+      "sire": "DOURKHAN HERO Z",
+      "dam": "BALOU DU ROUET",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/09/8239-Dirty%20Diana%20Td%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/8239-Dirty%20Diana%20Td%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/8218-Dirty%20Diana%20TD%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/dirty-diana-td-z",
+      "catalog_text": "Eye-catching sports mare by the great DOURKHAN HERO Z!",
+      "starting_bid": 36000
+    },
+    {
+      "lot_number": 2,
+      "name": "ARIBA AXELHOEVE Z",
+      "slug": "ariba-axelhoeve-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": "164 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "HEARTBREAKER",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/8245-Ariba%20Axelhoeve%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/8245-Ariba%20Axelhoeve%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/8217-Ariba%20Axelhoeve%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/ariba-axelhoeve-z",
+      "catalog_text": "Hopes are high for this scopey daughter of AGANIX DU SEIGNEUR Z!",
+      "starting_bid": 54000
+    },
+    {
+      "lot_number": 3,
+      "name": "FREAKY DANCER Z",
+      "slug": "freaky-dancer-z",
+      "discipline": "Springen",
+      "year": 2016,
+      "gender": "ruin",
+      "size": "160 cm",
+      "studbook": "Z",
+      "sire": "FOR PLEASURE",
+      "dam": "CARTHAGO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/7515-freaky.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/7515-freaky.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/7574-3Q4A9954.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/freaky-dancer-z",
+      "catalog_text": "The legacy of Cha Cha Z shines bright!",
+      "starting_bid": 240000
+    },
+    {
+      "lot_number": 4,
+      "name": "BARACK Z",
+      "slug": "barack-z",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": "166 cm",
+      "studbook": "Westfalen",
+      "sire": "BALOUNITO",
+      "dam": "ARPEGGIO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/7504-Barack%20picture.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/7504-Barack%20picture.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/7565-Barack%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/barack-z",
+      "catalog_text": "Talent and mindset to bring you all the way!",
+      "starting_bid": 365000
+    },
+    {
+      "lot_number": 5,
+      "name": "CHAC-OLA NGS Z",
+      "slug": "chac-ola-ngs-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "CHACOON BLUE",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/8243-Chac-Ola%20Ngs%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/8243-Chac-Ola%20Ngs%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/8219-Chac-Ola%20NGS%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/chac-ola-ngs-z",
+      "catalog_text": "Mordern jumper out of full sister to 1.60m jumping QUIVALA!",
+      "starting_bid": 58000
+    },
+    {
+      "lot_number": 6,
+      "name": "AY CARAMBA Z",
+      "slug": "ay-caramba-z",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "hengst",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "CROWNTANO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/7606-Ay%20Caramba%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/7606-Ay%20Caramba%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/7564-Ay%20Caramba%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/ay-caramba-z",
+      "catalog_text": "Son of Aganix ready to conquer world stages!",
+      "starting_bid": 900000
+    },
+    {
+      "lot_number": 7,
+      "name": "ANNAN Z",
+      "slug": "annan-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": "165 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "CANTURO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/8246-Annan%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/8246-Annan%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/8215-Annan%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/annan-z",
+      "catalog_text": "Exquisite sister to Beerbaum's approved stallion, Aberdeen Z!",
+      "starting_bid": 240000
+    },
+    {
+      "lot_number": 8,
+      "name": "DOLOMITE Z",
+      "slug": "dolomite-z",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "hengst",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "DIAMANT DE SEMILLY",
+      "dam": "CARETANO Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/03/7493-Dolomite%20Z%20V2.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/7493-Dolomite%20Z%20V2.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/7571-Dolomite%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/dolomite-z",
+      "catalog_text": "Approved stallion with all the scope and quality!",
+      "starting_bid": 310000
+    },
+    {
+      "lot_number": 9,
+      "name": "DANGER Z",
+      "slug": "danger-z",
+      "discipline": "Springen",
+      "year": 2016,
+      "gender": "merrie",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "CALVADOS Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/7506-Danger%20z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/7506-Danger%20z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/7570-Danger%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/danger-z",
+      "catalog_text": "Competitive granddaughter of Grande Dame Z!",
+      "starting_bid": 295000
+    },
+    {
+      "lot_number": 10,
+      "name": "CHAC PLEASURE Z",
+      "slug": "chac-pleasure-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "ruin",
+      "size": "170 cm",
+      "studbook": "Z",
+      "sire": "CHACOON BLUE",
+      "dam": "FOR PLEASURE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/06/8236-Chac%20Pleasure%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/8236-Chac%20Pleasure%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/8222-Chac%20Pleasure%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/chac-pleasure-z",
+      "catalog_text": "Striking talent on his road to succes!",
+      "starting_bid": 28000
+    },
+    {
+      "lot_number": 11,
+      "name": "KANE Z",
+      "slug": "kane-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "KASHMIR VAN SCHUTTERSHOF",
+      "dam": "KANNAN",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/8241-Kane%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/8241-Kane%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/8214-Kane%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/kane-z",
+      "catalog_text": "Powerhouse out of the famous 'Roosakker' dynasty!",
+      "starting_bid": 36000
+    },
+    {
+      "lot_number": 12,
+      "name": "DEEJAY J",
+      "slug": "deejay-j",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "ruin",
+      "size": "171 cm",
+      "studbook": "Westfalen",
+      "sire": "DOMINATOR 2000 Z",
+      "dam": "CORONINO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/09/7499-Deeja%20J.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/7499-Deeja%20J.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/7569-Deejay%20J.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/deejay-j",
+      "catalog_text": "Grand Prix prospect with abundance of quality!",
+      "starting_bid": 240000
+    },
+    {
+      "lot_number": 13,
+      "name": "COLUMBIA 38 Z",
+      "slug": "columbia-38-z",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "merrie",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "COLUMBUS Z",
+      "dam": "COCKTAIL JET",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/01/7561-Columbia%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/7561-Columbia%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/7568-Columbia%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/columbia-z",
+      "catalog_text": "Success runs in her family!",
+      "starting_bid": 115000
+    },
+    {
+      "lot_number": 14,
+      "name": "AMBIANCE Z",
+      "slug": "ambiance-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": "160 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "CHELLANO ALPHA Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/8242-Ambiance%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/8242-Ambiance%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/8216-Ambiance%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/ambiance-z",
+      "catalog_text": "Spectacular daughter of Aganix out of the HARDROCK Z family!",
+      "starting_bid": 44000
+    },
+    {
+      "lot_number": 15,
+      "name": "CHACNAN VAN HET WEIDEHOF Z",
+      "slug": "chacnan-van-het-weidehof-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "172 cm",
+      "studbook": "Z",
+      "sire": "CHACCO-BLUE",
+      "dam": "KANNAN",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/05/8235-Chacnan%20van%20het%20Weidehof%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/8235-Chacnan%20van%20het%20Weidehof%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/8224-Chacnan%20van%20het%20Weidehof%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/chacnan-van-het-weidehof-z",
+      "catalog_text": "Ready to conquer the world in 'Roosakker' Style!",
+      "starting_bid": 110000
+    },
+    {
+      "lot_number": 16,
+      "name": "CODEX DIAZ Z",
+      "slug": "codex-diaz-z",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "hengst",
+      "size": "167 cm",
+      "studbook": "Z",
+      "sire": "CODEX ONE Z",
+      "dam": "CORNET OBOLENSKY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/09/7559-Codex%20Diaz%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/09/7559-Codex%20Diaz%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/7567-Codex%20Diaz%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/codex-diaz-z",
+      "catalog_text": "Approved stallion in the footsteps of his Aachen Grand Prix winning sire, Codex One Z!",
+      "starting_bid": 1000000
+    },
+    {
+      "lot_number": 17,
+      "name": "CALA LLAMP",
+      "slug": "cala-llamp",
+      "discipline": "Springen",
+      "year": 2015,
+      "gender": "merrie",
+      "size": "167 cm",
+      "studbook": "Deutsches Reitpferd (German Ridinghorse)",
+      "sire": "COCKTAIL JET",
+      "dam": "CAMAX L",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/7602-Cala%20Llamp.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/7602-Cala%20Llamp.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/7566-Cala%20Llamp.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/cala-llamp",
+      "catalog_text": "Quality, mindset, experience - she's got it!",
+      "starting_bid": 180000
+    },
+    {
+      "lot_number": 18,
+      "name": "DENZEL THE ONE Z",
+      "slug": "denzel-the-one-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "165 cm",
+      "studbook": "Z",
+      "sire": "DIABLUE PS",
+      "dam": "OGANO SITTE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/00/8240-Denzel%20The%20One%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/8240-Denzel%20The%20One%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/01/8221-Denzel%20The%20One%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/denzel-the-one-z",
+      "catalog_text": "Extraordinary young stallion with the scope you need!",
+      "starting_bid": 98000
+    },
+    {
+      "lot_number": 19,
+      "name": "PEDROSA 26 Z",
+      "slug": "pedrosa-26-z",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "merrie",
+      "size": "169 cm",
+      "studbook": "Z",
+      "sire": "PLOT BLUE",
+      "dam": "LORD Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/00/7560-Pedrosa%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/7560-Pedrosa%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/05/7575-Pedrosa%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/pedrosa-26-z",
+      "catalog_text": "A sporty and modern daughter of Plot Blue!",
+      "starting_bid": 165000
+    },
+    {
+      "lot_number": 20,
+      "name": "NARMER Z",
+      "slug": "narmer-z",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "ruin",
+      "size": "171 cm",
+      "studbook": "Z",
+      "sire": "NIXON VAN 'T MEULENHOF",
+      "dam": "PETER PAN",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/7502-Narmer%20picture.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/7502-Narmer%20picture.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/06/7576-Narmer%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/narmer-z",
+      "catalog_text": "5-yo talent with power and blood for a GP future!",
+      "starting_bid": 150000
+    },
+    {
+      "lot_number": 21,
+      "name": "CALIMERO NJH Z",
+      "slug": "calimero-njh-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "CATOKI Z",
+      "dam": "DIAMANT DE SEMILLY",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/08/8238-Calimero%20Njh%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/8238-Calimero%20Njh%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/8223-Calimero%20NJH%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/calimero-njh-z",
+      "catalog_text": "Abundance of quality by CATOKI Z!",
+      "starting_bid": 54000
+    },
+    {
+      "lot_number": 22,
+      "name": "ECLAIRE Z",
+      "slug": "eclaire-z",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "merrie",
+      "size": "172 cm",
+      "studbook": "Z",
+      "sire": "EPLEASER VAN 'T HEIKE Z",
+      "dam": "STAKKATO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/08/7558-Eclaire%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/08/7558-Eclaire%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/7572-Eclaire%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/eclaire-z-1",
+      "catalog_text": "Quality, will and ability for the biggest tasks!",
+      "starting_bid": 235000
+    },
+    {
+      "lot_number": 23,
+      "name": "COCO Z",
+      "slug": "coco-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "merrie",
+      "size": "162 cm",
+      "studbook": "Z",
+      "sire": "CARIBIS Z",
+      "dam": "CALVADOS Z",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/07/8237-Coco%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/8237-Coco%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/00/8220-Coco%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/coco-z",
+      "catalog_text": "Exceptional quality like her sire Caribis Z",
+      "starting_bid": 54000
+    },
+    {
+      "lot_number": 24,
+      "name": "ALISHA Z",
+      "slug": "alisha-z",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "merrie",
+      "size": "166 cm",
+      "studbook": "Z",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "CARETELLO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/07/7557-Alisha%20z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/07/7557-Alisha%20z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/7563-Alisha%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/alisha-z",
+      "catalog_text": "Aganix daughter with World Championship experience!",
+      "starting_bid": 120000
+    },
+    {
+      "lot_number": 25,
+      "name": "DI AMORE XS Z",
+      "slug": "di-amore-xs-z",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": "162 cm",
+      "studbook": "Z",
+      "sire": "DOURKHAN HERO Z",
+      "dam": "CHACCO-BLUE",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/04/8244-Di%20Amore%20Xs%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/04/8244-Di%20Amore%20Xs%20Z.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/8213-Di%20Amore%20XS%20Z.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/di-amore-xs-z",
+      "catalog_text": "Brilliant son of DOURKHAN HERO Z out of 1.60m jumping BRILJANT!",
+      "starting_bid": 66000
+    },
+    {
+      "lot_number": 26,
+      "name": "EDMOND US",
+      "slug": "edmond-us",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": "177 cm",
+      "studbook": "Holstein",
+      "sire": "ELDORADO VAN DE ZESHOEK",
+      "dam": "LASINO",
+      "photos": [
+        "https://www.zangersheide.com/uploads/media/portrait_medium/02/7562-Edmond%20US.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/02/7562-Edmond%20US.png",
+        "https://www.zangersheide.com/uploads/media/landscape_medium/03/7573-Edmond%20US.jpg"
+      ],
+      "video_url": "https://www.youtube.com/channel/UCCFsRKTDtmQ4Ov9PVWoG3-Q",
+      "source_url": "https://www.zangersheide.com/nl/auctions/zangersheide-quality-jumpers-powered-by-mba/edmond-us",
+      "catalog_text": "Grand Prix prospect for the big tracks!",
+      "starting_bid": 110000
+    }
+  ]
+}

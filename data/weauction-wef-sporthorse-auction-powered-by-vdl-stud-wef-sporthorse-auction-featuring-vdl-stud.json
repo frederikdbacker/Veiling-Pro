@@ -1,0 +1,229 @@
+{
+  "meta": {
+    "collection": "WEF Sporthorse Auction (Featuring VDL Stud)",
+    "house": "WEF Sporthorse Auction powered by VDL Stud",
+    "website": "https://bid.wefsporthorseauction.com",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T13:47:45.831Z",
+    "total": 12,
+    "data_source": "weauction-scraper (Puppeteer), https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341"
+  },
+  "horses": [
+    {
+      "name": "VDL Kiefer, gelding by Douglas VDL",
+      "slug": "vdl-kiefer-gelding-by-douglas-vdl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/bc8c9b88-0008-4345-b04d-8d8613a40be4.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Kiefer is a 6-years-old potential International Level horse, quick from the ground and a lot of scope.''\r\n\r\n3.\tVDL Kiefer – Gelding – Chestnut – Born 2015 – Height: M  Competing at Level: 1.20m.\r\n\r\nVDL Kiefer is a son of Douglas VDL combined with Legend Cardento. VDL Kiefer is a horse with blood and lots of quality. He is good to ride and has a balanced canter. He jumps with a very good technique in front and back. He is quick from the ground and has lot of scope. VDL Kiefer is a potential International Level horse.\r\n\r\nSire: Douglas has always been a true powerhouse – both as a showjumper himself as well as in breeding. This spectacular son of Darco produced numerous Grand Prix jumpers, like the world-famous Suma’s Zorro (Sameh El Dahan), Dougie Douglas (Katherine Dinan), Dallas VDL (Jur Vrieling) and many more. With his extreme power and push from the floor, Douglas keeps on delivering top talents.\r\n\r\nDam: Fresia van Olivia VDL was bred out of one of the best lines of VDL Stud. Granddam Olivia Rouge is the full sister to top sire and showjumper Papillon Rouge and was thus bred out of one of the leading French families. Fresia’s dam Nolivia is the granddam to the highly successful breeding stallion Glennfiddich VDL.\r\n\r\nDam’s sire: Cardento is without a doubt one of the most influential stallions of the moment. In addition to his successful sports career ridden by Sweden’s Peter Eriksson, Cardento became one of the world’s leading sires with offspring like Carrera VDL, GDE Matrix, Flip’s Little Sparrow, Zacramento and many more.\r\n\r\nGranddam’s sire: Nimmerdor was officially awarded ‘Stallion of the Century’ and has put Dutch breeding of showjumpers on the map world-wide. The all-time greatest VDL stallion still lives on through his countless approved sons and grandsons as well as through his phenomenal daughters and granddaughters. Heartbreaker, Ahorn, Wellington, Goodtimes, Hamlet, Aldato – the list is impressive and almost endless.",
+      "starting_bid": null
+    },
+    {
+      "name": "Lovely Boy, gelding by Arezzo VDL",
+      "slug": "lovely-boy-gelding-by-arezzo-vdl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/eb259876-ac9b-4247-bf21-37ce4a3abd79.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''Lovely Boy is a 5-years-old gelding with lots of potential and can grow out to be a Grand Prix.''\r\n\r\n1.\tVDL Lovely Boy – Gelding – Chestnut – Born 2016 – Height: L – Level Competing at: 1.20m.\r\n\r\nVDL Lovely Boy  is an Arezzo VDL son out of a proven sport Family. He is a very modern type horse with good length in de body. He has a very well balanced scopey canter and is super rideable for as young as he is. He jumps with a very good technique, uses his body well and has a lot of scope. VDL Lovely Boy is a horse with lots of potential and can grow out to be a Grand Prix horse for Professional riders and Amateur riders.\r\n\r\nSire: Arezzo VDL has taken over the torch of his two-time Olympic sire Chin Chin – after his successful sports career with Jessica Kürten and Jur Vrieling, Arezzo VDL obtained the prestigious ‘Preferent’ predicate by the KWPN. With many approved sons and dozens of offspring breaking through at the highest level, Arezzo VDL can be considered one of the rising stars in breeding of top showjumpers.\r\n\r\nDam: G-Trio P’s granddam Finette competed up to 1.40m level and brings in the valuable genes of the Selle Français stallion Fleuri du Manoir. In addition, Finette is the half-sister to Uberjager van ‘t Woutland, who competed at 1.60m level ridden by Cassio Rivetti and Edouard Couperie. She is also closely related to the Selle Français approved stallion Radieux, who jumped at 1.60m level with Belgium’s Frederic Vernaet.\r\n\r\nDam’s sire: Campbell VDL competed up to Nations Cups level with USA’s Candice King and was also successfully competed by Jennifer Goddard. Campbell VDL brings in the valuable genes of the phenomenal stallion Cassini I – sire of among others world champions Cumano and Berlin. \r\n\r\nGranddam’s sire: Indoctro has been among the world’s leading sires for many years now and still is represented at the highest level today. Offspring like Hello M’Lady (Scott Brash), Cas (Harrie Smolders), Chesney (Rene Dittmer) and many others are still competin",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Jeetjemina, mare by Harley VDL",
+      "slug": "vdl-jeetjemina-mare-by-harley-vdl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/ae6d1ee4-5609-46a9-8c85-2851e4c82b8f.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Jeetjemina is a very talented 7-years-old mare with the potential to be a Grand Prix horse.'' \r\n\r\n7. VDL Jeetjemina  – Mare – Bay– Born 2014 – Height: L – Level Competing at: 1.35m.\r\n\r\nVDL Jeetjemina is something special! Prettier is hard to find combined with a great pedigree, Harley VDL crossed with the same mother line as top horses Bubalu VDL and Verdi TN who both are Medal winners at Olympic Games. Jeetjemina is a very modern horse with a very good light-footed balanced canter. She is light to ride and is very easy on the jump. Her technique is very good, she is careful and has a lot of athletic scope. VDL Jeetjemina is a very talented mare with the potential to be a Grand Prix horse. \r\n\r\nSire: In addition to a successful sports career ridden by Jessica Kürten, Harley VDL developed into one of the leading stallions of his generation and was awarded ‘Preferent’ by the KWPN. Numerous offspring by Harley VDL are currently competing at the highest level and his approved sons are breaking through in sport and breeding as well.\r\n\r\nDam: Vamina VDL was bred out of the highly successful Lord daughter Jamina. This Holsteiner mare produced the 1.60m showjumper Titanic VDL, successfully ridden by Sweden’s Nicole Holmén. In addition, she is the dam to 1.35m jumper Ramina and the granddam to the 7-year-old approved stallion Iglesias D.V. and the 1.40m jumper Edith. This world-famous Holsteiner family 474a has been producing top showjumpers and stallions for many generations, including Bubalu VDL, Verdi TN, Vingino, Claire Z, Aldato and many more. \r\n\r\nDam’s sire: Grandsire Oramé combines some of the best genes in his pedigree with sires Indoctro, Ramiro Z and Almé in a row. Ridden by Jur Vrieling, Oramé was successful up to the highest level, showing off tremendous scope. In breeding, Oramé produced Grand Prix showjumpers like Urgento VDL, Urame, Usday VDL, Victoria, et cetera. \r\n\r\nGranddam’s sire: Lord is one of the all-time greats in showjumping breeding. As a son of ",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL High Five, mare by Harley",
+      "slug": "vdl-high-five-mare-by-harley",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/42bfb461-4c32-4c6b-bfa7-2ee33610ac11.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL High Five is a 7-years-old flashy mare with the potential to be an upper level horse in the future!'' \r\n\r\n10.\tVDL High Five – Mare – Bay – Born 2014 – Height: M – Level Competing at: 1.35m.\r\n\r\nVDL High Five is bred from 3 Grand Prix Sires in a row and from a proven mother line. She had a foal first before she got started and now is ready for 1.35m courses and so ready for the 7 year old classes. VDL High Five is a spectacular horse. She has a very active canter, is uphill and very good to ride. She jumps with very quick take off and a very good technique. On the jump she uses the body well and has lots of athletic scope. VDL High Five is a flashy horse with the potential to be an upper level horse! \r\n\r\nSire: As a son of Heartbreaker and grandson of Carthago, Harley VDL combines some of the very best genes in his pedigree. In addition to a successful sports career with Jessica Kürten, Harley VDL has made his mark in breeding. Offspring like Darragh Kenny’s and Kerry McCahill’s Charley Chaplin S, Callan Solem’s Davidson, Laura Kraut’s Constable II, Pablo Barrios’ Elana and Santiago Lambre’s Doloris have proven themselves at the highest level. \r\n\r\nDam: Biscotta d’Ive Z is the half-sister of numerous successful horses, like the KWPN approved stallion Gaultier VDL, the 1.45m SLS approved Centinaio d’Ive Z and the 1.50m showjumper Banana d’Ive Z, ridden by Johnny Pals and Lily Freeman-Atwood. This direct damline also produced the 1.60m BWP approved stallion For Passion d’Ive Z – nowadays successful in China – and Winny the Blue d’Ive, ridden by Tina Lund. \r\n\r\nDam’s sire: Ridden by Dutch rider Gerco Schröder, Berlin became world-famous winning the team gold medal at the World Equestrian Games in Aachen in 2006. The striking grey stallion later on turned into one of the best sires of his generation. His offspring stand out for their unlimited scope and quality on the jump. Some examples are Ace (Alison Robitaille-Firestone), Zerlin M (Marlon Zanotelli), Zilverstar T (",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Jesmond, gelding by Harley VDL",
+      "slug": "vdl-jesmond-gelding-by-harley-vdl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/cebcdb45-ab33-4bd5-a9ff-7828739c112d.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Jesmond, 7-years-old gelding, has the potential to become a great Grand Prix horse in the future.''\r\n\r\n9.\tVDL Jesmond – gelding – Chestnut – Born 2014 – Height: L – Level Competing at: 1.30m\r\n\r\nVDL Jesmond is bred from Harley VDL and the top breedingmare Stefandria who already produced 4 International horses. VDL Jesmond is in our opinion Top potential! This great gelding shows scope all through his body. He has a fantastic canter with lots of balance and great rideabilty. VDL Jesmond has a great technique, is careful, is very athletic and has a lot of scope. VDL Jesmond has the potential to become a great Grand Prix horse. \r\n\r\nSire: Once again, Harley VDL delivers some great talents for the WEF Sport Horse Auction, after producing multiple successful references in the past. Harley VDL brings in the extreme qualities of Heartbreaker combined with the scope of two-time Olympic stallion Carthago. In breeding, Harley VDL produced Grand Prix showjumpers like Doloris, Davidson, Charley Chaplin S, Constable II and many more. \r\n\r\nDam: Stefandria competed herself up to 1.30m level and in breeding already produced the international showjumpers Compromis (Ben Talbot), JK Horsetrucks Little Fellow (Valentina Ballabeni), Galandrius E (Yahaya El Jaabak MAR) and Banderas (Andres Muller). Stefandria’s dam Jalandria jumped up to 1.50m level ridden by Henk van de Pol and is the dam of 1.60m showjumping stallion Cor de Emilion as well as to the 1.45m jumper Balandria and the 1.40m jumper Double Dees. \r\n\r\nDam’s sire: The foundation sire Cash brings in some of the best genes of Holstein. Cash is a son of the legendary Cor de la Bryere out of a dam by Ladykiller xx and was bred out of the full sister of the world-famous Landgraf I. In breeding, Cash has proven his value with numerous Grand Prix showjumpers, approved sons and especially successful daughters.\r\n\r\nGranddam’s sire: After a successful sports career ridden by Ullrich Kirchhoff, Emilion developed into one of the best stal",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Ironic, gelding by Carrera VDL",
+      "slug": "vdl-ironic-gelding-by-carrera-vdl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/f98eb02e-6024-4e83-a18f-67d843b1c683.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Ironic is a 8-years-old quality horse for the upper level classes for Amateurs and Profesionals.''\r\n\r\n11.\tVDL Ironic – Gelding – Bay – Born 2013 – Height: L – Level Competing at: 1.40m.\r\n\r\nVDL Ironic is a son of Carrera VDL who is the at the moment one of the top upcoming Sires combined with a good sport mother line. Ironic is a well build sporthorse with blood. He has a good ride ability and has an easy light-footed canter. He jumps with a good technique, is quick from the ground and has a lot of athletic scope. VDL Ironic is a quality horse for the upper level classes for Amateurs and Profesionals.\r\n \r\nSire: Carrera VDL is following in the footsteps of his legendary sire Cardento. After showing off his incredible jumping talent ridden by James Billington and Jur Vrieling, Carrera VDL is now making a name for himself in breeding. He already produced numerous approved sons, including the KWPN stallions Kallmar VDL and Kincsem, and offspring like Galax VDL (Michal Zak), Genesis HB (Jamie Wingrove), Cinderella Z (Nicolas Toro), Greatest Boy (Tobias Meyer) and Carrero T Z (Hedda Wallin) are stepping up to Grand Prix level.\r\n\r\nDam: Chanel herself competed at international 1.40m level ridden by Dutch rider Coen van Haarst and was bred out of the 1.30m jumping mare Prestige. In addition, Chanel is the half-sister to the Oldenburg approved stallion Unique Star and closely related to 1.45m jumpger Cuba-Libre. Granddam Ingrid is in her turn the granddam to 1.60m showjumper Tikita, ridden by Tiffany Foster, while this damline also produced Lisa Nooren’s VDL Groep Centora de Wallyro and Jessica Dimmock’s Cybel II.\r\n\r\nDam’s sire: Quantum is one of the many approved sons by the great Quidam de Revel, but he certainly stands out from the crowd. Quantum’s offspring are known for the endless scope and have proven themselves at the highest level. One of Quantum’s most successful offspring is the stallion Quintero – a fantastic showjumper ridden by Rolf-Göran Bengtsson and maki",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Flora de Riverland, mare by Malito de Reve",
+      "slug": "vdl-flora-de-riverland-mare-by-malito-de-reve",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/0c325b42-e6cd-4cbe-9089-ee0ca4d60f13.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Flora de Riverland, 6-years-old mare, has the potential to be a winner in the ring at all levels.''\r\n\r\n2. VDL Flora de Riverland – Mare – Grey – Born 2015 – Height: M – Level Competing at: 1.20m\r\n\r\nVDL Flora de Riverland is a very pretty daughter of Malito de Reve out of a great motherline. She is very easy to ride with an active light-footed canter. VDL Flora de Riverland jumps with a very good technique, she is quick from the floor, careful but very brave. She is very competitive and has good scope. VDL Flora de Riverland has the potential to be a winner in the ring at all level Amateur classes but we believe also speed classes at International level.\r\n\r\nSire: As one of the rare approved sons of Cumano, Malito de Reve continued the legacy of the legendary world champion of Aachen 2006. In breeding, Malito de Reve has proven to be of great value, producing some of world’s very best showjumpers. Niels Bruynseels’ world-class mare Gancia de Muze is without a doubt the most striking daughter of Malito de Reve, but offspring like Grand Cru van de Rozenberg, Estoy Aqui de Muze and Everlychin de la Pomme have also made their mark at the very highest level.  \r\n\r\nDam: The 6-year-old  VDL Flora de Riverland was bred out of the mare Quanaye de Riverland – a daughter of the successful broodmare Veloce II. Quanaye de Riverland is the half-sister to 1.60m showjumper Nebula as to the 1.40m showjumpers Veloce de Riverland and Anelka Doral. Quanaye’s granddam Electre II competed herself up to 1.50m level and stood at the basis of a long list of Grand Prix showjumpers and approved stallions Hold Up Premier, Flushing, Urbain du Monnai, Selectra Bois Margot and Unfinity Bois Margot.\r\n\r\nDam’s sire: Grandsire Kannan is without a doubt one of the greatest sires of all time, producing Olympic champion Nino des Buissonnets, World Cup Final winner Albführen’s Paille and superstars like Molly Malone V, Quabri de l’Isle, Toupie de la Roque, Diva II, Padock du Plessis and many more.\r\n\r\n",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Quickthago, gelding by Quickly de Kreisker",
+      "slug": "vdl-quickthago-gelding-by-quickly-de-kreisker",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/320a9e39-c464-4112-92da-a67ee77a6242.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''We believe VDL Quickthago, 6-years-old, has top potential and could be your Grand Prix horse for the future!'' \r\n\r\n6.\tVDL Quickthago – Gelding – Chestnut – Born 2015 – Height: L – Level Competing at: 1.30m.\r\n\r\nVDL Quickthago is a son of the famous Grand Prix horse Quickly De Kreisker combined with the mother line of Carthago. The bloodlines say it all, top potential. VDL Quickthago is a good looking gelding with a great canter, balance and scope. He is very easy to ride and has a great mentality. His technique is fabulous, he is careful and has all the scope. We believe VDL Quickthago has top potential and could be your Grand Prix horse for the future! \r\n\r\nSire: Quickthago VDL is a son of the recently retired former world number one Quickly de Kreisker – one of the greatest showjumpers of all-time under the Moroccan flag. Ridden by Abdelkebir Ouaddar, Quickly de Kreisker won no less than 34 international FEI competitions, including twelve Grand Prix and World Cup competitions. As a son of the great Diamant de Semilly out of the wonderful Kreisker-family, Quickly de Kreisker has got all the potential to develop into a top breeding stallion as well.\r\n\r\nDam: Winning Girl already produced numerous international showjumpers, including the 1.45m jumping AES approved stallion Gylord Carthago. She is also the granddam to the highly talented Oldenburg and Holstein approved stallion Asterix de Couleur. Dam A-Cover Girl is the full sister to two-time Olympic stallion Carthago and the influential sire Lord Calando and competed herself at Grand Prix level with Sweden’s Thomas Nilsson. In breeding, A-Cover Girl produced John Whitaker’s Grand Prix jumper Lactic as well as international showjumpers like Conchito N, Lord Boy, Zatascha N and Miss Oldenburg. \r\n\r\nDam’s sire: Numero Uno has continued the legacy of the legendary Libero H and can be considered one of the most successful stallions of the past decades. World-class showjumpers like Sterrehof’s Tamino (Marc Houtzager), Tyso",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Jefrieda, mare by Arezzo VDL",
+      "slug": "vdl-jefrieda-mare-by-arezzo-vdl",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/9b5f0497-97d4-4c00-a159-c15f3cf77a3d.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Jefrieda, 7-years-old, is riddled with quality ready to be polished and become your quality jumper.'' \r\n\r\n8.\tVDL Jefrieda  – Mare – Chestnut – Born 2014 – Height: M – Level Competing at: 1.20m.\r\n\r\nVDL Jefrieda is a daughter of Arezzo VDL combined with the great mare May-Flower. Jefrieda had 3 foals and so is very green for her age, but at same time a great opportunity for someone who can develop her and will have a great horse for the future. Jefrieda has a very good type. She has a great mentality in the ring and is eager to jump. She has a very good technique is very quick from the ground, uses her body well at the jump and has good scope. VDL Jefrieda is riddled with quality ready to be polished and become your quality jumper. \r\n\r\nSire: The ‘Preferent’ awarded Arezzo VDL is currently one of the leading stallions of VDL Stud. From an early age, the son of Chin Chin x Heartbreaker showed off incredible talent and he passes on these qualities to his offspring. Ridden by Marlon Zanotelli, son VDL Edgar M is among world’s very best showjumpers, while Farezzo (Edwin Smits), Elien (Andreas Schou), Emotion VDL (Nico Lupino) and many more have stepped up to Grand Prix level as well. \r\n\r\nDam: Frieda is a daughter of U-Frieda O – the half-sister of the famous Vrieda. In 2012, Vrieda competed at the Olympic Games in London, ridden by Jordan’s Ibrahim Bisharat. Later on, Vrieda continued her successful career under the name Vrieda Imperio Egipcio with Brazil’s Ana Eliza Aguiar Ramos. In addition to Vrieda, granddam May-Flower also produced the 1.55m jumper A-Frieda O (Sandra Dalman), the 1.50m jumpers Rockella-S (Manuel Fernandez Saro) and Dancer (Mehdi Benbiga MAR). May-Flower is also the great-granddam to the KWPN approved Manchester Red Wine.\r\n\r\nDam’s sire: Indoctro hardly needs any further explanation. In the past decades, Indoctro has left his mark in breeding of showjumpers all over the world – producing Olympic superstars, approved stallions and countless success",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Kreta, mare by Extase",
+      "slug": "vdl-kreta-mare-by-extase",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/55c04c0b-144c-43d1-b8da-7ec19baadbe9.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Kreta is a 6-years-old commercial type horse and will be a great horse for lots of different jobs.''\r\n\r\n5.\tVDL Kreta – Mare – Bay – Born 2015 – Height: M – Level Competing at: 1.20m \r\n\r\nVDL Kreta is a mare with a very good type. She has blood, a light-footed canter and a great mentality in the ring,  She is athletic at the jump and has a very good use of the body. She always opens her haunches well and has good scope. VDL Kreta is a commercial type horse and will be a great horse for lots of different jobs.\r\n\r\nSire: After a successful sports career in the Netherlands, Extase is nowadays comping in the USA, ridden by Charlie Jacobs up to Grand Prix level. Although Extase did not cover a great number of mares, his offspring look very promising. No wonder seeing his pedigree; Extase’s sire Casall is among world’s best stallions and Extase was bred out of the famous damline of the Pilot daughter Ilotte. This mare is the dam to both Plot Blue and Oklund and is the granddam to the world-famous Babylotte, Grand Prix showjumper Elton John and Accent Z.\r\n\r\nDam: Selina is an all-round broodmare – in addition to the talented jumper Kreta, Selina produced the KWPN approved dressage stallion Bristol. This family also produced international showjumpers such as Karolus K, Enasco Fortuna and Tiara W. \r\n\r\nDam’s sire: Goodtimes brings in the fantastic genes of the legendary Nimmerdor and has been highly successful in producing both showjumpers as dressage horses. Especially on the dam side, Goodtimes influence is still great in many successful sporthorses. \r\n\r\nGranddam’s sire: Nurprimus unites the genes of the thoroughbred Pinturischio with a Hannoverian damline. This damline also delivered the famous Grand Prix showjumping stallion Van Helsing, ridden by both Denis Lynch and Flaminia Straumann, as well as the 1.50m mare Sabrina.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Ivar, gelding by Gaillard de la Pomme",
+      "slug": "vdl-ivar-gelding-by-gaillard-de-la-pomme",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/290216b1-2b31-4622-94f6-9d0719fe163b.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Ivar is the perfect 8-years-old Amateur horse from the Low Amateurs up to the High Amateur classes.''\r\n\r\n12.\tVDL Ivar – gelding – Bay – Born 2013 – Height: M – Level Competing at: 1.35m.\r\n\r\nVDL Ivar  is a son of the well bred Gaillard de La Pomme combined with one of KWPN’s best motherliness the Oberlina line. VDL Ivar is a horse with a top mentality in the ring. He is super easy to ride, is top brave and has a good and easy canter. On the jump he is every jump the same, never flashy but super reliable and very competitive. He has a good  technique and has good scope. VDL Ivar is the perfect Amateur horse from the Low Amateurs up to the High Amateur classes.\r\n\r\nSire: Gaillard de la Pomme unites the exceptional genes of Nabab de Rêve with the world-famous damline of Narcotique de Muze II. Seeing his pedigree, it is no surprise that Gaillard de la Pomme delivers excellent showjumpers. Out of his first crop, Finn Lente is the most successful, being one of world’s greatest talents at CSI5*-level, ridden by José Maria Larocca. Offspring like Fair Play (Aidan Killeen), First One (Olaf Klein), G’s Fabian (Anna Maria Kuhlmann) and Grenoble DN (Jur Vrieling) are also making a name for themselves at international level. \r\n\r\nDam: As the name suggests, Zoberlina was bred out of the famous Dutch Oberlina damline – for decades producing countless successful sporthorses. Zoberlina is the full sister to Grand Prix showjumping stallion Ulinus, while granddam Loberlina is also the granddam to the famous 1.60m stallion Vandamme. Ivar’s direct damlines produces more than 40 Grand Prix showjumpers.\r\n\r\nDam’s sire: Guidam is without a doubt one of the most successful sons of Quidam de Revel, siring many 1.60m showjumpers. Guidam’s most famous offspring are the legends Authentic (Beezie Madden) and Ninja la Silla (Rolf-Göran Bengtsson), winners of respectively Olympic team gold in 2004 and 2008, Olympic individual bronze and Olympic individual silver in 2008 and individual gold at th",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Kobalt, gelding by Fernando H.",
+      "slug": "vdl-kobalt-gelding-by-fernando-h",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/6c0686eb-25ac-45a5-bbb6-04b6438c0768.JPG"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/1dcd13bb-a646-4b48-bd89-08d8a19de341",
+      "catalog_text": "''VDL Kobalt is a 6-years-old horse with a very good  future in front of him up to International Level.''\r\n\r\n4.\tVDL Kobalt – Gelding – Bay – Born 2015 – Height: L – Level Competing at: 1.30m.\r\n\r\nVDL Kobalt is a son of Fernando H who competes at International Level with Bart Bles combined with Thoroughbred Roven xx. Kobalt is a horse with a good sport body and has a good canter. He is sharp, but with a good ride ability. He jumps with a good technique and has a lot of scope. VDL Kobalt is a very interesting horse with a very good  future in front of him up to International Level.\r\n\r\nSire: Top genetics do not lie and Fernando H is a typical the example of great genes working out. Sired by the successful Calvino Z, Fernando H was bred out of the mare Amara. She is the half-sister to the Olympic champion and one of the all-time greats Hickstead. In addition, Amara is the half-sister to Somara – the dam of world-class showjumper Admara. After a career in the USA, Fernando H returned to the Netherlands and is nowadays highly successful ridden by Dutch rider Bart Bles. In breeding, Fernando H has already delivered some great talents, such as this gelding Kobalt ES.\r\n\r\nDam: Veronica was bred out of the same dam as Aapje – a successful international 1.45m showjumper. In addition, Veronica is the granddam to the 1.40m jumper Fancy ES. This direct damline also produced international sporthorses such as U.Quicksilver (Eiken Sato), V Power of Heritage (Rodrigo Diaz) and Broy van het Hobos (Karel Cox).\r\n\r\nDam’s sire: Roven xx is one of the few thoroughbreds in modern showjumping breeding that has really made his mark in breeding. Especially as a dam’s sire at the Dutch stud farm Stal Schep of Egbert Schep, Roven xx’s influence is still great today. In addition to some direct Grand Prix showjumping offspring, Roven xx’s daughters are especially successful and valuable in breeding.\r\n\r\nGranddam’s sire: Concorde is one of the great stallions out of the famous Furioso-lineage. As a so",
+      "starting_bid": null
+    }
+  ]
+}

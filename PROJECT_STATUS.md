@@ -1,7 +1,26 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 6 mei 2026 (Fase 0 iteratie)**
-**Aloga Auction 2026 voorbij — iteratie volgens POST_ALOGA_ROADMAP.md gestart**
+**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **7 mei 2026 — Data-imports en UI-batch.**
+> Zes externe veilingplatformen gescraped en geïmporteerd: Aloga (24 lots
+> via Puppeteer + weauction.nl-API), WEF Sporthorse (78), Swedish Warmblood
+> (63), De Wolden Summer Sale (64), oude Woodlands (50), Hannoveraner
+> OnLive 2026 (7 collecties planned), Fences (271 collecties / 9.946 lots
+> via 4D-API + 4 toekomstige). Plus Aloga + Fences comitéleden.
+> Zangersheide-correcties: Friday/Saturday Foals → lottype Veulen (329 lots),
+> start_price → sale_price + sold=true (398 lots).
+> UI: charity onderaan LotPage, "+ Lot toevoegen", HousesPage 3-grid met logo's,
+> HousePage logo+edit+telling+zoek+comité layout, sorteer als dropdown,
+> lottypes als compact knop, CollectionSummaryPage volledig op design-tokens
+> en geïmporteerde verkoopprijzen meetellen, lot-zoek FK-bug opgelost.
+> Audit-rapport: `reports/2026-05-07_data-imports-en-ui-batch.md`.
+>
+> **Geparkeerd:** Hippomundo/Horse Telex pedigree-aanvulling (beide
+> achter Cloudflare, geen publieke API voor abonnees).
 
 ---
 

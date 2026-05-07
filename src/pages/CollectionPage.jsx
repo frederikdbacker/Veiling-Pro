@@ -31,8 +31,10 @@ export default function CollectionPage() {
   const [sortMode, setSortMode] = useState('number') // 'number' | 'alphabetical' | 'rating'
   const [hideRatings, setHideRatings] = useState(false)
   const [breakForm, setBreakForm] = useState(null)   // null | { id?, after_lot_number, ... }
+  const [newLotName, setNewLotName] = useState(null) // null = form gesloten, string = open
   const [copyFeedback, setCopyFeedback] = useState(null)
   const [bulkPriceOpen, setBulkPriceOpen] = useState(false)
+  const [metaOpen, setMetaOpen] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -142,6 +144,28 @@ export default function CollectionPage() {
 
   async function reloadBreaks() {
     setBreaks(await getBreaks(collectionId))
+  }
+
+  async function handleAddLot() {
+    const name = (newLotName || '').trim()
+    if (!name) return
+    // Bepaal volgend lotnummer (max + 1, of 1 als leeg)
+    const maxNumber = lots.reduce((m, l) => (l.number != null && l.number > m ? l.number : m), 0)
+    const slug = name.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
+                    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    const { data: row, error } = await supabase
+      .from('lots')
+      .insert({
+        collection_id: collectionId,
+        name, slug,
+        number: maxNumber + 1,
+        lot_type_auto: true,
+      })
+      .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+      .single()
+    if (error) { alert(`Lot toevoegen mislukt: ${error.message}`); return }
+    setLots((prev) => [...prev, row])
+    setNewLotName(null)
   }
 
   async function handleSaveBreak(draft) {
@@ -269,16 +293,24 @@ export default function CollectionPage() {
         { label: collection?.name ?? 'Collectie' },
       ].filter(Boolean)} />
       <h1 style={{ color: 'var(--text-primary)' }}>{collection?.name ?? 'Collectie'}</h1>
-      <p style={{ color: 'var(--text-secondary)' }}>
-        {collection?.date && new Date(collection.date).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}
-        {collection?.location && ` · ${collection.location}`}
-        {collection?.status && ` · ${collection.status}`}
-        {' · '}{status}
-      </p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-2)' }}>
+        <span style={{ color: 'var(--text-secondary)' }}>
+          {collection?.date && new Date(collection.date).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}
+          {collection?.location && ` · ${collection.location}`}
+          {collection?.status && ` · ${collection.status}`}
+          {' · '}{status}
+        </span>
+        {collection && (
+          <button onClick={() => setMetaOpen((v) => !v)} style={metaToggleStyle}>
+            {metaOpen ? '▴ Inklappen' : '▾ Bewerk veiling-metadata'}
+          </button>
+        )}
+      </div>
 
       {collection && (
         <CollectionMetaEditor
           collection={collection}
+          open={metaOpen}
           onChange={(patch) => setCollection((prev) => ({ ...prev, ...patch }))}
         />
       )}
@@ -300,6 +332,11 @@ export default function CollectionPage() {
           <Link to={`/collections/${collection.id}/clients`} style={secondaryBtnStyle}>
             👥 Klanten
           </Link>
+          <LotTypesSelector
+            collectionId={collection.id}
+            onChange={setSelectedTypeIds}
+            compact
+          />
           {copyFeedback && (
             <span style={{ color: 'var(--success)', fontSize: '0.9em', marginLeft: 8 }}>
               {copyFeedback}
@@ -317,36 +354,30 @@ export default function CollectionPage() {
         </div>
       )}
 
-      {collection && (
-        <LotTypesSelector
-          collectionId={collection.id}
-          onChange={setSelectedTypeIds}
-        />
-      )}
-
       {/* Sorteer + pauze-knoppen boven de lijst */}
       {lots.length > 0 && (
         <div style={toolbarStyle}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>Sorteer:</span>
-            <SortToggleButton
-              active={sortMode === 'number'}
-              onClick={() => setSortMode('number')}
-            >
-              # Lotnummer
-            </SortToggleButton>
-            <SortToggleButton
-              active={sortMode === 'alphabetical'}
-              onClick={() => setSortMode('alphabetical')}
-            >
-              A-Z naam
-            </SortToggleButton>
-            <SortToggleButton
-              active={sortMode === 'rating'}
-              onClick={() => setSortMode('rating')}
-            >
-              ★ Rating
-            </SortToggleButton>
+            <label style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>
+              Sorteer:
+              <select
+                value={sortMode}
+                onChange={(e) => setSortMode(e.target.value)}
+                style={{
+                  marginLeft: 8,
+                  padding: '4px 8px',
+                  background: 'var(--bg-input)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontFamily: 'inherit', fontSize: '0.9em',
+                }}
+              >
+                <option value="number">Lotnummer</option>
+                <option value="alphabetical">A-Z naam</option>
+                <option value="rating">★ Rating</option>
+              </select>
+            </label>
             <button
               type="button"
               onClick={() => setHideRatings((v) => !v)}
@@ -364,15 +395,23 @@ export default function CollectionPage() {
               ✕ wis alle ratings
             </button>
           </div>
-          <button
-            onClick={() => setBreakForm({
-              after_lot_number: null, title: 'Pauze',
-              description: '', duration_minutes: 15,
-            })}
-            style={addBreakBtnStyle}
-          >
-            ⏸ + Pauze toevoegen
-          </button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button
+              onClick={() => setNewLotName('')}
+              style={addBreakBtnStyle}
+            >
+              🐎 + Lot toevoegen
+            </button>
+            <button
+              onClick={() => setBreakForm({
+                after_lot_number: null, title: 'Pauze',
+                description: '', duration_minutes: 15,
+              })}
+              style={addBreakBtnStyle}
+            >
+              ⏸ + Pauze toevoegen
+            </button>
+          </div>
         </div>
       )}
 
@@ -385,6 +424,56 @@ export default function CollectionPage() {
           onSave={() => handleSaveBreak(breakForm)}
           onCancel={() => setBreakForm(null)}
         />
+      )}
+
+      {/* Inline lot-toevoegen-form */}
+      {newLotName !== null && (
+        <div style={{
+          padding: '0.75rem 1rem', marginTop: '0.5rem',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-md)',
+          background: 'var(--bg-card)',
+          display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap',
+        }}>
+          <strong style={{ fontSize: '0.95em' }}>Nieuw lot:</strong>
+          <input
+            type="text"
+            autoFocus
+            placeholder="Naam van het paard"
+            value={newLotName}
+            onChange={(e) => setNewLotName(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleAddLot(); if (e.key === 'Escape') setNewLotName(null) }}
+            style={{
+              flex: 1, minWidth: 200, padding: '0.4rem 0.6rem',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--bg-input)', color: 'var(--text-primary)',
+            }}
+          />
+          <button
+            onClick={handleAddLot}
+            disabled={!newLotName.trim()}
+            style={{
+              padding: '0.4rem 0.85rem',
+              background: 'var(--accent)', color: '#fff', border: 'none',
+              borderRadius: 'var(--radius-sm)', cursor: 'pointer',
+              opacity: newLotName.trim() ? 1 : 0.5,
+            }}
+          >
+            Aanmaken
+          </button>
+          <button
+            onClick={() => setNewLotName(null)}
+            style={{
+              padding: '0.4rem 0.75rem',
+              background: 'transparent', color: 'var(--text-secondary)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-sm)', cursor: 'pointer',
+            }}
+          >
+            Annuleren
+          </button>
+        </div>
       )}
 
       {/* Lijst met lots + ingevoegde breaks. Bij Lotnummer-sortering
@@ -483,19 +572,15 @@ export default function CollectionPage() {
 
 /* ---------- Sortable wrappers ---------- */
 
-function CollectionMetaEditor({ collection, onChange }) {
-  const [open, setOpen] = useState(false)
-
+function CollectionMetaEditor({ collection, onChange, open }) {
   // Voor de date+time inputs: splits time_auction_start in date- en time-deel.
   const startDate = collection.time_auction_start ? new Date(collection.time_auction_start) : null
   const startTime = startDate ? startDate.toTimeString().slice(0, 5) : ''
 
+  if (!open) return null
   return (
     <div style={{ marginBottom: 'var(--space-4)' }}>
-      <button onClick={() => setOpen((v) => !v)} style={metaToggleStyle}>
-        {open ? '▴ Inklappen' : '▾ Bewerk veiling-metadata'}
-      </button>
-      {open && (
+      {(
         <div style={metaPanelStyle}>
           <AutoSaveText
             table="collections" id={collection.id} fieldName="name"

@@ -56,24 +56,51 @@ export default function HousesPage() {
         <AddHouseForm onSave={handleAdd} onCancel={() => setAdding(false)} />
       )}
 
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: 'var(--space-3)',
+      }}>
         {houses.map((h) => (
-          <li key={h.id} style={{
-            padding: 'var(--space-3) 0',
-            borderBottom: '1px solid var(--border-default)',
-          }}>
-            <Link
-              to={`/houses/${h.id}`}
-              style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: 600 }}
-            >
+          <Link
+            key={h.id}
+            to={`/houses/${h.id}`}
+            style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              gap: 'var(--space-2)',
+              padding: 'var(--space-3)',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-md)',
+              textDecoration: 'none',
+              color: 'var(--text-primary)',
+              transition: 'border-color 120ms, transform 120ms',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)' }}
+          >
+            <div style={{
+              width: '100%', aspectRatio: '3/2',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--bg-elevated)',
+              borderRadius: 'var(--radius-sm)',
+              overflow: 'hidden',
+            }}>
+              {h.logo_url ? (
+                <img
+                  src={h.logo_url} alt={`${h.name} logo`}
+                  style={{ maxWidth: '85%', maxHeight: '85%', objectFit: 'contain' }}
+                />
+              ) : (
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>(geen logo)</span>
+              )}
+            </div>
+            <div style={{ fontWeight: 600, textAlign: 'center', fontSize: '0.95em' }}>
               {h.name}
-            </Link>
-            {h.country && (
-              <span style={{ color: 'var(--text-muted)' }}> — {h.country}</span>
-            )}
-          </li>
+            </div>
+          </Link>
         ))}
-      </ul>
+      </div>
     </section>
   )
 }

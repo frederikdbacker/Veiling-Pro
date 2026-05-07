@@ -16,17 +16,31 @@ export default function HousePage() {
   const [addingCollection, setAddingCollection] = useState(false)
   const [error, setError] = useState(null)
 
+  const [topLot, setTopLot] = useState(null)
+
   async function load() {
-    const [houseRes, collectionsRes] = await Promise.all([
+    const [houseRes, collectionsRes, topLotRes] = await Promise.all([
       supabase.from('auction_houses').select('*').eq('id', houseId).single(),
       supabase.from('collections').select('*').eq('house_id', houseId)
         .order('date', { ascending: false, nullsFirst: false }),
+      // Duurste paard ooit verkocht (charity uitgesloten) — via inner-join op
+      // collections, en filteren op house. FK expliciet om PGRST201 te vermijden.
+      supabase.from('lots')
+        .select('id, name, sale_price, collections!lots_auction_id_fkey!inner(name, date, house_id)')
+        .eq('collections.house_id', houseId)
+        .eq('sold', true)
+        .eq('is_charity', false)
+        .not('sale_price', 'is', null)
+        .order('sale_price', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
     ])
     if (houseRes.error) { setStatus(`Fout: ${houseRes.error.message}`); return }
     if (collectionsRes.error) { setStatus(`Fout: ${collectionsRes.error.message}`); return }
     setHouse(houseRes.data)
     setCollections(collectionsRes.data)
     setStatus(`${collectionsRes.data.length} veilingen`)
+    if (!topLotRes.error) setTopLot(topLotRes.data ?? null)
   }
 
   useEffect(() => { load() }, [houseId])
@@ -37,25 +51,33 @@ export default function HousePage() {
   const [searching, setSearching] = useState(false)
 
   useEffect(() => {
-    if (!search.trim() || collections.length === 0) {
+    if (!search.trim() || !houseId) {
       setSearchResults(null)
       return
     }
     const t = setTimeout(async () => {
       setSearching(true)
-      const collIds = collections.map((c) => c.id)
+      // !inner-join op collections forceert filtering op het huis zonder
+      // dat we honderden collection-IDs in de URL hoeven te zetten.
+      // FK expliciet maken: er is ook een tweede FK collections.active_lot_id → lots.id,
+      // dus !inner met enkel 'collections' wordt ambigu en faalt met PGRST201.
       const { data, error } = await supabase
         .from('lots')
-        .select('id, number, name, collection_id, collections(name)')
-        .in('collection_id', collIds)
+        .select('id, number, name, collection_id, collections!lots_auction_id_fkey!inner(name, house_id)')
+        .eq('collections.house_id', houseId)
         .ilike('name', `%${search.trim()}%`)
         .order('name')
         .limit(100)
-      if (!error) setSearchResults(data ?? [])
+      if (error) {
+        console.error('[lot-search]', error)
+        setSearchResults([])
+      } else {
+        setSearchResults(data ?? [])
+      }
       setSearching(false)
     }, 300)
     return () => clearTimeout(t)
-  }, [search, collections])
+  }, [search, houseId])
 
   async function handleAddCollection(payload) {
     setError(null)
@@ -72,80 +94,117 @@ export default function HousePage() {
         { label: 'Veilinghuizen', to: '/' },
         { label: house?.name ?? 'Veilinghuis' },
       ]} />
-      <h1 style={{ color: 'var(--text-primary)' }}>{house?.name ?? 'Veilinghuis'}</h1>
-      <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
-
-      {error && <p style={{ color: 'var(--danger)' }}>❌ {error}</p>}
-
-      {house && (
-        <div style={{ marginBottom: 'var(--space-4)', maxWidth: 540 }}>
+      {/* Header: logo + naam + bewerk-knop op één rij */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+        {house?.logo_url && (
+          <img
+            src={house.logo_url}
+            alt={`${house.name} logo`}
+            style={{
+              height: 56, width: 'auto', maxWidth: 140,
+              objectFit: 'contain',
+              background: 'var(--bg-elevated)',
+              padding: '4px 8px', borderRadius: 'var(--radius-sm)',
+            }}
+          />
+        )}
+        <h1 style={{ color: 'var(--text-primary)', margin: 0 }}>{house?.name ?? 'Veilinghuis'}</h1>
+        {house && (
           <button
             onClick={() => setEditingMeta((v) => !v)}
             style={toggleBtnStyle}
           >
             {editingMeta ? '▴ Inklappen' : '▾ Bewerk veilinghuis'}
           </button>
+        )}
+      </div>
 
-          {editingMeta && (
-            <div style={metaPanelStyle}>
-              <AutoSaveText
-                table="auction_houses" id={house.id} fieldName="name"
-                initialValue={house.name} label="Naam"
-                onSaved={(v) => setHouse((p) => ({ ...p, name: v }))}
-              />
-              <CountryAutoSaveRow
-                houseId={house.id}
-                initialValue={house.country}
-                onSaved={(v) => setHouse((p) => ({ ...p, country: v }))}
-              />
-              <AutoSaveUrl
-                table="auction_houses" id={house.id} fieldName="website"
-                initialValue={house.website} label="Website"
-                placeholder="https://..."
-                onSaved={(v) => setHouse((p) => ({ ...p, website: v }))}
-              />
-              <AutoSaveText
-                table="auction_houses" id={house.id} fieldName="contact"
-                initialValue={house.contact} label="Contact"
-                placeholder="e-mail of telefoon"
-                onSaved={(v) => setHouse((p) => ({ ...p, contact: v }))}
-              />
-              <AutoSaveUrl
-                table="auction_houses" id={house.id} fieldName="logo_url"
-                initialValue={house.logo_url} label="Logo-URL (voor 'Auction page'-link in cockpit)"
-                placeholder="https://.../logo.png — wit-zwart, transparante achtergrond"
-                onSaved={(v) => setHouse((p) => ({ ...p, logo_url: v }))}
-              />
-              {house.logo_url && (
-                <div style={{ marginTop: 8 }}>
-                  <span style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>Voorbeeld: </span>
-                  <img src={house.logo_url} alt="Logo" style={{ height: 24, marginLeft: 8, verticalAlign: 'middle', background: '#fff', padding: '2px 6px', borderRadius: 4 }} />
-                </div>
-              )}
+      {/* Record-verkoop badge */}
+      {topLot && (
+        <div style={{
+          marginTop: 'var(--space-2)',
+          padding: 'var(--space-2) var(--space-3)',
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border-default)',
+          borderLeft: '3px solid var(--accent)',
+          borderRadius: 'var(--radius-sm)',
+          display: 'inline-flex',
+          alignItems: 'center', gap: 'var(--space-2)',
+        }}>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            🏆 Duurste verkoop
+          </span>
+          <Link to={`/lots/${topLot.id}`} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: 600 }}>
+            {topLot.name}
+          </Link>
+          <span style={{ color: 'var(--text-secondary)' }}>
+            — €{Number(topLot.sale_price).toLocaleString('nl-BE')}
+            {topLot.collections?.date && ` (${new Date(topLot.collections.date).getFullYear()})`}
+          </span>
+        </div>
+      )}
+
+      {/* Telling + zoekbalk op één rij */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap', marginTop: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
+        <p style={{ color: 'var(--text-secondary)', margin: 0 }}>{status}</p>
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Zoek op lot-naam binnen dit veilinghuis…"
+          style={{
+            flex: 1, minWidth: 220, maxWidth: 480,
+            padding: '6px 10px',
+            background: 'var(--bg-input, #1a1a1a)',
+            color: 'var(--text-primary)',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
+            fontFamily: 'inherit', fontSize: '0.95em',
+          }}
+        />
+      </div>
+
+      {error && <p style={{ color: 'var(--danger)' }}>❌ {error}</p>}
+
+      {house && editingMeta && (
+        <div style={{ ...metaPanelStyle, marginBottom: 'var(--space-4)', maxWidth: 540 }}>
+          <AutoSaveText
+            table="auction_houses" id={house.id} fieldName="name"
+            initialValue={house.name} label="Naam"
+            onSaved={(v) => setHouse((p) => ({ ...p, name: v }))}
+          />
+          <CountryAutoSaveRow
+            houseId={house.id}
+            initialValue={house.country}
+            onSaved={(v) => setHouse((p) => ({ ...p, country: v }))}
+          />
+          <AutoSaveUrl
+            table="auction_houses" id={house.id} fieldName="website"
+            initialValue={house.website} label="Website"
+            placeholder="https://..."
+            onSaved={(v) => setHouse((p) => ({ ...p, website: v }))}
+          />
+          <AutoSaveText
+            table="auction_houses" id={house.id} fieldName="contact"
+            initialValue={house.contact} label="Contact"
+            placeholder="e-mail of telefoon"
+            onSaved={(v) => setHouse((p) => ({ ...p, contact: v }))}
+          />
+          <AutoSaveUrl
+            table="auction_houses" id={house.id} fieldName="logo_url"
+            initialValue={house.logo_url} label="Logo-URL (voor 'Auction page'-link in cockpit)"
+            placeholder="https://.../logo.png — wit-zwart, transparante achtergrond"
+            onSaved={(v) => setHouse((p) => ({ ...p, logo_url: v }))}
+          />
+          {house.logo_url && (
+            <div style={{ marginTop: 8 }}>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>Voorbeeld: </span>
+              <img src={house.logo_url} alt="Logo" style={{ height: 24, marginLeft: 8, verticalAlign: 'middle', background: 'var(--bg-elevated)', padding: '2px 6px', borderRadius: 4 }} />
             </div>
           )}
         </div>
       )}
 
-      {house && <CommitteeSection houseId={house.id} />}
-
-      <h2 style={subheadStyle}>Lots zoeken</h2>
-      <input
-        type="search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Zoek op lot-naam binnen dit veilinghuis…"
-        style={{
-          width: '100%', maxWidth: 480,
-          padding: '8px 12px',
-          background: 'var(--bg-input, #1a1a1a)',
-          color: 'var(--text-primary)',
-          border: '1px solid var(--border-default)',
-          borderRadius: 'var(--radius-sm)',
-          fontFamily: 'inherit', fontSize: '0.95em',
-          marginBottom: 'var(--space-3)',
-        }}
-      />
       {searching && <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>zoeken…</p>}
       {searchResults && (
         <div style={{ marginBottom: 'var(--space-4)' }}>
@@ -167,6 +226,8 @@ export default function HousePage() {
                       <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 8 }}>
                         in {lot.collections?.name ?? '—'}
                       </span>
+                      {/* `collections` heeft hier alias-naam vanuit de FK-embed,
+                          maar de objectkey blijft 'collections' in supabase-js. */}
                     </Link>
                   </li>
                 ))}
@@ -215,6 +276,9 @@ export default function HousePage() {
           Nog geen veilingen voor dit huis. Klik op "+ Veiling toevoegen" om er één aan te maken.
         </p>
       )}
+
+      {/* Comitéleden onderaan, na de veilingen */}
+      {house && <CommitteeSection houseId={house.id} />}
     </section>
   )
 }

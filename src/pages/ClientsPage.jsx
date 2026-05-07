@@ -5,7 +5,6 @@ import { supabase } from '../lib/supabase'
 import Breadcrumbs from '../components/Breadcrumbs'
 import CountrySelect from '../components/CountrySelect'
 import PhotoUpload from '../components/PhotoUpload'
-import { flagFromCode } from '../lib/countries'
 
 /**
  * Globale klantenlijst-overzichtspagina (#22 uit POST_ALOGA_ROADMAP.md).
@@ -158,7 +157,6 @@ export default function ClientsPage() {
 
 function ClientRow({ client, onPatch, onDelete }) {
   const [name, setName] = useState(client.name)
-  const flag = flagFromCode(client.country_code)
 
   return (
     <tr style={rowStyle}>
@@ -185,14 +183,10 @@ function ClientRow({ client, onPatch, onDelete }) {
         />
       </td>
       <td style={cellStyle}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          {flag && <span title={client.country_code} style={{ fontSize: '1.2em' }}>{flag}</span>}
-          <CountrySelect
-            value={client.country_code}
-            onChange={(code) => onPatch({ country_code: code })}
-            style={{ flex: 1 }}
-          />
-        </span>
+        <CountrySelect
+          value={client.country_code}
+          onChange={(code) => onPatch({ country_code: code })}
+        />
       </td>
       <td style={cellStyle}>
         <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>

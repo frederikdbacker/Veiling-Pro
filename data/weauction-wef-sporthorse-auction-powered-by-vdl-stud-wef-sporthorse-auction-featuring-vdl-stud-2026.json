@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "collection": "WEF Sporthorse Auction (Featuring VDL Stud) 2026",
+    "house": "WEF Sporthorse Auction powered by VDL Stud",
+    "website": "https://bid.wefsporthorseauction.com",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T13:46:59.586Z",
+    "total": 10,
+    "data_source": "weauction-scraper (Puppeteer), https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190"
+  },
+  "horses": [
+    {
+      "name": "VDL Magdalena",
+      "slug": "vdl-magdalena",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/5c44acfc-e65b-4ee1-a855-a3450dfdd36c.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL Magdalena is a mare that was already in the Top 5 of all the 3 year old KWPN mares in Holland as 3 year old. Magdalena has a great balanced canter that is easy to sit to. When she starts jumping, everyone can see this is a very modern sport horse, built like an athlete. She jumps with a fantastic technique, she is quick in the take off and has in our opinion all the athletic scope needed for the big sport. VDL Magdalena is a Grand Prix horse for the future.\r\n\r\nVDL Magdalena is sired by the interesting Etoulon son Insider VDL, a stallion who has returned to VDL Stud for the 2026 breeding season. Despite not breeding huge numbers in his younger years before his sporting career in Sweden he has produced consistently successfully. VDL Magdalena’s damline has produced many great sporthorses like Kafulena VDL and G who competed at 1.45m level. This damline continues on to Helena VDL and her dam Aziemieka one of the foundation mares from the VDL Stud’s breeding program. These mares have produced numerous top horses like; Southwind VDL ridden by Tiffany Foster (CAN), Celena VDL from Sayre Happy (USA), Lena VDL of Daniel Coyle (IRL), Bugatti VDL from Candice King (USA) to name a few.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL D'Amigo de Beauty",
+      "slug": "vdl-d-amigo-de-beauty",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/7a84afcd-383d-4ac7-8455-4532e567136e.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL D’Amigo de Beauty is a horse that already competes at International level. He is a horse with a great mentality that is light-footed and has a very athletic canter. When he starts jumping he is always the same. A good technique, careful, lots of athletic scope and jumps the big jumps with ease. This is a gelding that can be your next Grand Prix horse, for juniors, Young riders Amateurs and Professionals.\r\nThis gelding is from the family from arguably the horse of his generation Joli Couer. This horse competed under Franke Sloothaak and they were part of the Gold medal winning teams in the Atlanta Olympics (1996) and the WEG in Rome (1998). This dam line combined with a collection of Grand Prix stallions is a recipe for success. D’Amigo is sired by Christian Ahlmann’s Dominator 2000 Z, the stallion with multiple 5* wins, as well as his first offspring are jumping 1.60m and many successful young horses. Damsire is Corland who also competed at 1.60m level with Dutchman Wout Jan van der Schans as well as producing a long list of 1.60m including the exceptional Bacardi VDL from Janika Sprunger and Edwina Tops-Alexander.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Palermo",
+      "slug": "vdl-palermo",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/7e117b8b-4c87-4226-a752-a2c7e08b31ed.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "This son of the great Sire Carrera VDL, VDL Palermo is a horse with a light footed, very comfortable canter. With his great balance he is very easy to ride. He jumps with good reflex, is careful and has scope. VDL Palermo is a horse for amateur classes but also for International level.\r\nVDL Palermo’s sire Carrera VDL a sire rapidly rising through the showjumping sire rankings with horses being added to 5* strings. Current World Cup campaigners Krachtpatser and Carabella vd Neyen Z; Carabella took 2nd in the WC leg in La Coruna; both sired by Carrera. Interesting fact about Palermo he shares his sire combination (Carrera x Silverstone) with Yuri Mansur’s new exciting horse Mister Jup, a combination competing at World Cup shows after only knowing each other for a short period of time. Additionally Palermo’s dam is a sister to 1.60m horse Vernon G as well as being closely related to 1.60m jumper Pjalgary VDL and approved 1.45m stallion Night and Day.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Philoise",
+      "slug": "vdl-philoise",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/5e696e67-0636-4eff-b211-c0b3df3590d6.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL Philoise is a modern daughter of Comthago VDL who competes at the very highest level with Hessel Hoekstra and is proving himself as a top producer as well. Philoise is a modern, good looking mare with good length in her body. A mare that is super pleasant to ride, very comfortable, has a good instinct and easy with the right amount of blood. She jumps with quick reflexes, good technique and has lots of athletic scope. A very modern sport horse . Philoise is a mare with loads of talent and a bright future in front of her.\r\nVDL Philoise’s sire Comthago is a son of Comme Il Faut and has jumped himself into the limelight being selected for Nations Cups teams, taking 2nd place in the 4* Grand Prix in Poznan and placing in multiple 5* Grand Prix’s. His first offspring are appearing in stables with 5* riders like Jeroen Dubbeldam and Maikel van der Vleuten. VDL Philoise’s dam’s sire is the house hold name Zirocco Blue, sire to horses like Elysium from Hans Dieter Dreher, Jaguar King WD from K. Abdulrahman Almobty, Glamour Girl from Henrik von Eckermann and the list goes on. Phlioise’s dam line goes back to Scott Brash’s Intertoy Z and Kent Farrington’s Madison as well as number of 1.45m-1.60m competitors.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Trentina Optima",
+      "slug": "vdl-trentina-optima",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/15123fff-92d6-4a73-b207-8766a2927d24.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL Trentina Optima proves that proven familys produce fantastic horses. Trentina Optima already competed at the World Championships for 6 year olds and did that very well. She is a mare that has a very lightfooted canter with good balance, is careful and has lots of scope. She is a very modern and elegant mare with potential for the Grand Prix level.\r\nThis mare is sired by Tangelo van de Zuuthoeve who himself competed at 1.60m level under Roelof Bril, and is sire to top horses like Daniel Deusser’s Tobago and Beezie Madden’s Darry Lou. Trentina descends from a mare who competed herself at 1.60m level under Zayna Rizvi (USA), Exquise du Pachis. Furthermore Exquise is a sister to 4 other 1.45/1.50m horses including Coeurgano from Katie Leverick (USA). Granddam, Intradella Z additionally competed at 1.60m with Johnny Pals (NLD) and boasts a very rich sporting family with a seemingly endless list of Grand Prix horses, including Beezie Madden's Chic Hin D’Hyrencourt who won the CSI4*-W in Lexington as well as the 4* GP in Geesteren.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Nard R",
+      "slug": "vdl-nard-r",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/b2ca60d0-1a2e-4634-8b49-1c8a4e36fca3.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL Nard R is another great exemplar of the Grand Prix stallion Carrera. He is a very good mover with a very comfortable canter. VDL Nard is straightforward with a good mentality and great technique. VDL Nard R is a top amateur horse, equitation prospect or for the big classes.\r\n\r\nVDL Nard’s sire Carrera proved himself with Jur Vrieling but is making a great impression with his offspring. Horses like Krachtpatser and Carabella vd Neyen Z are currently competing in the World Cup circuit, Carabella even took 2nd in the WC leg in La Coruna. Dam’s sire is the great Diamant de Semilly, who has had a huge influence on show jumping breeding over the past years. Furthermore VDL Nard is a brother to KWPN approved stallion Levi VDL, as well as 1.45m competing Maruzzo R. This damline also produced the recently named Horsetelex number 1 stallion Etoulon.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Pacman ES",
+      "slug": "vdl-pacman-es",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/9e1c9758-c9fd-4d2b-9d34-71b4af19a1e1.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "This beautiful eyecatcher is a son of Chacoon Blue who passed away way too young. VDL Pacman has a balanced scopey canter with easy lead changes. He is careful at the jump, has a good technique and a lot of scope. He is a horse with a big future in front of him.\r\nVDL Pacman ES’ late sire Chacoon Blue is a stallion who’s offspring can be found in Grand Prix’s worldwide. Kannoon Blue from Trevor Breen (IRL), Billy Fern from David Simpson (IRL) and Calido’s Blue from Clara Bau (DEU) are a few examples of Grand Prix horses from this successful sire. VDL Pacman is a brother of Enrique Gonzalez’s (MEX) H5 Kosmo ES who competed successfully in Wellington last year at 1.45m level and KWPN approved stallion Nostradamus ES. Grand-sire Peter Pan 65 made a name for himself competing in 5* Grand Prix’s and Nations cups teams under the Italian flag from rider Alessia Marioni.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Daybreak",
+      "slug": "vdl-daybreak",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/ccb75ed4-018f-4cf3-aa2a-f737d688f274.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL Daybreak is a mare that looks a lot like her father the famous Grand Prix stallion Dominator Z.  VDL Daybreak has the body of a true Grand Prix horse. She is a tall mare and was therefore started late to give her time to develop and that is why she is green for her age. Everything to let this scopey mare develop first before doing things too early. She is ready to step up now and a great opportunity for someone that is looking for a horse for the future. She has blood, a good balanced canter, is careful and looks to have all the scope. All ingredients that you look for in a Grand Prix horse.\r\n\r\nVDL Daybreak’s sire Dominator 2000 Z is Christian Ahlmann’s top stallion. He has also been a popular breeding stallion who’s now late son D’Aganix 2000 Z competing at 1.60m also with Christian Ahlmann and Dictator D’Aubry who competes at 1.55m level with Michele Previtali. Dam’s sire is Zinedine an interesting stallion formerly ridden by Ludger Beerbaum and Philipp Weishaupt who happens to be the sire of David Will’s top ride Zinedream and Eve Jobs’ ride Zineday who jumped the Paris Olympic final with German Philipp Weishaupt. Daybreak’s direct dam line has produced multiple 1.60m horses like Forlan ridden by Hiroyuki Sato, Continue from Kristaps Neretnieks (LVA), Cortina 179 from Bliss Heers (USA) and Fast Lucca from Nicolette Hirt (USA) alongside multiple other GP horses.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL Pelle van Voshaar",
+      "slug": "vdl-pelle-van-voshaar",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/af880624-f524-4131-ae98-7c7227fa05d8.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL Pelle is a son of popular Pegase van’t Ruytershof. This very sporty  young gelding is very easy to ride. Super easy lead changes and comfortable. Light in everything he does. He has a great mentality and is a real ring horse, there he always does a bit extra. He is a great horse for Juniors, young riders  but also competitive for the International ring. \r\nVDL Pelle van Voshaar’s sire is the impressive Comme Il Faut son Pegase van t Ruytershof who campaigns under Jeroen de Winter (BEL). Pegase is becoming a well-known stallion who has an impressive dam line himself. Pelle comes from an interesting dam line and Nassau dam, Wies Avanta. This mare has produced 1.60m jumper Gabri from Doron Kuipers (NLD) and 1.45m jumper and approved stallion Karim who was ridden by Alice Laruca (PRT) among other internationally competing horses. Furthermore this dam line produced the successful 1.60m jumping and producing sire, Renville.",
+      "starting_bid": null
+    },
+    {
+      "name": "VDL O'Bleu",
+      "slug": "vdl-o-bleu",
+      "discipline": "Springen",
+      "year": null,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/bd0cf513-5495-4d0e-8fa3-fbb7747e1d2e.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.wefsporthorseauction.com/auctions/729c8afd-a044-4f76-a03a-08de4a105190",
+      "catalog_text": "VDL O’Blue has the looks and the movement of a super star. Elegant, suppleness, balance and great light movement. When he starts jumping he has a great use of the body, careful, brave and intelligent. He jumps with plenty scope and good reach. This is a horse for everyone that is looking for an eyecatcher but most important a great horse to be competitive with up to the International level.\r\nO’Bleu is sired by Numero Uno son Numero Due who jumps at 1.45m level with Caroline Müller. On his dam’s side he is represented by late top sires Contendro I and Indoctro. Contendro I is sire to top horses like Andres Azcarrag’s (MEX) Olympic ride Contendros 2 as well as Cold Play, who together with Fredrik Jönsson placed individually and with the Swedish team in the Tryon WEG 2018. O’Bleu’s damline is diverse having produced successful showjumpers as well as dressage horses offering a valuable combination. Dam Fleurose HV is a sister to two 1.45m horses Ignacio HV and Katorose HV who has already crossed the Atlantic ocean to compete under Sofia Popescu (CAN).",
+      "starting_bid": null
+    }
+  ]
+}

@@ -52,18 +52,18 @@ export default function CollectionSummaryPage() {
   }, [collectionId])
 
   if (loading) {
-    return <section><p style={{ color: '#666' }}>Overzicht laden…</p></section>
+    return <section><p style={{ color: 'var(--text-muted)' }}>Overzicht laden…</p></section>
   }
   if (error) {
     return (
       <section>
-        <p style={{ color: '#c33' }}>❌ {error}</p>
+        <p style={{ color: 'var(--danger)' }}>❌ {error}</p>
         <p><Link to="/">← Terug naar start</Link></p>
       </section>
     )
   }
   if (!collection) {
-    return <section><p style={{ color: '#666' }}>Collectie niet gevonden.</p></section>
+    return <section><p style={{ color: 'var(--text-muted)' }}>Collectie niet gevonden.</p></section>
   }
 
   // Charity-lots tellen niet mee in omzetstatistieken (#6 uit roadmap)
@@ -71,9 +71,13 @@ export default function CollectionSummaryPage() {
   const charityLots = lots.filter((l) => l.is_charity)
 
   const total = regularLots.length
+  // hammered = enkel lots die een live hamerslag hebben gekregen (relevant
+  // voor tijd-statistieken). sold/notSold beschouwen óók geïmporteerde lots
+  // met sold=true en sale_price ingevuld — die hebben natuurlijk geen
+  // time_hammer.
   const hammered = regularLots.filter((l) => l.time_hammer != null)
-  const sold     = hammered.filter((l) => l.sold === true)
-  const notSold  = hammered.filter((l) => l.sold === false)
+  const sold     = regularLots.filter((l) => l.sold === true && l.sale_price != null)
+  const notSold  = regularLots.filter((l) => l.sold === false)
   const isFinished = total > 0 && hammered.length === total
 
   const totalRevenue = sold.reduce((s, l) => s + (Number(l.sale_price) || 0), 0)
@@ -125,7 +129,7 @@ export default function CollectionSummaryPage() {
         { label: 'Overzicht' },
       ].filter(Boolean)} />
       <h1 style={{ marginBottom: '0.25rem' }}>Overzicht — {collection.name}</h1>
-      <p style={{ color: '#666', marginTop: 0 }}>
+      <p style={{ color: 'var(--text-muted)', marginTop: 0 }}>
         {formatAuctionDate(collection)}
         {collection.location && ` · ${collection.location}`}
         {collection.status && ` · ${collection.status}`}
@@ -149,7 +153,7 @@ export default function CollectionSummaryPage() {
         </div>
       )}
 
-      {hammered.length === 0 ? (
+      {hammered.length === 0 && sold.length === 0 ? (
         <EmptyState collectionId={collectionId} />
       ) : (
         <>
@@ -175,7 +179,7 @@ export default function CollectionSummaryPage() {
 function EmptyState({ collectionId }) {
   return (
     <div style={blockStyle}>
-      <p style={{ color: '#888', fontStyle: 'italic', margin: 0 }}>
+      <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', margin: 0 }}>
         Nog geen lots gehamerd. Het overzicht vult zich automatisch zodra de eerste hamer is gevallen.
       </p>
       <p style={{ marginTop: '0.75rem', marginBottom: 0 }}>
@@ -189,24 +193,32 @@ function CoreStats({
   total, hammered, sold, notSold,
   totalRevenue, avgSalePrice, avgDurationSec, wallclockSec, isFinished,
 }) {
+  // Geïmporteerde veiling = geen live hamerslagen, wel sold + sale_price
+  const isImported = hammered.length === 0 && sold.length > 0
   return (
     <section style={blockStyle}>
       <h2 style={blockHeadingStyle}>
         Kerncijfers
-        {!isFinished && (
-          <span style={{ color: '#a06010', fontWeight: 'normal', fontSize: '0.85em', marginLeft: 8 }}>
+        {isImported ? (
+          <span style={{ color: 'var(--text-muted)', fontWeight: 'normal', fontSize: '0.85em', marginLeft: 8 }}>
+            (geïmporteerde resultaten)
+          </span>
+        ) : !isFinished && (
+          <span style={{ color: 'var(--warning)', fontWeight: 'normal', fontSize: '0.85em', marginLeft: 8 }}>
             (veiling nog bezig)
           </span>
         )}
       </h2>
       <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '0.5rem' }}>
         <tbody>
-          <Row label="Voortgang"
-            value={<strong>{hammered.length}/{total} gehamerd</strong>} />
+          {!isImported && (
+            <Row label="Voortgang"
+              value={<strong>{hammered.length}/{total} gehamerd</strong>} />
+          )}
           <Row label="Resultaat"
             value={<>
-              <span style={{ color: '#5A8A5A' }}>✓ {sold.length} verkocht</span>
-              {notSold.length > 0 && <> · <span style={{ color: '#a06010' }}>⊘ {notSold.length} niet verkocht</span></>}
+              <span style={{ color: 'var(--success)' }}>✓ {sold.length} verkocht</span>
+              {notSold.length > 0 && <> · <span style={{ color: 'var(--warning)' }}>⊘ {notSold.length} niet verkocht</span></>}
             </>} />
           <Row label="Totale omzet"
             value={<strong>€{formatNum(totalRevenue)}</strong>} />
@@ -231,7 +243,7 @@ function CoreStats({
 function Row({ label, value }) {
   return (
     <tr>
-      <td style={{ padding: '0.3rem 0', color: '#555', width: '11em', verticalAlign: 'top' }}>
+      <td style={{ padding: '0.3rem 0', color: 'var(--text-secondary)', width: '11em', verticalAlign: 'top' }}>
         {label}
       </td>
       <td style={{ padding: '0.3rem 0' }}>{value}</td>
@@ -251,11 +263,11 @@ function PerType({ groups }) {
         const revenue = groupSold.reduce((s, l) => s + (Number(l.sale_price) || 0), 0)
         const avg = groupSold.length > 0 ? revenue / groupSold.length : null
         return (
-          <div key={i} style={{ padding: '0.4rem 0', borderTop: i > 0 ? '1px solid #eee' : 'none' }}>
+          <div key={i} style={{ padding: '0.4rem 0', borderTop: i > 0 ? '1px solid var(--border-default)' : 'none' }}>
             <div style={{ fontWeight: 600 }}>
-              {group.typeName} <span style={{ color: '#999', fontWeight: 'normal' }}>({group.lots.length} lots)</span>
+              {group.typeName} <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}>({group.lots.length} lots)</span>
             </div>
-            <div style={{ color: '#555', fontSize: '0.9em', marginTop: 2 }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: 2 }}>
               {groupSold.length} verkocht · {groupNotSold.length} niet
               {avg != null && <> · gem €{formatNum(avg)}</>}
               {revenue > 0 && <> · totaal €{formatNum(revenue)}</>}
@@ -277,15 +289,15 @@ function PerLot({ lots }) {
             key={lot.id}
             style={{
               padding: '0.5rem 0',
-              borderBottom: '1px solid #eee',
+              borderBottom: '1px solid var(--border-default)',
               display: 'flex', alignItems: 'baseline',
               gap: '0.75rem', flexWrap: 'wrap',
             }}
           >
-            <span style={{ color: '#999', minWidth: '2.5em', fontFamily: 'ui-monospace, Menlo, monospace' }}>
+            <span style={{ color: 'var(--text-muted)', minWidth: '2.5em', fontFamily: 'var(--font-mono)' }}>
               #{lot.number ?? '—'}
             </span>
-            <Link to={`/lots/${lot.id}`} style={{ flex: 1, minWidth: '10em', color: '#222', textDecoration: 'none' }}>
+            <Link to={`/lots/${lot.id}`} style={{ flex: 1, minWidth: '10em', color: 'var(--text-primary)', textDecoration: 'none' }}>
               {lot.name}
             </Link>
             <LotResult lot={lot} />
@@ -298,7 +310,7 @@ function PerLot({ lots }) {
 
 function LotResult({ lot }) {
   if (lot.time_hammer == null) {
-    return <span style={{ color: '#aaa', fontStyle: 'italic' }}>nog niet gehamerd</span>
+    return <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>nog niet gehamerd</span>
   }
   if (lot.sold === true) {
     const channel = lot.sale_channel === 'zaal' ? 'zaal'
@@ -306,10 +318,10 @@ function LotResult({ lot }) {
                   : ''
     return (
       <span>
-        <span style={{ color: '#5A8A5A', marginRight: 6 }}>✓ {channel}</span>
+        <span style={{ color: 'var(--success)', marginRight: 6 }}>✓ {channel}</span>
         <strong>€{formatNum(lot.sale_price)}</strong>
         {lot.duration_seconds != null && (
-          <span style={{ color: '#888', marginLeft: 8, fontFamily: 'ui-monospace, Menlo, monospace' }}>
+          <span style={{ color: 'var(--text-muted)', marginLeft: 8, fontFamily: 'var(--font-mono)' }}>
             · {formatMmSs(lot.duration_seconds)}
           </span>
         )}
@@ -317,10 +329,10 @@ function LotResult({ lot }) {
     )
   }
   return (
-    <span style={{ color: '#a06010' }}>
+    <span style={{ color: 'var(--warning)' }}>
       ⊘ niet verkocht
       {lot.sale_price != null && (
-        <span style={{ color: '#888', marginLeft: 6 }}>(hoogste bod €{formatNum(lot.sale_price)})</span>
+        <span style={{ color: 'var(--text-muted)', marginLeft: 6 }}>(hoogste bod €{formatNum(lot.sale_price)})</span>
       )}
     </span>
   )
@@ -350,16 +362,17 @@ function formatAuctionDate(collection) {
   return d.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-const crumbStyle = { color: '#888', textDecoration: 'none' }
+const crumbStyle = { color: 'var(--text-muted)', textDecoration: 'none' }
 const blockStyle = {
   marginTop: '1.25rem',
   padding: '1rem 1.25rem',
-  background: '#fafafa',
-  border: '1px solid #eee',
-  borderRadius: 6,
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  color: 'var(--text-primary)',
 }
 const blockHeadingStyle = {
   fontSize: '1.1em',
   margin: '0',
-  color: '#333',
+  color: 'var(--text-primary)',
 }

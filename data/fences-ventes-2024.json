@@ -1,0 +1,4009 @@
+{
+  "collections": [
+    {
+      "meta": {
+        "collection": "Fences FW DLH — 11/03/2024",
+        "house": "Agence Fences",
+        "date": "2024-03-11",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: FW DLH",
+        "imported_at": "2026-05-07T12:57:50.484Z",
+        "total": 21,
+        "data_source": "Fences 4D-API, year=2024, date=11-03-2024"
+      },
+      "horses": [
+        {
+          "name": "DON'T TOUCH TIJI HERO X HELLO",
+          "slug": "don-t-touch-tiji-hero-x-hello",
+          "discipline": "Springen",
+          "sire": "DON'T TOUCH TIJI HERO",
+          "dam": "HELLO KAOUET RAYGADES",
+          "sale_price": 7500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KAPITOL DLH",
+          "slug": "kapitol-dlh",
+          "discipline": "Springen",
+          "sire": "SATISFACTION FRH",
+          "dam": "AURNELA GREDET",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KASANOVA DE LA POMME X ALMA",
+          "slug": "kasanova-de-la-pomme-x-alma",
+          "discipline": "Springen",
+          "sire": "KASANOVA DE LA POMME",
+          "dam": "ALMA DE VERDOSO",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KASANOVA DE LA POMME X NOISET",
+          "slug": "kasanova-de-la-pomme-x-noiset",
+          "discipline": "Springen",
+          "sire": "KASANOVA DE LA POMME",
+          "dam": "NOISET BRIMBELLES Z",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KOPILOTE DLH",
+          "slug": "kopilote-dlh",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "EGERIE DES PLAINS",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LADY DLH",
+          "slug": "lady-dlh",
+          "discipline": "Springen",
+          "sire": "CRISTALLO",
+          "dam": "EMBLEME DU CHANU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LALALAND DLH",
+          "slug": "lalaland-dlh",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "VENDETTA DE L'ECUYER",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEGENDE DLH",
+          "slug": "legende-dlh",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE M",
+          "dam": "HORNELA NEOSTO DLH",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LINCOLN DLH",
+          "slug": "lincoln-dlh",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE M",
+          "dam": "VENDETTA DE L'ECUYER",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORD DLH",
+          "slug": "lord-dlh",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "ISMENE DE SEMILLY",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MILLION DLH",
+          "slug": "million-dlh",
+          "discipline": "Springen",
+          "sire": "QUEL HOMME DE HUS",
+          "dam": "ISMENE DE SEMILLY",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MOON BLUE DLH",
+          "slug": "moon-blue-dlh",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "EGERIE DES PLAINS",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MOZART DLH",
+          "slug": "mozart-dlh",
+          "discipline": "Springen",
+          "sire": "QUEL HOMME DE HUS",
+          "dam": "FLAGADA DES CHAMPS",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MY BOY DLH",
+          "slug": "my-boy-dlh",
+          "discipline": "Springen",
+          "sire": "EL BARONE 111 Z",
+          "dam": "FLAGADA DES CHAMPS",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NAIADE DLH",
+          "slug": "naiade-dlh",
+          "discipline": "Springen",
+          "sire": "I'M SPECIAL DE MUZE",
+          "dam": "ORNELA DE CARTIGNY",
+          "sale_price": 5000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NAMZELLE DLH",
+          "slug": "namzelle-dlh",
+          "discipline": "Springen",
+          "sire": "FREUD DE KREISKER",
+          "dam": "DAM'ZELLE DUVERIE",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NARCOTIQUE DLH",
+          "slug": "narcotique-dlh",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "AURNELA GREDET",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NESPRESSO DLH",
+          "slug": "nespresso-dlh",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "NOUGATINE DU DUN",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NINO DLH",
+          "slug": "nino-dlh",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "ARBALETE DE L'ECUYER",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NOTORIOUS DLH",
+          "slug": "notorious-dlh",
+          "discipline": "Springen",
+          "sire": "KASANOVA DE LA POMME",
+          "dam": "DAMOIZELLE DUVERIE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SILVER DEUX DE VIRTON X TOP TEN",
+          "slug": "silver-deux-de-virton-x-top-ten",
+          "discipline": "Springen",
+          "sire": "SILVER DEUX DE VIRTON",
+          "dam": "TOP TEN RUMEL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences PERF — 27/04/2024",
+        "house": "Agence Fences",
+        "date": "2024-04-27",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: PERF",
+        "imported_at": "2026-05-07T12:57:51.504Z",
+        "total": 21,
+        "data_source": "Fences 4D-API, year=2024, date=27-04-2024"
+      },
+      "horses": [
+        {
+          "name": "COMME CONVENU",
+          "slug": "comme-convenu",
+          "discipline": "Springen",
+          "sire": "COMME IL FAUT",
+          "dam": "AIDA",
+          "sale_price": 340000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CORNET OBOLENSKY X CARLA VOM MOOR",
+          "slug": "cornet-obolensky-x-carla-vom-moor",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "CARLA VOM MOOR",
+          "sale_price": 27000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COUNTESS P VD DONKHOEVE",
+          "slug": "countess-p-vd-donkhoeve",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "ECUMINA VAN 'T PRINSENVELD",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DIAMANT DE SEMILLY X POCAHONTAS",
+          "slug": "diamant-de-semilly-x-pocahontas",
+          "discipline": "Springen",
+          "sire": "DIAMANT DE SEMILLY",
+          "dam": "MOM'S POCAHONTAS D'AMAURY",
+          "sale_price": 34000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DOMINATOR 2000 Z X SORAYA",
+          "slug": "dominator-2000-z-x-soraya",
+          "discipline": "Springen",
+          "sire": "DOMINATOR 2000 Z",
+          "dam": "SORAYA DE LA POMME",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "EMERALDS FLASH DANCE",
+          "slug": "emeralds-flash-dance",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "ELORE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ESMERALDA EM Z",
+          "slug": "esmeralda-em-z",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "CHELSEY V'T KELFSHOF Z",
+          "sale_price": 110000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HEARTBREAKER X TOXINE DE MARS",
+          "slug": "heartbreaker-x-toxine-de-mars",
+          "discipline": "Springen",
+          "sire": "HEARTBREAKER",
+          "dam": "TOXINE DE MARS",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HIDRISS DES LUNES",
+          "slug": "hidriss-des-lunes",
+          "discipline": "Springen",
+          "sire": "OGANO SITTE",
+          "dam": "VECTRA DE LA ROQUE",
+          "sale_price": 120000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HOPE DE SIJU",
+          "slug": "hope-de-siju",
+          "discipline": "Springen",
+          "sire": "NERVOSO",
+          "dam": "BUGATTI BOURGEOISE",
+          "sale_price": 100000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HUBERTIN DE REILE",
+          "slug": "hubertin-de-reile",
+          "discipline": "Springen",
+          "sire": "CANTURO",
+          "dam": "NAIADE DUNOISE",
+          "sale_price": 230000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "INDEVA",
+          "slug": "indeva",
+          "discipline": "Springen",
+          "sire": "CARTOON TAME",
+          "dam": "LABELDEVA",
+          "sale_price": 110000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IPPIE CHIC DES FORETS",
+          "slug": "ippie-chic-des-forets",
+          "discipline": "Springen",
+          "sire": "DIEGO TAME",
+          "dam": "VIS TA VIE DES FORETS",
+          "sale_price": 75000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IRON CAK",
+          "slug": "iron-cak",
+          "discipline": "Springen",
+          "sire": "ELDORADO DE HUS",
+          "dam": "PERLE DE LA TAURIE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KASHMIR X CALANDRA",
+          "slug": "kashmir-x-calandra",
+          "discipline": "Springen",
+          "sire": "KASHMIR VAN SCHUTTERSHOF",
+          "dam": "CALANDRA",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MYLORD X GIVE ME DE KREISKER",
+          "slug": "mylord-x-give-me-de-kreisker",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "GIVE ME DE KREISKER",
+          "sale_price": 21000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NATALY ES",
+          "slug": "nataly-es",
+          "discipline": "Springen",
+          "sire": "CODEX ONE",
+          "dam": "JASMIJN ES",
+          "sale_price": 120000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PUCARA TILCARA",
+          "slug": "pucara-tilcara",
+          "discipline": "Springen",
+          "sire": "FIRE AND ICE J",
+          "dam": "LUCIEN",
+          "sale_price": 240000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SHAKESPAERE DE MUZE",
+          "slug": "shakespaere-de-muze",
+          "discipline": "Springen",
+          "sire": "EAMES DE HUS",
+          "dam": "OILILY DE MUZE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "TITANESS P VD DONKHOEVE",
+          "slug": "titaness-p-vd-donkhoeve",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "FINESSE VAN'T PRINSENVELD",
+          "sale_price": 120000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "UTAH VAN ERPEKOM X CATAPULTE",
+          "slug": "utah-van-erpekom-x-catapulte",
+          "discipline": "Springen",
+          "sire": "UTAH VAN ERPEKOM",
+          "dam": "CATAPULTE",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences PERFORMERS — 21/05/2024",
+        "house": "Agence Fences",
+        "date": "2024-05-21",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: PERFORMERS",
+        "imported_at": "2026-05-07T12:57:52.270Z",
+        "total": 11,
+        "data_source": "Fences 4D-API, year=2024, date=21-05-2024"
+      },
+      "horses": [
+        {
+          "name": "DOLLAR GIRL CC",
+          "slug": "dollar-girl-cc",
+          "discipline": "Springen",
+          "sire": "DIARADO",
+          "dam": "VINKA",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DOUBLE R BLACK DIAMOND",
+          "slug": "double-r-black-diamond",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "BE EME DIADEMA",
+          "sale_price": 64000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HERMIONE DE JAURAND",
+          "slug": "hermione-de-jaurand",
+          "discipline": "Springen",
+          "sire": "TANGELO VAN DE ZUUTHOEVE",
+          "dam": "UNE ETOILE DE JAURAND",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IN STYLE DES FORETS",
+          "slug": "in-style-des-forets",
+          "discipline": "Springen",
+          "sire": "EXOCET DU HOUSSOIT",
+          "dam": "VERY WELL DREAM",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "INAYA DU BOCHARD",
+          "slug": "inaya-du-bochard",
+          "discipline": "Springen",
+          "sire": "ROMEO DE VILLARET",
+          "dam": "REGALIA DU BOCHARD",
+          "sale_price": 71000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IRIS HOY",
+          "slug": "iris-hoy",
+          "discipline": "Springen",
+          "sire": "VARECH HOY",
+          "dam": "VAILLANTE DE PAPIGNIES",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IXORA DES FORETS",
+          "slug": "ixora-des-forets",
+          "discipline": "Springen",
+          "sire": "BY CEIRA D'ICK",
+          "dam": "LAVANDE DES FORETS",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "JAVA DU REHTHAL",
+          "slug": "java-du-rehthal",
+          "discipline": "Springen",
+          "sire": "DIAMANT DE SEMILLY",
+          "dam": "SCALA DU GOLFE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MIDNIGHT SPIROS",
+          "slug": "midnight-spiros",
+          "discipline": "Springen",
+          "sire": "SPIROS Z",
+          "dam": "BON BON J",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "REAL MAGIC VAN DE ROSTAL",
+          "slug": "real-magic-van-de-rostal",
+          "discipline": "Springen",
+          "sire": "LAVALLINO TER KLOMP",
+          "dam": "MAGIC DREAM",
+          "sale_price": 90000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SIESTA VD BISSCHOP",
+          "slug": "siesta-vd-bisschop",
+          "discipline": "Springen",
+          "sire": "DENZEL V'T MEULENHOF",
+          "dam": "ELSIE VAN DE WELLINGTON",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences SELECTION — 01/07/2024",
+        "house": "Agence Fences",
+        "date": "2024-07-01",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: SELECTION",
+        "imported_at": "2026-05-07T12:57:52.924Z",
+        "total": 35,
+        "data_source": "Fences 4D-API, year=2024, date=01-07-2024"
+      },
+      "horses": [
+        {
+          "name": "ACTION MAN II Z",
+          "slug": "action-man-ii-z",
+          "discipline": "Springen",
+          "sire": "ACTION BREAKER",
+          "dam": "CAMILLA Z",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ARMAN D'O Z",
+          "slug": "arman-d-o-z",
+          "discipline": "Springen",
+          "sire": "AMADEO VAN'T VOSSENHOF Z",
+          "dam": "RAMONA D'O",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CATSUM'X DE MAUGRE Z",
+          "slug": "catsum-x-de-maugre-z",
+          "discipline": "Springen",
+          "sire": "CASALLO Z",
+          "dam": "HEAVEN'X DE MAUGRE",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "FURIX DE MAUGRE Z",
+          "slug": "furix-de-maugre-z",
+          "discipline": "Springen",
+          "sire": "FUHRER DE MAUGRE",
+          "dam": "COWGIRL DE MAUGRE",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LA CRAPULE DE TOI",
+          "slug": "la-crapule-de-toi",
+          "discipline": "Springen",
+          "sire": "LAUTERBACH",
+          "dam": "SAIDA DE NANTUEL",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LASCO DU ROC",
+          "slug": "lasco-du-roc",
+          "discipline": "Springen",
+          "sire": "COLORE",
+          "dam": "CLASSICA DU ROC",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LATINO DE TUS",
+          "slug": "latino-de-tus",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "BAHIA DE TUS",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEGEND D",
+          "slug": "legend-d",
+          "discipline": "Springen",
+          "sire": "BLACK CERA DK Z",
+          "dam": "QALIENTA DENFER",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEPRINCE DE CHENEE",
+          "slug": "leprince-de-chenee",
+          "discipline": "Springen",
+          "sire": "ARMITAGES BOY",
+          "dam": "SIAM DE LA CHENEE",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEXINGTON DE TREMER",
+          "slug": "lexington-de-tremer",
+          "discipline": "Springen",
+          "sire": "VIGO D'ARSOUILLES",
+          "dam": "TIARA KERFONTAINE",
+          "sale_price": 9500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIANOS DU THEIL",
+          "slug": "lianos-du-theil",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "SIDNEY DU THEIL",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIFE DES CEDRES VERTS",
+          "slug": "life-des-cedres-verts",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "FAST DES CEDRES VERTS",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIGHT FIRE DU LOZON",
+          "slug": "light-fire-du-lozon",
+          "discipline": "Springen",
+          "sire": "QUEL HOMME DE HUS",
+          "dam": "MARITIME DU LOZON",
+          "sale_price": 8000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIKE A DREAM BRUCE",
+          "slug": "like-a-dream-bruce",
+          "discipline": "Springen",
+          "sire": "BISQUET BALOU",
+          "dam": "QUICK STEP",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LILLE CDL",
+          "slug": "lille-cdl",
+          "discipline": "Springen",
+          "sire": "TANGELO VAN DE ZUUTHOEVE",
+          "dam": "ARIZONA TD",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LISBONNE DU BOSQUET",
+          "slug": "lisbonne-du-bosquet",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE M",
+          "dam": "QUADRILLE D'ARIEL",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LISTEN DES LUTHIERS",
+          "slug": "listen-des-luthiers",
+          "discipline": "Springen",
+          "sire": "HARDROCK Z",
+          "dam": "PAPRIKA DES LUTHIERS",
+          "sale_price": 8000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITHIUM SAINT BLAIZE",
+          "slug": "lithium-saint-blaize",
+          "discipline": "Springen",
+          "sire": "CHROME D'IVRAIE",
+          "dam": "GALICE DU FAYARD",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITTLE BOY KERVEC",
+          "slug": "little-boy-kervec",
+          "discipline": "Springen",
+          "sire": "CONTE BELLINI",
+          "dam": "JOLLY GIRL DE KERVEC",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOCKI DU BRECHE",
+          "slug": "locki-du-breche",
+          "discipline": "Springen",
+          "sire": "BRANTZAU",
+          "dam": "FREE DU BRECHE",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOOPER DU PUISOT",
+          "slug": "looper-du-puisot",
+          "discipline": "Springen",
+          "sire": "NEWTON DE KREISKER",
+          "dam": "TOY DU MURIER",
+          "sale_price": 8000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOUISIANE DU VALMON",
+          "slug": "louisiane-du-valmon",
+          "discipline": "Springen",
+          "sire": "COLORE",
+          "dam": "AWAI GERY",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOUSTICK DES FORETS",
+          "slug": "loustick-des-forets",
+          "discipline": "Springen",
+          "sire": "LE COULTRE DE MUZE",
+          "dam": "UNTE DES FORETS",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUCRECE DE FALAISE",
+          "slug": "lucrece-de-falaise",
+          "discipline": "Springen",
+          "sire": "FALKO DE HUS",
+          "dam": "ESTHER",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUPIN DE KERGANE",
+          "slug": "lupin-de-kergane",
+          "discipline": "Springen",
+          "sire": "FANCY DE KERGANE",
+          "dam": "CILBADD DE KERGANE",
+          "sale_price": 21000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUPIN JUANNE",
+          "slug": "lupin-juanne",
+          "discipline": "Springen",
+          "sire": "ANDIAMO SEMILLY",
+          "dam": "HAPPY JUANNE",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUTECIA DE SAINT'A",
+          "slug": "lutecia-de-saint-a",
+          "discipline": "Springen",
+          "sire": "FALKO DE HUS",
+          "dam": "HERA DE SAINT'A",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LYTCHI LA FONTAINE",
+          "slug": "lytchi-la-fontaine",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "DOUCE",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LYVETTE DE KERGANE",
+          "slug": "lyvette-de-kergane",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "ISKALYNN DE KERGANE",
+          "sale_price": 23000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PANCAKE DS Z",
+          "slug": "pancake-ds-z",
+          "discipline": "Springen",
+          "sire": "PIECE OF CAKE M",
+          "dam": "UNIEK VAN'T GELUTT Z",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PEFECT TOUCH",
+          "slug": "pefect-touch",
+          "discipline": "Springen",
+          "sire": "UNITED TOUCH S",
+          "dam": "QUARTINA DC",
+          "sale_price": 54000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PONGO DU BOSQUET DEL FOLLEE",
+          "slug": "pongo-du-bosquet-del-follee",
+          "discipline": "Springen",
+          "sire": "DIARADO",
+          "dam": "URA DELA LONDE",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ROYAL FEU TREN",
+          "slug": "royal-feu-tren",
+          "discipline": "Springen",
+          "sire": "FOR FRIENDSHIP VDL",
+          "dam": "MONA",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "URANO",
+          "slug": "urano",
+          "discipline": "Springen",
+          "sire": "KANNAN",
+          "dam": "QUETZA HERO DB",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VOYOU D'O",
+          "slug": "voyou-d-o",
+          "discipline": "Springen",
+          "sire": "ELVIS TER PUTTE",
+          "dam": "ROSALINE D'O",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences SELECTION — 02/07/2024",
+        "house": "Agence Fences",
+        "date": "2024-07-02",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: SELECTION",
+        "imported_at": "2026-05-07T12:57:53.758Z",
+        "total": 35,
+        "data_source": "Fences 4D-API, year=2024, date=02-07-2024"
+      },
+      "horses": [
+        {
+          "name": "APRECIOUS FELINAE DB Z",
+          "slug": "aprecious-felinae-db-z",
+          "discipline": "Springen",
+          "sire": "AKTION PUR Z",
+          "dam": "FELINA VAN DE LA ROSTEEHOEVE",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "BLUE",
+          "slug": "blue",
+          "discipline": "Springen",
+          "sire": "Q'CHACCO BLUE VAN ESSENE",
+          "dam": "NIDLEBIS",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHAPTER BLUE ROSE P Z",
+          "slug": "chapter-blue-rose-p-z",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "DESERT ROSE",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHRISCRAFT TACHOR Z",
+          "slug": "chriscraft-tachor-z",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "MOM'S VIBELLE Z",
+          "sale_price": 32000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ELEGANCE EDEL Z",
+          "slug": "elegance-edel-z",
+          "discipline": "Springen",
+          "sire": "ELVIS TER PUTTE",
+          "dam": "BEST UNIT EDEL Z",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ESTA BONITO DE KREISKER",
+          "slug": "esta-bonito-de-kreisker",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "LAVINA VD BISSCHOP",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "JOLI COEUR DE LA PODKOVA Z",
+          "slug": "joli-coeur-de-la-podkova-z",
+          "discipline": "Springen",
+          "sire": "JUNIOR DU SEIGNEUR",
+          "dam": "CHARISMA VAN HET ROOSAKKER Z",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KITTY KEW GARDEN",
+          "slug": "kitty-kew-garden",
+          "discipline": "Springen",
+          "sire": "KENO DU ROZEL",
+          "dam": "AMELIE DE PAULSTRA",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L DE LA BOTTE",
+          "slug": "l-de-la-botte",
+          "discipline": "Springen",
+          "sire": "EDEN DU ROUET",
+          "dam": "UNESCA DE LA BOTTE",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LADY FOXGLEN",
+          "slug": "lady-foxglen",
+          "discipline": "Springen",
+          "sire": "QLASSIC BOIS MARGOT",
+          "dam": "LYKKEHOJS CAYENNE",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LADY STAR DE FETAN",
+          "slug": "lady-star-de-fetan",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "THERIANE DE FETAN",
+          "sale_price": 8000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LADYBIRD",
+          "slug": "ladybird",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "CAJA",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAGOON BLUE KS",
+          "slug": "lagoon-blue-ks",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "CAFE CREME",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAMOUR WOW",
+          "slug": "lamour-wow",
+          "discipline": "Springen",
+          "sire": "GOOD PLEASURE SEMILLY",
+          "dam": "FAKARAVA DE HUS",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LARGO DE LA BUIE",
+          "slug": "largo-de-la-buie",
+          "discipline": "Springen",
+          "sire": "COLORE",
+          "dam": "URGANDE DU LUC",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEFFE DU GUAY",
+          "slug": "leffe-du-guay",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "BIRDY DU GUAY",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEGENDE DE PERLE",
+          "slug": "legende-de-perle",
+          "discipline": "Springen",
+          "sire": "HARDROCK Z",
+          "dam": "PERLE D'OLGY",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEWIS D'ALTENBACH",
+          "slug": "lewis-d-altenbach",
+          "discipline": "Springen",
+          "sire": "CONQUISTADOR",
+          "dam": "ROMY D'ALTENBACH",
+          "sale_price": 21000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIKE ME DE NEROLI",
+          "slug": "like-me-de-neroli",
+          "discipline": "Springen",
+          "sire": "BY CEIRA D'ICK",
+          "dam": "TORNADE DE TALMA",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LILY DU REVERDY",
+          "slug": "lily-du-reverdy",
+          "discipline": "Springen",
+          "sire": "QUIDAM DE REVEL",
+          "dam": "SHIRLEY DU REVERDY",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIMAO D'AMARY",
+          "slug": "limao-d-amary",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "TWISTING SUNSHINE",
+          "sale_price": 29000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LINO DU BIDOU",
+          "slug": "lino-du-bidou",
+          "discipline": "Springen",
+          "sire": "UP TO YOU",
+          "dam": "FANTASIA LOUVO",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITTLE DE NUIT",
+          "slug": "little-de-nuit",
+          "discipline": "Springen",
+          "sire": "EL BARONE 111 Z",
+          "dam": "DOLE DE LA BOTTE",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOHENGRIN",
+          "slug": "lohengrin",
+          "discipline": "Springen",
+          "sire": "ANDIAMO SEMILLY",
+          "dam": "TANNHAUSER BLUE",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORD FIRST DU VASSAL",
+          "slug": "lord-first-du-vassal",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "FIRST DE KREISKER",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORD GOD ALU",
+          "slug": "lord-god-alu",
+          "discipline": "Springen",
+          "sire": "DIARADO",
+          "dam": "CORN FLEX ALU",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORD WOALLAS",
+          "slug": "lord-woallas",
+          "discipline": "Springen",
+          "sire": "CASALL",
+          "dam": "VALSE DU PAYS D'AUGE",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOSCAR MAIL",
+          "slug": "loscar-mail",
+          "discipline": "Springen",
+          "sire": "MELISSAS SYDNEY",
+          "dam": "ORANGEADE MAIL",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUCERNAIS DU VENT",
+          "slug": "lucernais-du-vent",
+          "discipline": "Springen",
+          "sire": "CARINJO HDC",
+          "dam": "DIVABLUE DU VENT",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUIDAM DE FOLIE",
+          "slug": "luidam-de-folie",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "PRUNE DE CHALUSSE",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUTETIA EGV",
+          "slug": "lutetia-egv",
+          "discipline": "Springen",
+          "sire": "QUEL HOMME DE HUS",
+          "dam": "CARLA DU LAVOIR",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUXOR ALU",
+          "slug": "luxor-alu",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "CARIONA",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PYRRHUS SITTE DE LA TOUR VIDAL",
+          "slug": "pyrrhus-sitte-de-la-tour-vidal",
+          "discipline": "Springen",
+          "sire": "QUABRI DE L'ISLE",
+          "dam": "IALTA DE LA TOUR VIDAL",
+          "sale_price": 23000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "U-ETOILE DE NODUWEZ",
+          "slug": "u-etoile-de-noduwez",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "ERONE",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VASCO VAN DE RISPEN",
+          "slug": "vasco-van-de-rispen",
+          "discipline": "Springen",
+          "sire": "AGANIX DU SEIGNEUR",
+          "dam": "RETINNE VAN DE RISPEN",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences PERFORMERS — 10/08/2024",
+        "house": "Agence Fences",
+        "date": "2024-08-10",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: PERFORMERS",
+        "imported_at": "2026-05-07T12:57:54.577Z",
+        "total": 32,
+        "data_source": "Fences 4D-API, year=2024, date=10-08-2024"
+      },
+      "horses": [
+        {
+          "name": "BALOUBET DU ROUET X LHASA DU CEDRE",
+          "slug": "baloubet-du-rouet-x-lhasa-du-cedre",
+          "discipline": "Springen",
+          "sire": "BALOUBET DU ROUET",
+          "dam": "LHASA DU CEDRE",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CATOKI X LHASA DU CEDRE",
+          "slug": "catoki-x-lhasa-du-cedre",
+          "discipline": "Springen",
+          "sire": "CATOKI",
+          "dam": "LHASA DU CEDRE",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CELTIC",
+          "slug": "celtic",
+          "discipline": "Springen",
+          "sire": "CONCORDE",
+          "dam": "CHANDEROKA",
+          "sale_price": 95000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COMME IL FAUT X ALLEGRIA",
+          "slug": "comme-il-faut-x-allegria",
+          "discipline": "Springen",
+          "sire": "COMME IL FAUT",
+          "dam": "ALLEGRIA VAN SCHUTTERSHOF",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COMME IL FAUT X HH AZUR",
+          "slug": "comme-il-faut-x-hh-azur",
+          "discipline": "Springen",
+          "sire": "COMME IL FAUT",
+          "dam": "HH AZUR",
+          "sale_price": 68000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COMME TINKA CSL Z",
+          "slug": "comme-tinka-csl-z",
+          "discipline": "Springen",
+          "sire": "COMME IL FAUT",
+          "dam": "TINKABELL 12",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CORNET X QUARMEN DE TOSCANE",
+          "slug": "cornet-x-quarmen-de-toscane",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "QUARMEN DE TOSCANE",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DON LAMOOR",
+          "slug": "don-lamoor",
+          "discipline": "Springen",
+          "sire": "DIATHAGO",
+          "dam": "GIGA",
+          "sale_price": 280000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HASHLEY DE VALLET",
+          "slug": "hashley-de-vallet",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "FANTASIA VI",
+          "sale_price": 90000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HULK DES FORETS",
+          "slug": "hulk-des-forets",
+          "discipline": "Springen",
+          "sire": "CICERO Z",
+          "dam": "VOLVIC DES FORETS",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IXES DES AS",
+          "slug": "ixes-des-as",
+          "discipline": "Springen",
+          "sire": "BY CEIRA D'ICK",
+          "dam": "EXCELLENCIA D'ICK",
+          "sale_price": 200000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "JADORE LA SOULE",
+          "slug": "jadore-la-soule",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "NAUSICAA DU LOUP",
+          "sale_price": 115000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "JALOUSTAR DE LA FOLIE",
+          "slug": "jaloustar-de-la-folie",
+          "discipline": "Springen",
+          "sire": "BALOU STAR",
+          "dam": "PIN UP DE LA FOLIE",
+          "sale_price": 44000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "JASPE DU LYS",
+          "slug": "jaspe-du-lys",
+          "discipline": "Springen",
+          "sire": "DOLLAR DU ROUET",
+          "dam": "CRYSTALLE DU LYS Z",
+          "sale_price": 250000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOBKE DE VINCK",
+          "slug": "lobke-de-vinck",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "GREETJE DE VINCK",
+          "sale_price": 95000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MAESTRIA M-G C LEUZE",
+          "slug": "maestria-m-g-c-leuze",
+          "discipline": "Springen",
+          "sire": "BALOU DU ROUET",
+          "dam": "FAIS GAFFE MGC LEUZE",
+          "sale_price": 130000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OCEANE WOW",
+          "slug": "oceane-wow",
+          "discipline": "Springen",
+          "sire": "VERDI TN",
+          "dam": "GLOBAL DES BRIMBELLES",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OFFSPRING DU PONANT",
+          "slug": "offspring-du-ponant",
+          "discipline": "Springen",
+          "sire": "DARRY LOU",
+          "dam": "KINSHASA DU CEDRE",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OHRATEP DEL COLLE",
+          "slug": "ohratep-del-colle",
+          "discipline": "Springen",
+          "sire": "RAHOTEP DE TOSCANE",
+          "dam": "ZARISSA M",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OMBRE DES GRISES LDG",
+          "slug": "ombre-des-grises-ldg",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "NIKITA",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ONOLULU GOOD LIFE",
+          "slug": "onolulu-good-life",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "WIMETTE VAN HET KLUIZEBOS",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OPALINE DEL COLLE",
+          "slug": "opaline-del-colle",
+          "discipline": "Springen",
+          "sire": "ELDORADO VAN DE ZESHOEK",
+          "dam": "BURBERY DE KREISKER",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ORNELLA D'ALTENBACH",
+          "slug": "ornella-d-altenbach",
+          "discipline": "Springen",
+          "sire": "HEARTBREAKER",
+          "dam": "SHIREL DE KREISKER",
+          "sale_price": 30000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSCAR DE GOUTTE NOIRE",
+          "slug": "oscar-de-goutte-noire",
+          "discipline": "Springen",
+          "sire": "COLESTUS",
+          "dam": "ROSEE DE CERISY",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSLO DE KERGLENN",
+          "slug": "oslo-de-kerglenn",
+          "discipline": "Springen",
+          "sire": "DIAMANT DE SEMILLY",
+          "dam": "LETOILE DE KERGLENN",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OTIS LA VIDA Z",
+          "slug": "otis-la-vida-z",
+          "discipline": "Springen",
+          "sire": "OGANO SITTE",
+          "dam": "QUIARA",
+          "sale_price": 200000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OXFORD DK",
+          "slug": "oxford-dk",
+          "discipline": "Springen",
+          "sire": "ERMITAGE KALONE",
+          "dam": "KISS ME FOREVER DK",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SOLENSKA VD MESSIDOR",
+          "slug": "solenska-vd-messidor",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "OXANIA VD MESSIDOR",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SPARK VD BISSCHOP",
+          "slug": "spark-vd-bisschop",
+          "discipline": "Springen",
+          "sire": "DIAMANT DE SEMILLY",
+          "dam": "CELSA VD DREEF",
+          "sale_price": 390000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "TALENTOSO D'ASBO",
+          "slug": "talentoso-d-asbo",
+          "discipline": "Springen",
+          "sire": "PRESTIGE VAN HET KLUIZEBOS",
+          "dam": "JENNA VAN'T MEULENHOF",
+          "sale_price": 60000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "UNITED TOUCH S X GLUCK TER PUTTE",
+          "slug": "united-touch-s-x-gluck-ter-putte",
+          "discipline": "Springen",
+          "sire": "UNITED TOUCH S",
+          "dam": "GLUCK TER PUTTE",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "UNITED TOUCH S X HAD HEART BEE Z",
+          "slug": "united-touch-s-x-had-heart-bee-z",
+          "discipline": "Springen",
+          "sire": "UNITED TOUCH S",
+          "dam": "HAD HEART BEE Z",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences ELITE — 28/08/2024",
+        "house": "Agence Fences",
+        "date": "2024-08-28",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: ELITE",
+        "imported_at": "2026-05-07T12:57:55.497Z",
+        "total": 26,
+        "data_source": "Fences 4D-API, year=2024, date=28-08-2024"
+      },
+      "horses": [
+        {
+          "name": "CARLITO DES HAUTS MONCEAUX Z",
+          "slug": "carlito-des-hauts-monceaux-z",
+          "discipline": "Springen",
+          "sire": "CHACCO WHITE",
+          "dam": "EGERIE DES HAUTS MONCEAUX",
+          "sale_price": 44000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHACCO GIRL COT CHAT Z",
+          "slug": "chacco-girl-cot-chat-z",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "OH SO SPECIAL VM",
+          "sale_price": 44000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHALOU PS",
+          "slug": "chalou-ps",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "TRINE",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HEARTWELL DU CORDEL Z",
+          "slug": "heartwell-du-cordel-z",
+          "discipline": "Springen",
+          "sire": "HEARTBREAKER",
+          "dam": "JEWEL VAN'T HEIKE",
+          "sale_price": 32000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LADY LAY DE PREUILLY",
+          "slug": "lady-lay-de-preuilly",
+          "discipline": "Springen",
+          "sire": "HARDROCK Z",
+          "dam": "AMETHYSTE DE PREUILLY",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LADY OKI D'HAROS",
+          "slug": "lady-oki-d-haros",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "OKINAWA DE MARS",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAGOYA DU TREFLE",
+          "slug": "lagoya-du-trefle",
+          "discipline": "Springen",
+          "sire": "URLEVENT DU BARY",
+          "dam": "EURASIE DU TREFLE",
+          "sale_price": 42000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LANDYX DEL COLLE",
+          "slug": "landyx-del-colle",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "CALYX DC",
+          "sale_price": 22000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LARISTO A TROTEVAL",
+          "slug": "laristo-a-troteval",
+          "discipline": "Springen",
+          "sire": "FALCO DE TATIHOU",
+          "dam": "VISTA DE TROTEVAL",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LATINO DE KREISKER",
+          "slug": "latino-de-kreisker",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "DALOU MANCIAISE",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAZULI DU PITRAY",
+          "slug": "lazuli-du-pitray",
+          "discipline": "Springen",
+          "sire": "DIARADO",
+          "dam": "TURQUOISE DU PITRAY",
+          "sale_price": 22000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAZZARO NUMENOR",
+          "slug": "lazzaro-numenor",
+          "discipline": "Springen",
+          "sire": "VAGABOND DE LA POMME",
+          "dam": "KARA DES CHAMPS",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEADER DE BELHEME",
+          "slug": "leader-de-belheme",
+          "discipline": "Springen",
+          "sire": "EDEN DU ROUET",
+          "dam": "FULL OF STARS BELHEME",
+          "sale_price": 30000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LENDRO DE LA BOTTE",
+          "slug": "lendro-de-la-botte",
+          "discipline": "Springen",
+          "sire": "CONTENDRO",
+          "dam": "EDENE DE LA BOTTE",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LENNON DORCHIVAL",
+          "slug": "lennon-dorchival",
+          "discipline": "Springen",
+          "sire": "ELDORADO VAN DE ZESHOEK",
+          "dam": "CANADIAN BLUE RIVER",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIFEISLIFE D RONDETS",
+          "slug": "lifeislife-d-rondets",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "RECTILIGNE UNE PRINCE",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LINE DES FORETS",
+          "slug": "line-des-forets",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "VIOLINE DE KERGANE",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITCHI DES VN",
+          "slug": "litchi-des-vn",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "BIMBO DOLL",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOVELY DREAM",
+          "slug": "lovely-dream",
+          "discipline": "Springen",
+          "sire": "AMANT DU CHATEAU",
+          "dam": "AS YOU LIKE",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LYOR DE KERNIGUEZ",
+          "slug": "lyor-de-kerniguez",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "VERTU MENILJEAN",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ONLY DU PONANT",
+          "slug": "only-du-ponant",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "CYLTZIA DE KERGANE",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OPTION D'ISCLA",
+          "slug": "option-d-iscla",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "SIGNORA",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RATIO ES",
+          "slug": "ratio-es",
+          "discipline": "Springen",
+          "sire": "DOLLAR DU ROUET",
+          "dam": "HALITA ES",
+          "sale_price": 80000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RAVISSANTE-P VAN KATTENHEYE Z",
+          "slug": "ravissante-p-van-kattenheye-z",
+          "discipline": "Springen",
+          "sire": "RHYTHM-K VAN 'T KATTENHEYE",
+          "dam": "KASSANDRA VAN ' T PRINSENVELD",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "TABASCO",
+          "slug": "tabasco",
+          "discipline": "Springen",
+          "sire": "TOBAGO Z",
+          "dam": "CURLY SUE",
+          "sale_price": 60000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VALDO D'EDOUARD JOLY",
+          "slug": "valdo-d-edouard-joly",
+          "discipline": "Springen",
+          "sire": "CASHPAID J ET F",
+          "dam": "QUEEN D'EDOUARD JOLY",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences ELITE — 29/08/2024",
+        "house": "Agence Fences",
+        "date": "2024-08-29",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: ELITE",
+        "imported_at": "2026-05-07T12:57:56.369Z",
+        "total": 28,
+        "data_source": "Fences 4D-API, year=2024, date=29-08-2024"
+      },
+      "horses": [
+        {
+          "name": "ANUBIX VD KLEIJBERG Z",
+          "slug": "anubix-vd-kleijberg-z",
+          "discipline": "Springen",
+          "sire": "AGANIX DU SEIGNEUR",
+          "dam": "TOULOUSE II VAN DE KLEIJBERG Z",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "C'LECTRA DE THEYSS Z",
+          "slug": "c-lectra-de-theyss-z",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "ESTRELLA HERO Z",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CAPTAIN DU MONT Z",
+          "slug": "captain-du-mont-z",
+          "discipline": "Springen",
+          "sire": "CHACCO WHITE",
+          "dam": "OBELIE DU GIBET",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHLOE DES PREMICES Z",
+          "slug": "chloe-des-premices-z",
+          "discipline": "Springen",
+          "sire": "COMME IL FAUT",
+          "dam": "CALIFORNIA DES PREMICES Z",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COMANCHE PS Z",
+          "slug": "comanche-ps-z",
+          "discipline": "Springen",
+          "sire": "CONTINENTAL BLUE",
+          "dam": "CASTARA",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L'AIGLE NOIR",
+          "slug": "l-aigle-noir",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "ANGELINA",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAGGON DU TALUS",
+          "slug": "laggon-du-talus",
+          "discipline": "Springen",
+          "sire": "BALOU DU ROUET",
+          "dam": "QUELLE DU TALUS",
+          "sale_price": 17000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LANVIN DU VASSAL",
+          "slug": "lanvin-du-vassal",
+          "discipline": "Springen",
+          "sire": "QLASSIC BOIS MARGOT",
+          "dam": "FIFTY DE KREISKER",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LARGO D'HERBOURG",
+          "slug": "largo-d-herbourg",
+          "discipline": "Springen",
+          "sire": "CARAMBOLE",
+          "dam": "BAHIA D'HERBOURG",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LARIMO DE LA LOVE",
+          "slug": "larimo-de-la-love",
+          "discipline": "Springen",
+          "sire": "CLARIMO",
+          "dam": "HAPPINESS DE LA LOVE",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LE POT DEMIEL D'ERMAC",
+          "slug": "le-pot-demiel-d-ermac",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "OUEST DES FONTAINES",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEGENDE DU BIDOU",
+          "slug": "legende-du-bidou",
+          "discipline": "Springen",
+          "sire": "BY CEIRA D'ICK",
+          "dam": "GALAXY ROSE",
+          "sale_price": 34000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIMONCELLO",
+          "slug": "limoncello",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "COME PRIMA",
+          "sale_price": 34000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIVERPOOL JIL",
+          "slug": "liverpool-jil",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE M",
+          "dam": "ONDE DE LA LANDE",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORDS DES FORETS",
+          "slug": "lords-des-forets",
+          "discipline": "Springen",
+          "sire": "ALL STAR 5",
+          "dam": "CRISTA",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOVATO DH Z",
+          "slug": "lovato-dh-z",
+          "discipline": "Springen",
+          "sire": "LEANDRO VG",
+          "dam": "ISRA HOUSTON DH Z",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOVELY BLUE",
+          "slug": "lovely-blue",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "IN LOVE BLUE",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUNE DE MIELE",
+          "slug": "lune-de-miele",
+          "discipline": "Springen",
+          "sire": "DOLLAR DU ROUET",
+          "dam": "FEELING GOOD",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUXOR PALORDET",
+          "slug": "luxor-palordet",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "IMALAYA PALORDET",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OCEAN R",
+          "slug": "ocean-r",
+          "discipline": "Springen",
+          "sire": "CRACK",
+          "dam": "BLUE WAY",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OMAHA VD BERGHOEVE Z",
+          "slug": "omaha-vd-berghoeve-z",
+          "discipline": "Springen",
+          "sire": "MINUTE MAN",
+          "dam": "KASSANAH HERO Z",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ONE SHOT DE KREISKER",
+          "slug": "one-shot-de-kreisker",
+          "discipline": "Springen",
+          "sire": "FOR PLEASURE",
+          "dam": "SHIREL DE KREISKER",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ORION DU TREFLE",
+          "slug": "orion-du-trefle",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "COMETE MARGOT",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OUMANY BEL",
+          "slug": "oumany-bel",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "TIFFANY D'HAMMER",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PIN-UP DE ST-ELEUTHERE",
+          "slug": "pin-up-de-st-eleuthere",
+          "discipline": "Springen",
+          "sire": "BAMAKO DE MUZE",
+          "dam": "CHARMEUSE DE ST-ELEUTHERE",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RACOON ES",
+          "slug": "racoon-es",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "A VAANTJE R",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RHODE ISLAND PAULOWNA",
+          "slug": "rhode-island-paulowna",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "CALIFORNIE-S Z",
+          "sale_price": 22000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SCILLA Z",
+          "slug": "scilla-z",
+          "discipline": "Springen",
+          "sire": "HUNTER'S SCENDRO",
+          "dam": "CINDERELLA FROM SECOND LIFE Z",
+          "sale_price": 54000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences ELITE — 30/08/2024",
+        "house": "Agence Fences",
+        "date": "2024-08-30",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: ELITE",
+        "imported_at": "2026-05-07T12:57:57.144Z",
+        "total": 31,
+        "data_source": "Fences 4D-API, year=2024, date=30-08-2024"
+      },
+      "horses": [
+        {
+          "name": "ASTERIX DI TALEFRA Z",
+          "slug": "asterix-di-talefra-z",
+          "discipline": "Springen",
+          "sire": "AGANIX DU SEIGNEUR",
+          "dam": "MYSTIQUE VAN DE DREEF",
+          "sale_price": 44000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHACASALL VDH Z",
+          "slug": "chacasall-vdh-z",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "AKIRA",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHALIMAR DES ROSIERS Z",
+          "slug": "chalimar-des-rosiers-z",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "FEELING DES ROSIERS",
+          "sale_price": 30000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ELYAS Z",
+          "slug": "elyas-z",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "CALINKA DU BOIS DES ISNES",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HELIOS DE WILL Z",
+          "slug": "helios-de-will-z",
+          "discipline": "Springen",
+          "sire": "HEARTBREAKER",
+          "dam": "MOM'S GOYA",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L OREAL DU BARQUET",
+          "slug": "l-oreal-du-barquet",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "BOREALE DE MEZY",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L'OR JAUNE",
+          "slug": "l-or-jaune",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "ENVIE DE TOI",
+          "sale_price": 34000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LABELSKA DU VASSAL",
+          "slug": "labelska-du-vassal",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "BALTIKA DU VASSAL",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LAMOUR DE TUS",
+          "slug": "lamour-de-tus",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "MAIDINE DE TUS",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LATIVIA RED WINE",
+          "slug": "lativia-red-wine",
+          "discipline": "Springen",
+          "sire": "EL BARONE 111 Z",
+          "dam": "LADY CHANEL DELLA BAIA",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LE FREAK DES LUTHIERS",
+          "slug": "le-freak-des-luthiers",
+          "discipline": "Springen",
+          "sire": "HARDROCK Z",
+          "dam": "TZATZIKI DE LA POMME",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEGEND DU BIDOU",
+          "slug": "legend-du-bidou",
+          "discipline": "Springen",
+          "sire": "CLARIMO",
+          "dam": "GIVE ME ONE REASON DK",
+          "sale_price": 32000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LES TONTONS MF",
+          "slug": "les-tontons-mf",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE II",
+          "dam": "GHARRA MF",
+          "sale_price": 40000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIBETY HELAU D'ERMAC",
+          "slug": "libety-helau-d-ermac",
+          "discipline": "Springen",
+          "sire": "CHACCO WHITE",
+          "dam": "BABOU",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITCHI DE KREISKER",
+          "slug": "litchi-de-kreisker",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "SHIREL DE KREISKER",
+          "sale_price": 78000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITCHI DE MEDAVY",
+          "slug": "litchi-de-medavy",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "QUESNIA DU RESTIC",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITTLEDREAM DU CORDEL",
+          "slug": "littledream-du-cordel",
+          "discipline": "Springen",
+          "sire": "BISQUET BALOU",
+          "dam": "CARLA DU VAL GUERARD",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LONGWANG MONT OGER",
+          "slug": "longwang-mont-oger",
+          "discipline": "Springen",
+          "sire": "CICAVE DU TALUS",
+          "dam": "VELETA NORMANDE",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORENZO MAIL",
+          "slug": "lorenzo-mail",
+          "discipline": "Springen",
+          "sire": "DELSTAR MAIL",
+          "dam": "MATAHARI MAIL",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORETO SMLASPALMAS",
+          "slug": "loreto-smlaspalmas",
+          "discipline": "Springen",
+          "sire": "CORNET OBOLENSKY",
+          "dam": "UNBELIEVABLE TOUCH JT Z",
+          "sale_price": 48000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OLYMPIC DK",
+          "slug": "olympic-dk",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "VENT DU SUD KERGLENN",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSCAR DEKERGLENN",
+          "slug": "oscar-dekerglenn",
+          "discipline": "Springen",
+          "sire": "ZIROCCO BLUE",
+          "dam": "ISA DE KERGLENN",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OURALE BEL",
+          "slug": "ourale-bel",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "REINE DU CHANU",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PENNY LANE VH BEECKHOF & CO Z",
+          "slug": "penny-lane-vh-beeckhof-co-z",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "OHLALA VD CAATSHOEVE",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ROCCA VAN HET LAAGHEIDE",
+          "slug": "rocca-van-het-laagheide",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE II",
+          "dam": "LIEZELOTTIE S",
+          "sale_price": 40000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ROMEO ES",
+          "slug": "romeo-es",
+          "discipline": "Springen",
+          "sire": "DIARON OLD",
+          "dam": "GRACIA ES",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "TOKYO LC Z",
+          "slug": "tokyo-lc-z",
+          "discipline": "Springen",
+          "sire": "TALOUBET Z",
+          "dam": "RAFINA LS",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VALENTINO VAN'T LOOVERYCK",
+          "slug": "valentino-van-t-looveryck",
+          "discipline": "Springen",
+          "sire": "ERMITAGE KALONE",
+          "dam": "J'ADORE VAN MORETUS",
+          "sale_price": 46000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VERTIGO DE MUZE",
+          "slug": "vertigo-de-muze",
+          "discipline": "Springen",
+          "sire": "QUICKLY VD KRUISHOEVE",
+          "dam": "CIAO BELLA VH MERELSNEST Z",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VICTORIUS DB",
+          "slug": "victorius-db",
+          "discipline": "Springen",
+          "sire": "BAMAKO DE MUZE",
+          "dam": "SOTTISE DE WEMMEL",
+          "sale_price": 32000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VUITTON OF THE PADDOCKS",
+          "slug": "vuitton-of-the-paddocks",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "NOIKA ROUGE",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences ELITE — 31/08/2024",
+        "house": "Agence Fences",
+        "date": "2024-08-31",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: ELITE",
+        "imported_at": "2026-05-07T12:57:57.955Z",
+        "total": 32,
+        "data_source": "Fences 4D-API, year=2024, date=31-08-2024"
+      },
+      "horses": [
+        {
+          "name": "BITCOIN PS",
+          "slug": "bitcoin-ps",
+          "discipline": "Springen",
+          "sire": "BALOUTAIRE PS",
+          "dam": "CHALADY",
+          "sale_price": 22000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHACCO MACCO DES GRISES LDG Z",
+          "slug": "chacco-macco-des-grises-ldg-z",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "NUSHA VD BISSCHOP",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COLOR ME L Z",
+          "slug": "color-me-l-z",
+          "discipline": "Springen",
+          "sire": "CUMANO",
+          "dam": "CATAPULTE",
+          "sale_price": 22000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CREME BRULEE VH MOLENHOF Z",
+          "slug": "creme-brulee-vh-molenhof-z",
+          "discipline": "Springen",
+          "sire": "CONTHARGOS",
+          "dam": "DAME NOIRE VH MOLENHOF Z",
+          "sale_price": 34000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DEL RAY BS Z",
+          "slug": "del-ray-bs-z",
+          "discipline": "Springen",
+          "sire": "DONTHARGOS",
+          "dam": "NASHOBA",
+          "sale_price": 52000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DREAM BOY BD Z",
+          "slug": "dream-boy-bd-z",
+          "discipline": "Springen",
+          "sire": "DOLLAR DU ROUET",
+          "dam": "RACHEL",
+          "sale_price": 33000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ELEGANT",
+          "slug": "elegant",
+          "discipline": "Springen",
+          "sire": "ELDORADO VAN DE ZESHOEK",
+          "dam": "GIRL CLINTINA",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ELVIS GOOD LIFE KREISKER",
+          "slug": "elvis-good-life-kreisker",
+          "discipline": "Springen",
+          "sire": "EMERALD VAN'T RUYTERSHOF",
+          "dam": "CALANDRA",
+          "sale_price": 44000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L'ELIXIR DE POM'",
+          "slug": "l-elixir-de-pom",
+          "discipline": "Springen",
+          "sire": "CICAVE DU TALUS",
+          "dam": "FOLLE ENVIE DE POM'",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L'OR NOIR DE SAVIGNY",
+          "slug": "l-or-noir-de-savigny",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "COCO CHANEL SAVIGNY",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LANDAIR DEL COLLE",
+          "slug": "landair-del-colle",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "AIR VANITAS DEL COLLE",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LATARA DU PARC",
+          "slug": "latara-du-parc",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "CALINE DU PARC",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LATINA DU BUST",
+          "slug": "latina-du-bust",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "DULINA D'LA ROUSSERIE",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEEPOP",
+          "slug": "leepop",
+          "discipline": "Springen",
+          "sire": "CONQUISTADOR",
+          "dam": "BELOU",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEO DES FORETS",
+          "slug": "leo-des-forets",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "DYNAMITE DES FORETS",
+          "sale_price": 22000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LET'S GO DES FLAGUES",
+          "slug": "let-s-go-des-flagues",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "MOM'S GOYA",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LETOILE DLH",
+          "slug": "letoile-dlh",
+          "discipline": "Springen",
+          "sire": "COMME IL FAUT",
+          "dam": "EGERIE DES PLAINS",
+          "sale_price": 30000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOKI DES FORETS",
+          "slug": "loki-des-forets",
+          "discipline": "Springen",
+          "sire": "FALKO DE HUS",
+          "dam": "SONATE DES FORETS",
+          "sale_price": 155000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOVELY DU REVERDY",
+          "slug": "lovely-du-reverdy",
+          "discipline": "Springen",
+          "sire": "CORNET DU LYS",
+          "dam": "HOPE DU REVERDY",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUPIN DU MANOIR",
+          "slug": "lupin-du-manoir",
+          "discipline": "Springen",
+          "sire": "CONTENDRO",
+          "dam": "GIRL DU MANOIR",
+          "sale_price": 92000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUX DU ROUET",
+          "slug": "lux-du-rouet",
+          "discipline": "Springen",
+          "sire": "DOLLAR DU ROUET",
+          "dam": "ROYAL ROSE VH KUILENHOF",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OH BABY DEL COLLE",
+          "slug": "oh-baby-del-colle",
+          "discipline": "Springen",
+          "sire": "VERDI TN",
+          "dam": "SKY LOVE DC",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OLYMPIQUE DE LEZELLEC",
+          "slug": "olympique-de-lezellec",
+          "discipline": "Springen",
+          "sire": "KANNAN",
+          "dam": "CORONA DE HUS Z",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OPHELIA D'ALTENBACH",
+          "slug": "ophelia-d-altenbach",
+          "discipline": "Springen",
+          "sire": "DIAMANT DE SEMILLY",
+          "dam": "ELEKTRA DES PREMICES",
+          "sale_price": 36000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PHENOMENAL BLUE JOY Z",
+          "slug": "phenomenal-blue-joy-z",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "CINANDA",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "QUATUOR D'ARGENT Z",
+          "slug": "quatuor-d-argent-z",
+          "discipline": "Springen",
+          "sire": "QUICKLY VD KRUISHOEVE",
+          "dam": "HISTOIRE D'ARGENT",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "QUIDAM D'OR Z",
+          "slug": "quidam-d-or-z",
+          "discipline": "Springen",
+          "sire": "QUIDAM DE REVEL",
+          "dam": "PLUCH D'OR",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RANGE ROVER SRK",
+          "slug": "range-rover-srk",
+          "discipline": "Springen",
+          "sire": "JAGGER SRK",
+          "dam": "DON'T FORGET LIEFHEBBER",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RERONE V",
+          "slug": "rerone-v",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "ARONE",
+          "sale_price": 80000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RINGLEADER TCS",
+          "slug": "ringleader-tcs",
+          "discipline": "Springen",
+          "sire": "LA COSTA ES",
+          "dam": "TENNESSE",
+          "sale_price": 26000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ROQUETAS VD RADSTAKE",
+          "slug": "roquetas-vd-radstake",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "LANTARTICA",
+          "sale_price": 330000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VIENNA D'O",
+          "slug": "vienna-d-o",
+          "discipline": "Springen",
+          "sire": "DON'T TOUCH TIJI HERO",
+          "dam": "SCARLETT VAN DE PEREBOOM",
+          "sale_price": 38000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences SERVICE — 01/09/2024",
+        "house": "Agence Fences",
+        "date": "2024-09-01",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: SERVICE",
+        "imported_at": "2026-05-07T12:57:58.671Z",
+        "total": 36,
+        "data_source": "Fences 4D-API, year=2024, date=01-09-2024"
+      },
+      "horses": [
+        {
+          "name": "CABRI PS",
+          "slug": "cabri-ps",
+          "discipline": "Springen",
+          "sire": "CASALLCO",
+          "dam": "CHAKALL BLUE",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CACHOU PS",
+          "slug": "cachou-ps",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "QUINDORRA Z",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CAIA Z",
+          "slug": "caia-z",
+          "discipline": "Springen",
+          "sire": "CHACCO BLUE",
+          "dam": "BEAUNELLIE",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CAPPELOUP PS",
+          "slug": "cappeloup-ps",
+          "discipline": "Springen",
+          "sire": "COSMOS Z",
+          "dam": "CHANNY",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHACATO PS",
+          "slug": "chacato-ps",
+          "discipline": "Springen",
+          "sire": "CHACOON BLUE",
+          "dam": "CHIARASTAKKATA",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CLEVER BOY VH BEECKHOF Z",
+          "slug": "clever-boy-vh-beeckhof-z",
+          "discipline": "Springen",
+          "sire": "CORYDON VAN TL",
+          "dam": "GIRONA D'ARSOUILLES",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COBE G Z",
+          "slug": "cobe-g-z",
+          "discipline": "Springen",
+          "sire": "CODEX DIAZ Z",
+          "dam": "CLEVER-LADY VD PAARDEHOEVE",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CODY BOY PS",
+          "slug": "cody-boy-ps",
+          "discipline": "Springen",
+          "sire": "COSMOS Z",
+          "dam": "CHALINA'S CLOU PS",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ELLIOT-E VH BEECKHOF Z",
+          "slug": "elliot-e-vh-beeckhof-z",
+          "discipline": "Springen",
+          "sire": "ELVIS TER PUTTE",
+          "dam": "SAVINIA G Z",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "FABAJA VH BEECKHOF Z",
+          "slug": "fabaja-vh-beeckhof-z",
+          "discipline": "Springen",
+          "sire": "FONCETTI VD HEFFINCK",
+          "dam": "LABAJA OH",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "L AMANT D OREE",
+          "slug": "l-amant-d-oree",
+          "discipline": "Springen",
+          "sire": "AMANT DU CHATEAU",
+          "dam": "CHAYA AIR Z",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LE RACHAL Z",
+          "slug": "le-rachal-z",
+          "discipline": "Springen",
+          "sire": "LE KANNAN",
+          "dam": "ALLURE",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LEMON DE COURCEL",
+          "slug": "lemon-de-courcel",
+          "discipline": "Springen",
+          "sire": "TANGELO VAN DE ZUUTHOEVE",
+          "dam": "RESEDA DU JOUR",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LITTLE DREAM AMERICAN",
+          "slug": "little-dream-american",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "AMERICAN DREAM",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LORENZO DES FLAGUES",
+          "slug": "lorenzo-des-flagues",
+          "discipline": "Springen",
+          "sire": "ELDORADO VAN DE ZESHOEK",
+          "dam": "IRENE D'ECAUSSINES",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LUCKY BOY CDL",
+          "slug": "lucky-boy-cdl",
+          "discipline": "Springen",
+          "sire": "VISAGE VAN DE OLMENHOEVE",
+          "dam": "ITHAQUE MORINDA",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MESSAGER PS",
+          "slug": "messager-ps",
+          "discipline": "Springen",
+          "sire": "MESSENGER",
+          "dam": "DOLIDARA",
+          "sale_price": 16000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "POGACAR DH Z",
+          "slug": "pogacar-dh-z",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN 'T RUYTERSHOF",
+          "dam": "TORNADE DE LA ROQUE",
+          "sale_price": 28000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PURPLE RAIN VH BEECKHOF Z",
+          "slug": "purple-rain-vh-beeckhof-z",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "QUEL DAME Z",
+          "sale_price": 18000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "QUIBELLE VAN'T PRINSENVELD Z",
+          "slug": "quibelle-van-t-prinsenveld-z",
+          "discipline": "Springen",
+          "sire": "QUPIDO H",
+          "dam": "VICTORIA VAN'T PRINSENVELD Z",
+          "sale_price": 42000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "QUMANO VAN'T PRINSENVELD Z",
+          "slug": "qumano-van-t-prinsenveld-z",
+          "discipline": "Springen",
+          "sire": "QUPIDO H",
+          "dam": "ECUMINA VAN'T PRINSENVELD",
+          "sale_price": 24000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RHYTINA-P VAN KATTENHEYE Z",
+          "slug": "rhytina-p-van-kattenheye-z",
+          "discipline": "Springen",
+          "sire": "RHYTHM-K VAN'T KATTENHEYE",
+          "dam": "LUV ME Z",
+          "sale_price": 20000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RUBI ELEVA VAN DE MEJONTS",
+          "slug": "rubi-eleva-van-de-mejonts",
+          "discipline": "Springen",
+          "sire": "TANGELO VAN DE ZUUTHOEVE",
+          "dam": "ELEVA",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "TAGADA DE COURTENSON",
+          "slug": "tagada-de-courtenson",
+          "discipline": "Springen",
+          "sire": "BALOUBET DU ROUET",
+          "dam": "CALANDRA",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VAL D'ISERE JW VAN'T MEULENHOF",
+          "slug": "val-d-isere-jw-van-t-meulenhof",
+          "discipline": "Springen",
+          "sire": "TARAN DE LA POMME",
+          "dam": "FIRST CALL DE MUZE Z",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VEDET VAN DE BERGDALHOEVE",
+          "slug": "vedet-van-de-bergdalhoeve",
+          "discipline": "Springen",
+          "sire": "AMADEO VAN'T VOSSENHOF Z",
+          "dam": "WINNEFEE",
+          "sale_price": 8000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VEGAS VAN HET LINDEHOF",
+          "slug": "vegas-van-het-lindehof",
+          "discipline": "Springen",
+          "sire": "ROYAL RED VAN HET LINDEHOF",
+          "dam": "NEW STAR",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VINCENT VAN HET LINDEHOF",
+          "slug": "vincent-van-het-lindehof",
+          "discipline": "Springen",
+          "sire": "ROYAL RED VAN HET LINDEHOF",
+          "dam": "RACHEL VAN HET LINDEHOF",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VINKE VAN DE RISPEN",
+          "slug": "vinke-van-de-rispen",
+          "discipline": "Springen",
+          "sire": "LE BLUE DIAMOND VAN'T RUYTERSHOF",
+          "dam": "FELINKE VAN DE RISPEN",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VINTED JW VD MOERHOEVE",
+          "slug": "vinted-jw-vd-moerhoeve",
+          "discipline": "Springen",
+          "sire": "OPIUM JW VAN DE MOERHOEVE TN",
+          "dam": "SHE'S A LADY JW - VAN DE MOERHOEVE",
+          "sale_price": 32000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VIRGINIA HC",
+          "slug": "virginia-hc",
+          "discipline": "Springen",
+          "sire": "BALOUTO VAN PAEMEL Z",
+          "dam": "BERLONIE K",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VIRTUOSA VAN HET LINDEHOF",
+          "slug": "virtuosa-van-het-lindehof",
+          "discipline": "Springen",
+          "sire": "ROYAL RED VAN HET LINDEHOF",
+          "dam": "TALENT VAN HET LINDEHOF",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VITANI VAN HET LINDEHOF",
+          "slug": "vitani-van-het-lindehof",
+          "discipline": "Springen",
+          "sire": "TARAN DE LA POMME",
+          "dam": "RECKLESS VAN HET LINDEHOF",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VLADIMIR VAN HET LINDEHOF",
+          "slug": "vladimir-van-het-lindehof",
+          "discipline": "Springen",
+          "sire": "GRANDORADO TN",
+          "dam": "RED ROSE VAN HET LINDEHOF",
+          "sale_price": 12000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VOBLESSE VAN HET LINDEHOF",
+          "slug": "voblesse-van-het-lindehof",
+          "discipline": "Springen",
+          "sire": "TARAN DE LA POMME",
+          "dam": "JOBLESSE II VAN HET LINDEHOF",
+          "sale_price": 19000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VRIEND VAN'T ROTH",
+          "slug": "vriend-van-t-roth",
+          "discipline": "Springen",
+          "sire": "GEMINI XX",
+          "dam": "GOLDIKA VAN'T ROTH",
+          "sale_price": 14000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences FW BIDOU — 23/09/2024",
+        "house": "Agence Fences",
+        "date": "2024-09-23",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: FW BIDOU",
+        "imported_at": "2026-05-07T12:57:59.602Z",
+        "total": 31,
+        "data_source": "Fences 4D-API, year=2024, date=23-09-2024"
+      },
+      "horses": [
+        {
+          "name": "FASCINANTE COURCELLE",
+          "slug": "fascinante-courcelle",
+          "discipline": "Springen",
+          "sire": "BALOUSSINI",
+          "dam": "BELLE AMIE COURCELLE",
+          "sale_price": 4500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KLEOPATRA DU BIDOU",
+          "slug": "kleopatra-du-bidou",
+          "discipline": "Springen",
+          "sire": "HOOVER",
+          "dam": "FELLINA DE BLONDEL",
+          "sale_price": 5000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "KYRIELLE D'HEYBOGHT",
+          "slug": "kyrielle-d-heyboght",
+          "discipline": "Springen",
+          "sire": "DIARADO",
+          "dam": "CAYETANA",
+          "sale_price": 3500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "O'MALLEY DU BIDOU",
+          "slug": "o-malley-du-bidou",
+          "discipline": "Springen",
+          "sire": "COLDPLAY DES ROSIERS Z",
+          "dam": "ESATYS DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OBSESSION DU HERRIN",
+          "slug": "obsession-du-herrin",
+          "discipline": "Springen",
+          "sire": "ERMITAGE KALONE",
+          "dam": "FUN DE KEZEG",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ODEON DU BIDOU",
+          "slug": "odeon-du-bidou",
+          "discipline": "Springen",
+          "sire": "HIGH FIVE MANCIAIS",
+          "dam": "JALOUSIE DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ODEON DU HERRIN",
+          "slug": "odeon-du-herrin",
+          "discipline": "Springen",
+          "sire": "FREUD DE KREISKER",
+          "dam": "VISTA DE LA FEUILLEE",
+          "sale_price": 5000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ODYSSEE DU HERRIN",
+          "slug": "odyssee-du-herrin",
+          "discipline": "Springen",
+          "sire": "GIOVANI DE LA POMME",
+          "dam": "FASCINANTE COURCELLE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OFFENBACH DU BIDOU",
+          "slug": "offenbach-du-bidou",
+          "discipline": "Springen",
+          "sire": "MILLION DOLLAR",
+          "dam": "FELLINA DE BLONDEL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OHISSE DES ISLANDS",
+          "slug": "ohisse-des-islands",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "FILYFLY DU HERRIN Z",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OLISCO DU BIDOU",
+          "slug": "olisco-du-bidou",
+          "discipline": "Springen",
+          "sire": "HALIFAX VAN HET KLUIZEBOS",
+          "dam": "JALOUSIE DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OLIVE DU BIDOU",
+          "slug": "olive-du-bidou",
+          "discipline": "Springen",
+          "sire": "FANCY DE KERGANE",
+          "dam": "AMAZONE DE BLONDEL",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OLYMPE DU BIDOU",
+          "slug": "olympe-du-bidou",
+          "discipline": "Springen",
+          "sire": "FLY",
+          "dam": "JAKARTA DU HERRIN",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OMAHA DU BIDOU",
+          "slug": "omaha-du-bidou",
+          "discipline": "Springen",
+          "sire": "FREUD DE KREISKER",
+          "dam": "IANIQUE DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OMEGA DU BIDOU",
+          "slug": "omega-du-bidou",
+          "discipline": "Springen",
+          "sire": "CICAVE DU TALUS",
+          "dam": "INTREPIDE DU BIDOU",
+          "sale_price": 6000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OMER DU BIDOU",
+          "slug": "omer-du-bidou",
+          "discipline": "Springen",
+          "sire": "JET DES FORETS",
+          "dam": "HANGELA DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ONOLULU DU HERRIN",
+          "slug": "onolulu-du-herrin",
+          "discipline": "Springen",
+          "sire": "QUEL HOMME DE HUS",
+          "dam": "KYRIELLE D'HEYBOGHT",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OPALE DU HERRIN",
+          "slug": "opale-du-herrin",
+          "discipline": "Springen",
+          "sire": "PEGASE VAN'T RUYTERSHOF",
+          "dam": "P KOKO CORNET HPE",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OPIUM DU BIDOU",
+          "slug": "opium-du-bidou",
+          "discipline": "Springen",
+          "sire": "HURICANE DE CHAMPLOUE",
+          "dam": "KOQUINE DU BIDOU",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ORACE DU BIDOU",
+          "slug": "orace-du-bidou",
+          "discipline": "Springen",
+          "sire": "UP TO YOU",
+          "dam": "IROISE DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ORELSAN DU BIDOU",
+          "slug": "orelsan-du-bidou",
+          "discipline": "Springen",
+          "sire": "UP TO YOU",
+          "dam": "GABRIELA DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ORGANZA DU BIDOU",
+          "slug": "organza-du-bidou",
+          "discipline": "Springen",
+          "sire": "CANDY DE NANTUEL",
+          "dam": "KIARA DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ORIZON DU BIDOU",
+          "slug": "orizon-du-bidou",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "VIDRETTA M DE BELLIGNIES",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSCAR DU BIDOU",
+          "slug": "oscar-du-bidou",
+          "discipline": "Springen",
+          "sire": "VANGOG DU MAS GARNIER",
+          "dam": "KIRIELLE DU BIDOU",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSMOSE D'AUME",
+          "slug": "osmose-d-aume",
+          "discipline": "Springen",
+          "sire": "UNTOUCHABLE 27",
+          "dam": "FOLLE ENVIE DE POM'",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OURAL DU BIDOU",
+          "slug": "oural-du-bidou",
+          "discipline": "Springen",
+          "sire": "VAGABOND DE LA POMME",
+          "dam": "KOQUINE DU BIDOU",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OURANOS DU BIDOU",
+          "slug": "ouranos-du-bidou",
+          "discipline": "Springen",
+          "sire": "STAKKATOL",
+          "dam": "GALAXY ROSE",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OZARME DU BIDOU",
+          "slug": "ozarme-du-bidou",
+          "discipline": "Springen",
+          "sire": "CARRERA VDL",
+          "dam": "FILYFLY DU HERRIN Z",
+          "sale_price": 5500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OZONE DU BIDOU",
+          "slug": "ozone-du-bidou",
+          "discipline": "Springen",
+          "sire": "HALIFAX VAN HET KLUIZEBOS",
+          "dam": "VIDRETTA M DE BELLIGNIES",
+          "sale_price": 8000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "P KOKO CORNET HPE",
+          "slug": "p-koko-cornet-hpe",
+          "discipline": "Springen",
+          "sire": "WINDOWS VH COSTERSVELD",
+          "dam": "BE LUCKY M",
+          "sale_price": 5500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VISTA DE LA FEUILLEE",
+          "slug": "vista-de-la-feuillee",
+          "discipline": "Springen",
+          "sire": "LANDOR S",
+          "dam": "QUEENCESS DE PERHET",
+          "sale_price": 3500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    },
+    {
+      "meta": {
+        "collection": "Fences FW BRULLEMAIL — 30/09/2024",
+        "house": "Agence Fences",
+        "date": "2024-09-30",
+        "location": null,
+        "status": "afgesloten",
+        "notes_organisatie": "Type: FW BRULLEMAIL",
+        "imported_at": "2026-05-07T12:58:00.421Z",
+        "total": 42,
+        "data_source": "Fences 4D-API, year=2024, date=30-09-2024"
+      },
+      "horses": [
+        {
+          "name": "129 LOTS DE PAILLETTES",
+          "slug": "129-lots-de-paillettes",
+          "discipline": "Springen",
+          "sire": null,
+          "dam": null,
+          "sale_price": 137100,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "20 LOTS DE PAILLETTES - BRULLEMAIL",
+          "slug": "20-lots-de-paillettes-brullemail",
+          "discipline": "Springen",
+          "sire": null,
+          "dam": null,
+          "sale_price": 18500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "BASTILLE MAIL",
+          "slug": "bastille-mail",
+          "discipline": "Springen",
+          "sire": "ALLIGATOR FONTAINE",
+          "dam": "REPUBLICA MAIL",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CAESAR MAIL Z",
+          "slug": "caesar-mail-z",
+          "discipline": "Springen",
+          "sire": "CATOKI",
+          "dam": "KATCHINA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CAVIAR MAIL Z",
+          "slug": "caviar-mail-z",
+          "discipline": "Springen",
+          "sire": "CONTAGIO",
+          "dam": "DEAUVILLE MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "CHINA MAIL",
+          "slug": "china-mail",
+          "discipline": "Springen",
+          "sire": "CON AIR",
+          "dam": "ULENA MAIL",
+          "sale_price": 10000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "COMEPRIMA MAIL Z",
+          "slug": "comeprima-mail-z",
+          "discipline": "Springen",
+          "sire": "COMILFO PLUS Z",
+          "dam": "TALISSA MAIL",
+          "sale_price": 12500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "DEAUVILLE MAIL",
+          "slug": "deauville-mail",
+          "discipline": "Springen",
+          "sire": "STAKKATO",
+          "dam": "ORANGEADE MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "EMBRYON CASALLO X MASHA MAIL",
+          "slug": "embryon-casallo-x-masha-mail",
+          "discipline": "Springen",
+          "sire": "CASALLO",
+          "dam": "MASHA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ESTELLA MAIL",
+          "slug": "estella-mail",
+          "discipline": "Springen",
+          "sire": "UTRILLO VD HEFFINCK",
+          "dam": "ANOUCHKA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "FIORELLA MAIL",
+          "slug": "fiorella-mail",
+          "discipline": "Springen",
+          "sire": "UTRILLO VD HEFFINCK",
+          "dam": "PAVANE MAIL",
+          "sale_price": 10500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "GRACIELLA MAIL",
+          "slug": "graciella-mail",
+          "discipline": "Springen",
+          "sire": "QUALITY TOUCH",
+          "dam": "ORANGEADE MAIL",
+          "sale_price": 13500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "HARMONY MAIL",
+          "slug": "harmony-mail",
+          "discipline": "Springen",
+          "sire": "ULGAR MAIL",
+          "dam": "MATAHARI MAIL",
+          "sale_price": 16500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IPANEMA MAIL",
+          "slug": "ipanema-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "PALMERA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ISAURA MAIL",
+          "slug": "isaura-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "TOSCA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "IZMIRA MAIL",
+          "slug": "izmira-mail",
+          "discipline": "Springen",
+          "sire": "DELSTAR MAIL",
+          "dam": "BYZANCE MAIL",
+          "sale_price": 12500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LASTELLA MAIL",
+          "slug": "lastella-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "ESTELLA MAIL",
+          "sale_price": 15000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LIFAR MAIL",
+          "slug": "lifar-mail",
+          "discipline": "Springen",
+          "sire": "MELISSAS SYDNEY",
+          "dam": "TALISSA MAIL",
+          "sale_price": 16500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LISBOA MAIL",
+          "slug": "lisboa-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "DEAUVILLE MAIL",
+          "sale_price": 9500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOLITA MAIL",
+          "slug": "lolita-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "HOLLY MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOUXOR MAIL",
+          "slug": "louxor-mail",
+          "discipline": "Springen",
+          "sire": "DELSTAR MAIL",
+          "dam": "VALMERA MAIL",
+          "sale_price": 14500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "LOVERBOY MAIL",
+          "slug": "loverboy-mail",
+          "discipline": "Springen",
+          "sire": "MELISSAS SYDNEY",
+          "dam": "JUST IN LOVE",
+          "sale_price": 9000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MELBA MAIL",
+          "slug": "melba-mail",
+          "discipline": "Springen",
+          "sire": "TYGAR MAIL",
+          "dam": "GLENDA MAIL",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MIRABELLE MAIL",
+          "slug": "mirabelle-mail",
+          "discipline": "Springen",
+          "sire": "REBEL Z",
+          "dam": "PLUS VALUE",
+          "sale_price": 3700,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "MIRAMAR MAIL",
+          "slug": "miramar-mail",
+          "discipline": "Springen",
+          "sire": "MYLORD CARTHAGO",
+          "dam": "HANISHA MAIL",
+          "sale_price": 36500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "NEWPORT MAIL",
+          "slug": "newport-mail",
+          "discipline": "Springen",
+          "sire": "JUNIOR DU SEIGNEUR",
+          "dam": "HELVETICA MAIL",
+          "sale_price": 7000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ODAR MAIL",
+          "slug": "odar-mail",
+          "discipline": "Springen",
+          "sire": "STAKKATO",
+          "dam": "CHINA MAIL",
+          "sale_price": 7500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ODATOR MAIL",
+          "slug": "odator-mail",
+          "discipline": "Springen",
+          "sire": "DELSTAR MAIL",
+          "dam": "ROSANERA MAIL",
+          "sale_price": 6600,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OFELIA MAIL",
+          "slug": "ofelia-mail",
+          "discipline": "Springen",
+          "sire": "MELISSAS SYDNEY",
+          "dam": "GRACIELLA MAIL",
+          "sale_price": 8500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OLIVAR MAIL",
+          "slug": "olivar-mail",
+          "discipline": "Springen",
+          "sire": "DELSTAR MAIL",
+          "dam": "ISAURA MAIL",
+          "sale_price": 5000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ONLADOR MAIL",
+          "slug": "onlador-mail",
+          "discipline": "Springen",
+          "sire": "QUARTO MAIL",
+          "dam": "PALMERA MAIL",
+          "sale_price": 6000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ONTARIO MAIL",
+          "slug": "ontario-mail",
+          "discipline": "Springen",
+          "sire": "MELISSAS SYDNEY",
+          "dam": "MEDITERRANEE MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSAKAR MAIL",
+          "slug": "osakar-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "RIVIERA MAIL",
+          "sale_price": 11000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OSCAR MAIL",
+          "slug": "oscar-mail",
+          "discipline": "Springen",
+          "sire": "FREUD DE KREISKER",
+          "dam": "KAMISHA MAIL",
+          "sale_price": 16500,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "OWAR MAIL",
+          "slug": "owar-mail",
+          "discipline": "Springen",
+          "sire": "CATCHAR MAIL",
+          "dam": "KINZA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "PERLA MAIL",
+          "slug": "perla-mail",
+          "discipline": "Springen",
+          "sire": "ALLIGATOR FONTAINE",
+          "dam": "LADIVA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "RIVIERA MAIL",
+          "slug": "riviera-mail",
+          "discipline": "Springen",
+          "sire": "ADELFOS",
+          "dam": "ELVIRA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "ROSANERA MAIL",
+          "slug": "rosanera-mail",
+          "discipline": "Springen",
+          "sire": "JAGUAR MAIL",
+          "dam": "NOCTURNE MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SCARLETT MAIL",
+          "slug": "scarlett-mail",
+          "discipline": "Springen",
+          "sire": "QUITE EASY",
+          "dam": "MATAHARI MAIL",
+          "sale_price": 3800,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "SHEENA MAIL",
+          "slug": "sheena-mail",
+          "discipline": "Springen",
+          "sire": "IOWA",
+          "dam": "KATCHINA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "TALISSA MAIL",
+          "slug": "talissa-mail",
+          "discipline": "Springen",
+          "sire": "ALLIGATOR FONTAINE",
+          "dam": "KATCHINA MAIL",
+          "sale_price": null,
+          "sold": false,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        },
+        {
+          "name": "VALMERA MAIL",
+          "slug": "valmera-mail",
+          "discipline": "Springen",
+          "sire": "BALOUBET DU ROUET",
+          "dam": "PALMERA MAIL",
+          "sale_price": 13000,
+          "sold": true,
+          "source_url": "https://www.fences.fr/les-ventes-passees/"
+        }
+      ]
+    }
+  ]
+}

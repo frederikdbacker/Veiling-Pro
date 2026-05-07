@@ -20,7 +20,7 @@ const DEBOUNCE_MS = 800
  */
 export default function EditableLongText({
   table = 'lots', id, fieldName,
-  initialValue, placeholder = 'tekst', rows = 8,
+  initialValue, placeholder = 'tekst', placeholderText, rows = 8,
 }) {
   const startEmpty = !initialValue || initialValue.trim() === ''
   const [value, setValue] = useState(initialValue ?? '')
@@ -64,7 +64,7 @@ export default function EditableLongText({
           value={value}
           onChange={handleChange}
           rows={rows}
-          placeholder={`Vul hier de ${placeholder} in...`}
+          placeholder={placeholderText || `Vul hier de ${placeholder} in...`}
           style={textareaStyle}
           autoFocus
         />

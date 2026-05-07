@@ -1,0 +1,445 @@
+{
+  "meta": {
+    "collection": "Aloga Auction 2025",
+    "house": "Aloga",
+    "website": "https://bid.aloga-auction.com",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T12:32:52.678Z",
+    "total": 24,
+    "data_source": "weauction-scraper (Puppeteer), https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a"
+  },
+  "horses": [
+    {
+      "name": "LUNA  CHARITY",
+      "slug": "luna-charity",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/65e2d1c5-1c69-461a-b63c-e496a2ff9335.jpeg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Wagyu Cow 'Luna' \r\n\r\nLuna is a Fullblood Wagyu cow. She’s the complete package: elite genetics, a striking phenotype, and a calm, people-friendly temperament. \r\n\r\nWe are auctioning her to support Herzenswünsche e.V., a charity making dreams come true for seriously ill children. \r\n\r\nHerzenswünsche e.V. is a non-profit organisation in Germany that specialises in fulfilling the heartfelt wishes of seriously ill children and adolescents. Founded in 1989, its mission is to bring joy, hope, and strength to young people battling severe illnesses by granting them a special wish — meeting a celebrity, taking a special trip, or receiving a meaningful gift.\r\n\r\nThis is a rare opportunity to secure a standout female cow while supporting a great cause.\r\n\r\nElite Pedigree – Proven Performance\r\n\r\nDam: Tama\r\n•⁠  ⁠Reserve Champion at the 1st German National Wagyu Show (2022, 12–24 months)\r\n•⁠  ⁠Excellent conformation and development\r\n\r\nSire: Lisheen P26\r\n•⁠  ⁠Homozygous polled Fullblood bull from Australia\r\n•⁠  ⁠Exceptional size, milk production, and ribeye yield\r\n•⁠  ⁠High marbling with a refined texture\r\n•⁠  ⁠Descended from Michifuku and legendary Tajima bulls\r\n\r\nMaternal Grandsire: VG Tsuyoshi\r\n•⁠  ⁠National Grand Champion & World Champion Wagyu (2022)\r\n•⁠  ⁠Known for growth, fertility, milk, and carcass excellence\r\n•⁠  ⁠A balanced blend of Tajima, Shimane, and Kedaka genetics\r\n\r\nHighlights\r\n•⁠  ⁠ FNW mating \r\n•⁠  ⁠Halter trained, calm, and easy to handle – a pleasure in any herd\r\n\r\nWhy Wagyu – Why Luna?\r\nWagyu beef is the gold standard of luxury meat, renowned worldwide for its unmatched marbling, tenderness, and flavour.\r\n\r\nWhether launching your Wagyu journey or adding quality genetics to an established program, Luna offers substance, temperament, and long-term potential",
+      "starting_bid": null
+    },
+    {
+      "name": "Kobalt",
+      "slug": "kobalt",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": null,
+      "dam": null,
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/50536850-8755-458a-98ae-0a6e471f5ac3.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Kobalt is a 5-year-old stallion, whose natural talent makes him a standout in the Hunter and Derby ring. He has a light, natural way of going and an effortless jump that makes him stand out.\r\n\r\nHis canter is very rhythmic and balanced, and he jumps incredibly soft and round. He has already won young horse style classes in Europe, showing all the qualities needed to develop into a real winner!\r\n\r\nBeyond his talent, Kobalt has an exceptional mindset. He is straightforward, attentive to his rider, and easy to work with, a rare quality in a young stallion. His potential to become a champion American Hunter Jumper is clear, and he’s just getting started!\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Venezuela",
+      "slug": "venezuela",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Vingino",
+      "dam": "Diarado",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/4904d628-b2fc-4b1f-af4e-28c66f1f3158.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Venezuela is a striking 6-year-old grey mare by the talented Vingino, out of a Diarado mare. She is a stunning, picturesque mare with beautiful movements and a natural presence in the ring that makes her hard to miss. \r\n\r\nVenezuela began her 2025 season in Vejer De La Frontera, where she was nothing short of outstanding throughout the tour. She jumped 6 out of 7 double clears and delivered a phenomenal clear round in the 6-year-old final\r\n\r\nWith her exceptional reflexes and athletic build, Venezuela has all the attributes of a top-level performer. Her natural scope and balance make her a real prospect for the future. Harry Allen, who has worked with her, says: \"Venezuela is a horse I truly believe can jump big Grand Prix classes in the future. She has the ability, attitude, and scope to go all the way.\"\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Plot Pearl",
+      "slug": "plot-pearl",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Plot Blue",
+      "dam": "Balou",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/9adcae79-29f2-4422-b93a-56a7400ca504.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Plot Pearl is a striking 6-year-old stallion by the legendary Plot Blue, who himself won two 5* Grand Prix with Marcus Ehning and earned over €1.2 million in prize money.\r\n\r\nSince joining the Aloga team, Maxi Lill has taken over the reins, and their partnership has been outstanding. Together, they delivered a flawless 7/7 double clear rounds in Vejer De La Frontera and secured 2nd place in a highly competitive 6-year-old final.\r\n\r\nPlot Pearl is an exceptional jumper, always giving his best in the ring. Like a rare gem, his full potential is only just beginning to be realized.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Fasano",
+      "slug": "fasano",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "Feinrich",
+      "dam": "Dormello",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/b7600675-afe8-4f05-9f3b-4b1e0dfd2ef1.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Fasano – Exceptional Young Gelding with Grand Prix Potential\r\nFasano is an outstanding young gelding who combines top athleticism with a fantastic temperament. With his expressive movement, natural balance, and excellent rideability, he is a promising candidate for the highest levels of dressage.\r\n\r\nComing from a proven dam line, Fasano’s mother has already produced successful Grand Prix horses. This strong genetic foundation, paired with his own talent and willingness to learn, makes him an exciting prospect for the future.\r\n\r\nA unique opportunity to acquire a young horse with everything it takes to excel in the championships of tomorrow.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Kommandant",
+      "slug": "kommandant",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "COMME IL FAUT",
+      "dam": "DIARADO",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/36d06e1a-5778-4cb7-8eb4-0a6edc2bc98a.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Kommandant is an 8-year-old gelding by Comme Il Faut out of a Diarado mare. He has been in the Lill stable since he was a foal, and from his very first free jump, his talent was undeniable. Carefully produced with patience and precision, he has continued to prove his ability every step of the way.\r\n\r\nWe are incredibly proud to present Kommandant, a horse that we believe has everything it takes to become one of the very best.\r\nHe began his international career in early 2024 and quickly showed his class. At just 7 years old, he impressed at the World Championships in Lanaken and he jumped double clear in a 1.45m Longines Ranking Class in November of 2024. However, most recently, he was outstanding in Vejer De La Frontera, where he delivered two double clears and two top-10 finishes in 4* 1.45m ranking classes, including an impressive 3rd place in the 4* Big Tour.\r\n\r\nElegant, modern, and incredibly sharp in the ring, Kommandant is naturally quick, careful, and always focused on his job. With his exceptional ability, he is certainly a serious contender to compete at the highest level of the sport.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Kilnamac Cody",
+      "slug": "kilnamac-cody",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "DIAMANT DE SEMILLY",
+      "dam": "CRUISING",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/98f24b9f-850d-4db5-8678-2dc118839213.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Kilnamac Cody is a 7-year-old Irish-bred gelding by Diamant De Semilly, out of a Cruising mare. Cruising, as a dam sire, has produced top-level horses like James Kann Cruz.\r\n\r\nKilnamac Cody, at just 6 years old, competed in the main arena at the prestigious RDS Dublin Horse Show. Since joining Ballywalter Stables, he has continued to prove himself, most recently excelling in Vejer De La Frontera, where he jumped 7 double clears out of 8 rounds.\r\n\r\nWith his calm and steady temperament, Kilnamac Cody is a horse that suits any rider. He is a reliable and straightforward partner for top-level competition, with the ability to develop into a strong contender at the Grand Prix level.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Slim Fit",
+      "slug": "slim-fit",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "OTARD VAN 'T ROOSAKKER",
+      "dam": "CORNET OBOLENSKY",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/021f4cb5-5297-4d1f-89e4-3c1476c9ab15.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Slim Fit is a stunning grey 7-year-old gelding who has been nothing short of exceptional since joining Ballywalter Stables, boasting an incredible 85% clear round rate at international level. He is naturally easy to ride, with a fantastic mindset, excellent technique, and impressive power, making him a dream for any rider. Already an eye-catcher as a 6-year-old under Bertram, Slim Fit continued to impress when Harry took over the reins in 2025. The pair were most impressive in Vejer De La Frontera, jumping 7 double clears out of 8 and securing an outstanding 5th place finish in the 7-year-old final. With his rideability, talent, and competitive nature, Slim Fit has all the attributes to develop into a top Grand Prix horse in the future.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Denir",
+      "slug": "denir",
+      "discipline": "Springen",
+      "year": 2021,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Dynamic Dream",
+      "dam": "Ampere",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/c0353363-505e-4df1-b6c0-60f37fd65299.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Denir – A Jet-Black Nobleman with Exceptional Presence\r\nDenir captivated admirers at the 2024 DSP licensing in Munich with his striking side profile, flawless conformation, and outstanding basic gaits. His enormous hindquarter engagement and maximum elasticity set him apart.\r\n\r\nBy the popular sire Dynamic Dream, Denir represents the first generation of his licensed sons from the 2023/2024 German licensing season.\r\n\r\nHe successfully completed his 50-day test in Adelheidsdorf in autumn 2024, finishing with an overall score of 8.25. His interior qualities were rated 9.0, while his basic gaits received 8.5.\r\n\r\nHis first foals already impress with their noble type, correct conformation, and above-average movement quality.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Dialon",
+      "slug": "dialon",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "Dia Corrado",
+      "dam": "Light On OLD",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/f05a9e26-41d4-45e3-b74b-4df4ed41282d.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Dialon is a 6-year-old gelding by Dia Corrado out of a Light On mare, combining scope, carefulness, and excellent rideability. His talent has already been showcased in Vejer De La Frontera, where he delivered a flawless 8/8 clear rounds and secured 6th place in the overall final. Alongside his international success, he has also claimed multiple national wins, proving his consistency and quality in the ring. With his elegant presence, exceptional temperament, and natural rideability, Dialon is an exciting prospect for an ambitious rider aiming for the top.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Tyler",
+      "slug": "tyler",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "United Touch S",
+      "dam": "Vigo D'Arsouilles",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/9ede9515-0894-463a-93e0-027a26e969ec.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Tyler is a striking 6-year-old chestnut gelding by United Touch S, the exceptional stallion ridden by Richard Vogel, out of a Vigo d'Arsouilles mare. With both his sire and dam’s sire competing successfully at the 1.60m level, Tyler was bred for the top of the sport.\r\n\r\nAt the start of the year, he impressed in Vejer De La Frontera, delivering a series of outstanding rounds. He combines limitless scope and a flawless technique while also using his body exceptionally well, making every jump look and feel effortless. Beyond his ability, he has a fantastic attitude and takes everything in his stride, with nothing ever phasing him.\r\n\r\nFor Tyler, no fence is too big, and with his talent and mindset, the Aloga team are confident he is a future Grand Prix horse.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Kantu",
+      "slug": "kantu",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "ACTION-BREAKER",
+      "dam": "QUIRADO",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/eb2c36b0-a624-42d9-b19f-ff801f612476.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Kantu is a talented 8-year-old mare by Action Breaker out of a Quirado dam. She has been most impressive since beginning her international career, boasting an incredible 83% clear round rate in international classes since joining forces with Harry Allen.\r\n\r\nKantu has consistently demonstrated her quality and class, placing in the top three of the 1* Grand Prix in Lier, Belgium, in October 2024 before heading to Valencia in November, where she jumped exceptionally well in her first 1.40m. Most recently, she competed in Vejer de la Frontera, delivering 8 clear rounds out of 9 and finishing her tour with two outstanding clears in the 4* Medium 1.40m. At the end of March, she continued to impress in Riesenbeck, jumping clear in the 1.40m Medium Tour.\r\n\r\nKantu combines scope, carefulness, an excellent competitive instinct and a phenomenal technique. There is no doubt that Kantu possesses all the necessary attributes to become a top-level Grand Prix horse.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Maddox Mart",
+      "slug": "maddox-mart",
+      "discipline": "Springen",
+      "year": 2017,
+      "gender": "hengst",
+      "size": null,
+      "studbook": null,
+      "sire": "Hennessy",
+      "dam": "Bordeaux",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/ebf61f76-2482-4251-895f-861a2bfbfc06.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Maddox Mart – Licensed and Approved Breeding Stallion with Grand Prix Potential\r\nMaddox Mart impresses not only with his brilliant type but also with his exceptional gaits, first-class rideability, and outstanding character.\r\n\r\nIn 2024, he was a finalist in the NÜRNBERGER BURG-POKAL. At the start of 2025, he made his debut at Inter I with Lena Haßmann, delivering a convincing performance with over 76%. His talent for collected movements, including piaffe and passage, is undeniable.\r\n\r\nAs a 5-year-old, Maddox Mart won the small final at the World Championships for Young Dressage Horses in Ermelo (NL). He already has several auction foals and riding horses successfully presented at top German breeding auctions.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Chicago",
+      "slug": "chicago",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "Continental Blue",
+      "dam": "Caretano Z",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/980e717c-415b-4a8d-a7c6-f3c2dca22274.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Chicago is a 7-year-old gelding by Continental Blue out of a Caretano Z mare, combining proven performance bloodlines with outstanding ability.\r\n\r\nHis results speak for themselves. As a 5-year-old, he secured multiple wins up to 1.15m. At 6, he dominated Bundeschampionat qualifiers with three victories, proving his himself among Germany’s best young horses. In 2025, he continued his success, jumping 3/3 clear rounds in 1.35m classes in St. Tropez, once again showcasing his abundance of scope and consistency. Chicago delivers exceptional scope, sharp reflexes, and an effortless ride while always giving his best in the ring. With his results and attitude, he is well on his way to becoming a top Grand Prix horse.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Marthe",
+      "slug": "marthe",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Le Coultre De Muze",
+      "dam": "Cartier Van De Heffinck",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/402f7dac-4a4e-4a1a-b6db-83992daf32a2.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Marthe is a striking 7-year-old mare by the exceptional Le Coultre de Muze, out of a Cartier van de Heffinck mare. She has already made a strong impression in the 7-year-old classes, already delivering some excellent rounds\r\n\r\nMarthe gives her rider a fantastic feeling at every jump, offering a secure, powerful takeoff and always pulling through with determination. Her natural speed also makes her a real competitor, where every time you enter the ring with her, you have the feeling you can be well placed and win.\r\n\r\nMarthe has all the right attributes to reach the top level. Harry Allen comments, \"We’ve only had Marthe for a couple of months, but from the first time I sat on her, I was really impressed and I knew immediately she should be part of the Aloga Auction\"\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Don Diamond",
+      "slug": "don-diamond",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "Diamant De Quidam-H OLD",
+      "dam": "Douglas",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/b823ee4d-de50-4d5f-934c-63207cb426af.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Don Diamond is a 7-year-old gelding by Diamant de Quidam out of a Douglas mare who has already produced multiple successful 1.40m horses.\r\n\r\nHe began the year in Vejer De La Frontera, where he jumped the 7-year-old classes with ease and has since been competing successfully at 1.40m. Throughout he has showcased his consistency, jumping effortlessly with plenty of scope, balance, and a correct technique.\r\n\r\nDon Diamond is straightforward to ride, light in the hand, and always focused under pressure. With his ability and attitude, he is on track to develop into a top-level Grand Prix horse.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Shadow Fairy Caledonia",
+      "slug": "shadow-fairy-caledonia",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Foundation",
+      "dam": "Sir Donnerhall I",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/a4b4c226-e3b6-4c45-a03f-f7dc38b84e54.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Shadow Fairy Caledonia – Exceptional Young Mare from a Proven Dam Line\r\nShadow Fairy Caledonia, by the renowned sire Foundation, was bred by Caledonia Dressage Horses (GB).\r\n\r\nWith exceptional rideability, expressive trot mechanics, and outstanding shoulder freedom, she is an exciting prospect for both sport and breeding. She has already produced a foal of exceptional type and movement.\r\n\r\nAs a 3-year-old, she won bronze at the Brillantring at the Oldenburg State Championships in Rastede before securing third place in the final of the Federal Championships in Warendorf.\r\n\r\nHer half-brother, Total Caledonia (by Totilas), received the 1c Premium at the 2023 Oldenburg Main Licensing, while her full brother, Titan Caledonia, was licensed by the Westphalian Studbook in 2024.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Astarix",
+      "slug": "astarix",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "AGANIX DU SEIGNEUR",
+      "dam": "QUIDAM DE REVEL",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/b8bae0f7-1ee2-47ee-be33-98e399d43ab2.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Astarix is a promising 7 year old gelding by the popular Aganix Du Seigneur out of a Quidam de Revel mare.\r\nAstarix has shown lots of carefulness with an eye catching technique in his rounds so far, jumping impressive clear rounds in young horse classes at Lier and Vejer De La Frontera\r\nAstarix embodies a modern sport horse with his natural talent and speed. In the ring he has a competitive nature and wonderful athleticism which makes him a prime candidate for success on the big stage.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Enzo",
+      "slug": "enzo",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "Emerald Van't Ruytershof",
+      "dam": "Cardento",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/3798fefc-03a2-46a7-b701-6b4e757e1383.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Enzo is a 6-year-old gelding by the brilliant Emerald Van’t Ruytershof out of a Cardento mare. He is a half-brother to Diadema Della Caccia, currently competing at 1.50m and continuing to progress.\r\n\r\nWhile being produced in Ireland, his talent was evident from the start.  As a 4-year-old, he won the Irish Breeders Classic final and at 5-years-old, he jumped double clear every day at the same event and placed in the €40,000 final. At 6 years old, Harry Allen took over the reins where they delivered 8/8 clear rounds in Vejer De La Frontera at the beginning of 2025 proving his talent with every round!\r\n\r\nEnzo has all the attributes of a grand prix horse, exceptional scope, carefulness, and a fantastic attitude!\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Capella",
+      "slug": "capella",
+      "discipline": "Springen",
+      "year": 2020,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Kannando Hästak DWB",
+      "dam": "L.B. Casanova",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/692b028b-fd0c-4b9b-926c-1e17a67069ad.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Capella is a stunning 5-year-old mare who has already made her mark at the international level. With a beautiful presence in the ring, she combines a natural talent with an incredibly willing attitude. Capella's only goal is to please, always eager to give her best for her rider.\r\n\r\nHer technique is excellent and despite her young age, she shows maturity beyond her years, handling new challenges with ease and confidence.\r\n\r\nCapella’s positive mindset and her desire to perform make her an exciting prospect for the future. We have no doubt she has the potential to rise through the ranks and excel at every level!\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Victoria Beckham",
+      "slug": "victoria-beckham",
+      "discipline": "Springen",
+      "year": 2022,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Vitalis",
+      "dam": "Sir Donnerhall I",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/0d633f3f-1a18-4b30-840d-8d76ac0141b4.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Victoria Beckham – Elegant 3-Year-Old Mare with Star Quality\r\nVictoria Beckham is a stunning young mare who captivates with her elegance, athleticism, and natural presence. With her expressive movement, uphill tendency, and excellent rideability, she has all the qualities needed for a successful dressage career.\r\n\r\nDespite her young age, she is remarkably secure and confident under saddle. She is eager to please her rider and learns quickly. Her outstanding pedigree further underlines her potential for top-level sport.\r\n\r\nA true gem for riders and trainers looking to polish a promising young horse into a future star.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Nonight",
+      "slug": "nonight",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "merrie",
+      "size": null,
+      "studbook": null,
+      "sire": "Untouched",
+      "dam": "Narcos II",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/6d5d51f3-218f-4054-8dbc-38f9f80d0e98.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Nonight is a stunning 7-year-old mare by Untouched, the sire of the exceptional stallion United Touch S, ridden by Richard Vogel. She embodies the best attributes of her father’s offspring, with incredible scope and a powerful canter.\r\n\r\nAfter making her debut with Harry in the summer of 2024, she has consistently showcased her growing talent, a quality often seen in the most exceptional horses. Most recently, she was nothing short of outstanding in Riesenbeck at the end of March, turning heads and impressing everyone with her rounds. She continues to prove her natural ability, carefulness, and scope.\r\n\r\nThe Aloga team are very confident that Nonight has everything it takes to develop into a top Grand Prix horse.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Simba",
+      "slug": "simba",
+      "discipline": "Springen",
+      "year": 2018,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "CONTHARGOS",
+      "dam": "HEARTBREAKER",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/3a69f999-b239-43cb-af4a-d9c8d0f819e0.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Simba is a talented 7-year-old gelding by Conthargos out of a Heartbreaker mother, combining world-class stallions on both sides of his pedigree. He has already made a strong impression on the international stage, delivering 6 clear rounds out of 8 in Vejer De La Frontera earlier this year, where he consistently caught the eye with his scope and carefulness.\r\n\r\nHe possesses all the attributes of a modern sport horse, athletic, rideable, and very competitive, combined with his natural talent and willingness to perform, Simba is bound to be a real winner!\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    },
+    {
+      "name": "Ellan",
+      "slug": "ellan",
+      "discipline": "Springen",
+      "year": 2019,
+      "gender": "ruin",
+      "size": null,
+      "studbook": null,
+      "sire": "Ermitage Kalone",
+      "dam": "Bustique",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/df019069-0075-40cf-822a-f44509d9282d.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://bid.aloga-auction.com/auctions/98423791-25df-4b65-ad6d-08dd83054a6a",
+      "catalog_text": "Ellan Z is a striking 6-year-old chestnut gelding by one of the hottest stallions of our time, Ermitage Kalone, out of a Bustique mare. With markings similar to his father, he certainly catches the eye in the ring.\r\n\r\nLike his sire, Ellan Z has a brilliant technique and jumps with incredible ease. His record speaks for itself: he was double clear every day at the 5-year-old French Championships in Fontainebleau before going to the world championships for young horses in Lanaken, where he jumped clear every day as well.\r\n\r\nWith his natural talent, excellent technique, and effortless way of jumping, Ellan Z shows great promise for the future. He has the scope and mindset to excel in the highest levels of the sport and the team at Aloga are very confident that he will become a top grand prix in the coming years.\r\n\r\n*price exclusive tax and 8% auction cost",
+      "starting_bid": null
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 6 mei 2026 (Fase 0 iteratie)**
+**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
 
 ---
 

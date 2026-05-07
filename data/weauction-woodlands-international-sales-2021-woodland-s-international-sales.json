@@ -1,0 +1,499 @@
+{
+  "meta": {
+    "collection": "2021 - Woodland's International Sales",
+    "house": "Woodlands International Sales",
+    "website": "https://woodlandsinternational.weauction.nl",
+    "status": "afgesloten",
+    "imported_at": "2026-05-07T13:49:17.371Z",
+    "total": 27,
+    "data_source": "weauction-scraper (Puppeteer), https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb"
+  },
+  "horses": [
+    {
+      "name": "Kochio Z",
+      "slug": "kochio-z",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Kannan GFE",
+      "dam": "Diamant de Semilly",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/21a588c7-c71d-42eb-b731-ad9da84187c8.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "As a sire, Kannan is one of the best suppliers of showjumping horses in the world. He owes this to a large number of children who excel in international show jumping, including the Olympic Champion and World Cup winner Nino des Buissonnets, Molly Malone, Quabri de L’Isle and a whole host of other international top offspring! On the dam’s side, Kochio Z is blessed with the blood of Diamant De Semilly, which means that twice the best French jumping genes are anchored in Kochio Z. The dam of Kochio Z, Datura Z, jumped at 1m35 level under the saddle of Jolien van Turnhout, while granddam Corrada competed at 1m40 level under the saddle of Nick van Turnhout. The rest of this dam line can also be seen in the sport. For example, at 1m60 level we see the showjumpers La Belle J (Tobias Schwarz), For Cash 2 (Anita Sande) and Cazino Cash (Stasys Jasas). Furthermore, Corrado 123 jumped at 1m55 level under the saddle of Joachim Heyer and the 1m45 jumping Casaltina (Philip Houston) is also related to this Kochio Z.",
+      "starting_bid": null
+    },
+    {
+      "name": "Scarlett",
+      "slug": "scarlett",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Stolzenberg",
+      "dam": "Graf Grannus",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/abb7cfa5-2ac4-4f3e-9dab-0ef6e3ca27f7.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Stolzenberg is a son of the renowned Stakkato. On his dam’s side he descends from Sandro and the well-known Hanoverian stallion Dinar. In 2019 he was honored as Hanoverian Stallion of the Year. He owed this to his international offspring in the top sport, such as Hello Shelby with Scott Brash, Salt’n Peppa with Hall McAteer, Gain Line with Abdullah Alsharbatly and BSC Skipper with Holger Wulschner. On the dam’s side, Scarlett carries the old blood of Lambourghini Diablo, who in turn comes out of the dam line of the 1m60 show jumpers Daylight VDL, Greatlight VDL, Vicktoria and Loro Piana Eclypso del Colle as well as Kronos d’Ouilly and Jubilee d’Ouilly",
+      "starting_bid": null
+    },
+    {
+      "name": "Picachu JB",
+      "slug": "picachu-jb",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "I'm Special de Muze",
+      "dam": "Darco",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/c59000b7-7591-4812-a693-ce2fd99ddf3b.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "I’m Special De Muze’s pedigree is a true gem. He is a son of Emerald and comes directly out of Walnut De Muze, who jumped at the highest level with Harrie Smolders, while both his grandmother and great-grandmother were also active at 1m60 level. I’m Special de Muze jumped at 1m50 level under the saddle of Zoï Snels and his oldest breeding products are already active at this level! Picachu JB’s three-fourth brother is Excel Cool Quality, who can already be seen at two star eventing level under Benita Strini at the age of eight. That is not surprising, because grandmother Bijou van het Netehof is a half-sister of El Capone, who can be seen at international three-star dressage level under Tom Heylen. Iluna van het Netehof, who competed at 1m40 level with Jeroen De Winter in the saddle, also comes out of this dam line, as does the 8-year-old Naturelle van het Netehof, who also jumps successfully at 1m40 level with Kim Grangenette. The scope of dam’s sire Darco is also clearly visible when Picachu JB starts to jump. It is a successful combination in which the electricity of I’m Special De Muze and the proven power of Darco come into their own!",
+      "starting_bid": null
+    },
+    {
+      "name": "Quetza Hero D&B",
+      "slug": "quetza-hero-d-b",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Baloubet du Rouet",
+      "dam": "Nabab de Reve",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/d2288eae-ee1b-4a6f-91c5-bf297fbb285b.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Until today, Baloubet du Rouet is the only horse to have been world champion 3 times with the same rider. And on top of that, he also won a gold medal at the Athens Olympics with Rodrigo Pessoa. He produced many top show jumpers such as Balou du Rouet, Bonne Chance CW, Querlybet Hero, VDL Bubalu, Palloubet d’Halong, West-Side van de Meerputhoeve, Sydney Une Prince and many others. This Quetza Hero & DB also inherited good jumping genes on the dam’s side, because her dam, Mokka Hero P&V, is a half-sister of none other than Taloubet Z. During his entire sport career, Taloubet Z was undoubtedly one of the very best show jumpers in the world. He collected over €2,000,000 in prize money and we hope Quetza Hero & DB will do the same! In addition to Taloubet Z, dam Mokka Hero P&V is also a half sister of Big Star JR KZ, who jumps at 1m55 level under Michael Greeve and of the 1m45 show jumpers Nadal Hero & DB (James Peeters), Van Karnute K (Bart van der Maat) and Obadja (Liubov Kochetova).",
+      "starting_bid": null
+    },
+    {
+      "name": "Quint BT",
+      "slug": "quint-bt",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Iron man van de Padenborre",
+      "dam": "Wandor van de Mispelaere",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/2ebe1205-b737-4fd8-b199-5f4be83ee3af.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Iron Man van de Padenborre is a son of the magical Darco. Iron Man has already achieved many top performances under the saddle of Gregory Wathelet. Last year, for example, they won the Grand Prix of St. Tropez! Iron Man also proved that he passes on his good genes as a sire, by already producing several approved sons and international youngster winners out of a small group of offspring. On the dam’s side we see the valuable blood of Wandor van de Mispelaere; dam Imke BT is a half sister of Julio van ‘t Elzenhout, who can be seen at 1m45 level under the saddle of Giavanna Rinaldi. Granddam Caprice van ‘t Elzenhout in turn was successful at LRV Z level and managed to jump to many classifications. The half-brother of granddam Caprice van ‘t Elzenhout is none other than Gringo van ‘t Elzenhout, who has already achieved many placings at 1m50 level under the saddle of Yong Zhang. Furthermore, the 1m45 jumping Liberty van de Sterhoeve (Joost Martens) also comes out of this dam line.",
+      "starting_bid": null
+    },
+    {
+      "name": "Quilano van de D&D Hoeve",
+      "slug": "quilano-van-de-d-d-hoeve",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Karmel vd Watering",
+      "dam": "Uzi",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/e900f507-6832-46e6-9c39-3f1465f94d06.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Karmel van de Watering is a son of Diamant De Semilly who can be seen at 1m60 level under Jens Fredericson. Karmel also excelled as a young horse, by winning the stallion test in Flyinge, and later as a finalist at the World Championships for Young Horses. Karmel’s dam is in turn the full sister of the 1m60 jumping Marlou des Etisses, which means that sport and performance are closely intertwined with Karmel. Just like his sire Karmel van de Watering, Quilano van de D&D hoeve is a real beauty. This black stallion is AES approved and stood out in the Belgian stallion competition as a 4- and 5-year-old under the saddle of Sharon Doms. Dam Bella Donna T is a half sister of Qualite 4, who jumps at 1m40 level with Friederike Kersten, as well as of the 1m35 showjumpers Bali TZ, Cancun TZ and Caribik T Z. In addition, this dam line also produced the 1m60 jumping Caramello Z (Francisco Zamudio). and the 1m45 jumping Aladin Z (Antonio Rodriguez Calero)",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Arera C'",
+      "slug": "embryo-arera-c",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Dominator 2000 Z",
+      "dam": "Indoctro",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/badaa8ca-2732-4578-a691-e59a3790fc3e.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 25.02.2022\n\nSire Dominator Z completed an impressive course! He won his first international Grand Prix at the age of 9 and was second in the Paris 5*GP and the Madrid World Cup! Since then he has jumped from one success to another, including a win in the Madrid Global League, a 2nd place in the Leipzig World Cup and a win in the CSI5* Grand Prix of Al Shaqab! Dam Arera C in turn collected an equally impressive list of honors. Under the saddle of Maikel van der Vleuten she jumped to several victories at the highest level, such as the CSI4* Grand Prix of Amsterdam, and the CSI5* 1m60 in London. In addition, they were regular participants in World Cups, five-star Grand Prixs and Nations Cups. In addition to Arera C, there are several international showjumping horses out of this dam line, such as Bart C, who can be seen at 1m60 level under the saddle of Molly Ashe Cawley, and Martini van Overis Z, who jumps at the highest level under Donald Whitaker. The 1m50 jumping Deauville van Overis Z (Jannike West-Schou) also comes from this dam line, as does the promising young Drops van Overis Z, who can be seen at 1m45 level under Thomas Wittemer. A real embryo for top sport!",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Casall'",
+      "slug": "embryo-casall",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Chacco Blue",
+      "dam": "Cormint",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/5678e269-b4a9-4302-8f07-ca0c6448930e.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 02.06.2022\n\nSire Chacco-Blue needs no explanation. Or do you not know the best stallion in the world yet? Could you use a refresher? How about Explosion W (Ben Maher), Chaqui Z (Shane Breen), Chacco Blue II (Luciana Diniz), Calisto Blue (Daniel Deusser), Chalou (Emanuele Gaudiano), Chaclot (Riccardo Pisani), Chacco Kid (Eric Lamaze) ) and many others. The mother of this embryo is also of the absolute best in the world because Akira is a half sister of none other than Casall ASK. Casall ASK and Rolf-Göran Bengtsson jumped week after week at five star level and were always present at major championships. They wrote history when they won their farewell competition, the Grand Prix of Hamburg, in a magnificent manner! But the rest of the dam line of this embryo is also of exceptional quality. The 1m60 show jumpers Crocodile Dandy (Alison Robitaille), Conally (Markus Renzel), Capone I (Kyle King), Stamberline (Olga Sorokina), Calisto 5 (Richard Gardner) and Caitano (Taizo Sugitani) all come out of this dam line.",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Fair Light van't Heike'",
+      "slug": "embryo-fair-light-van-t-heike",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Berlin",
+      "dam": "Numero Uno",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/f68b35cd-bdd5-4682-b204-63c3a5b24057.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 07.07.2022\n\nSire Berlin was an impressive appearance in the ring. Under the saddle of Gerco Schröder he showed his boundless scope with, among others, a gold medal at the World Championships in Aachen and several Grand Prix victories at the highest level. His offspring also jump effortlessly at the highest level, of which H&M Extra, Caspar 232, Berlux Z and Bull Run’s Faustino de Tili are just a few well-known examples. The mother of this embryo is a half-sister of none other than Fair Light van ‘t Heike, who has already won countless international victories at the highest level under the saddle of Alberto Zorzi. She is also a half-sister of Evian van ‘t Heike, who, just like her half-brother Fair Light, jumped successfully at the highest level under the saddle of Fabio Sarti. And the success of this embryo’s dam line doesn’t stop there… This embryo is also closely related to Valentina van ‘t Heike, who jumped effortlessly at the highest level with Jos Lansink. This means that the 1m60 show jumpers Boomer van ‘t Heike (Kim Thiry), Epleaser van ‘t Heike (Christian Ahlmann), Dancer van ‘t Heike (Domenico Morosoli), Mozart van ‘t Heike (Angel Niagolov), Kassandra van ‘t Heike (Thiago Ribas da Costa) and Edelbert (Dirk Demeersman) are all closely related to this embryo",
+      "starting_bid": null
+    },
+    {
+      "name": "Fantôme",
+      "slug": "fantome",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Qlassic bois Margot",
+      "dam": "Non Stop",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/1f5d6b32-345c-41fc-81a9-c6d02f7e7a3d.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Qlassic Bois Margot has an impressive pedigree composed of a World Champion, an Olympic medalist, a European Champion and a World Cup finalist. It’s thus no wonder that Qlassic Bois Margot became known for his scope, attitude and big heart! Under Simon Delestre he won several five star Grand Prix’s and his oldest offspring are already doing the same! Fantôme himself is not yet old enough to jump at the highest level, but under the saddle of Robinson Maupiler he managed to qualify effortlessly for the final of the Belgian Championship for 6-year-old horses. He also jumped flawlessly in that final and immediately convinced us to introduce Fantôme at Woodland’s. ‘Orshof’ blood flows through Fantôme’s veins on his mother’s side, which makes him related to Hadja van Orshof, who can be seen at the highest level in America under Kelli Cruccioti Vanderveen, and Killer Babe van Orshof, who in turn jumps at 1m60 level with Thomas Rebotton. Fakir van Orshof, who jumps at 1m50 level with Matteo Zamana, also comes out of this dam line, just like Chivas van Orshof, who is active at 1m50 level, ridden by Diego Porres Solis. Further away in this dam line we see an impressive list of 1m60 jum - ping horses such as Grupo Prom Barola (Jose Alfredo Hernandez Ortega), Cavarola (Christopher Surbey), Ticannaf (Reiko Takeda), Da Vinci (Phillip Miller) and Ennio (Fernando Sarasola). In short, with Fantôme the power is certainly guaranteed!",
+      "starting_bid": null
+    },
+    {
+      "name": "Sweet Chardonney PS",
+      "slug": "sweet-chardonney-ps",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Singular LS La Silla",
+      "dam": "Chacco Blue",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/1ee31b04-e1c5-44b1-a597-dba8ea66bb31.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "You may remember Singular LS under the saddle of Marcus Ehning. Together they jumped to multiple victories at five star level and were also placed third in the Bordeaux World Cup. But even now, at the age of 15, Singular LS is still active at the highest level under Linnea Ericsson-Carey. His oldest offspring are now jumping in the young horse classes at international level and show that he is an absolute added value for breeding. Just look at this Sweet Chardonney PS…  Admittedly, this Sweet Chardonney PS undoubtedly also inherited her jumping qualities from her mother’s side! Dam Chardonney Z is a daughter of the widely acclaimed Chacco-Blue, but what is even more special: Chardonney Z jumped at 1m60 level herself under the saddle of the Argentinian Franco Trabucca. In addition, Chardonney Z is also a half sister of Corsica, who in turn competes at 1m50 level with Karoline Gleditsch. Chardonney’s half-sister Gwendolina also produced the 1m60 jumping Larthago (Maria Florencia Blanco) in combination with Larino. Granddam Gwencona can also present the necessary letters of nobility. She is a half sister of Lausana, who competed at 1m60 level with Luis Jesus Escobar and, in combination with Narew XX, also produced the 1m50 jum - ping Navaro 25 (Tatsuya Kusanagi). She is also a half sister of Balsandra, who jumped at 1m60 level with Maria Madenova. As if that wasn’t special enough, Balsandra, in combination with Calvaro Z, also gave Calouso 2, who can be seen at 1m60 level under Eiken Sato. Chili Palmer, who jumps at 1m60 level under the saddle of Jürgen Mayer, is also a half-brother of granddam Gwencona.",
+      "starting_bid": null
+    },
+    {
+      "name": "Dalton de Tiji Z",
+      "slug": "dalton-de-tiji-z",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Don't Touch Tiji Hero Z",
+      "dam": "Cassander van het Bremhof",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/48479d92-b0f9-45fc-8d38-0d2e3c0b3bc0.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Don’t Touch Tiji Hero Z is a real Belgian secret and this Dalton de Tiji Z is at least as impressive as his sire! Don’t Touch Tiji Hero Z’s sire Diamant de Semilly is a world topper, both in sport and breeding. The mother of Don’t Touch is China Touch Hero. China Touch herself competed internationally at young horses level up to 1m40 level and she even won the final for 6-year-old horses in Hardelot under the saddle of Jerome Guery. She is also the dam of the international top horses Akarad Hero Z, Esprit de la Roque and Jaguar de Tiji. When this Dalton De Tiji Z appears in the ring, all eyes are on him. His exceptional scope and unprecedented hind leg technique make him one of the toppers of this collection. Granddam Halloween de Tiji competed at 1m20 level herself and is a half sister of the 1m35 jumping Gladiator de Tiji. Canaille GP Z, who jumped at 1m45 level under Katharina Offel, also comes out of the dam line of this Dalton de Tiji Z..",
+      "starting_bid": null
+    },
+    {
+      "name": "Rob Roy van de Bisschop",
+      "slug": "rob-roy-van-de-bisschop",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Di Cantero van ter Hulst",
+      "dam": "Jenson van't Meulenhof",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/accf9a5a-33db-4367-9852-cb7950138afa.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "You will undoubtedly know Di Cantero van ter Hulst Z under the saddle of Niels Bruynseels. This black pearl is now 10 years old and has already managed to collect many classifications at CSI5* 1m45 level. In addition to his sportive results, his pedigree is also world class. His sire Diamant De Semilly is popular worldwide and also Di Cantero van ter Hulst Z’s dam line is very strong, since Di Cantero is also a half-brother of Cerruti van Ter Hulst Z and Carrado MVN Z, both active at 1m60 level under Luis Ferreira and Brook Dobbin respectively. \n\nAlso the dam’s sire of this Rob Roy vd Bisschop is jumping under the saddle of Niels Bruynseels... Jenson van’t Meulenhof has already often impressed at the highest level! With such a pedigree it is therefore not surprising that Rob Roy vd Bisschop effortlessly obtained his breeding license for studbook Zangersheide at the beginning of this year. \n\nThe entire dam line of Rob Roy vd Bisschop breathes sport, because granddam Karen van d’Abdijhoeve is, for example, the half-sister of Quelle Dame van de Heffinck, who jumped at 1m60 level under Rory Hovell, as well as of Harly PKZ who jumped to several 1m45 level classifications under the saddle of Toni Hassmann. If we look one generation further, we find an impressive number of 1m60 jumping horses, including K2 (Tim Stockdale), Quel Homme vd Heffinck (Rene Tebbel), CP Aprilla (Sharon Slater), Souvenir vd Heffinck (Wilm Vermeir), Grand Cru vd Vijf Eiken (Vanessa Mannix), Upsilon van de Heffinck (Yuri Mansur), Versace van de Heffinck (Gianluca Apolloni) and Boomerang vh Kluizebos (Vitor Alves Teixeira).",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Ode des Roches'",
+      "slug": "embryo-ode-des-roches",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Chacco Blue",
+      "dam": "First de Launay",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/0245f050-64e2-4abe-b13b-99becc583885.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 01.05.2022\n\nWhat an opportunity.. Two Grand Prix horses combined in this beautiful embryo. Sire Chacco-Blue needs no explanation. He has been number 1 on the WBFSH ranking for several years now, thanks to his exceptional offspring such as the Olympic gold Explosion W (Ben Maher) but also thanks to Chaqui Z (Shane Breen), Chacco Blue II (Luciana Diniz), Calisto Blue (Daniel Deusser), Chalou (Emanuele Gaudiano), Chaclot (Riccardo Pisani), Chacco Kid (Eric Lamaze) and many more. Dam Ode des Roches also jumped at the highest level herself under the saddle of Marlon Modolo Zanotelli. They won several Grand Prixs, including twice in Oliva and once in Arezzo. Also during the CSI5* competition in Helsinki they jumped effortlessly to a victory at 1m50 level, while in the CSIO4* Grand Prix of Lisbon they were good for a third place. Ode des Roches’ success is no coincidence, because her half-brother Natif des Roches also jumped at 1m50 level under the saddle of Emanuel Andrade. The dam line of this embryo also produced Nectar des Roches, who in turn jumped at 1m60 level with Edouard Couperie, as well as Frimousset, also active at 1m60 level, albeit under the saddle of the Spaniard Rutherford Latham. In addition, the 1m45 show jumpers Azure des Roches (Erwan Cadiou), Cafeine des Roches (Antoine Deprez) and Asticot des Roches (Bilal Zaryouh) are closely related to this embryo.",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Ilusionata van't Meulenhof'",
+      "slug": "embryo-ilusionata-van-t-meulenhof",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Cornet Obolensky",
+      "dam": "Diamant de Semilly",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/70e641ea-8081-4a7c-8642-cbeebf4f4e35.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 22.07.2022\n\nThe father of this embryo, Cornet Obolensky, excelled under the saddle of Marco Kutscher. Together they jumped to unprecedented successes, but Cornet’s offspring are also of absolute top level. Cornet Obolensky is known as the sire of Clooney, who won European gold under Martin Fuchs, as well as the sire of Cornado NRW (Marcus Ehning), Cristallo I (Henrik von Eckermann), World Cup winner Corbinian (Steve Guerdat), Comme Il Faut (Marcus Ehning), Aachen winner Coree (Gregory Wathelet) and many more. The mother of this embryo is Olympia JW van ‘t Meulenhof, a half sister of L’Esmeralda van ‘t Meulenhof, who jumps at 1m50 level under Koen Vereecke. The granddam of this embryo undoubtedly rings a bell, because Ilusionata van ‘t Meulenhof has already won an exceptional number of classes at the highest level under the saddle of Niels Bruynseels. In addition, granddam Ilusionata van ‘t Meulenhof is a half sister of none other than the 1m60 show jumpers Emerald van ‘t Ruytershof, Diamanthina v/h Ruytershof and Fragile van ‘t Meulenhof. This means that this embryo is also closely related to the 1m60 show jumpers Empire van ‘t Ruytershof (Pedro Paula Lacerda), Cupido vd Hoefslag Z (Luca Ruxandariu), Bacara de la Ferme Blanche (Anna Kellnerova), Jackson de Regor (Abdel Said) and Nustria van Meijershoeve (Peter Charles).",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Calvaro's Konzert'",
+      "slug": "embryo-calvaro-s-konzert",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Mumbai",
+      "dam": "Chacco Blue",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/4a983a6c-e3e5-4453-82f2-06b35968b3b2.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 16.05.2022\n\nSire Mumbai is a proud Woodlands reference... Barely nine years old, he already finished fourth at the European Championship in Riesenbeck last month under Christian Kukuk, having already won a silver team medal at the same championship. During his CSI5* debut he jumped effortlessly into the top 10 of the Grand Prix of Aachen! In addition to his sportive talent, he also comes from a super dam line, because his grandmother is the 1m60 jumping horse VDL Groep Eureka! The dam of this embryo is a daughter of the famous Chacco Blue, while the granddam of this embryo is the full sister of Contha Stara, a daughter of Conthargos, who jumps at 1m50 level under the saddle of Paul O’Shea. In addition, grandmother Conthiara is also a half sister of the 1m60 jumping Calvaro’s Konzert, who can be seen under the saddle of the Spaniard Jesus Garmendia Echevarria. Coquira, who jumps at 1m60 level under Catherine Yen-Tung Chew, is also a half sister of granddam Conthiara. But the success of this damline doesn’t stop there! This is also the dam line of the 1m60 show jumpers Quick Quintender (Alicia Page), Concona (Ben Maher), Contara 15 (Michael Greeve), H5 Acovaro (Ales Opatrny), Calvira (Lorenza O’Farrill) and ABC Lanzelot (Hap Hansen). With this embryo you are bringing absolute top sport into your home!",
+      "starting_bid": null
+    },
+    {
+      "name": "Black Moon van het Sonnishof",
+      "slug": "black-moon-van-het-sonnishof",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Bienno van het Sonnishof",
+      "dam": "Coriolan",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/17b0bf4d-8c60-411a-885a-1b24f773a4ec.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Bienno van het Sonnishof competed at 1m40 level himself with Lotte Luyten. Bienno may not be a name known to the general public, but this grey stallion has already produced very nice sport horses! Bienno himself is a son of Ludger Beerbaum’s Coup de Coeur and a half-brother of Gringo, who jumps at 1m45 level with Alexa Lowe-Wiseman. \n\nBlack Moon van het Sonnishof is also approved as a breeding stallion for the AES and as soon as you see him jumping, you will undoubtedly understand why. He jumps with a lot of gummi and body usage and those are qualities that are strongly anchored in this dam line. Black Moon van het Sonnishof comes out of the same line as Sex Appeal 111 Z, successful at 1m60 level under the saddle of Guillaume Foutrier, Imke 111, who won countless 1m50 classes under the saddle of Abdel Said, and of the promising BWP-approved Hocus Pocus 111 Z. Trajanus, who jumped at 1m60 level under Erica Swartz, also comes from this dam line",
+      "starting_bid": null
+    },
+    {
+      "name": "Quinto van het Molenhof",
+      "slug": "quinto-van-het-molenhof",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Don't Touch Tiji Hero Z",
+      "dam": "Chellano Z",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/cc7f5945-babb-4a5a-a40a-6bd1c2d7fad1.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Don’t Touch Tiji Hero Z is a real Belgian secret and this Dalton de Tiji Z is at least as impressive as his sire! Don’t Touch Tiji Hero Z’s sire Diamant de Semilly is a world topper, both in sport and breeding. The mother of Don’t Touch is China Touch Hero. China Touch herself competed internationally at young horses level up to 1m40 level and she even won the final for 6-year-old horses in Hardelot under the saddle of Jerome Guery. She is also the dam of the international top horses Akarad Hero Z, Esprit de la Roque and Jaguar de Tiji. Quinto van het Molenhof is a BWP approved stallion who carries the valuable blood of Chellano Z on his dam’s side. He is an impressive stallion and his quality on the jump is possibly even more impressive. His great-granddam Norka van het Gravenhof is a daughter of Free Style (also known as Kalinka vhd Gravenhof) who was successful at 1m60 level under Elliott Stone.",
+      "starting_bid": null
+    },
+    {
+      "name": "Vivanabis PS",
+      "slug": "vivanabis-ps",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Vivant van de Heffink",
+      "dam": "Canabis Z",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/55ddc0e7-c164-4874-9746-d195024b12c5.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Vivant van de Heffinck was successful in multiple Grand Prix’s with the Australian Chris Chugg and successfully participated in many nations competitions and the Olympic Games of London 2012 under the rider Katharina Offel. In addition, at the age of 18, Vivant still managed to impress during the 2015 European Championships in Aachen under his rider Cassio Rivetti. It is striking that from only a few breedings a large number of offspring is already internationally successful and we are sure that this BWP-approved Vivanabis PS will go in the same direction! Vivanabis PS is not only a feast for the eyes, this BWP-approved stallion also comes out of a very good dam line. Dam Cadouet is a half sister of Winbishi Caloudina, who competed at 1m60 level under Martin Federico Moschini. As a 3-year-old, Winbishi Caloudina was first used in breeding before she started her sport career, and in com - bination with Sandro Boy this resulted in Sandolo, who in turn jumped at 1m60 level under Hamidreza Jozi. Furthermore, dam Cadouet is also a half sister of the 8-year-old Chinoubet PS, who is already jumping at 1m45 level under the saddle of Guillaume Roland Billecart. Top sport is also anchored further down this dam line, because Vivanis PS is, among other horses, related to Paul Schockemöhle’s famous Chacoon Blue! Also the 1m60 show jumpers Lawitano Z (Manuel Senderos), Chilensky (Koki Saito), Corlano (Rami Shahin), Lando Boy (Frederic David), Eurostar I (James Arkins) and Beleno (Tadayoshi Hayashi) come out of this dam line.",
+      "starting_bid": null
+    },
+    {
+      "name": "Queen Verdi van't Heike",
+      "slug": "queen-verdi-van-t-heike",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Lordanos",
+      "dam": "Power Light",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/4ba43af6-f405-428c-b987-8a02cee9bfe0.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Sire Lordanos unfortunately passed away at the beginning of this year, but he is certainly famous as a foundation sire. He jumped at 1m50 level himself with owner Gerd Sosath, but might be even more known as a sire. Offspring such as Lady Lordana (Hendrik Sosath), Light On (Ulrich Kirchhoff), HH Let’s Fly (Rodrigo Pessoa), Lordan (Nayel Nasser) and Lacasino (Marco Kutscher) make him a very popular stallion. The dam line of Queen Verdi van ‘t Heike also provides real sport genes, because dam A Verdi Light van ‘t Heike already gave birth to the 1m50 jumping I’m Special van ‘t Heike. I’m Special van ‘t Heike can be seen under the saddle of the Czech Anna Kellnerova. Dam A Verdi Light van ‘t Heike is in turn a half sister of the 1m60 jumping Dominant van ‘t Heike (Luca Coata) as well as of the 1m50 show jumpers Tamura van ‘t Heike (Manuel Andres Bancalari Elmudesi) and Fiona van ‘t Heike ( Christian Anfinnsen Oien), as well as the 1m45 jumping Highland van ‘t Heike (Mckayla Langmeier). A dam line that brings the necessary scope and that can definitely be seen when this Queen Verdi van ‘t Heike starts to jump!",
+      "starting_bid": null
+    },
+    {
+      "name": "Embyo 'Emerald'",
+      "slug": "embyo-emerald",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Chacco Blue",
+      "dam": "Verdi TN",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/0cdaca25-fccd-4d9a-8ea8-0cef2073a24d.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 14.05.2022\n\nSire Chacco-Blue needs no explanation. Or do you not know the best stal - lion in the world yet? Could you use a refresher? How about Explosion W (Ben Maher), Chaqui Z (Shane Breen), Chacco Blue II (Luciana Diniz), Calisto Blue (Daniel Deusser), Chalou (Emanuele Gaudiano), Chaclot (Riccardo Pisani), Chacco Kid (Eric Lamaze) ),… But the dam line of this embryo is also of absolute world class. Dam Kitona di Magico is the half sister of the 1m50 jumping Diamanty Di Magico Z (Stella Trümp) and of the 1m50 jumping Licardo Di Magico (Priscilla Pigozzi Garofalo). But that’s not the most special thing about this embryo… Dam Kitona di Magico is, after all, also the half-sister of Carthi - na Z, also known as the dam of the 1m60 show jumpers Emerald van ‘t Ruytershof (Harrie Smolders), Diamanthina v/h Ruytershof (Constant van Paesschen), Fragile van ‘t Meulenhof (Lidija Grum) and Ilusionata van ‘t Meulenhof (Niels Bruynseels)! But this dam line doesn’t stop there, be - cause the 1m50 show jumpers L’Innocence van ‘t Meulenhof (Jeroen De Winter) and Nixon van ‘t Meulenhof (Harrie Smolders) are also promising offspring of Carthina Z. This means that this embryo is also closely related to the 1m60 show jum - pers Empire van ‘t Ruytershof (Pedro Paula Lacerda), Cupido vd Hoefslag Z (Luca Ruxandariu), Bacara de la Ferme Blanche (Anna Kellnerova), Jack[1]son de Regor (Abdel Said) and Nustria van Meijershoeve (Peter Charles)",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Cornado I & II'",
+      "slug": "embryo-cornado-i-ii",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Emerald",
+      "dam": "Cornet Obolensky",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/bef85b4f-5ebb-4405-a774-986679daf6cf.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 20.07.2022\n\nEmerald van’t Ruytershof. The chestnut stallion with his striking appearance… His charisma and endless talent and scope, his winning mentality and above all his commitment and friendly character make him not only the favorite of everyone in the stable but also an absolute public favourite… The same can be said of Cornado NRW, who under Marcus Ehning achieved an exceptional number of victories at 1m60 level. His full brother, Cornado II Z, was also active at the highest level under the saddle of Christian Ahlmann. The Cornado brothers are closely related to this embryo because granddam Mamba II is the full sister of Acobata, the dam of Cornado NRW & Cornado II. But grandmother Mamba II’s offspring are also doing well in the sport! Kleiner Lord 16, who jumps at 1m60 level under the saddle of Tereza Svobodova, is for example the half-brother of dam Conbata PS. Her other half-brother is also doing well in the sport, because Charkow 2 jumps at 1m45 level under the German Tessa Leni Thillmann.",
+      "starting_bid": null
+    },
+    {
+      "name": "Embryo 'Butterfly Flip'",
+      "slug": "embryo-butterfly-flip",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Gino H",
+      "dam": "Matisse de Mariposa",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/40872e64-a6da-4f47-9e0d-c34266c273a8.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Date of birth: 20.05.2022\n\nGino H is a genetic gem. He is the half-brother of the legendary Hickstead and was one of the eye-catchers at the KWPN stallion selection in 2014. As a young horse he was one of the trendsetters of the PAVO Stallion Competition, but it is mainly his offspring that currently makes him famous. This is not surprising, because one of Gino H’s oldest offspring is the BWP approved stallion Gin Flip de Muze Z. This young stallion showed himself in the stallion competition as one of the best Belgian stallions under the saddle of Vicky van de Poel. Above that, the embryo comes out of the half-sister of Gin Flip De Muze Z, which means that your success is already assured! The granddam of this embryo is Elle Flip de Muze, who jumped at 1m40 level under Anneliese Prag, while the great granddam is none other than H&M Butterfly Flip. Under the saddle of Malin Baryard-Johnsson, she jumped to countless victories at the highest level, including a silver medal at the Olympic Games in Athens. In addition, H&M Butterfly Flip is also the dam of Flip’s Little Sparrow, who won the Falsterbo World Cup under Stephanie Holmen, and of Flips Fairytale, who can be seen at 1m50 level under Linn Holm.",
+      "starting_bid": null
+    },
+    {
+      "name": "Happy Diamond S.C.H.",
+      "slug": "happy-diamond-s-c-h",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Casall",
+      "dam": "Quidam de Revel",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/9096fa7d-a0ab-4f76-b4e8-7848093dfefa.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Casall ASK and Rolf-Göran Bengtsson, a combination that is etched in our memory. They jumped week after week at five star level and were always present at major championships. They wrote history when they won their farewell competition, the Hamburg Grand Prix, in a magnificent way. His offspring, such as Caracas, H&M Chilli Willi and Wunschkind are also of great quality. The same can be said of this Happy Diamond S.C.H.. Her dam, Cloud Seven S, is a daughter of the immensely scopy Quidam De Revel. In addition, Cloud Seven S is also a half sister of Vandetta, Quidditch 28 and Godiva S.C.H, all three active at 1m40 level under Angelika Hechenberger, Vanessa-Joy Nägele and Marten Witt respectively. Further in the dam line we also see Anderida Anica, who jumped at 1m60 level under the saddle of Paul Barker, as well as American, who can be seen at 1m60 level under the saddle of the Brazilian José Roberto Reynoso Fernandez Filho. Finally, the 1m45 show jumpers Captain Kirk 16 (Hilmar Meyer) and Lanitop 5 (Bernd Hofmann) are also rela - ted to Happy Diamond S.C.H.",
+      "starting_bid": null
+    },
+    {
+      "name": "Pasionelle vd Witte Driesendijk",
+      "slug": "pasionelle-vd-witte-driesendijk",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "El Torreo de Muze",
+      "dam": "Quickfeuer van Koekshof",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/0f6e745f-596d-4dfc-9650-bf57cdcc7b1e.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Eleven years old and already multiple GP winner at the highest level; that is El Torreo De Muze. His sire Taran de la Pomme is the half-brother of Glock’s London and Golden Hawk, while the performance genes on the dam’s side are provided by Funky Music, who performed at international level with Ann Carton-Grootjans and is now fully used for breeding. Pasionelle Vd Witte Driesendijk certainly inherited the qualities of her sire, although her dam Avelon, a daughter of Quickfeuer van Koekshof, has already proven her worth in breeding as well! Pasionelle Vd Witte Driesendijk is a half sister of Joie de ma Vie, who can be seen at 1m50 level under Piret Ervald. Her other half-sister, Nastelina v/d Witte Driesendijk is only 8 years old, but already competes at 1m40 level under the saddle of Emilie Stampfli.",
+      "starting_bid": null
+    },
+    {
+      "name": "Juliette de Spalbec Z",
+      "slug": "juliette-de-spalbec-z",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Jaguar van Paemel",
+      "dam": "Canabis Z",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/86cc3b72-dac3-45bc-bf40-565f579b75b1.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "Jaguar van Paemel is a son of the much loved Cicero Z. Jaguar himself competed at 1m50 level under the saddle of Dirk Demeersman and is also the half-brother of Welshmann II, who jumped at 1m55 level under Ashley Boyce. His offspring have a lot of charisma and good technique, which we also see in Juliette de Spalbec Z. \n\nJuliette de Spalbec Z is in turn the oldest descendant of C Canael HC Z, a daughter of Canabis Z. Dam C Canael HC Z herself is a half-sister of Ingmar HC, who can be seen at 1m45 level under the saddle of Vincent Bourguignon. \n\nGranddam Elcerlyck DM is a daughter of Orlando and a half sister of Caesar 322, who jumped successfully at 1m60 level with Andre Thieme. Half-brother Gracchus DM is also doing well in the sport, he jumped under the saddle of Thomas Leemans at 1m55 level while Carit DM Z was seen under the saddle of Joris Vergauwen at 1m45 level. Further in this dam line we also see Voice van ‘t Achterhof, who competed at 1m60 level under Andres Penalosa.",
+      "starting_bid": null
+    },
+    {
+      "name": "Lumina de Villa d'Arto",
+      "slug": "lumina-de-villa-d-arto",
+      "discipline": "Springen",
+      "year": null,
+      "gender": null,
+      "size": null,
+      "studbook": null,
+      "sire": "Astrello",
+      "dam": "Casco",
+      "photos": [
+        "https://weauction.blob.core.windows.net/images/94e3238d-8dcf-4cd8-8338-1cede9b6f9c4.jpg"
+      ],
+      "video_url": null,
+      "source_url": "https://woodlandsinternational.weauction.nl/auctions/d1648444-0907-43de-7a2b-08d9689005bb",
+      "catalog_text": "The Grand Prix stallion Astrello is himself a son of Casantos and a half-brother of the 1m60 show jumpers Morning Star, Vennoot and Wallstreet. Astrello also jumped at 1m60 level himself, under the saddle of Yahor Morotski. Two years ago he still managed to win the Grand Prix of Tbilisi, where he previously already finished second in the World Cup. \n\nLumina de Villa d’Arto also received the necessary jumping genes on her dam’s side. Her granddam, Typhoon, jumped at 1m45 level under the saddle of Cecilie Tofte while Presley, who jumped at 1m45 level under the saddle of Giulia De Angelis, also comes from this dam line. That makes Lumina de Villa d’Arto also related to Fer ZG, who can be seen at the highest level under Paolo Adorna, and Infinity ZG who jumps at 1m45 level with Sergio Hauser. Finally, Lumina de Villa d’Arto is also related to Suspicion de Rialfo Z, who jumps at 1m50 level under the saddle of Jens Vandenberk.",
+      "starting_bid": null
+    }
+  ]
+}

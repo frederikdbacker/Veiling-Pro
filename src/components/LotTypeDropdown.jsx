@@ -89,11 +89,6 @@ export default function LotTypeDropdown({ lotId, collectionId, currentTypeId, cu
         </small>
       )}
       {error && <small style={{ marginLeft: 8, color: 'var(--danger)' }}>❌ {error}</small>}
-      {currentAuto && !savedAt && !saving && (
-        <small style={{ marginLeft: 8, color: 'var(--accent)', fontStyle: 'italic' }}>
-          ✨ automatisch toegekend, klik om te wijzigen
-        </small>
-      )}
       {options.length === 0 && !error && (
         <small style={{ display: 'block', color: 'var(--text-muted)', marginTop: 4 }}>
           Geen types beschikbaar — selecteer eerst lot-types op de collectie-pagina.

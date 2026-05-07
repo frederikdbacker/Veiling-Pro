@@ -38,11 +38,17 @@ if (!meta?.collection || !Array.isArray(horses)) {
 
 console.log(`📦 ${meta.collection}: ${horses.length} paarden`)
 
-// 1) auction_house — upsert op naam
-const houseName = meta.collection.split(' ')[0]
+// 1) auction_house — upsert op naam.
+//    meta.house override is leidend (voor huizen waarvan de naam niet
+//    het eerste woord van de collection-naam is, bv. "334 Auction").
+//    Anders fallback naar eerste woord.
+const houseName = meta.house || meta.collection.split(' ')[0]
+const housePayload = { name: houseName }
+if (meta.website) housePayload.website = meta.website
+if (meta.house_country) housePayload.country = meta.house_country
 const { data: house, error: hErr } = await supabase
   .from('auction_houses')
-  .upsert({ name: houseName, website: meta.website }, { onConflict: 'name' })
+  .upsert(housePayload, { onConflict: 'name' })
   .select()
   .single()
 
@@ -50,12 +56,15 @@ if (hErr) { console.error('❌ House:', hErr.message); process.exit(1) }
 console.log(`🏛  House: ${house.name} (${house.id})`)
 
 // 2) collection — upsert op (house_id, name)
+const collectionPayload = { house_id: house.id, name: meta.collection.trim() }
+if (meta.date)     collectionPayload.date = meta.date
+if (meta.location) collectionPayload.location = meta.location
+if (meta.status)   collectionPayload.status = meta.status
+if (meta.notes)    collectionPayload.notes = meta.notes
+if (meta.time_auction_start) collectionPayload.time_auction_start = meta.time_auction_start
 const { data: collection, error: aErr } = await supabase
   .from('collections')
-  .upsert(
-    { house_id: house.id, name: meta.collection },
-    { onConflict: 'house_id,name' }
-  )
+  .upsert(collectionPayload, { onConflict: 'house_id,name' })
   .select()
   .single()
 
@@ -141,9 +150,11 @@ const rows = horses.map(h => ({
   // bid_steps verhuisd naar collections-tabel (per migratie 0002).
   // Niet meer per lot mappen; eventueel toekomstige meta.bid_steps
   // wordt op collection-niveau geüpsert.
-  notes_catalog:     h.notes?.catalog || null,
-  notes_video:       h.notes?.video || null,
-  notes_org:         h.notes?.org || null,
+  // Notitievelden — sinds migratie 0014 zijn notes_org → notes_organisatie
+  // hernoemd en zijn er 4 nieuwe rubrieken bij. notes_catalog en notes_video
+  // bestaan nog (deprecated, drop volgt) maar worden niet meer ingevuld vanuit
+  // import — Frederik vult die handmatig in de UI.
+  notes_organisatie: h.notes?.org || null,
   usp:               h.usp || null,
   strong_points:     h.strong_points || null,
   weak_points:       h.weak_points || null,

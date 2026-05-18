@@ -4,6 +4,7 @@ import HousePage from './pages/HousePage'
 import AuctionPage from './pages/AuctionPage'
 import LotPage from './pages/LotPage'
 import CockpitPage from './pages/CockpitPage'
+import CollectionsPage from './pages/CollectionsPage'
 
 export default function App() {
   return (
@@ -11,6 +12,12 @@ export default function App() {
       <header style={{ marginBottom: '1.5rem', paddingBottom: '0.75rem', borderBottom: '1px solid #ddd' }}>
         <Link to="/" style={{ textDecoration: 'none', color: '#222' }}>
           <strong>Veiling Pro</strong>
+        </Link>
+        <Link
+          to="/collections"
+          style={{ float: 'right', fontSize: '0.9em', textDecoration: 'none', color: '#555' }}
+        >
+          + Collectie via URL
         </Link>
       </header>
 
@@ -20,6 +27,7 @@ export default function App() {
         <Route path="/auctions/:auctionId" element={<AuctionPage />} />
         <Route path="/lots/:lotId" element={<LotPage />} />
         <Route path="/cockpit/:auctionId" element={<CockpitPage />} />
+        <Route path="/collections" element={<CollectionsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>

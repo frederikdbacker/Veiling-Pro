@@ -16,6 +16,7 @@ export default function HousePage() {
   const [addingCollection, setAddingCollection] = useState(false)
   const [error, setError] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
+  const [deleteMode, setDeleteMode] = useState(false)
 
   const [topLot, setTopLot] = useState(null)
 
@@ -145,8 +146,10 @@ export default function HousePage() {
         setStatus(`${next.length} veilingen`)
         return next
       })
+      return true
     } catch (e) {
       setError(`Verwijderen mislukt — ${e.message}`)
+      return false
     } finally {
       setDeletingId(null)
     }
@@ -303,14 +306,40 @@ export default function HousePage() {
 
       <h2 style={subheadStyle}>Veilingen</h2>
 
-      {!addingCollection ? (
-        <button onClick={() => setAddingCollection(true)} style={addBtnStyle}>
-          + Veiling toevoegen
-        </button>
-      ) : (
+      {!addingCollection && !deleteMode && (
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-3)' }}>
+          <button onClick={() => setAddingCollection(true)} style={addBtnStyle}>
+            + Veiling toevoegen
+          </button>
+          {collections.length > 0 && (
+            <button
+              onClick={() => { setError(null); setDeleteMode(true) }}
+              style={deleteToggleStyle}
+            >
+              − Veiling verwijderen
+            </button>
+          )}
+        </div>
+      )}
+
+      {addingCollection && (
         <AddCollectionForm
           onSave={handleAddCollection}
           onCancel={() => setAddingCollection(false)}
+        />
+      )}
+
+      {deleteMode && (
+        <DeleteCollectionPanel
+          collections={collections}
+          busy={deletingId != null}
+          onCancel={() => setDeleteMode(false)}
+          onDelete={async (id) => {
+            const c = collections.find((x) => x.id === id)
+            if (!c) return
+            const ok = await deleteCollection(c)
+            if (ok) setDeleteMode(false)
+          }}
         />
       )}
 
@@ -320,30 +349,18 @@ export default function HousePage() {
             <li key={a.id} style={{
               padding: 'var(--space-3) 0',
               borderBottom: '1px solid var(--border-default)',
-              display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
-              opacity: deletingId === a.id ? 0.5 : 1,
             }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <Link
-                  to={`/collections/${a.id}`}
-                  style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
-                >
-                  {a.name}
-                </Link>
-                <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
-                  {formatDate(a.date)}
-                  {a.location && ` — ${a.location}`}
-                  {a.status && ` — ${a.status}`}
-                </div>
-              </div>
-              <button
-                onClick={() => deleteCollection(a)}
-                disabled={deletingId != null}
-                title="Veiling verwijderen"
-                style={deleteBtnStyle}
+              <Link
+                to={`/collections/${a.id}`}
+                style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
               >
-                {deletingId === a.id ? 'Verwijderen…' : '🗑 Verwijder'}
-              </button>
+                {a.name}
+              </Link>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
+                {formatDate(a.date)}
+                {a.location && ` — ${a.location}`}
+                {a.status && ` — ${a.status}`}
+              </div>
             </li>
           ))}
         </ul>
@@ -388,6 +405,46 @@ function CountryAutoSaveRow({ houseId, initialValue, onSaved }) {
       {status === 'saving'  && <small style={{ color: 'var(--text-muted)', marginLeft: 6 }}>opslaan…</small>}
       {status === 'saved'   && <small style={{ color: 'var(--success)',     marginLeft: 6 }}>💾 opgeslagen</small>}
       {status === 'error'   && <small style={{ color: 'var(--danger)',      marginLeft: 6 }}>❌ fout</small>}
+    </div>
+  )
+}
+
+function DeleteCollectionPanel({ collections, busy, onCancel, onDelete }) {
+  const [sel, setSel] = useState('')
+  return (
+    <div style={formStyle}>
+      <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9em' }}>
+        Kies de veiling die je wil verwijderen. Dit verwijdert óók alle lots
+        en bijhorende data en kan <strong>niet</strong> ongedaan gemaakt
+        worden. Tip: maak eerst een Supabase-backup.
+      </p>
+      <select
+        value={sel}
+        onChange={(e) => setSel(e.target.value)}
+        style={formInputStyle}
+        disabled={busy}
+        autoFocus
+      >
+        <option value="">— kies een veiling —</option>
+        {collections.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.name}{c.date ? ` — ${formatDate(c.date)}` : ''}
+          </option>
+        ))}
+      </select>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button
+          type="button"
+          disabled={!sel || busy}
+          onClick={() => onDelete(sel)}
+          style={dangerConfirmStyle}
+        >
+          {busy ? 'Verwijderen…' : 'Verwijder geselecteerde veiling'}
+        </button>
+        <button type="button" disabled={busy} onClick={onCancel} style={cancelBtnStyle}>
+          Annuleer
+        </button>
+      </div>
     </div>
   )
 }
@@ -511,10 +568,16 @@ const cancelBtnStyle = {
   background: 'transparent', color: 'var(--text-primary)',
   borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontFamily: 'inherit',
 }
-const deleteBtnStyle = {
-  flexShrink: 0,
-  padding: '6px 12px',
+const deleteToggleStyle = {
+  padding: '8px 16px',
   background: 'transparent', color: 'var(--danger)',
   border: '1px solid var(--danger)', borderRadius: 'var(--radius-sm)',
-  cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85em',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+  marginBottom: 'var(--space-3)',
+}
+const dangerConfirmStyle = {
+  padding: '6px 14px',
+  background: 'var(--danger)', color: '#fff',
+  border: 'none', borderRadius: 'var(--radius-sm)',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }

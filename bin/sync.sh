@@ -121,10 +121,10 @@ done_session() {
     if [ "$flag" = "+new" ]; then
       include_new=1
       warn "Nieuwe bestanden worden óók vastgelegd (+new):"
-      printf '   %s\n' $untracked
+      printf '%s\n' "$untracked" | sed 's/^/   /'
     else
       warn "Niet-gevolgde bestanden worden NIET meegenomen:"
-      printf '   %s\n' $untracked
+      printf '%s\n' "$untracked" | sed 's/^/   /'
       warn 'Hoort één ervan er wél bij? Gebruik: bin/sync.sh done "tekst" +new'
     fi
   fi

@@ -38,8 +38,21 @@ npm install
 Werk je vanaf meerdere Macs aan dit project? Dan is **git/GitHub** het
 sync-mechanisme — niet iCloud Drive.
 
-- Begin van werksessie: `git pull`
-- Einde van werksessie: `git add . && git commit -m "..." && git push`
+Gebruik hiervoor het veilige script **`bin/sync.sh`** (vaste gewoonte;
+Claude doet dit automatisch bij sessiestart en -einde):
+
+- **Begin van werksessie:** `bin/sync.sh pull`
+  Haalt de laatste versie op, maar **alleen fast-forward** — kan nooit je
+  werk overschrijven en stopt luid als de takken uiteenlopen. (Voorkomt
+  het scenario van 18 mei 2026: 70 commits achterlopen zonder het te weten.)
+- **Einde van werksessie:** `bin/sync.sh done "korte omschrijving"`
+  Draait eerst `npm run build`; commit + push **pas als de build slaagt**.
+  Pusht nooit geforceerd. Neemt alleen gevolgde wijzigingen mee; nieuwe
+  (untracked) bestanden enkel expliciet met `bin/sync.sh done "tekst" +new`
+  (zo sleep je nooit per ongeluk losse bestanden mee).
+- **Tussendoor:** `bin/sync.sh status` toont of je voor/achterloopt.
+- `git add . && commit && push` met de hand mag nog, maar wordt afgeraden:
+  `git add .` neemt ook ongerelateerde losse bestanden mee.
 - `.env.local` zit in `.gitignore` (bevat secrets) en wordt **niet**
   gesynchroniseerd via git — kopieer die file apart wanneer je een
   nieuwe machine opzet.

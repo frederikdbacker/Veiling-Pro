@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
+import PedigreeTree from '../components/PedigreeTree'
 
 /**
  * Live Cockpit — wat Frederik gebruikt tijdens de veiling.
@@ -24,14 +25,14 @@ export default function CockpitPage() {
     async function load() {
       const [auctionRes, lotsRes] = await Promise.all([
         supabase
-          .from('auctions')
+          .from('collections')
           .select('*, auction_houses(id, name)')
           .eq('id', auctionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name')
-          .eq('auction_id', auctionId)
+          .eq('collection_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
       ])
@@ -73,7 +74,7 @@ export default function CockpitPage() {
   async function setActiveLotById(lotId) {
     const value = lotId || null
     const { error } = await supabase
-      .from('auctions')
+      .from('collections')
       .update({ active_lot_id: value })
       .eq('id', auctionId)
     if (!error) {
@@ -231,6 +232,14 @@ function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdat
         onActiveLotChange={onActiveLotChange}
       />
 
+      {/* Afstamming — 3 generaties */}
+      {lot.pedigree && (
+        <div style={blockStyle}>
+          <h3 style={blockHeadingStyle}>Afstamming</h3>
+          <PedigreeTree pedigree={lot.pedigree} />
+        </div>
+      )}
+
       {/* Catalogustekst — wat Frederik voorleest */}
       {lot.catalog_text && (
         <div style={blockStyle}>
@@ -256,7 +265,7 @@ function ActiveLotPanel({ lot, auctionId, interestedClients, allLots, onLotUpdat
         <h3 style={blockHeadingStyle}>Mijn voorbereiding</h3>
         <NoteRow label="Catalogus"    value={lot.notes_catalog} />
         <NoteRow label="Video"        value={lot.notes_video} />
-        <NoteRow label="Organisatie"  value={lot.notes_org} />
+        <NoteRow label="Organisatie"  value={lot.notes_organisatie} />
       </div>
 
       {/* Klanten (placeholder zolang 0b nog niet gebouwd) */}

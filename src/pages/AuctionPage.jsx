@@ -16,14 +16,14 @@ export default function AuctionPage() {
     async function load() {
       const [auctionRes, lotsRes] = await Promise.all([
         supabase
-          .from('auctions')
+          .from('collections')
           .select('*, auction_houses(id, name)')
           .eq('id', auctionId)
           .single(),
         supabase
           .from('lots')
           .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info')
-          .eq('auction_id', auctionId)
+          .eq('collection_id', auctionId)
           .order('number', { nullsFirst: false })
           .order('name'),
       ])
@@ -74,6 +74,23 @@ export default function AuctionPage() {
             >
               🎬 Cockpit openen
             </Link>
+            {sourceUrl(auction.notes) && (
+              <>
+                {' · '}
+                <Link
+                  to={`/collections?${new URLSearchParams({
+                    url: sourceUrl(auction.notes),
+                    name: auction.name,
+                    location: auction.location || '',
+                    date: auction.date || '',
+                    status: auction.status || 'planned',
+                  })}`}
+                  style={{ fontSize: '0.9em' }}
+                >
+                  ↻ Collectie verversen via URL
+                </Link>
+              </>
+            )}
           </>
         )}
       </p>
@@ -141,6 +158,12 @@ export default function AuctionPage() {
       )}
     </section>
   )
+}
+
+// Bron-URL die de import in auctions.notes zette ("bron: <url>").
+function sourceUrl(notes) {
+  const m = notes?.match(/bron:\s*(\S+)/)
+  return m ? m[1] : null
 }
 
 function Thumb({ src, alt }) {

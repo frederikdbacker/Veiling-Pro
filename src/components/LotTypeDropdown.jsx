@@ -21,9 +21,9 @@ export default function LotTypeDropdown({ lotId, auctionId, currentTypeId, onSav
     let cancelled = false
     async function load() {
       const { data, error } = await supabase
-        .from('auction_lot_types')
+        .from('collection_lot_types')
         .select('lot_types(id, name_nl, display_order)')
-        .eq('auction_id', auctionId)
+        .eq('collection_id', auctionId)
 
       if (cancelled) return
       if (error) { setError(error.message); return }

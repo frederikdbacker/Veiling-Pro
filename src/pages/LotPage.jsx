@@ -6,6 +6,7 @@ import AutoSaveNumber from '../components/AutoSaveNumber'
 import LotTypeDropdown from '../components/LotTypeDropdown'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import AutoSaveUrl from '../components/AutoSaveUrl'
+import PedigreeTree from '../components/PedigreeTree'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 
 export default function LotPage() {
@@ -28,12 +29,12 @@ export default function LotPage() {
     setStatus('Laden…')
 
     async function load() {
-      // Expliciet de auction_id FK gebruiken — sinds migratie 0004 bestaat ook
-      // auctions.active_lot_id → lots, dus PostgREST kan niet meer raden
+      // Expliciet de collection_id FK gebruiken — er bestaat ook
+      // collections.active_lot_id → lots, dus PostgREST kan niet raden
       // welke relatie we willen.
       const { data, error } = await supabase
         .from('lots')
-        .select('*, auctions!auction_id(id, name, auction_houses(id, name))')
+        .select('*, collections!collection_id(id, name, auction_houses(id, name))')
         .eq('id', lotId)
         .single()
 
@@ -46,12 +47,12 @@ export default function LotPage() {
       const sibsRes = await supabase
         .from('lots')
         .select('id, number, name')
-        .eq('auction_id', data.auction_id)
+        .eq('collection_id', data.collection_id)
         .order('number', { nullsFirst: false })
         .order('name')
 
       setLot(data)
-      setAuction(data.auctions)
+      setAuction(data.collections)
       setSiblings(sibsRes.data ?? [])
       setActivePhoto(0)
       setStatus('')
@@ -130,6 +131,13 @@ export default function LotPage() {
         <p style={{ color: '#888', fontStyle: 'italic', marginTop: '-0.5rem' }}>
           {lot.sire ?? '?'} × {lot.dam ?? '?'}
         </p>
+      )}
+
+      {/* Afstamming — 3 generaties */}
+      {lot.pedigree && (
+        <Block title="Afstamming">
+          <PedigreeTree pedigree={lot.pedigree} />
+        </Block>
       )}
 
       {/* Photos */}
@@ -212,12 +220,12 @@ export default function LotPage() {
         <h2 style={{ fontSize: '1.1em', marginBottom: '0.5rem' }}>Voorbereiding</h2>
         <LotTypeDropdown
           lotId={lotId}
-          auctionId={lot.auction_id}
+          auctionId={lot.collection_id}
           currentTypeId={lot.lot_type_id}
           onSaved={(typeId) => setLot((prev) => ({ ...prev, lot_type_id: typeId }))}
         />
         <BidStepRulesPreview
-          auctionId={lot.auction_id}
+          auctionId={lot.collection_id}
           lotTypeId={lot.lot_type_id}
         />
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
@@ -324,8 +332,8 @@ export default function LotPage() {
         />
         <NoteField
           lotId={lotId}
-          fieldName="notes_org"
-          initialValue={lot.notes_org}
+          fieldName="notes_organisatie"
+          initialValue={lot.notes_organisatie}
           label="Organisatie"
         />
       </div>

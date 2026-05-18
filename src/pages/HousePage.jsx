@@ -15,6 +15,7 @@ export default function HousePage() {
   const [editingMeta, setEditingMeta] = useState(false)
   const [addingCollection, setAddingCollection] = useState(false)
   const [error, setError] = useState(null)
+  const [deletingId, setDeletingId] = useState(null)
 
   const [topLot, setTopLot] = useState(null)
 
@@ -86,6 +87,69 @@ export default function HousePage() {
     setAddingCollection(false)
     await load()
     return true
+  }
+
+  // Verwijder een veiling inclusief alle afhankelijke rijen, in FK-veilige
+  // volgorde (kinderen vóór ouder). Eén fout stopt de hele actie i.p.v. een
+  // half-verwijderde toestand achter te laten.
+  async function deleteCollection(c) {
+    setError(null)
+    const { count } = await supabase
+      .from('lots').select('id', { count: 'exact', head: true }).eq('collection_id', c.id)
+
+    const ok = window.confirm(
+      `Veiling "${c.name}" definitief verwijderen?\n\n` +
+      `Dit verwijdert óók ${count ?? 0} lot(s) en alle bijhorende biedstappen, ` +
+      `lot-types, pauzes, spotters en klant-koppelingen. Dit kan NIET ongedaan ` +
+      `gemaakt worden.\n\nTip: maak eerst een Supabase-backup.`
+    )
+    if (!ok) return
+
+    setDeletingId(c.id)
+    try {
+      const step = async (label, p) => {
+        const { error } = await p
+        if (error) throw new Error(`${label}: ${error.message}`)
+      }
+
+      const { data: lots, error: lErr } = await supabase
+        .from('lots').select('id').eq('collection_id', c.id)
+      if (lErr) throw new Error(`lots ophalen: ${lErr.message}`)
+      const lotIds = (lots ?? []).map((l) => l.id)
+
+      if (c.active_lot_id) {
+        await step('actief lot loskoppelen',
+          supabase.from('collections').update({ active_lot_id: null }).eq('id', c.id))
+      }
+      if (lotIds.length) {
+        await step('klant-koppelingen',
+          supabase.from('lot_interested_clients').delete().in('lot_id', lotIds))
+      }
+      await step('biedstappen',
+        supabase.from('bid_step_rules').delete().eq('collection_id', c.id))
+      await step('lot-types',
+        supabase.from('collection_lot_types').delete().eq('collection_id', c.id))
+      await step('pauzes',
+        supabase.from('collection_breaks').delete().eq('collection_id', c.id))
+      await step('spotters',
+        supabase.from('collection_spotters').delete().eq('collection_id', c.id))
+      await step('zaalindeling',
+        supabase.from('client_collection_seating').delete().eq('collection_id', c.id))
+      await step('lots',
+        supabase.from('lots').delete().eq('collection_id', c.id))
+      await step('veiling',
+        supabase.from('collections').delete().eq('id', c.id))
+
+      setCollections((prev) => {
+        const next = prev.filter((x) => x.id !== c.id)
+        setStatus(`${next.length} veilingen`)
+        return next
+      })
+    } catch (e) {
+      setError(`Verwijderen mislukt — ${e.message}`)
+    } finally {
+      setDeletingId(null)
+    }
   }
 
   return (
@@ -256,18 +320,30 @@ export default function HousePage() {
             <li key={a.id} style={{
               padding: 'var(--space-3) 0',
               borderBottom: '1px solid var(--border-default)',
+              display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+              opacity: deletingId === a.id ? 0.5 : 1,
             }}>
-              <Link
-                to={`/collections/${a.id}`}
-                style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
-              >
-                {a.name}
-              </Link>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
-                {formatDate(a.date)}
-                {a.location && ` — ${a.location}`}
-                {a.status && ` — ${a.status}`}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <Link
+                  to={`/collections/${a.id}`}
+                  style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
+                >
+                  {a.name}
+                </Link>
+                <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
+                  {formatDate(a.date)}
+                  {a.location && ` — ${a.location}`}
+                  {a.status && ` — ${a.status}`}
+                </div>
               </div>
+              <button
+                onClick={() => deleteCollection(a)}
+                disabled={deletingId != null}
+                title="Veiling verwijderen"
+                style={deleteBtnStyle}
+              >
+                {deletingId === a.id ? 'Verwijderen…' : '🗑 Verwijder'}
+              </button>
             </li>
           ))}
         </ul>
@@ -434,4 +510,11 @@ const cancelBtnStyle = {
   border: '1px solid var(--border-default)',
   background: 'transparent', color: 'var(--text-primary)',
   borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontFamily: 'inherit',
+}
+const deleteBtnStyle = {
+  flexShrink: 0,
+  padding: '6px 12px',
+  background: 'transparent', color: 'var(--danger)',
+  border: '1px solid var(--danger)', borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85em',
 }

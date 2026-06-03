@@ -107,34 +107,36 @@ function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
         gridRow,
         gridColumn: gridCol,
         ...boxBaseStyle,
-        ...((showEdit || showNote) ? noteBoxStyle : null),
+        ...(showEdit ? editBoxStyle : (showNote ? noteBoxStyle : null)),
         ...(filled
           ? (kind === 'sire' ? sireStyle : damStyle)
           : emptyBoxStyle
         ),
       }}
     >
-      <span style={(showEdit || showNote) ? nameLineStyle : undefined}>
+      <span style={showEdit ? nameInlineStyle : (showNote ? nameLineStyle : undefined)}>
         {filled ? name : '—'}
       </span>
 
       {showNote && <span style={noteLineStyle}>{note}</span>}
 
+      {/* Dropdowns naast/achter de naam op dezelfde regel (loopt door bij
+          krappe ruimte). */}
       {showEdit && (
-        <div style={editRowStyle} onClick={(e) => e.stopPropagation()}>
-          <select value={edit.level} onChange={handleLevel}
-                  style={selectStyle} aria-label="Sportniveau">
-            <option value="">niveau…</option>
-            {LEVELS.map((lvl) => <option key={lvl} value={lvl}>{lvl}</option>)}
-          </select>
-          {edit.level !== '' && (
-            <select value={edit.result} onChange={handleResult}
-                    style={selectStyle} aria-label="Resultaat">
-              <option value="">resultaat…</option>
-              {RESULTS.map((r) => <option key={r} value={r}>{r}</option>)}
-            </select>
-          )}
-        </div>
+        <select value={edit.level} onChange={handleLevel}
+                onClick={(e) => e.stopPropagation()}
+                style={selectStyle} aria-label="Sportniveau">
+          <option value="">niveau…</option>
+          {LEVELS.map((lvl) => <option key={lvl} value={lvl}>{lvl}</option>)}
+        </select>
+      )}
+      {showEdit && edit.level !== '' && (
+        <select value={edit.result} onChange={handleResult}
+                onClick={(e) => e.stopPropagation()}
+                style={selectStyle} aria-label="Resultaat">
+          <option value="">resultaat…</option>
+          {RESULTS.map((r) => <option key={r} value={r}>{r}</option>)}
+        </select>
       )}
     </div>
   )
@@ -214,11 +216,23 @@ const noteLineStyle = {
   color: 'var(--accent)',
   textTransform: 'none',
 }
-const editRowStyle = {
-  display: 'flex', flexWrap: 'wrap', gap: '3px',
+// Bewerkbaar dam-vakje: naam + dropdowns op één rij (naast/achter de naam),
+// loopt door naar de volgende regel als de ruimte krap is.
+const editBoxStyle = {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  gap: '4px',
+  whiteSpace: 'normal',
+}
+const nameInlineStyle = {
+  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+  flex: '0 1 auto', minWidth: 0,
 }
 const selectStyle = {
-  width: 'auto', maxWidth: '100%',     // even breed als de inhoud, niet uitrekken
+  flex: '0 0 auto',                    // even breed als de inhoud, niet krimpen/uitrekken
+  maxWidth: '100%',
   padding: '1px 2px',
   fontFamily: 'inherit', fontSize: '0.62rem',
   textTransform: 'none', letterSpacing: 'normal',

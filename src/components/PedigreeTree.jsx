@@ -218,7 +218,7 @@ const editRowStyle = {
   display: 'flex', flexWrap: 'wrap', gap: '3px',
 }
 const selectStyle = {
-  flex: '1 1 auto', minWidth: 0,
+  width: 'auto', maxWidth: '100%',     // even breed als de inhoud, niet uitrekken
   padding: '1px 2px',
   fontFamily: 'inherit', fontSize: '0.62rem',
   textTransform: 'none', letterSpacing: 'normal',

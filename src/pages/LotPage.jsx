@@ -10,6 +10,7 @@ import StallionApprovalField from '../components/StallionApprovalField'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import InterestedClientsField from '../components/InterestedClientsField'
 import PedigreeTree from '../components/PedigreeTree'
+import PedigreeSportFields from '../components/PedigreeSportFields'
 import EditableLongText from '../components/EditableLongText'
 import Modal from '../components/Modal'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
@@ -304,7 +305,24 @@ export default function LotPage() {
 
       {/* Pedigree — onder de prijzen */}
       <Block title="Pedigree">
-        <PedigreeTree pedigree={lot.pedigree} />
+        <PedigreeTree
+          pedigree={lot.pedigree}
+          annotations={{
+            dam:         { level: lot.dam_sport_level,         result: lot.dam_result },
+            damsdam:     { level: lot.damsdam_sport_level,     result: lot.damsdam_result },
+            damsdamsdam: { level: lot.damsdamsdam_sport_level, result: lot.damsdamsdam_result },
+          }}
+        />
+        <PedigreeSportFields
+          lotId={lotId}
+          pedigree={lot.pedigree}
+          values={{
+            dam_sport_level: lot.dam_sport_level,                 dam_result: lot.dam_result,
+            damsdam_sport_level: lot.damsdam_sport_level,         damsdam_result: lot.damsdam_result,
+            damsdamsdam_sport_level: lot.damsdamsdam_sport_level, damsdamsdam_result: lot.damsdamsdam_result,
+          }}
+          onSaved={(patch) => setLot((prev) => ({ ...prev, ...patch }))}
+        />
       </Block>
 
 

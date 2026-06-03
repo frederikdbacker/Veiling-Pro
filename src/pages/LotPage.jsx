@@ -10,7 +10,6 @@ import StallionApprovalField from '../components/StallionApprovalField'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import InterestedClientsField from '../components/InterestedClientsField'
 import PedigreeTree from '../components/PedigreeTree'
-import PedigreeSportFields from '../components/PedigreeSportFields'
 import EditableLongText from '../components/EditableLongText'
 import Modal from '../components/Modal'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
@@ -25,6 +24,16 @@ export default function LotPage() {
   const [status, setStatus] = useState('Laden…')
   const [photoModalOpen, setPhotoModalOpen] = useState(false)
   const [activePhoto, setActivePhoto] = useState(0)
+  const [sportSaveError, setSportSaveError] = useState(null)
+
+  // Sportniveau/resultaat per moederlijn opslaan (dropdowns in de pedigree-
+  // boom). Optimistisch: lokale state direct bij, dan persist naar Supabase.
+  async function savePedigreeSport(patch) {
+    setSportSaveError(null)
+    setLot((prev) => ({ ...prev, ...patch }))
+    const { error } = await supabase.from('lots').update(patch).eq('id', lotId)
+    if (error) setSportSaveError(error.message)
+  }
 
   useEffect(() => {
     setLot(null)
@@ -303,26 +312,25 @@ export default function LotPage() {
         )}
       </Block>
 
-      {/* Pedigree — onder de prijzen */}
+      {/* Pedigree — onder de prijzen. Sportprestaties per moederlijn zijn
+          bewerkbaar ín de drie dam-vakjes (dropdown achter de merrienaam). */}
       <Block title="Pedigree">
         <PedigreeTree
           pedigree={lot.pedigree}
-          annotations={{
-            dam:         { level: lot.dam_sport_level,         result: lot.dam_result },
-            damsdam:     { level: lot.damsdam_sport_level,     result: lot.damsdam_result },
-            damsdamsdam: { level: lot.damsdamsdam_sport_level, result: lot.damsdamsdam_result },
+          editable={{
+            values: {
+              dam_sport_level: lot.dam_sport_level,                 dam_result: lot.dam_result,
+              damsdam_sport_level: lot.damsdam_sport_level,         damsdam_result: lot.damsdam_result,
+              damsdamsdam_sport_level: lot.damsdamsdam_sport_level, damsdamsdam_result: lot.damsdamsdam_result,
+            },
+            onSave: savePedigreeSport,
           }}
         />
-        <PedigreeSportFields
-          lotId={lotId}
-          pedigree={lot.pedigree}
-          values={{
-            dam_sport_level: lot.dam_sport_level,                 dam_result: lot.dam_result,
-            damsdam_sport_level: lot.damsdam_sport_level,         damsdam_result: lot.damsdam_result,
-            damsdamsdam_sport_level: lot.damsdamsdam_sport_level, damsdamsdam_result: lot.damsdamsdam_result,
-          }}
-          onSaved={(patch) => setLot((prev) => ({ ...prev, ...patch }))}
-        />
+        {sportSaveError && (
+          <small style={{ display: 'block', marginTop: 6, color: 'var(--danger)' }}>
+            ❌ opslaan mislukt: {sportSaveError}
+          </small>
+        )}
       </Block>
 
 

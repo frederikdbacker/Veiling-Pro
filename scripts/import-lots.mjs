@@ -145,6 +145,10 @@ const rows = horses.map(h => ({
   // import. Frederik kan handmatig overschrijven via LotPage indien
   // de scrape-bron afwijkt van de gewenste auction-page-URL.
   url_extra:         h.source_url ?? null,
+  // Afstammingslinks (migratie 0005) — doorgeven indien de scraper ze
+  // meelevert (bv. Olympic Dream Auction: Horse Telex per paard).
+  url_horsetelex:    h.url_horsetelex ?? null,
+  url_hippomundo:    h.url_hippomundo ?? null,
   start_price:       h.starting_bid,
   reserve_price:     h.reserve_price,
   // bid_steps verhuisd naar collections-tabel (per migratie 0002).

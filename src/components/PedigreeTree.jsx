@@ -8,8 +8,13 @@
  * Layout: 3 kolommen. Mannelijke ouders/voorouders = grijs blokje;
  * vrouwelijke = groen accent-blokje. Bracket-uitlijning via CSS-grid:
  * elke kolom verdeelt 8 evenredige rijen, elk blok span N rijen.
+ *
+ * Optionele prop `annotations` toont sportprestaties naast de drie
+ * moederlijn-merries (zie migratie 0025). Vorm:
+ *   { dam: {level, result}, damsdam: {level, result}, damsdamsdam: {…} }
+ * Zonder deze prop verandert er niets aan het bestaande gedrag.
  */
-export default function PedigreeTree({ pedigree }) {
+export default function PedigreeTree({ pedigree, annotations }) {
   const empty = !pedigree
     || (!pedigree.sire && !pedigree.dam)
 
@@ -32,13 +37,13 @@ export default function PedigreeTree({ pedigree }) {
     <div style={treeStyle}>
       {/* Kolom 1 — ouders, elk span 4 */}
       <Box name={nameOf(sire)} kind="sire" gridRow="1 / span 4" />
-      <Box name={nameOf(dam)}  kind="dam"  gridRow="5 / span 4" />
+      <Box name={nameOf(dam)}  kind="dam"  gridRow="5 / span 4" note={noteText(annotations?.dam)} />
 
       {/* Kolom 2 — grootouders, elk span 2 */}
       <Box name={nameOf(sireSire)} kind="sire" gridRow="1 / span 2" gridCol={2} />
       <Box name={nameOf(sireDam)}  kind="dam"  gridRow="3 / span 2" gridCol={2} />
       <Box name={nameOf(damSire)}  kind="sire" gridRow="5 / span 2" gridCol={2} />
-      <Box name={nameOf(damDam)}   kind="dam"  gridRow="7 / span 2" gridCol={2} />
+      <Box name={nameOf(damDam)}   kind="dam"  gridRow="7 / span 2" gridCol={2} note={noteText(annotations?.damsdam)} />
 
       {/* Kolom 3 — overgrootouders, elk 1 rij */}
       <Box name={nameOf(sireSire?.sire)} kind="sire" gridRow="1 / span 1" gridCol={3} />
@@ -48,28 +53,37 @@ export default function PedigreeTree({ pedigree }) {
       <Box name={nameOf(damSire?.sire)}  kind="sire" gridRow="5 / span 1" gridCol={3} />
       <Box name={nameOf(damSire?.dam)}   kind="dam"  gridRow="6 / span 1" gridCol={3} />
       <Box name={nameOf(damDam?.sire)}   kind="sire" gridRow="7 / span 1" gridCol={3} />
-      <Box name={nameOf(damDam?.dam)}    kind="dam"  gridRow="8 / span 1" gridCol={3} />
+      <Box name={nameOf(damDam?.dam)}    kind="dam"  gridRow="8 / span 1" gridCol={3} note={noteText(annotations?.damsdamsdam)} />
     </div>
   )
 }
 
-function Box({ name, kind, gridRow, gridCol = 1 }) {
+function Box({ name, kind, gridRow, gridCol = 1, note = null }) {
   const filled = name != null && String(name).trim().length > 0
+  const showNote = filled && note
   return (
     <div
       style={{
         gridRow,
         gridColumn: gridCol,
         ...boxBaseStyle,
+        ...(showNote ? noteBoxStyle : null),
         ...(filled
           ? (kind === 'sire' ? sireStyle : damStyle)
           : emptyBoxStyle
         ),
       }}
     >
-      {filled ? name : '—'}
+      <span style={showNote ? nameLineStyle : undefined}>{filled ? name : '—'}</span>
+      {showNote && <span style={noteLineStyle}>{note}</span>}
     </div>
   )
+}
+
+/** "1.50m – Winner", of enkel "1.50m" als geen resultaat; null als geen niveau. */
+function noteText(ann) {
+  if (!ann || !ann.level) return null
+  return ann.result ? `${ann.level} – ${ann.result}` : ann.level
 }
 
 /** Normaliseer node: string of object → object met name + optional sire/dam. */
@@ -119,6 +133,24 @@ const emptyBoxStyle = {
   fontStyle: 'italic',
   fontWeight: 400,
   border: '1px dashed var(--border-default)',
+}
+
+// Box met sportprestatie-annotatie: naam boven, prestatie eronder.
+const noteBoxStyle = {
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+}
+const nameLineStyle = {
+  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+  maxWidth: '100%',
+}
+const noteLineStyle = {
+  fontSize: '0.62rem',
+  fontWeight: 700,
+  letterSpacing: '0.04em',
+  color: 'var(--accent)',
+  textTransform: 'none',
 }
 
 const emptyStyle = {

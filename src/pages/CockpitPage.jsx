@@ -397,7 +397,14 @@ function ActiveLotPanel({
               het actie-kader rechts */}
           <div style={pedigreeInLotStyle}>
             <div style={actionSubtitleStyle}>Pedigree</div>
-            <PedigreeTree pedigree={lot.pedigree} />
+            <PedigreeTree
+              pedigree={lot.pedigree}
+              annotations={{
+                dam:         { level: lot.dam_sport_level,         result: lot.dam_result },
+                damsdam:     { level: lot.damsdam_sport_level,     result: lot.damsdam_result },
+                damsdamsdam: { level: lot.damsdamsdam_sport_level, result: lot.damsdamsdam_result },
+              }}
+            />
           </div>
         </div>
 

@@ -1,0 +1,186 @@
+{
+  "collection_id": "725747f9-86d3-4b5f-9bff-6e98feb9ddb8",
+  "_note": "3-generatie pedigrees uit Horse Telex-screenshots (Frederik, 3 jun 2026). Lot 1 Womanizer EBS ontbreekt (geen screenshot).",
+  "pedigrees": {
+    "2": {
+      "sire": {
+        "name": "United Touch S",
+        "sire": { "name": "Untouched", "sire": "Untouchable", "dam": "Cantate Touch" },
+        "dam": { "name": "Touch of Class", "sire": "Lux Z", "dam": "Cantate Touch" }
+      },
+      "dam": {
+        "name": "Lageena Hero",
+        "sire": { "name": "Echo van 't Spieveld", "sire": "Heartbreaker", "dam": "Tequila van Spieveld" },
+        "dam": { "name": "Mom's Geena van 't Roosakker", "sire": "Darco", "dam": "Babbe van 't Roosakker" }
+      }
+    },
+    "3": {
+      "sire": {
+        "name": "Diablue PS",
+        "sire": { "name": "Diaron Old", "sire": "Diarado", "dam": "Lenda-Cara" },
+        "dam": { "name": "Stakkariealla", "sire": "Stakkato", "dam": "Corialla" }
+      },
+      "dam": {
+        "name": "Proud Lady",
+        "sire": { "name": "Comme il Faut", "sire": "Cornet Obolensky", "dam": "Ratina Z" },
+        "dam": { "name": "Balou Lady", "sire": "Balou du Rouet", "dam": "Rosso Lady" }
+      }
+    },
+    "4": {
+      "sire": {
+        "name": "Ermitage Kalone",
+        "sire": { "name": "Catoki", "sire": "Cambridge", "dam": "Bilda" },
+        "dam": { "name": "Bellaventure Kalone", "sire": "Kannan GFE", "dam": "Blague du Maury X" }
+      },
+      "dam": {
+        "name": "Casina 15",
+        "sire": { "name": "Calido I", "sire": "Cantus", "dam": "Baroness" },
+        "dam": { "name": "Allegra", "sire": "As di Villagana", "dam": "Kira" }
+      }
+    },
+    "5": {
+      "sire": {
+        "name": "Chacfly PS",
+        "sire": { "name": "Chacco-Blue", "sire": "Chambertin", "dam": "Contara" },
+        "dam": { "name": "Shentara", "sire": "Sir Shutterfly", "dam": "Centara" }
+      },
+      "dam": {
+        "name": "Stokoyale",
+        "sire": { "name": "Stakkatol", "sire": "Stakkato", "dam": "Caroll" },
+        "dam": { "name": "Penny Royale", "sire": "Balou du Rouet", "dam": "Centolove" }
+      }
+    },
+    "6": {
+      "sire": {
+        "name": "Cornet Obolensky",
+        "sire": { "name": "Clinton", "sire": "Corrado I", "dam": "Urte" },
+        "dam": { "name": "Rabanna van Costersveld", "sire": "Heartbreaker", "dam": "Holivea van Costersveld" }
+      },
+      "dam": {
+        "name": "Chacentina",
+        "sire": { "name": "Chacco-Blue", "sire": "Chambertin", "dam": "Contara" },
+        "dam": { "name": "Centina 10", "sire": "Cento", "dam": "Argentina" }
+      }
+    },
+    "7": {
+      "sire": {
+        "name": "Casallco",
+        "sire": { "name": "Casall", "sire": "Caretino", "dam": "Kira XVII" },
+        "dam": { "name": "Zelda IV", "sire": "Contender", "dam": "Marli" }
+      },
+      "dam": {
+        "name": "Conlougrana PS",
+        "sire": { "name": "Contagio", "sire": "Colman", "dam": "Odyssee II" },
+        "dam": { "name": "Agranuet", "sire": "Baloubet du Rouet", "dam": "Agrana" }
+      }
+    },
+    "8": {
+      "sire": {
+        "name": "Colestus",
+        "sire": { "name": "Cornet Obolensky", "sire": "Clinton", "dam": "Rabanna van Costersveld" },
+        "dam": { "name": "Spice Girl R", "sire": "Stakkato", "dam": "Pepita" }
+      },
+      "dam": {
+        "name": "Dajanna JD Z",
+        "sire": { "name": "Diamant de Semilly", "sire": "Le Tot de Semilly", "dam": "Venise des Cresles" },
+        "dam": { "name": "In Love JW van de Moerhoeve", "sire": "Jenson van 't Meulenhof", "dam": "Ischgl de Muze" }
+      }
+    },
+    "9": {
+      "sire": {
+        "name": "Grandorado TN N.O.P.",
+        "sire": { "name": "Eldorado van de Zeshoek TN", "sire": "Clinton", "dam": "Bijou Orai" },
+        "dam": { "name": "Mom's Charmieque", "sire": "Carolus II", "dam": "Termieque" }
+      },
+      "dam": {
+        "name": "Celoubette",
+        "sire": { "name": "Cento", "sire": "Capitol I", "dam": "Viola XI" },
+        "dam": { "name": "Garlanda", "sire": "Baloubet du Rouet", "dam": "Garonja" }
+      }
+    },
+    "10": {
+      "sire": {
+        "name": "Comme il Faut",
+        "sire": { "name": "Cornet Obolensky", "sire": "Clinton", "dam": "Rabanna van Costersveld" },
+        "dam": { "name": "Ratina Z", "sire": "Ramiro Z", "dam": "Argentina Z" }
+      },
+      "dam": {
+        "name": "Carlope",
+        "sire": { "name": "Carinue", "sire": "Carthago", "dam": "Contia" },
+        "dam": { "name": "Penny Lover", "sire": "Latus I", "dam": "Penelope" }
+      }
+    },
+    "11": {
+      "sire": {
+        "name": "Comme il Faut",
+        "sire": { "name": "Cornet Obolensky", "sire": "Clinton", "dam": "Rabanna van Costersveld" },
+        "dam": { "name": "Ratina Z", "sire": "Ramiro Z", "dam": "Argentina Z" }
+      },
+      "dam": {
+        "name": "Kalilah",
+        "sire": { "name": "E Star", "sire": "Big Star", "dam": "Sunrise" },
+        "dam": { "name": "Platina S", "sire": "Peter Pan", "dam": "Elorrinne S" }
+      }
+    },
+    "12": {
+      "sire": {
+        "name": "Carrera VDL",
+        "sire": { "name": "Cardento", "sire": "Capitol I", "dam": "B-Estelle" },
+        "dam": { "name": "Vantiels Esprit", "sire": "Baloubet du Rouet", "dam": "Esprit" }
+      },
+      "dam": {
+        "name": "Odina del Pas",
+        "sire": { "name": "Verdi TN", "sire": "Quidam de Revel", "dam": "Clarissa" },
+        "dam": { "name": "Falcata", "sire": "Cardino", "dam": "Lanessa" }
+      }
+    },
+    "13": {
+      "sire": {
+        "name": "Dexter R",
+        "sire": { "name": "Namelus R", "sire": "Concorde", "dam": "Eamelusiena" },
+        "dam": { "name": "U.Rubertha 15", "sire": "Contender", "dam": "H.Ruberth 14" }
+      },
+      "dam": {
+        "name": "Karanza",
+        "sire": { "name": "Monte Bellini", "sire": "Montender", "dam": "Ramira" },
+        "dam": { "name": "Uviana", "sire": "Phin Phin", "dam": "Oviana" }
+      }
+    },
+    "14": {
+      "sire": {
+        "name": "Apardi",
+        "sire": { "name": "Corland", "sire": "Cor de la Bryere", "dam": "Thyra" },
+        "dam": { "name": "Supardi", "sire": "Kannan GFE", "dam": "Gupardie" }
+      },
+      "dam": {
+        "name": "T.Amelusina II",
+        "sire": { "name": "Calando I", "sire": "Cor de la Bryere", "dam": "Furgund" },
+        "dam": { "name": "P.Amelusiena 5", "sire": "Coriander", "dam": "Eamelusiena" }
+      }
+    },
+    "15": {
+      "sire": {
+        "name": "Cornado II",
+        "sire": { "name": "Cornet Obolensky", "sire": "Clinton", "dam": "Rabanna van Costersveld" },
+        "dam": { "name": "Acobata", "sire": "Acobat I", "dam": "Athena" }
+      },
+      "dam": {
+        "name": "Ebuberth",
+        "sire": { "name": "Vleut", "sire": "Quick Star", "dam": "Nicce" },
+        "dam": { "name": "P.Buberth", "sire": "Cavalier", "dam": "I.Buberth 21" }
+      }
+    },
+    "16": {
+      "sire": {
+        "name": "Aganix du Seigneur",
+        "sire": { "name": "Ogano Sitte", "sire": "Darco", "dam": "Ialta Sitte" },
+        "dam": { "name": "Cadix du Seigneur Z", "sire": "Chellano Z", "dam": "Atlanta Sitte Z" }
+      },
+      "dam": {
+        "name": "Biba",
+        "sire": { "name": "Toulon", "sire": "Heartbreaker", "dam": "Nikita" },
+        "dam": { "name": "Gjnevra", "sire": "Fougueux X", "dam": "Laita II" }
+      }
+    }
+  }
+}

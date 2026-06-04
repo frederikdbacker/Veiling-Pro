@@ -1,0 +1,526 @@
+{
+  "meta": {
+    "collection": "Olympic Dream Auction",
+    "house": "Olympic Dream Auctions",
+    "website": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+    "location": "Jumping Schröder Tubbergen",
+    "status": "planned",
+    "imported_at": "2026-06-03T11:45:11.073Z",
+    "total": 16,
+    "data_source": "Olympic Dream Auction-scraper, jumpingschrodertwente.nl"
+  },
+  "horses": [
+    {
+      "lot_number": 1,
+      "name": "Womanizer EBS",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Hengst",
+      "size": null,
+      "studbook": "KWPN",
+      "sire": "CORNET OBOLENSKY",
+      "dam": "CASANOVA",
+      "pedigree": {
+        "sire": {
+          "name": "CORNET OBOLENSKY",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CASANOVA",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "CORNET OBOLENSKY x CASANOVA",
+      "catalog_text": "Geboren 29-03-2026, kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v1-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/f13yUjvRaKM?si=uAzf1oaim9tcpyoB",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037641/womanizer-ebs",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 2,
+      "name": "Ugeena SV Z",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "UNITED TOUCH",
+      "dam": "ECHO VAN 'T SPIEVELD",
+      "pedigree": {
+        "sire": {
+          "name": "UNITED TOUCH",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "ECHO VAN 'T SPIEVELD",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "UNITED TOUCH x ECHO VAN 'T SPIEVELD",
+      "catalog_text": "Geboren 29-03-2026, kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v2-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/W_Pus49VBs4?si=NsmuvnFbS2hNXhaS",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037649/ugeena-sv-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 3,
+      "name": "What Happens",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Hengst",
+      "size": null,
+      "studbook": "KWPN",
+      "sire": "DIABLUE PS",
+      "dam": "COMME IL FAUT",
+      "pedigree": {
+        "sire": {
+          "name": "DIABLUE PS",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "COMME IL FAUT",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "DIABLUE PS x COMME IL FAUT",
+      "catalog_text": "Geboren 28-03-2026, kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v3-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/U1Q3xKOK1f4?si=extcvRRuXZuir6aJ",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037505/what-happens",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 4,
+      "name": "Ermisina VDH Z",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "ERMITAGE KALONE",
+      "dam": "CALIDO",
+      "pedigree": {
+        "sire": {
+          "name": "ERMITAGE KALONE",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CALIDO",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "ERMITAGE KALONE x CALIDO",
+      "catalog_text": "Geboren 20-04-2026, kleur schimmel.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v4-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/hgE_wq8JaIs?si=33AcCx2vxq9X31B5",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037650/ermisina-vdh-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 5,
+      "name": "Chacyale",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Hengst",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "CHACFLY",
+      "dam": "STAKKATO I",
+      "pedigree": {
+        "sire": {
+          "name": "CHACFLY",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "STAKKATO I",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "CHACFLY x STAKKATO I",
+      "catalog_text": "Geboren 15-04-2026, kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v5-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/9ZraSzgx9m0?si=Zsyf5JexryvVISMn",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037648/chacyale",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 6,
+      "name": "Cornetina Z",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "CORNET OBOLENSKY",
+      "dam": "CHACCO BLUE",
+      "pedigree": {
+        "sire": {
+          "name": "CORNET OBOLENSKY",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CHACCO BLUE",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "CORNET OBOLENSKY x CHACCO BLUE",
+      "catalog_text": "Geboren 27-03-2026, kleur schimmel.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v6-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/zD77v4U7chQ?si=hDAZxNKFrwmk3Vi1",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037645/cornetina-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 7,
+      "name": "Cascolor Z",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Hengst",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "CASALLCO",
+      "dam": "CONTAGIO",
+      "pedigree": {
+        "sire": {
+          "name": "CASALLCO",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CONTAGIO",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "CASALLCO x CONTAGIO",
+      "catalog_text": "Geboren 15-04-2026, kleur donkerbruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v7-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/6T_YAJwY8Fc?si=nscPxuMrUJzxin2c",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037637/cascolor-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 8,
+      "name": "Cumbaijana EBS Z",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "KWPN",
+      "sire": "COLESTUS",
+      "dam": "DIAMANT DE SEMILLY",
+      "pedigree": {
+        "sire": {
+          "name": "COLESTUS",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "DIAMANT DE SEMILLY",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "COLESTUS x DIAMANT DE SEMILLY",
+      "catalog_text": "Geboren 01-04-2026, kleur schimmel.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v8-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/FZ0p-ypcn4Q?si=ZMTjGP_cKtsVFg_A",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037644/cumbaijana-ebs-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 9,
+      "name": "GRANDORADO TN x CENTO",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Hengst",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "GRANDORADO TN",
+      "dam": "CENTO",
+      "pedigree": {
+        "sire": {
+          "name": "GRANDORADO TN",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CENTO",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "GRANDORADO TN x CENTO",
+      "catalog_text": "Geboren 17-03-2026, kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v9-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/CJYM2MGFiaA?si=sKzBLp3YVdbYRStz",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037651/g",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 10,
+      "name": "Conny Lover SV Z",
+      "discipline": null,
+      "year": 2026,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "COMME IL FAUT",
+      "dam": "CARINUE",
+      "pedigree": {
+        "sire": {
+          "name": "COMME IL FAUT",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CARINUE",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "COMME IL FAUT x CARINUE",
+      "catalog_text": "Geboren 07-04-2026, kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/v10-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/ZNRGJhu_TX0?si=DOj1bl_u2214jzXN",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3037647/conny-lover-sv-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 11,
+      "name": "Revelation",
+      "discipline": null,
+      "year": 2021,
+      "gender": "Ruin",
+      "size": null,
+      "studbook": "KWPN",
+      "sire": "COMME IL FAUT",
+      "dam": "E-STAR",
+      "pedigree": {
+        "sire": {
+          "name": "COMME IL FAUT",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "E-STAR",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "COMME IL FAUT x E-STAR",
+      "catalog_text": "kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/p1-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/XorZuExVFnk",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/2547038/revelation",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 12,
+      "name": "Raspuntin EM",
+      "discipline": null,
+      "year": 2021,
+      "gender": "Ruin",
+      "size": null,
+      "studbook": "KWPN",
+      "sire": "CARRERA VDL",
+      "dam": "VERDI",
+      "pedigree": {
+        "sire": {
+          "name": "CARRERA VDL",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "VERDI",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "CARRERA VDL x VERDI",
+      "catalog_text": "kleur vos.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/p2-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/nxxscKbt39I",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3039343/raspuntin-em",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 13,
+      "name": "Paloma",
+      "discipline": null,
+      "year": 2020,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "KWPN",
+      "sire": "DEXTER R",
+      "dam": "MONTE BELLINI",
+      "pedigree": {
+        "sire": {
+          "name": "DEXTER R",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "MONTE BELLINI",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "DEXTER R x MONTE BELLINI",
+      "catalog_text": "kleur vos.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/p3-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/YvA-eet4xnQ",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/3039344/paloma",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 14,
+      "name": "Asher Waldstar Z",
+      "discipline": null,
+      "year": 2019,
+      "gender": "Ruin",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "APARDI",
+      "dam": "CALANDO I",
+      "pedigree": {
+        "sire": {
+          "name": "APARDI",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "CALANDO I",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "APARDI x CALANDO I",
+      "catalog_text": "kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/p4-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/qupFk232gXo",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/2758774/asher-waldstar-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 15,
+      "name": "Coolcat Z",
+      "discipline": null,
+      "year": 2019,
+      "gender": "Ruin",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "CORNADO II",
+      "dam": "VLEUT",
+      "pedigree": {
+        "sire": {
+          "name": "CORNADO II",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "VLEUT",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "CORNADO II x VLEUT",
+      "catalog_text": "kleur donkerbruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/p5-standard.png"
+      ],
+      "video_url": "https://youtube.com/shorts/lATBW7Z3xgM",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/2532165/coolcat-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    },
+    {
+      "lot_number": 16,
+      "name": "Aganix Babe Z",
+      "discipline": null,
+      "year": 2018,
+      "gender": "Merrie",
+      "size": null,
+      "studbook": "ZANGERSHEIDE",
+      "sire": "AGANIX DU SEIGNEUR Z",
+      "dam": "TOULON",
+      "pedigree": {
+        "sire": {
+          "name": "AGANIX DU SEIGNEUR Z",
+          "sire": null,
+          "dam": null
+        },
+        "dam": {
+          "name": "TOULON",
+          "sire": null,
+          "dam": null
+        }
+      },
+      "pedigree_raw": "AGANIX DU SEIGNEUR Z x TOULON",
+      "catalog_text": "kleur bruin.",
+      "photos": [
+        "https://primary.jwwb.nl/public/l/r/x/temp-mvwgeddololwsiqygbvn/aganix-high.png?enable-io=true&enable=upscale&crop=0.7612%3A1&width=800"
+      ],
+      "video_url": "https://youtube.com/shorts/IaefrqJx-3I",
+      "url_horsetelex": "https://www.horsetelex.nl/horses/pedigree/2628024/aganix-babe-z",
+      "source_url": "https://www.jumpingschrodertwente.nl/olympic-dream-auction",
+      "starting_bid": null
+    }
+  ]
+}

@@ -52,6 +52,8 @@ export default function SpottersField({ collectionId }) {
 
   /** Bestaande spotter selecteren (uit autocomplete) — assign aan deze veiling. */
   async function handleSelectExisting(spotter) {
+    // Al toegewezen aan deze veiling? Niets doen (voorkomt dubbele-rij-fout).
+    if (spotters.some((s) => s.id === spotter.id)) return
     setBusy(true); setError(null)
     try {
       await assignSpotter(collectionId, spotter.id, {
@@ -256,11 +258,19 @@ function EmptyRow({ onSelectExisting, onCreateNew, disabled }) {
   async function commit() {
     const trimmed = query.trim()
     if (!trimmed) return
-    // Geen suggestie expliciet aangeklikt → maak nieuwe globale spotter
-    await onCreateNew(trimmed)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    // Bestaat deze spotter al globaal (exacte naam)? Hergebruik die i.p.v.
+    // een duplicaat aan te maken. Spotters zijn een kleine vaste ploeg —
+    // anders dan klanten, waar dubbele namen wél legitiem kunnen zijn.
+    const matches = await searchSpotters(trimmed)
+    const exact = matches.find(
+      (s) => s.name.trim().toLowerCase() === trimmed.toLowerCase()
+    )
     setQuery('')
     setSuggestions([])
     setShowSuggestions(false)
+    if (exact) await onSelectExisting(exact)
+    else await onCreateNew(trimmed)
   }
 
   return (
@@ -272,7 +282,7 @@ function EmptyRow({ onSelectExisting, onCreateNew, disabled }) {
           value={query}
           onChange={handleChange}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+          onBlur={() => { setShowSuggestions(false); commit() }}
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commit() } }}
           placeholder="naam — typ of kies bestaande"
           disabled={disabled}

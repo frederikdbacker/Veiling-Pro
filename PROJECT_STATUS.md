@@ -1,7 +1,24 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Laatste update: 7 juni 2026 (Spotterveld-fix + verbeterbundel)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **7 juni 2026 — Spotterveld bewaart zonder Enter + verbeterbundel.**
+> Oorzaak gevonden waarom de spotter-dropdown in de cockpit leeg bleef tijdens
+> de echte veiling: een leeg spotter-slot in `SpottersField.jsx` bewaarde de
+> ingetypte naam alléén op Enter. Fix (commit `1cab919`, PR #11): leeg slot
+> bewaart nu ook op blur (wegklikken), met exacte-naam-hergebruik i.p.v.
+> duplicaat en een guard tegen dubbele toewijzing. Koper-veld bewust ongemoeid
+> (geen Enter-bug; duplicaat-klanten zijn daar opzettelijk).
+> Vier verbeterpunten gebundeld in `reports/2026-06-06_verbeterpunten-na-veiling.md`
+> (punt 1 = spotter, nu gefixt; punt 2 kladblok-velden + punt 4 lot-afwezig =
+> nog te bouwen; punt 3 gem./lottype bestaat al op de overzichtspagina maar
+> moet ook live in de cockpit). Audit: `reports/2026-06-07_spotter-veld-autosave.md`.
+>
+> **Apart project on hold:** fei-system scraper-routing (MacBook-jobs gaan
+> altijd naar de Mac mini) — analyse uitgesteld op vraag.
 
 ---
 

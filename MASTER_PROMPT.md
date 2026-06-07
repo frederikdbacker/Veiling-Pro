@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Aangemaakt: april 2026 — laatste update: 7 juni 2026 (Spotterveld-fix + verbeterbundel)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---

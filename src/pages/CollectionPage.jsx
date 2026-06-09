@@ -35,6 +35,7 @@ export default function CollectionPage() {
   const [copyFeedback, setCopyFeedback] = useState(null)
   const [bulkPriceOpen, setBulkPriceOpen] = useState(false)
   const [metaOpen, setMetaOpen] = useState(false)
+  const [actionsMenuOpen, setActionsMenuOpen] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -316,41 +317,55 @@ export default function CollectionPage() {
       )}
 
       {collection && (
-        <div style={actionRowStyle}>
-          <Link to={`/cockpit/${collection.id}`} style={primaryBtnStyle}>
-            🎬 Cockpit openen
-          </Link>
-          <Link to={`/collections/${collection.id}/summary`} style={secondaryBtnStyle}>
-            📊 Overzicht
-          </Link>
-          <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">
-            📋 Link kopiëren
+        <div className="collection-actions">
+          <button
+            type="button"
+            className="collection-actions-toggle"
+            onClick={() => setActionsMenuOpen((v) => !v)}
+            style={mobileActionsToggleStyle}
+            aria-expanded={actionsMenuOpen}
+          >
+            ≡ Acties {actionsMenuOpen ? '▴' : '▾'}
           </button>
-          <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
-            💰 Bulk startbedrag
-          </button>
-          <Link to={`/collections/${collection.id}/clients`} style={secondaryBtnStyle}>
-            👥 Klanten
-          </Link>
-          <LotTypesSelector
-            collectionId={collection.id}
-            onChange={setSelectedTypeIds}
-            compact
-          />
-          {copyFeedback && (
-            <span style={{ color: 'var(--success)', fontSize: '0.9em', marginLeft: 8 }}>
-              {copyFeedback}
-            </span>
-          )}
-          <label style={onlineToggleLabelStyle}>
-            <input
-              type="checkbox"
-              checked={!!collection.online_bidding_enabled}
-              onChange={toggleOnlineBidding}
-              style={{ marginRight: 6 }}
+          <div
+            className={`collection-actions-items${actionsMenuOpen ? ' open' : ''}`}
+            style={actionRowStyle}
+          >
+            <Link to={`/cockpit/${collection.id}`} style={primaryBtnStyle}>
+              🎬 Cockpit openen
+            </Link>
+            <Link to={`/collections/${collection.id}/summary`} style={secondaryBtnStyle}>
+              📊 Overzicht
+            </Link>
+            <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">
+              📋 Link kopiëren
+            </button>
+            <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
+              💰 Bulk startbedrag
+            </button>
+            <Link to={`/collections/${collection.id}/clients`} style={secondaryBtnStyle}>
+              👥 Klanten
+            </Link>
+            <LotTypesSelector
+              collectionId={collection.id}
+              onChange={setSelectedTypeIds}
+              compact
             />
-            Online biedingen actief
-          </label>
+            {copyFeedback && (
+              <span style={{ color: 'var(--success)', fontSize: '0.9em', marginLeft: 8 }}>
+                {copyFeedback}
+              </span>
+            )}
+            <label style={onlineToggleLabelStyle}>
+              <input
+                type="checkbox"
+                checked={!!collection.online_bidding_enabled}
+                onChange={toggleOnlineBidding}
+                style={{ marginRight: 6 }}
+              />
+              Online biedingen actief
+            </label>
+          </div>
         </div>
       )}
 
@@ -1016,6 +1031,21 @@ const secondaryBtnStyle = {
   borderRadius: 'var(--radius-sm)',
   textDecoration: 'none', fontSize: '0.9em', fontWeight: 600,
   cursor: 'pointer', fontFamily: 'inherit',
+}
+const mobileActionsToggleStyle = {
+  display: 'none',
+  alignItems: 'center', justifyContent: 'center', gap: 6,
+  width: '100%',
+  padding: '0.55rem 0.85rem',
+  marginBottom: 'var(--space-3)',
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.95em',
+  fontWeight: 600,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
 }
 const onlineToggleLabelStyle = {
   marginLeft: 'auto',

@@ -204,6 +204,27 @@ hr {
   button, select, input[type="text"], input[type="number"], input[type="url"] {
     min-height: 36px;
   }
+
+  /* CollectionPage — actie-rij wordt een inklapbaar menu */
+  .collection-actions-toggle {
+    display: inline-flex !important;
+  }
+  .collection-actions-items {
+    display: none !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .collection-actions-items.open {
+    display: flex !important;
+  }
+  .collection-actions-items.open > a,
+  .collection-actions-items.open > button,
+  .collection-actions-items.open > label {
+    width: 100%;
+    margin-left: 0 !important;
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 /* --- Rich-text-editor (TipTap) voor de 5 notitierubrieken ----- */

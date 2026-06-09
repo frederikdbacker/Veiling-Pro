@@ -59,6 +59,7 @@ export default function PedigreeTree({ pedigree, annotations, editable, lotId })
 
   return (
     <>
+      <div className="pedigree-scroll">
       <div style={treeStyle}>
         {/* Kolom 1 — ouders, elk span 4 */}
         <Box name={nameOf(sire)} kind="sire" gridRow="1 / span 4" />
@@ -85,6 +86,7 @@ export default function PedigreeTree({ pedigree, annotations, editable, lotId })
         <Box name={nameOf(damDam?.dam)}    kind="dam"  gridRow="8 / span 1" gridCol={3}
              note={noteText(annotations?.damsdamsdam)}
              edit={editFor('damsdamsdam_sport_level', 'damsdamsdam_result')} />
+      </div>
       </div>
       <PedigreeTexts pedigree={pedigree} lotId={lotId} />
     </>

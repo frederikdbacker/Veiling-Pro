@@ -172,6 +172,40 @@ hr {
   font-variant-numeric: tabular-nums;
 }
 
+/* ============================================================
+   Mobile (iPhone) overrides
+   Inline-styles in components winnen normaal van CSS. Op mobiel
+   forceren we wat aanpassingen via !important zodat de site
+   leesbaar/bruikbaar wordt op smalle schermen (~390 px).
+   iPad (>= 768px) gebruikt de desktop-layout.
+   ============================================================ */
+@media (max-width: 640px) {
+  body { font-size: 14px; }
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.25rem !important; }
+  h3 { font-size: 1rem !important; }
+
+  /* App-main padding terugschalen voor meer effectieve breedte */
+  main {
+    padding: var(--space-3) var(--space-3) !important;
+  }
+
+  /* Pedigree-tree blijft een 3-koloms bracket; op smal scherm
+     horizontaal scrollen zodat de hiërarchie behouden blijft. */
+  .pedigree-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pedigree-scroll > div {
+    min-width: 480px;
+  }
+
+  /* Knopjes/inputs minimaal 36 px voor tap-friendly */
+  button, select, input[type="text"], input[type="number"], input[type="url"] {
+    min-height: 36px;
+  }
+}
+
 /* --- Rich-text-editor (TipTap) voor de 5 notitierubrieken ----- */
 .rich-note-content .ProseMirror {
   background: var(--bg-input, #1a1a1a);

@@ -170,11 +170,11 @@ const compactBtnStyle = {
   cursor: 'pointer',
 }
 const dropdownPanelStyle = {
-  position: 'absolute', top: '100%', left: 0, marginTop: 4, zIndex: 10,
+  position: 'absolute', top: '100%', left: 0, marginTop: 4, zIndex: 100,
   minWidth: 280,
-  background: 'var(--bg-card)',
+  background: 'var(--bg-elevated)',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-md)',
   padding: 'var(--space-3) var(--space-4)',
-  boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+  boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
 }

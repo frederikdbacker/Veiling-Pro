@@ -85,6 +85,8 @@ if (!lotTypes || lotTypes.length === 0) {
 const findType = (re) => lotTypes.find(t => re.test(t.name_nl))
 const embryoType = findType(/embryo/i)
 const veulenType = findType(/veulen/i)
+const twoYearType = findType(/2[-\s]?jarig/i)
+const threeYearType = findType(/3[-\s]?jarig/i)
 const fallbackType = findType(/spring/i) ?? lotTypes[0]
 const currentYear = new Date().getFullYear()
 
@@ -93,7 +95,10 @@ function deriveLotType(h) {
   if (!h.year && embryoType) return embryoType.id
   // Regel 2: jaar = lopend kalenderjaar → veulen (auto)
   if (h.year === currentYear && veulenType) return veulenType.id
-  // Regel 3: discipline matchen op type-naam
+  // Regel 3: leeftijd → 2-jarigen / 3-jarigen (migratie 0026)
+  if (h.year === currentYear - 2 && twoYearType)   return twoYearType.id
+  if (h.year === currentYear - 3 && threeYearType) return threeYearType.id
+  // Regel 4: discipline matchen op type-naam
   if (h.discipline) {
     const d = h.discipline.toLowerCase()
     const match = lotTypes.find(t =>
@@ -105,7 +110,7 @@ function deriveLotType(h) {
   return fallbackType.id
 }
 
-console.log(`📋 Lot types: ${lotTypes.length} — embryo:${!!embryoType} veulen:${!!veulenType}`)
+console.log(`📋 Lot types: ${lotTypes.length} — embryo:${!!embryoType} veulen:${!!veulenType} 2j:${!!twoYearType} 3j:${!!threeYearType}`)
 
 // 3) check of er al lots staan voor deze collection (geen dubbele import)
 const { count } = await supabase

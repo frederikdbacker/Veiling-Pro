@@ -1,0 +1,291 @@
+{
+  "meta": {
+    "collection": "Fences SERVICE — 19/06/2026",
+    "house": "Agence Fences",
+    "date": "2026-06-19",
+    "location": null,
+    "status": "planned",
+    "notes_organisatie": "Type: Service (embryonen + 3-jarigen + foal)",
+    "data_source": "https://www.fences.fr/cheval/vente/service/"
+  },
+  "horses": [
+    {
+      "lot_number": 1,
+      "name": "CHALOUBINO PS × MY LOVE DES FLAGUES",
+      "slug": "chaloubino-ps-x-my-love-des-flagues",
+      "discipline": "Springen",
+      "sire": "CHALOUBINO PS",
+      "dam": "MY LOVE DES FLAGUES",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 2,
+      "name": "UNITED TOUCH S × HOLLY GIRL",
+      "slug": "united-touch-s-x-holly-girl",
+      "discipline": "Springen",
+      "sire": "UNITED TOUCH S",
+      "dam": "HOLLY GIRL",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 3,
+      "name": "NADAL MOUCHE",
+      "slug": "nadal-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "CASALLO Z",
+      "dam": "BOHEME BARENRAIN",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 4,
+      "name": "NEW MAN DE COQUERIE",
+      "slug": "new-man-de-coquerie",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "DOLLAR DU ROUET",
+      "dam": "DIVA DE COQUERIE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 5,
+      "name": "NEKO MOUCHE",
+      "slug": "neko-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "CASALLO Z",
+      "dam": "OLYMPE MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 6,
+      "name": "NICE MOUCHE DE SIJU",
+      "slug": "nice-mouche-de-siju",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "merrie",
+      "sire": "HOLD UP DE SIJU",
+      "dam": "BELIZE MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 7,
+      "name": "NOVAK RD MOUCHE",
+      "slug": "novak-rd-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "QUEL HOMME DE HUS",
+      "dam": "UBIANA D'ALBAIN",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 8,
+      "name": "NUTS BIBOULET",
+      "slug": "nuts-biboulet",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "CANDY DE NANTUEL",
+      "dam": "ETINCELLE BIBOULET",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 9,
+      "name": "NIKON MOUCHE",
+      "slug": "nikon-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "BY CEIRA D'ICK",
+      "dam": "GALBA MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 10,
+      "name": "NUNO DE SIJU",
+      "slug": "nuno-de-siju",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "HOLD UP DE SIJU",
+      "dam": "GRACE DE BAERENRAIN",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 11,
+      "name": "NINO MOUCHE",
+      "slug": "nino-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "IRON MAN VD PADENBORRE",
+      "dam": "AQUA MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 12,
+      "name": "NOBEL MOUCHE",
+      "slug": "nobel-mouche",
+      "discipline": "Springen",
+      "year": 2026,
+      "gender": "ruin",
+      "sire": "CASALLO Z",
+      "dam": "IZIA MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 13,
+      "name": "NINA DE SIJU",
+      "slug": "nina-de-siju",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "merrie",
+      "sire": "HOLD UP DE SIJU",
+      "dam": "BETTYMOOD DE SIJU",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 14,
+      "name": "KATOKI DE RIVERLAND × MAJORETTE DU VALON",
+      "slug": "katoki-de-riverland-x-majorette-du-valon",
+      "discipline": "Springen",
+      "sire": "KATOKI DE RIVERLAND",
+      "dam": "MAJORETTE DU VALON",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 15,
+      "name": "URIKO × LADYBIRD DE NEROLI",
+      "slug": "uriko-x-ladybird-de-neroli",
+      "discipline": "Springen",
+      "sire": "URIKO",
+      "dam": "LADYBIRD DE NEROLI",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 16,
+      "name": "NEVERMIND MOUCHE",
+      "slug": "nevermind-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "ITOT DU ROUET",
+      "dam": "HEPSY MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 17,
+      "name": "NOISETTE DE SIJU",
+      "slug": "noisette-de-siju",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "merrie",
+      "sire": "HOLD UP DE SIJU",
+      "dam": "CACAHUETE DE SIJU",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 18,
+      "name": "NIGHTHAWK MOUCHE",
+      "slug": "nighthawk-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "CARPE DIEM J F CHAMPBLANC",
+      "dam": "DEESSE MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 19,
+      "name": "NOLIMIT DE CHANTEPIE",
+      "slug": "nolimit-de-chantepie",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "CONSUL DL VIE Z",
+      "dam": "URBAINE DE CHANTEPIE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 20,
+      "name": "NEMESIS MOUCHE",
+      "slug": "nemesis-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "merrie",
+      "sire": "COOPER VD HEFFINCK",
+      "dam": "SATURNE DE SOUENNE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 21,
+      "name": "NAOS DE SIJU",
+      "slug": "naos-de-siju",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "CICAVE DU TALUS",
+      "dam": "KLARA DU ROZEL",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 22,
+      "name": "NYMPHEA MOUCHE",
+      "slug": "nymphea-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "merrie",
+      "sire": "CARPE DIEM J F CHAMPBLANC",
+      "dam": "DEESSE MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 23,
+      "name": "NEPTUNE DE MARNY",
+      "slug": "neptune-de-marny",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "merrie",
+      "sire": "HEARTBREAKER",
+      "dam": "QUINDY DE KREISKER",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 24,
+      "name": "NEXT MOUCHE",
+      "slug": "next-mouche",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "JOLI COEUR DU CEDRE",
+      "dam": "ULISCA MOUCHE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 25,
+      "name": "NIRVANA DU PHARE",
+      "slug": "nirvana-du-phare",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "ruin",
+      "sire": "DOLLAR DU ROUET",
+      "dam": "UNANIME DU PHARE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    },
+    {
+      "lot_number": 26,
+      "name": "NASERATI DE SIJU",
+      "slug": "naserati-de-siju",
+      "discipline": "Springen",
+      "year": 2023,
+      "gender": "hengst",
+      "sire": "HOLD UP DE SIJU",
+      "dam": "BUGATTI BOURGEOISE",
+      "source_url": "https://www.fences.fr/cheval/vente/service/"
+    }
+  ]
+}

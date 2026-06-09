@@ -367,49 +367,130 @@ function ActiveLotPanel({
           </div>
         </div>
 
-        {/* Kolom 2 — Bod-tracker + Verkocht-flow + prijzen + biedstappen.
-            De Verkocht-knop hoort visueel bij de bod-tracker (samen
-            gebruikt tijdens het veilen). */}
-        <div style={actionPanelStyle}>
-          <BidTracker
-            lotId={lot.id}
-            collectionId={collectionId}
-            lotTypeId={lot.lot_type_id}
-            startPrice={lot.start_price}
-            spotters={spotters}
-          />
+        {/* Kolom 2 — Voorbereiding: Geïnteresseerden, Catalogustekst,
+            Mijn voorbereiding, EquiRatings */}
+        <div style={cockpitColStyle}>
+          <Card title="Geïnteresseerden">
+            {interestedClients.length === 0 ? null : (
+              <ul style={listStyle}>
+                {interestedClients.map((entry) => {
+                  const purchases = purchasesByClient?.get(entry.client_id)
+                  const meta = []
+                  if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
+                  if (entry.direction)    meta.push(entry.direction)
+                  const flag = flagFromCode(entry.country_code)
+                  const modeLabel = entry.bidding_mode === 'online' ? 'Online'
+                                  : entry.bidding_mode === 'phone'  ? 'Phone'
+                                  : 'Onsite'
+                  return (
+                    <li key={entry.client_id} style={{ padding: '4px 0' }}>
+                      <div>
+                        <strong style={{ color: 'var(--accent)' }}>
+                          ★ {flag && <span style={{ marginRight: 4 }}>{flag}</span>}{entry.name}
+                        </strong>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 6 }}>
+                          ({modeLabel})
+                        </span>
+                        {meta.length > 0 && (
+                          <span style={{ color: 'var(--text-secondary)' }}> · {meta.join(' · ')}</span>
+                        )}
+                      </div>
+                      {entry.seating_notes && (
+                        <div style={{ color: 'var(--text-muted)', fontSize: '0.9em', fontStyle: 'italic' }}>
+                          "{entry.seating_notes}"
+                        </div>
+                      )}
+                      {entry.lot_notes && (
+                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em' }}>
+                          ↪ specifiek: {entry.lot_notes}
+                        </div>
+                      )}
+                      {purchases && purchases.length > 0 && (
+                        <div style={purchasedStyle}>
+                          ✓ al gekocht: {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
+                        </div>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </Card>
 
-          <div style={actionDividerStyle}>
-            <CockpitControls
-              lot={lot}
-              houseId={houseId}
-              onlineBiddingEnabled={onlineBiddingEnabled}
-              interestedClients={interestedClients}
+          {lot.catalog_text && (
+            <Card title="Catalogustekst">
+              <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: 1.6 }}>
+                {lot.catalog_text}
+              </p>
+            </Card>
+          )}
+
+          <Card title="Mijn voorbereiding">
+            {!isRichEmpty(lot.notes_familie)        && <RichNoteField key={`notes_familie-${lot.id}`}        lotId={lot.id} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />}
+            {!isRichEmpty(lot.notes_resultaten)     && <RichNoteField key={`notes_resultaten-${lot.id}`}     lotId={lot.id} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />}
+            {!isRichEmpty(lot.notes_kenmerken)      && <RichNoteField key={`notes_kenmerken-${lot.id}`}      lotId={lot.id} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />}
+            {!isRichEmpty(lot.notes_organisatie)    && <RichNoteField key={`notes_organisatie-${lot.id}`}    lotId={lot.id} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />}
+            {!isRichEmpty(lot.notes_bijzonderheden) && <RichNoteField key={`notes_bijzonderheden-${lot.id}`} lotId={lot.id} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />}
+          </Card>
+
+          {lot.equiratings_text && (
+            <details style={detailsStyle}>
+              <summary style={summaryStyle}>EquiRatings</summary>
+              <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55, color: 'var(--text-secondary)' }}>
+                {lot.equiratings_text}
+              </p>
+            </details>
+          )}
+        </div>
+
+        {/* Kolom 3 — Actie: Bod-tracker + Verkocht-flow + prijzen +
+            biedstappen + Opmerkingen verkoop */}
+        <div style={cockpitColStyle}>
+          <div style={actionPanelStyle}>
+            <BidTracker
+              lotId={lot.id}
+              collectionId={collectionId}
+              lotTypeId={lot.lot_type_id}
+              startPrice={lot.start_price}
               spotters={spotters}
-              allLots={allLots}
-              onLotUpdated={onLotUpdated}
             />
-          </div>
 
-          <div style={actionDividerStyle}>
-            <div style={priceBlockStyle} className="num">
-              <div>
-                <span style={priceLabelStyle}>Start</span>{' '}
-                <strong>€{formatNum(lot.start_price)}</strong>
-              </div>
-              {lot.reserve_price != null && (
+            <div style={actionDividerStyle}>
+              <CockpitControls
+                lot={lot}
+                houseId={houseId}
+                onlineBiddingEnabled={onlineBiddingEnabled}
+                interestedClients={interestedClients}
+                spotters={spotters}
+                allLots={allLots}
+                onLotUpdated={onLotUpdated}
+              />
+            </div>
+
+            <div style={actionDividerStyle}>
+              <div style={priceBlockStyle} className="num">
                 <div>
-                  <span style={priceLabelStyle}>Reserve</span>{' '}
-                  <strong>€{formatNum(lot.reserve_price)}</strong>
+                  <span style={priceLabelStyle}>Start</span>{' '}
+                  <strong>€{formatNum(lot.start_price)}</strong>
                 </div>
-              )}
+                {lot.reserve_price != null && (
+                  <div>
+                    <span style={priceLabelStyle}>Reserve</span>{' '}
+                    <strong>€{formatNum(lot.reserve_price)}</strong>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div style={actionDividerStyle}>
+              <div style={actionSubtitleStyle}>Biedstappen</div>
+              <BidStepRulesPreview collectionId={collectionId} lotTypeId={lot.lot_type_id} />
             </div>
           </div>
 
-          <div style={actionDividerStyle}>
-            <div style={actionSubtitleStyle}>Biedstappen</div>
-            <BidStepRulesPreview collectionId={collectionId} lotTypeId={lot.lot_type_id} />
-          </div>
+          <Card title="Opmerkingen verkoop">
+            <NoteField key={`notes_verkoop-${lot.id}`} lotId={lot.id} fieldName="notes_verkoop" initialValue={lot.notes_verkoop} compact />
+          </Card>
         </div>
       </div>
 
@@ -448,89 +529,6 @@ function ActiveLotPanel({
             </div>
           )}
         </Modal>
-      )}
-
-      {/* Geïnteresseerden — volle breedte (biedstappen verhuisden naar
-          actie-kader binnen de lot-card) */}
-      <Card title="Geïnteresseerden">
-        {interestedClients.length === 0 ? null : (
-          <ul style={listStyle}>
-            {interestedClients.map((entry) => {
-              const purchases = purchasesByClient?.get(entry.client_id)
-              const meta = []
-              if (entry.table_number) meta.push(`tafel ${entry.table_number}`)
-              if (entry.direction)    meta.push(entry.direction)
-              const flag = flagFromCode(entry.country_code)
-              const modeLabel = entry.bidding_mode === 'online' ? 'Online'
-                              : entry.bidding_mode === 'phone'  ? 'Phone'
-                              : 'Onsite'
-              return (
-                <li key={entry.client_id} style={{ padding: '4px 0' }}>
-                  <div>
-                    <strong style={{ color: 'var(--accent)' }}>
-                      ★ {flag && <span style={{ marginRight: 4 }}>{flag}</span>}{entry.name}
-                    </strong>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 6 }}>
-                      ({modeLabel})
-                    </span>
-                    {meta.length > 0 && (
-                      <span style={{ color: 'var(--text-secondary)' }}> · {meta.join(' · ')}</span>
-                    )}
-                  </div>
-                  {entry.seating_notes && (
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.9em', fontStyle: 'italic' }}>
-                      "{entry.seating_notes}"
-                    </div>
-                  )}
-                  {entry.lot_notes && (
-                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.85em' }}>
-                      ↪ specifiek: {entry.lot_notes}
-                    </div>
-                  )}
-                  {purchases && purchases.length > 0 && (
-                    <div style={purchasedStyle}>
-                      ✓ al gekocht: {purchases.map((p) => `#${p.number ?? '—'} ${p.name}`).join(', ')}
-                    </div>
-                  )}
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </Card>
-
-      {/* Catalogustekst — uitgeklapt, vóór "Mijn voorbereiding" zodat je
-          tijdens het voorlezen direct je notities ernaast hebt */}
-      {lot.catalog_text && (
-        <Card title="Catalogustekst">
-          <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: 1.6 }}>
-            {lot.catalog_text}
-          </p>
-        </Card>
-      )}
-
-      {/* Mijn voorbereiding */}
-      <Card title="Mijn voorbereiding">
-        {!isRichEmpty(lot.notes_familie)        && <RichNoteField key={`notes_familie-${lot.id}`}        lotId={lot.id} fieldName="notes_familie"        initialValue={lot.notes_familie}        label="Familie"        compact />}
-        {!isRichEmpty(lot.notes_resultaten)     && <RichNoteField key={`notes_resultaten-${lot.id}`}     lotId={lot.id} fieldName="notes_resultaten"     initialValue={lot.notes_resultaten}     label="Resultaten"     compact />}
-        {!isRichEmpty(lot.notes_kenmerken)      && <RichNoteField key={`notes_kenmerken-${lot.id}`}      lotId={lot.id} fieldName="notes_kenmerken"      initialValue={lot.notes_kenmerken}      label="Kenmerken"      compact />}
-        {!isRichEmpty(lot.notes_organisatie)    && <RichNoteField key={`notes_organisatie-${lot.id}`}    lotId={lot.id} fieldName="notes_organisatie"    initialValue={lot.notes_organisatie}    label="Organisatie"    compact />}
-        {!isRichEmpty(lot.notes_bijzonderheden) && <RichNoteField key={`notes_bijzonderheden-${lot.id}`} lotId={lot.id} fieldName="notes_bijzonderheden" initialValue={lot.notes_bijzonderheden} label="Bijzonderheden" compact />}
-      </Card>
-
-      {/* Opmerkingen verkoop — alleen in cockpit, altijd zichtbaar (ook leeg) */}
-      <Card title="Opmerkingen verkoop">
-        <NoteField key={`notes_verkoop-${lot.id}`} lotId={lot.id} fieldName="notes_verkoop" initialValue={lot.notes_verkoop} compact />
-      </Card>
-
-      {/* EquiRatings blijft uitklapbaar (minder vaak nodig tijdens veilen) */}
-      {lot.equiratings_text && (
-        <details style={detailsStyle}>
-          <summary style={summaryStyle}>EquiRatings</summary>
-          <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55, color: 'var(--text-secondary)' }}>
-            {lot.equiratings_text}
-          </p>
-        </details>
       )}
 
     </div>
@@ -1026,17 +1024,26 @@ const selectStyle = {
 }
 const lotCardTwoColStyle = {
   display: 'grid',
-  // 2-koloms layout: brede lot-info-kolom + smallere actie-kolom met
-  // Bod-tracker, Verkocht-knop en biedstappen. Op smallere viewports
-  // stackt het naar 1 kolom (auto-fit met grote minimumbreedte op
-  // de smalle kolom).
-  gridTemplateColumns: 'minmax(0, 2fr) minmax(280px, 1fr)',
+  // 3-koloms layout:
+  //   1 - lot-info + pedigree + voorouder-teksten
+  //   2 - Geïnteresseerden + Catalogustekst + Mijn voorbereiding + EquiRatings
+  //   3 - Bod-tracker + Verkocht-knop + prijzen + biedstappen + Opmerkingen verkoop
+  // Op smal scherm stackt het naar 1 kolom (zie .cockpit-lot-card in index.css).
+  gridTemplateColumns: 'minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr)',
   gap: 'var(--space-4)',
   padding: 'var(--space-4)',
   background: 'var(--bg-surface)',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-md)',
   marginBottom: 'var(--space-4)',
+  alignItems: 'start',
+}
+
+const cockpitColStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 'var(--space-4)',
+  minWidth: 0,
 }
 const identityColStyle = {
   display: 'flex',

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 /**
  * Sticky infobar bovenaan de cockpit (#24 uit POST_ALOGA_ROADMAP.md).
  * Blijft zichtbaar tijdens scrollen en toont de cruciale lot-info
@@ -10,7 +12,7 @@
  * Props:
  *   lot   het actieve lot-object (nullable — toont placeholder dan)
  */
-export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate }) {
+export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo }) {
   if (!lot) return null
 
   const order  = lot.auction_order ?? lot.number ?? '—'
@@ -28,6 +30,11 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate }) {
   return (
     <div style={barStyle}>
       <div style={rowStyle}>
+        {backTo && (
+          <Link to={backTo} style={backLinkStyle} title="Terug naar de veiling">
+            ← Naar veiling
+          </Link>
+        )}
         {onNavigate && (
           <button
             type="button"
@@ -79,6 +86,18 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate }) {
 
 const rowStyle = {
   display: 'flex', alignItems: 'center', gap: 10,
+}
+
+const backLinkStyle = {
+  flexShrink: 0,
+  display: 'inline-flex', alignItems: 'center',
+  height: 36, padding: '0 12px',
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  textDecoration: 'none',
+  fontSize: '0.9em', fontWeight: 600,
 }
 
 function navBtnStyle(enabled) {

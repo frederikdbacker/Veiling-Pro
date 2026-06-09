@@ -165,15 +165,8 @@ export default function CockpitPage() {
         prevLot={prevLot}
         nextLot={nextLot}
         onNavigate={setActiveLotById}
+        backTo={`/collections/${collectionId}`}
       />
-
-      {/* Exit-knop terug naar de veiling-collectie. Vervangt de
-          breadcrumb-chain — sneller en minder ruimte op het werkscherm. */}
-      <div style={{ marginBottom: 'var(--space-3)' }}>
-        <Link to={`/collections/${collectionId}`} style={exitBtnStyle}>
-          ← Naar veiling
-        </Link>
-      </div>
 
       {/* Veiling-titel */}
       <h1 style={titleStyle}>{collection.name}</h1>

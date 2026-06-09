@@ -19,6 +19,16 @@ export default function HousePage() {
   const [deleteMode, setDeleteMode] = useState(false)
 
   const [topLot, setTopLot] = useState(null)
+  const [pastOpen, setPastOpen] = useState(false)
+  const [openYears, setOpenYears] = useState(new Set())
+
+  function toggleYear(y) {
+    setOpenYears((prev) => {
+      const next = new Set(prev)
+      if (next.has(y)) next.delete(y); else next.add(y)
+      return next
+    })
+  }
 
   async function load() {
     const [houseRes, collectionsRes, topLotRes] = await Promise.all([
@@ -344,26 +354,76 @@ export default function HousePage() {
       )}
 
       {collections.length > 0 ? (
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {collections.map((a) => (
-            <li key={a.id} style={{
-              padding: 'var(--space-3) 0',
-              borderBottom: '1px solid var(--border-default)',
-            }}>
-              <Link
-                to={`/collections/${a.id}`}
-                style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
-              >
-                {a.name}
-              </Link>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
-                {formatDate(a.date)}
-                {a.location && ` — ${a.location}`}
-                {a.status && ` — ${a.status}`}
-              </div>
-            </li>
-          ))}
-        </ul>
+        (() => {
+          const now = new Date()
+          const isPast = (c) =>
+            c.status === 'afgesloten' ||
+            (c.date && new Date(c.date) < now && c.status !== 'planned' && c.status !== 'lopend')
+          const upcoming = collections.filter((c) => !isPast(c))
+          const past = collections.filter(isPast)
+          const pastByYear = past.reduce((acc, c) => {
+            const y = c.date ? new Date(c.date).getFullYear() : 'Onbekend'
+            ;(acc[y] ||= []).push(c)
+            return acc
+          }, {})
+          const years = Object.keys(pastByYear).sort((a, b) => String(b).localeCompare(String(a)))
+          return (
+            <>
+              {upcoming.length > 0 && (
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {upcoming.map((a) => <CollectionRow key={a.id} collection={a} />)}
+                </ul>
+              )}
+
+              {past.length > 0 && (
+                <div style={{ marginTop: upcoming.length > 0 ? 'var(--space-5)' : 0 }}>
+                  <button
+                    type="button"
+                    onClick={() => setPastOpen((v) => !v)}
+                    style={pastToggleStyle}
+                    aria-expanded={pastOpen}
+                  >
+                    <span style={{ display: 'inline-block', width: 14 }}>{pastOpen ? '▾' : '▸'}</span>
+                    Afgelopen veilingen ({past.length})
+                  </button>
+                  {pastOpen && (
+                    <div style={{ marginTop: 'var(--space-2)' }}>
+                      {years.map((y) => {
+                        const cols = pastByYear[y]
+                        if (cols.length === 1) {
+                          return (
+                            <ul key={y} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                              <CollectionRow collection={cols[0]} />
+                            </ul>
+                          )
+                        }
+                        const isOpen = openYears.has(y)
+                        return (
+                          <div key={y}>
+                            <button
+                              type="button"
+                              onClick={() => toggleYear(y)}
+                              style={yearToggleStyle}
+                              aria-expanded={isOpen}
+                            >
+                              <span style={{ display: 'inline-block', width: 14 }}>{isOpen ? '▾' : '▸'}</span>
+                              {y} ({cols.length})
+                            </button>
+                            {isOpen && (
+                              <ul style={{ listStyle: 'none', padding: 0, margin: 0, paddingLeft: 'var(--space-4)' }}>
+                                {cols.map((a) => <CollectionRow key={a.id} collection={a} />)}
+                              </ul>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )
+        })()
       ) : (
         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
           Nog geen veilingen voor dit huis. Klik op "+ Veiling toevoegen" om er één aan te maken.
@@ -512,6 +572,44 @@ function formatDate(d) {
   return new Date(d).toLocaleDateString('nl-BE', {
     day: 'numeric', month: 'long', year: 'numeric',
   })
+}
+
+function CollectionRow({ collection: a }) {
+  return (
+    <li style={{
+      padding: 'var(--space-3) 0',
+      borderBottom: '1px solid var(--border-default)',
+    }}>
+      <Link
+        to={`/collections/${a.id}`}
+        style={{ textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600 }}
+      >
+        {a.name}
+      </Link>
+      <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
+        {formatDate(a.date)}
+        {a.location && ` — ${a.location}`}
+        {a.status && ` — ${a.status}`}
+      </div>
+    </li>
+  )
+}
+
+const pastToggleStyle = {
+  display: 'inline-flex', alignItems: 'center', gap: 4,
+  padding: '0.5rem 0.85rem',
+  background: 'var(--bg-elevated)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.95em', fontWeight: 600,
+}
+
+const yearToggleStyle = {
+  display: 'inline-flex', alignItems: 'center', gap: 4,
+  padding: '0.35rem 0.6rem',
+  marginTop: 'var(--space-2)',
+  background: 'transparent', color: 'var(--text-secondary)',
+  border: 'none', borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.95em', fontWeight: 600,
 }
 
 const toggleBtnStyle = {

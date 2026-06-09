@@ -493,11 +493,7 @@ function ActiveLotPanel({
       {/* Geïnteresseerden — volle breedte (biedstappen verhuisden naar
           actie-kader binnen de lot-card) */}
       <Card title="Geïnteresseerden">
-        {interestedClients.length === 0 ? (
-          <p style={emptyMutedStyle}>
-            Nog geen klanten gekoppeld. Voeg ze toe op de lot-detailpagina.
-          </p>
-        ) : (
+        {interestedClients.length === 0 ? null : (
           <ul style={listStyle}>
             {interestedClients.map((entry) => {
               const purchases = purchasesByClient?.get(entry.client_id)

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
+import BidTracker from '../components/BidTracker'
 import CockpitStatusBar from '../components/CockpitStatusBar'
 import SpottersStrip from '../components/SpottersStrip'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
@@ -426,6 +427,16 @@ function ActiveLotPanel({
           <div style={actionDividerStyle}>
             <div style={actionSubtitleStyle}>Biedstappen</div>
             <BidStepRulesPreview collectionId={collectionId} lotTypeId={lot.lot_type_id} />
+          </div>
+
+          <div style={actionDividerStyle}>
+            <BidTracker
+              lotId={lot.id}
+              collectionId={collectionId}
+              lotTypeId={lot.lot_type_id}
+              startPrice={lot.start_price}
+              spotters={spotters}
+            />
           </div>
 
           <div style={actionDividerStyle}>

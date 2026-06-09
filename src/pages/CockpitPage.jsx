@@ -157,8 +157,14 @@ export default function CockpitPage() {
 
   return (
     <section>
-      {/* Sticky infobar — blijft zichtbaar tijdens scrollen (#24) */}
-      <LiveInfoBar lot={activeLot} />
+      {/* Sticky infobar — blijft zichtbaar tijdens scrollen (#24), bevat
+          ook vorig/volgend-knoppen ter vervanging van de aparte lot-picker. */}
+      <LiveInfoBar
+        lot={activeLot}
+        prevLot={prevLot}
+        nextLot={nextLot}
+        onNavigate={setActiveLotById}
+      />
 
       <Breadcrumbs trail={[
         { label: 'Veilinghuizen', to: '/' },
@@ -167,21 +173,14 @@ export default function CockpitPage() {
         { label: 'Cockpit' },
       ].filter(Boolean)} />
 
-      {/* Veiling-titel + datum */}
+      {/* Veiling-titel */}
       <h1 style={titleStyle}>{collection.name}</h1>
-      <p style={subtitleStyle}>
-        {formatAuctionDate(collection)}
-        {collection.location && ` · ${collection.location}`}
-      </p>
 
-      {/* Statusbalk */}
-      <CockpitStatusBar lots={allLots} />
-
-      {/* Spotters-strip — links → rechts zoals in de zaal opgesteld */}
-      <SpottersStrip spotters={spotters} />
-
-      {/* Overzicht-knop bij volledige veiling + Veiling afgesloten */}
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
+      {/* Statusbalk + Veiling-afgesloten in dezelfde rij */}
+      <div style={statusBarRowStyle}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <CockpitStatusBar lots={allLots} />
+        </div>
         {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
           <Link to={`/collections/${collectionId}/summary`} style={summaryBtnStyle}>
             📊 Overzicht einde veiling →
@@ -198,6 +197,9 @@ export default function CockpitPage() {
         )}
       </div>
 
+      {/* Spotters-strip — links → rechts zoals in de zaal opgesteld */}
+      <SpottersStrip spotters={spotters} />
+
       {closeModalOpen && (
         <CloseAuctionModal
           collectionId={collectionId}
@@ -210,50 +212,6 @@ export default function CockpitPage() {
           }}
         />
       )}
-
-      {/* Lot picker — Vorig links, dropdown midden, Volgend rechts */}
-      <div style={pickerStyle}>
-        <button
-          onClick={() => prevLot && setActiveLotById(prevLot.id)}
-          disabled={!prevLot}
-          style={navBtnStyle(prevLot != null)}
-          title={prevLot ? `Vorig lot — #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
-        >
-          {prevLot
-            ? `← Vorig · #${prevLot.number ?? '—'} ${prevLot.name}`
-            : '← Begin'}
-        </button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', justifyContent: 'center', minWidth: 0 }}>
-          <label style={{ fontWeight: 600, color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
-            Actief lot:
-          </label>
-          <select
-            value={collection.active_lot_id ?? ''}
-            onChange={(e) => setActiveLotById(e.target.value)}
-            style={selectStyle}
-          >
-            <option value="">— geen lot geselecteerd —</option>
-            {allLots.map((l) => {
-              const order = l.auction_order ?? l.number
-              return (
-                <option key={l.id} value={l.id}>
-                  #{order ?? '—'} {l.name}
-                </option>
-              )
-            })}
-          </select>
-        </div>
-        <button
-          onClick={() => nextLot && setActiveLotById(nextLot.id)}
-          disabled={!nextLot}
-          style={navBtnStyle(nextLot != null)}
-          title={nextLot ? `Volgend lot — #${nextLot.number ?? '—'} ${nextLot.name}` : 'Einde van de lijst'}
-        >
-          {nextLot
-            ? `Volgend · #${nextLot.number ?? '—'} ${nextLot.name} →`
-            : 'Einde →'}
-        </button>
-      </div>
 
       {!collection.active_lot_id && (
         <div>
@@ -336,7 +294,7 @@ function ActiveLotPanel({
       {/* Lot-card: twee kolommen — identity links, actie-kader rechts.
           Het actie-kader bundelt prijzen, biedstappen, timer en knoppen
           omdat dat tijdens veilen samenhoort. */}
-      <div style={lotCardTwoColStyle}>
+      <div style={lotCardTwoColStyle} className="cockpit-lot-card">
         {/* Identity-kolom: basis-info bovenaan, pedigree-tree daaronder */}
         <div style={identityColStyle}>
           <div style={identityHeaderRowStyle}>
@@ -409,7 +367,9 @@ function ActiveLotPanel({
           </div>
         </div>
 
-        {/* Kolom 2 — Bod-tracker prominent + prijzen + biedstappen */}
+        {/* Kolom 2 — Bod-tracker + Verkocht-flow + prijzen + biedstappen.
+            De Verkocht-knop hoort visueel bij de bod-tracker (samen
+            gebruikt tijdens het veilen). */}
         <div style={actionPanelStyle}>
           <BidTracker
             lotId={lot.id}
@@ -418,6 +378,18 @@ function ActiveLotPanel({
             startPrice={lot.start_price}
             spotters={spotters}
           />
+
+          <div style={actionDividerStyle}>
+            <CockpitControls
+              lot={lot}
+              houseId={houseId}
+              onlineBiddingEnabled={onlineBiddingEnabled}
+              interestedClients={interestedClients}
+              spotters={spotters}
+              allLots={allLots}
+              onLotUpdated={onLotUpdated}
+            />
+          </div>
 
           <div style={actionDividerStyle}>
             <div style={priceBlockStyle} className="num">
@@ -438,19 +410,6 @@ function ActiveLotPanel({
             <div style={actionSubtitleStyle}>Biedstappen</div>
             <BidStepRulesPreview collectionId={collectionId} lotTypeId={lot.lot_type_id} />
           </div>
-        </div>
-
-        {/* Kolom 3 — Verkocht-flow (CockpitControls) */}
-        <div style={actionPanelStyle}>
-          <CockpitControls
-            lot={lot}
-            houseId={houseId}
-            onlineBiddingEnabled={onlineBiddingEnabled}
-            interestedClients={interestedClients}
-            spotters={spotters}
-            allLots={allLots}
-            onLotUpdated={onLotUpdated}
-          />
         </div>
       </div>
 
@@ -1022,6 +981,10 @@ const subtitleStyle = {
   marginTop: 0,
   marginBottom: 'var(--space-4)',
 }
+const statusBarRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
+  marginBottom: 'var(--space-3)',
+}
 const summaryBtnStyle = {
   display: 'inline-block',
   padding: 'var(--space-2) var(--space-4)',
@@ -1063,9 +1026,11 @@ const selectStyle = {
 }
 const lotCardTwoColStyle = {
   display: 'grid',
-  // 3-koloms layout op brede schermen: lot-info | bod-tracker | Verkocht-flow.
-  // auto-fit met minmax(300px) → 1 kolom op smal, 2 op midden, 3 op breed (>=~960px).
-  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+  // 2-koloms layout: brede lot-info-kolom + smallere actie-kolom met
+  // Bod-tracker, Verkocht-knop en biedstappen. Op smallere viewports
+  // stackt het naar 1 kolom (auto-fit met grote minimumbreedte op
+  // de smalle kolom).
+  gridTemplateColumns: 'minmax(0, 2fr) minmax(280px, 1fr)',
   gap: 'var(--space-4)',
   padding: 'var(--space-4)',
   background: 'var(--bg-surface)',

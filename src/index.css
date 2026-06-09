@@ -205,6 +205,11 @@ hr {
     min-height: 36px;
   }
 
+  /* Cockpit lot-card stackt op mobile — 2-koloms grid wordt 1 kolom */
+  .cockpit-lot-card {
+    grid-template-columns: 1fr !important;
+  }
+
   /* CollectionPage — actie-rij wordt een inklapbaar menu */
   .collection-actions-toggle {
     display: inline-flex !important;

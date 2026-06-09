@@ -10,7 +10,7 @@
  * Props:
  *   lot   het actieve lot-object (nullable — toont placeholder dan)
  */
-export default function LiveInfoBar({ lot }) {
+export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate }) {
   if (!lot) return null
 
   const order  = lot.auction_order ?? lot.number ?? '—'
@@ -27,26 +27,75 @@ export default function LiveInfoBar({ lot }) {
 
   return (
     <div style={barStyle}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.6rem' }}>
-        {lot.is_charity && (
-          <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
-            🎁 CHARITY
-          </span>
+      <div style={rowStyle}>
+        {onNavigate && (
+          <button
+            type="button"
+            onClick={() => prevLot && onNavigate(prevLot.id)}
+            disabled={!prevLot}
+            style={navBtnStyle(!!prevLot)}
+            title={prevLot ? `← Vorig: #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
+            aria-label="Vorig lot"
+          >
+            ←
+          </button>
         )}
-        <span style={lotnrStyle}>#{order}</span>
-        <strong style={nameStyle}>{name}</strong>
-        {showCatExtra && (
-          <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-            (Cat. nr {lot.number})
-          </span>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.6rem', flex: 1, minWidth: 0 }}>
+          {lot.is_charity && (
+            <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
+              🎁 CHARITY
+            </span>
+          )}
+          <span style={lotnrStyle}>#{order}</span>
+          <strong style={nameStyle}>{name}</strong>
+          {showCatExtra && (
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+              (Cat. nr {lot.number})
+            </span>
+          )}
+          {age && <Pill label="Leeftijd" value={age} />}
+          {minBedrag && <Pill label="Min" value={minBedrag} />}
+          {sire && <Pill label="V." value={sire} />}
+          {damSire && <Pill label="M.V." value={damSire} />}
+        </div>
+
+        {onNavigate && (
+          <button
+            type="button"
+            onClick={() => nextLot && onNavigate(nextLot.id)}
+            disabled={!nextLot}
+            style={navBtnStyle(!!nextLot)}
+            title={nextLot ? `Volgend: #${nextLot.number ?? '—'} ${nextLot.name} →` : 'Einde van de lijst'}
+            aria-label="Volgend lot"
+          >
+            →
+          </button>
         )}
-        {age && <Pill label="Leeftijd" value={age} />}
-        {minBedrag && <Pill label="Min" value={minBedrag} />}
-        {sire && <Pill label="V." value={sire} />}
-        {damSire && <Pill label="M.V." value={damSire} />}
       </div>
     </div>
   )
+}
+
+const rowStyle = {
+  display: 'flex', alignItems: 'center', gap: 10,
+}
+
+function navBtnStyle(enabled) {
+  return {
+    flexShrink: 0,
+    minWidth: 36, height: 36,
+    padding: '0 10px',
+    background: enabled ? 'var(--bg-elevated)' : 'transparent',
+    color: enabled ? 'var(--text-primary)' : 'var(--text-muted)',
+    border: '1px solid var(--border-default)',
+    borderRadius: 'var(--radius-sm)',
+    fontSize: '1.1rem',
+    fontWeight: 700,
+    cursor: enabled ? 'pointer' : 'not-allowed',
+    fontFamily: 'inherit',
+    opacity: enabled ? 1 : 0.5,
+  }
 }
 
 function Pill({ label, value }) {

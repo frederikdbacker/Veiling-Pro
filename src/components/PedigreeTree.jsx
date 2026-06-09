@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { supabase } from '../lib/supabase'
 
 /**
  * PedigreeTree — 3-generatie bracket-tree.
@@ -27,7 +28,7 @@ const LEVELS = [
 ]
 const RESULTS = ['Placed', 'Winner']
 
-export default function PedigreeTree({ pedigree, annotations, editable }) {
+export default function PedigreeTree({ pedigree, annotations, editable, lotId }) {
   const empty = !pedigree
     || (!pedigree.sire && !pedigree.dam)
 
@@ -85,7 +86,7 @@ export default function PedigreeTree({ pedigree, annotations, editable }) {
              note={noteText(annotations?.damsdamsdam)}
              edit={editFor('damsdamsdam_sport_level', 'damsdamsdam_result')} />
       </div>
-      <PedigreeTexts pedigree={pedigree} />
+      <PedigreeTexts pedigree={pedigree} lotId={lotId} />
     </>
   )
 }
@@ -96,7 +97,15 @@ export default function PedigreeTree({ pedigree, annotations, editable }) {
  * wanneer er geen `text`-veld in `pedigree` staat — bv. voor lots buiten
  * Fences die deze data niet hebben.
  */
-function PedigreeTexts({ pedigree }) {
+const BLOCK_PATHS = {
+  sire:         ['sire'],
+  dam:          ['dam'],
+  damdam:       ['dam', 'dam'],
+  damdamdam:    ['dam', 'dam', 'dam'],
+  damdamdamdam: ['dam', 'dam', 'dam', 'dam'],
+}
+
+function PedigreeTexts({ pedigree, lotId }) {
   const blocks = [
     { key: 'sire',         label: 'Père',       node: pedigree?.sire },
     { key: 'dam',          label: '1ère mère',  node: pedigree?.dam },
@@ -107,13 +116,59 @@ function PedigreeTexts({ pedigree }) {
 
   // Start ingeklapt — gebruiker klikt om een blok te openen.
   const [open, setOpen] = useState({})
+  // Pop-up button bij selectie: { key, x, y, range: {start, end} } of null.
+  const [popup, setPopup] = useState(null)
+  // Lokale highlights-cache zodat de UI optimistisch updatet vóór de DB-write.
+  const [localPed, setLocalPed] = useState(pedigree)
+  useEffect(() => { setLocalPed(pedigree) }, [pedigree])
+
+  function handleMouseUp(blockKey, bodyEl) {
+    const sel = window.getSelection()
+    if (!sel || sel.isCollapsed) { setPopup(null); return }
+    const range = sel.getRangeAt(0)
+    if (!bodyEl || !bodyEl.contains(range.commonAncestorContainer)) {
+      setPopup(null); return
+    }
+    const start = getCharOffset(bodyEl, range.startContainer, range.startOffset)
+    const end   = getCharOffset(bodyEl, range.endContainer,   range.endOffset)
+    if (end <= start) { setPopup(null); return }
+    const rect = range.getBoundingClientRect()
+    setPopup({
+      key: blockKey,
+      x: rect.left + rect.width / 2,
+      y: rect.top + window.scrollY,
+      range: { start, end },
+    })
+  }
+
+  async function addHighlight() {
+    if (!popup || !lotId) return
+    const { key, range } = popup
+    const path = BLOCK_PATHS[key]
+    const next = addHighlightToPedigree(localPed, path, range)
+    setLocalPed(next)
+    setPopup(null)
+    window.getSelection()?.removeAllRanges()
+    await supabase.from('lots').update({ pedigree: next }).eq('id', lotId)
+  }
+
+  async function removeHighlightAt(blockKey, charIndex) {
+    if (!lotId) return
+    const path = BLOCK_PATHS[blockKey]
+    const next = removeHighlightFromPedigree(localPed, path, charIndex)
+    setLocalPed(next)
+    await supabase.from('lots').update({ pedigree: next }).eq('id', lotId)
+  }
 
   if (blocks.length === 0) return null
 
   return (
     <div style={textsContainerStyle}>
-      {blocks.map(({ key, label, node }) => {
+      {blocks.map(({ key, label, node: oldNode }) => {
+        // Gebruik lokale (mogelijk geüpdate) versie van de node
+        const localNode = getNodeAtPath(localPed, BLOCK_PATHS[key]) ?? oldNode
         const isOpen = !!open[key]
+        const highlights = localNode.highlights ?? []
         return (
           <div key={key} style={textBlockStyle}>
             <button
@@ -124,14 +179,138 @@ function PedigreeTexts({ pedigree }) {
             >
               <span style={chevronStyle}>{isOpen ? '▾' : '▸'}</span>
               <span style={textLabelStyle}>{label}</span>
-              <span style={textNameStyle}>{node.name}</span>
+              <span style={textNameStyle}>{localNode.name}</span>
             </button>
-            {isOpen && <p style={textBodyStyle}>{node.text}</p>}
+            {isOpen && (
+              <p
+                style={textBodyStyle}
+                onMouseUp={(e) => handleMouseUp(key, e.currentTarget)}
+              >
+                {renderTextWithHighlights(
+                  localNode.text,
+                  highlights,
+                  (charIndex) => removeHighlightAt(key, charIndex),
+                )}
+              </p>
+            )}
           </div>
         )
       })}
+      {popup && (
+        <button
+          type="button"
+          onMouseDown={(e) => { e.preventDefault(); addHighlight() }}
+          style={{
+            ...highlightPopupStyle,
+            left: popup.x,
+            top: popup.y - 36,
+          }}
+        >
+          ✦ Markeer
+        </button>
+      )}
     </div>
   )
+}
+
+/** Bepaal char-offset binnen `container` van een (node, offset) DOM-positie. */
+function getCharOffset(container, node, offset) {
+  if (!container.contains(node)) return 0
+  let chars = 0
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null)
+  let current = walker.nextNode()
+  while (current) {
+    if (current === node) return chars + offset
+    chars += current.length
+    current = walker.nextNode()
+  }
+  return chars
+}
+
+/** Render text als alternerende plain + <mark> segments. */
+function renderTextWithHighlights(text, highlights, onRemove) {
+  if (!highlights || highlights.length === 0) return text
+  // Normaliseer en sorteer overlappende highlights
+  const merged = mergeRanges(highlights)
+  const parts = []
+  let pos = 0
+  merged.forEach((h, i) => {
+    if (h.start > pos) parts.push(text.slice(pos, h.start))
+    parts.push(
+      <mark
+        key={`h-${i}-${h.start}`}
+        style={highlightStyle}
+        onClick={() => onRemove(h.start)}
+        title="Klik om markering te verwijderen"
+      >
+        {text.slice(h.start, h.end)}
+      </mark>
+    )
+    pos = h.end
+  })
+  if (pos < text.length) parts.push(text.slice(pos))
+  return parts
+}
+
+function mergeRanges(ranges) {
+  const sorted = [...ranges].sort((a, b) => a.start - b.start)
+  const out = []
+  for (const r of sorted) {
+    const last = out[out.length - 1]
+    if (last && r.start <= last.end) last.end = Math.max(last.end, r.end)
+    else out.push({ start: r.start, end: r.end })
+  }
+  return out
+}
+
+function getNodeAtPath(ped, path) {
+  let node = ped
+  for (const k of path) {
+    if (node == null) return null
+    if (typeof node === 'string') return null
+    node = node[k]
+  }
+  return typeof node === 'string' ? { name: node } : node
+}
+
+function addHighlightToPedigree(ped, path, range) {
+  const next = JSON.parse(JSON.stringify(ped || {}))
+  let parent = next
+  for (let i = 0; i < path.length - 1; i++) {
+    const k = path[i]
+    let child = parent[k]
+    if (typeof child === 'string') child = { name: child }
+    if (!child) child = {}
+    parent[k] = child
+    parent = child
+  }
+  const last = path[path.length - 1]
+  let target = parent[last]
+  if (typeof target === 'string') target = { name: target }
+  if (!target) target = {}
+  const highlights = Array.isArray(target.highlights) ? [...target.highlights] : []
+  highlights.push({ start: range.start, end: range.end })
+  target.highlights = mergeRanges(highlights)
+  parent[last] = target
+  return next
+}
+
+function removeHighlightFromPedigree(ped, path, charIndex) {
+  const next = JSON.parse(JSON.stringify(ped || {}))
+  let parent = next
+  for (let i = 0; i < path.length - 1; i++) {
+    const k = path[i]
+    if (typeof parent[k] === 'string') parent[k] = { name: parent[k] }
+    parent = parent[k]
+    if (!parent) return ped
+  }
+  const last = path[path.length - 1]
+  let target = parent[last]
+  if (!target || typeof target === 'string') return ped
+  const highlights = Array.isArray(target.highlights) ? target.highlights : []
+  target.highlights = highlights.filter((h) => !(charIndex >= h.start && charIndex < h.end))
+  parent[last] = target
+  return next
 }
 
 function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
@@ -357,4 +536,28 @@ const textBodyStyle = {
   lineHeight: 1.5,
   color: 'var(--text-secondary)',
   whiteSpace: 'pre-line',
+}
+
+const highlightStyle = {
+  background: '#FBBF24',
+  color: '#1A1A1A',
+  padding: '0 2px',
+  borderRadius: 2,
+  cursor: 'pointer',
+}
+
+const highlightPopupStyle = {
+  position: 'absolute',
+  transform: 'translateX(-50%)',
+  zIndex: 200,
+  padding: '6px 12px',
+  background: '#FBBF24',
+  color: '#1A1A1A',
+  border: 0,
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.8rem',
+  fontWeight: 600,
+  cursor: 'pointer',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+  fontFamily: 'inherit',
 }

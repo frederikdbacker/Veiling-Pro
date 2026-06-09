@@ -317,6 +317,7 @@ export default function LotPage() {
       <Block title="Pedigree">
         <PedigreeTree
           pedigree={lot.pedigree}
+          lotId={lot.id}
           editable={{
             values: {
               dam_sport_level: lot.dam_sport_level,                 dam_result: lot.dam_result,

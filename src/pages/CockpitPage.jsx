@@ -409,47 +409,48 @@ function ActiveLotPanel({
           </div>
         </div>
 
-        {/* Actie-kader: prijzen → biedstappen → timer + 3-knop-flow */}
+        {/* Kolom 2 — Bod-tracker prominent + prijzen + biedstappen */}
         <div style={actionPanelStyle}>
-          <div style={priceBlockStyle} className="num">
-            <div>
-              <span style={priceLabelStyle}>Start</span>{' '}
-              <strong>€{formatNum(lot.start_price)}</strong>
-            </div>
-            {lot.reserve_price != null && (
+          <BidTracker
+            lotId={lot.id}
+            collectionId={collectionId}
+            lotTypeId={lot.lot_type_id}
+            startPrice={lot.start_price}
+            spotters={spotters}
+          />
+
+          <div style={actionDividerStyle}>
+            <div style={priceBlockStyle} className="num">
               <div>
-                <span style={priceLabelStyle}>Reserve</span>{' '}
-                <strong>€{formatNum(lot.reserve_price)}</strong>
+                <span style={priceLabelStyle}>Start</span>{' '}
+                <strong>€{formatNum(lot.start_price)}</strong>
               </div>
-            )}
+              {lot.reserve_price != null && (
+                <div>
+                  <span style={priceLabelStyle}>Reserve</span>{' '}
+                  <strong>€{formatNum(lot.reserve_price)}</strong>
+                </div>
+              )}
+            </div>
           </div>
 
           <div style={actionDividerStyle}>
             <div style={actionSubtitleStyle}>Biedstappen</div>
             <BidStepRulesPreview collectionId={collectionId} lotTypeId={lot.lot_type_id} />
           </div>
+        </div>
 
-          <div style={actionDividerStyle}>
-            <BidTracker
-              lotId={lot.id}
-              collectionId={collectionId}
-              lotTypeId={lot.lot_type_id}
-              startPrice={lot.start_price}
-              spotters={spotters}
-            />
-          </div>
-
-          <div style={actionDividerStyle}>
-            <CockpitControls
-              lot={lot}
-              houseId={houseId}
-              onlineBiddingEnabled={onlineBiddingEnabled}
-              interestedClients={interestedClients}
-              spotters={spotters}
-              allLots={allLots}
-              onLotUpdated={onLotUpdated}
-            />
-          </div>
+        {/* Kolom 3 — Verkocht-flow (CockpitControls) */}
+        <div style={actionPanelStyle}>
+          <CockpitControls
+            lot={lot}
+            houseId={houseId}
+            onlineBiddingEnabled={onlineBiddingEnabled}
+            interestedClients={interestedClients}
+            spotters={spotters}
+            allLots={allLots}
+            onLotUpdated={onLotUpdated}
+          />
         </div>
       </div>
 
@@ -1062,7 +1063,9 @@ const selectStyle = {
 }
 const lotCardTwoColStyle = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+  // 3-koloms layout op brede schermen: lot-info | bod-tracker | Verkocht-flow.
+  // auto-fit met minmax(300px) → 1 kolom op smal, 2 op midden, 3 op breed (>=~960px).
+  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
   gap: 'var(--space-4)',
   padding: 'var(--space-4)',
   background: 'var(--bg-surface)',

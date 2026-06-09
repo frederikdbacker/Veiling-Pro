@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import HousesPage from './pages/HousesPage'
 import HousePage from './pages/HousePage'
 import ClientsPage from './pages/ClientsPage'
@@ -9,11 +9,15 @@ import CockpitPage from './pages/CockpitPage'
 import CollectionSummaryPage from './pages/CollectionSummaryPage'
 
 export default function App() {
+  const { pathname } = useLocation()
+  // Cockpit is een live veiling-werkscherm en mag de volle viewport-breedte
+  // gebruiken; andere pages blijven gecentreerd op 1100px voor leesbaarheid.
+  const isCockpit = pathname.startsWith('/cockpit/')
   return (
     <main
       style={{
         padding: 'var(--space-5) var(--space-5)',
-        maxWidth: 1100,
+        maxWidth: isCockpit ? 1800 : 1100,
         margin: '0 auto',
         minHeight: '100vh',
       }}

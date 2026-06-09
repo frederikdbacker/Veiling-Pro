@@ -183,7 +183,7 @@ function PedigreeTexts({ pedigree, lotId }) {
               <span style={textLabelStyle}>{label}</span>
               <span style={textNameStyle}>{localNode.name}</span>
             </button>
-            {isOpen && (
+            {isOpen ? (
               <p
                 style={textBodyStyle}
                 onMouseUp={(e) => handleMouseUp(key, e.currentTarget)}
@@ -194,6 +194,8 @@ function PedigreeTexts({ pedigree, lotId }) {
                   (charIndex) => removeHighlightAt(key, charIndex),
                 )}
               </p>
+            ) : (
+              <p style={textTeaserStyle}>{teaserFrom(localNode.text)}</p>
             )}
           </div>
         )
@@ -252,6 +254,16 @@ function renderTextWithHighlights(text, highlights, onRemove) {
   })
   if (pos < text.length) parts.push(text.slice(pos))
   return parts
+}
+
+/** Eerste ~140 tekens van de tekst, op een natuurlijke breuk-punt afgekapt. */
+function teaserFrom(text) {
+  if (!text) return ''
+  const cleaned = text.replace(/\s+/g, ' ').trim()
+  if (cleaned.length <= 140) return cleaned
+  const cut = cleaned.slice(0, 140)
+  const lastBreak = Math.max(cut.lastIndexOf(', '), cut.lastIndexOf('. '), cut.lastIndexOf(' '))
+  return (lastBreak > 80 ? cut.slice(0, lastBreak) : cut) + '…'
 }
 
 function mergeRanges(ranges) {
@@ -398,17 +410,17 @@ function nameOf(node) {
 const treeStyle = {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
-  gridTemplateRows: 'repeat(8, minmax(22px, auto))',
+  gridTemplateRows: 'repeat(8, minmax(30px, auto))',
   gap: '4px',
   width: '100%',
 }
 
 const boxBaseStyle = {
   display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
-  padding: '2px 8px',
+  padding: '6px 10px',
   borderRadius: 'var(--radius-sm)',
-  fontSize: '0.7rem',
-  letterSpacing: '0.06em',
+  fontSize: '0.78rem',
+  letterSpacing: '0.04em',
   textTransform: 'uppercase',
   fontWeight: 500,
   overflow: 'hidden',
@@ -538,6 +550,19 @@ const textBodyStyle = {
   lineHeight: 1.5,
   color: 'var(--text-secondary)',
   whiteSpace: 'pre-line',
+}
+
+const textTeaserStyle = {
+  margin: '2px 0 0 22px',
+  fontSize: '0.75rem',
+  lineHeight: 1.4,
+  color: 'var(--text-muted)',
+  fontStyle: 'italic',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
 }
 
 const highlightStyle = {

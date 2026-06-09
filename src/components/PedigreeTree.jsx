@@ -28,7 +28,7 @@ const LEVELS = [
 ]
 const RESULTS = ['Placed', 'Winner']
 
-export default function PedigreeTree({ pedigree, annotations, editable, lotId }) {
+export default function PedigreeTree({ pedigree, annotations, editable, lotId, renderTexts = true }) {
   const empty = !pedigree
     || (!pedigree.sire && !pedigree.dam)
 
@@ -88,7 +88,7 @@ export default function PedigreeTree({ pedigree, annotations, editable, lotId })
              edit={editFor('damsdamsdam_sport_level', 'damsdamsdam_result')} />
       </div>
       </div>
-      <PedigreeTexts pedigree={pedigree} lotId={lotId} />
+      {renderTexts && <PedigreeTexts pedigree={pedigree} lotId={lotId} />}
     </>
   )
 }
@@ -107,7 +107,7 @@ const BLOCK_PATHS = {
   damdamdamdam: ['dam', 'dam', 'dam', 'dam'],
 }
 
-function PedigreeTexts({ pedigree, lotId }) {
+export function PedigreeTexts({ pedigree, lotId }) {
   const blocks = [
     { key: 'sire',         label: 'Père',       node: pedigree?.sire },
     { key: 'dam',          label: '1ère mère',  node: pedigree?.dam },
@@ -410,15 +410,19 @@ function nameOf(node) {
 const treeStyle = {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
-  gridTemplateRows: 'repeat(8, minmax(30px, auto))',
-  gap: '4px',
+  gridTemplateRows: 'repeat(8, minmax(26px, auto))',
+  rowGap: 2,
+  columnGap: 'var(--space-3)',
   width: '100%',
+  padding: 'var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
 }
 
 const boxBaseStyle = {
   display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
-  padding: '6px 10px',
-  borderRadius: 'var(--radius-sm)',
+  padding: '4px 6px',
   fontSize: '0.78rem',
   letterSpacing: '0.04em',
   textTransform: 'uppercase',
@@ -428,7 +432,7 @@ const boxBaseStyle = {
   whiteSpace: 'nowrap',
   color: 'var(--text-primary)',
   background: 'transparent',
-  border: '1px solid var(--border-default)',
+  borderBottom: '1px solid var(--border-default)',
 }
 
 // Sire en dam visueel gelijk — geen kleur per kant. De positie in de
@@ -440,7 +444,7 @@ const emptyBoxStyle = {
   color: 'var(--text-muted)',
   fontStyle: 'italic',
   fontWeight: 400,
-  border: '1px dashed var(--border-default)',
+  borderBottom: '1px dashed var(--border-default)',
 }
 
 // Box met annotatie/dropdowns: naam boven, prestatie/dropdowns eronder.

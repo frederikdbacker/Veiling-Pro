@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
 import BidTracker from '../components/BidTracker'
+import { PedigreeTexts } from '../components/PedigreeTree'
 import CockpitStatusBar from '../components/CockpitStatusBar'
 import SpottersStrip from '../components/SpottersStrip'
 import BuyerAutocomplete from '../components/BuyerAutocomplete'
@@ -166,12 +167,13 @@ export default function CockpitPage() {
         onNavigate={setActiveLotById}
       />
 
-      <Breadcrumbs trail={[
-        { label: 'Veilinghuizen', to: '/' },
-        houseId && { label: houseName, to: `/houses/${houseId}` },
-        { label: collection.name, to: `/collections/${collectionId}` },
-        { label: 'Cockpit' },
-      ].filter(Boolean)} />
+      {/* Exit-knop terug naar de veiling-collectie. Vervangt de
+          breadcrumb-chain — sneller en minder ruimte op het werkscherm. */}
+      <div style={{ marginBottom: 'var(--space-3)' }}>
+        <Link to={`/collections/${collectionId}`} style={exitBtnStyle}>
+          ← Naar veiling
+        </Link>
+      </div>
 
       {/* Veiling-titel */}
       <h1 style={titleStyle}>{collection.name}</h1>
@@ -239,6 +241,7 @@ export default function CockpitPage() {
           lot={activeLot}
           collectionId={collectionId}
           houseId={houseId}
+          houseName={houseName}
           houseLogoUrl={collection.auction_houses?.logo_url}
           onlineBiddingEnabled={!!collection.online_bidding_enabled}
           interestedClients={interestedClients}
@@ -264,10 +267,14 @@ export default function CockpitPage() {
 }
 
 function ActiveLotPanel({
-  lot, collectionId, houseId, houseLogoUrl, onlineBiddingEnabled,
+  lot, collectionId, houseId, houseName, houseLogoUrl, onlineBiddingEnabled,
   interestedClients, purchasesByClient, allLots, spotters,
   onLotUpdated, onActiveLotChange,
 }) {
+  // Voorouder-tekstblokken (Père / 1ère / 2ème / 3ème / 4ème mère) komen
+  // momenteel alleen voor bij Fences-imports. Voor andere huizen renderen
+  // we ze niet in de cockpit-middenkolom.
+  const showAncestorTexts = (houseName || '').toLowerCase().includes('fences')
   const [activePhoto, setActivePhoto] = useState(0)
   const [photoOpen, setPhotoOpen] = useState(false)
 
@@ -363,13 +370,20 @@ function ActiveLotPanel({
                 damsdam:     { level: lot.damsdam_sport_level,     result: lot.damsdam_result },
                 damsdamsdam: { level: lot.damsdamsdam_sport_level, result: lot.damsdamsdam_result },
               }}
+              renderTexts={false}
             />
           </div>
         </div>
 
-        {/* Kolom 2 — Voorbereiding: Geïnteresseerden, Catalogustekst,
-            Mijn voorbereiding, EquiRatings */}
+        {/* Kolom 2 — Voorbereiding: voorouder-teksten (Fences), Geïnteresseerden,
+            Catalogustekst, Mijn voorbereiding, EquiRatings */}
         <div style={cockpitColStyle}>
+          {showAncestorTexts && (
+            <Card title="Voorouders">
+              <PedigreeTexts pedigree={lot.pedigree} lotId={lot.id} />
+            </Card>
+          )}
+
           <Card title="Geïnteresseerden">
             {interestedClients.length === 0 ? null : (
               <ul style={listStyle}>
@@ -978,6 +992,16 @@ const subtitleStyle = {
   color: 'var(--text-secondary)',
   marginTop: 0,
   marginBottom: 'var(--space-4)',
+}
+const exitBtnStyle = {
+  display: 'inline-flex', alignItems: 'center', gap: 4,
+  padding: '6px 12px',
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  textDecoration: 'none',
+  fontSize: '0.9em', fontWeight: 600,
 }
 const statusBarRowStyle = {
   display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',

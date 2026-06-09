@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 /**
  * PedigreeTree — 3-generatie bracket-tree.
  *
@@ -96,26 +98,38 @@ export default function PedigreeTree({ pedigree, annotations, editable }) {
  */
 function PedigreeTexts({ pedigree }) {
   const blocks = [
-    { label: 'Père',       node: pedigree?.sire },
-    { label: '1ère mère',  node: pedigree?.dam },
-    { label: '2ème mère',  node: nodeOf(pedigree?.dam?.dam) },
-    { label: '3ème mère',  node: nodeOf(pedigree?.dam?.dam?.dam) },
-    { label: '4ème mère',  node: nodeOf(pedigree?.dam?.dam?.dam?.dam) },
+    { key: 'sire',         label: 'Père',       node: pedigree?.sire },
+    { key: 'dam',          label: '1ère mère',  node: pedigree?.dam },
+    { key: 'damdam',       label: '2ème mère',  node: nodeOf(pedigree?.dam?.dam) },
+    { key: 'damdamdam',    label: '3ème mère',  node: nodeOf(pedigree?.dam?.dam?.dam) },
+    { key: 'damdamdamdam', label: '4ème mère',  node: nodeOf(pedigree?.dam?.dam?.dam?.dam) },
   ].filter((b) => b.node && typeof b.node === 'object' && b.node.text)
+
+  // Start ingeklapt — gebruiker klikt om een blok te openen.
+  const [open, setOpen] = useState({})
 
   if (blocks.length === 0) return null
 
   return (
     <div style={textsContainerStyle}>
-      {blocks.map(({ label, node }) => (
-        <div key={label} style={textBlockStyle}>
-          <div style={textHeaderStyle}>
-            <span style={textLabelStyle}>{label}</span>
-            <span style={textNameStyle}>{node.name}</span>
+      {blocks.map(({ key, label, node }) => {
+        const isOpen = !!open[key]
+        return (
+          <div key={key} style={textBlockStyle}>
+            <button
+              type="button"
+              onClick={() => setOpen((prev) => ({ ...prev, [key]: !prev[key] }))}
+              style={textHeaderBtnStyle}
+              aria-expanded={isOpen}
+            >
+              <span style={chevronStyle}>{isOpen ? '▾' : '▸'}</span>
+              <span style={textLabelStyle}>{label}</span>
+              <span style={textNameStyle}>{node.name}</span>
+            </button>
+            {isOpen && <p style={textBodyStyle}>{node.text}</p>}
           </div>
-          <p style={textBodyStyle}>{node.text}</p>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
@@ -124,6 +138,7 @@ function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
   const filled = name != null && String(name).trim().length > 0
   const showEdit = filled && edit
   const showNote = filled && !edit && note
+  const hasLevel = (showEdit && edit.level) || !!showNote
 
   function handleLevel(e) {
     const level = e.target.value || null
@@ -149,7 +164,10 @@ function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
         ),
       }}
     >
-      <span style={showEdit ? nameInlineStyle : (showNote ? nameLineStyle : undefined)}>
+      <span style={{
+        ...(showEdit ? nameInlineStyle : (showNote ? nameLineStyle : null)),
+        ...(hasLevel ? { fontWeight: 800, color: 'var(--accent)' } : null),
+      }}>
         {filled ? name : '—'}
       </span>
 
@@ -294,12 +312,28 @@ const textBlockStyle = {
   paddingLeft: 'var(--space-3)',
 }
 
-const textHeaderStyle = {
+const textHeaderBtnStyle = {
   display: 'flex',
   alignItems: 'baseline',
   gap: 8,
   marginBottom: 2,
   flexWrap: 'wrap',
+  background: 'none',
+  border: 0,
+  padding: 0,
+  cursor: 'pointer',
+  textAlign: 'left',
+  width: '100%',
+  color: 'inherit',
+  fontFamily: 'inherit',
+}
+
+const chevronStyle = {
+  display: 'inline-block',
+  width: 12,
+  fontSize: '0.75rem',
+  color: 'var(--text-muted)',
+  fontWeight: 600,
 }
 
 const textLabelStyle = {

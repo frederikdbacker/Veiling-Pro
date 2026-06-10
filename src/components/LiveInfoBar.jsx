@@ -27,12 +27,7 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
     <div style={barStyle}>
       {/* Alle navigatie + meta + lot-info samen op één rij (wrapt op smal scherm) */}
       <div style={singleRowStyle}>
-        {backTo && (
-          <Link to={backTo} style={backLinkStyle} title="Terug naar de veiling">
-            ← Naar veiling
-          </Link>
-        )}
-
+        {/* Uiterst links: lot-navigatie (prev / dropdown / next) */}
         {onNavigate && lot && (
           <button
             type="button"
@@ -97,9 +92,14 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
           </button>
         )}
 
-        {/* Titel + stats helemaal rechts, push via margin-left:auto */}
-        {(collectionTitle || stats) && (
+        {/* Rechts: 'Naar veiling' net voor de titel + stats */}
+        {(backTo || collectionTitle || stats) && (
           <div style={metaTailStyle}>
+            {backTo && (
+              <Link to={backTo} style={backLinkStyle} title="Terug naar de veiling">
+                ← Naar veiling
+              </Link>
+            )}
             {collectionTitle && (
               <strong style={collectionTitleStyle}>{collectionTitle}</strong>
             )}

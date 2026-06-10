@@ -409,7 +409,7 @@ function nameOf(node) {
 
 const treeStyle = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
+  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
   gridTemplateRows: 'repeat(8, minmax(26px, auto))',
   rowGap: 2,
   columnGap: 'var(--space-3)',

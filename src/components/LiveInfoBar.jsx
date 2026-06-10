@@ -25,36 +25,29 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
 
   return (
     <div style={barStyle}>
-      {/* Rij 1 — meta: terug-knop · veiling-titel · stats */}
-      <div style={metaRowStyle}>
+      {/* Alle navigatie + meta + lot-info samen op één rij (wrapt op smal scherm) */}
+      <div style={singleRowStyle}>
         {backTo && (
           <Link to={backTo} style={backLinkStyle} title="Terug naar de veiling">
             ← Naar veiling
           </Link>
         )}
-        {collectionTitle && (
-          <strong style={collectionTitleStyle}>{collectionTitle}</strong>
+
+        {onNavigate && lot && (
+          <button
+            type="button"
+            onClick={() => prevLot && onNavigate(prevLot.id)}
+            disabled={!prevLot}
+            style={navBtnStyle(!!prevLot)}
+            title={prevLot ? `← Vorig: #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
+            aria-label="Vorig lot"
+          >
+            ←
+          </button>
         )}
-        {stats && <div style={statsWrapStyle}>{stats}</div>}
-      </div>
 
-      {/* Rij 2 — lot: ← · lotnr + naam + pills · → */}
-      {lot && (
-        <div style={rowStyle}>
-          {onNavigate && (
-            <button
-              type="button"
-              onClick={() => prevLot && onNavigate(prevLot.id)}
-              disabled={!prevLot}
-              style={navBtnStyle(!!prevLot)}
-              title={prevLot ? `← Vorig: #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
-              aria-label="Vorig lot"
-            >
-              ←
-            </button>
-          )}
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.6rem', flex: 1, minWidth: 0 }}>
+        {lot && (
+          <div style={lotBlockStyle}>
             {lot.is_charity && (
               <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
                 🎁 CHARITY
@@ -89,21 +82,31 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
             {age && <Pill label="Leeftijd" value={age} />}
             {minBedrag && <Pill label="Min" value={minBedrag} />}
           </div>
+        )}
 
-          {onNavigate && (
-            <button
-              type="button"
-              onClick={() => nextLot && onNavigate(nextLot.id)}
-              disabled={!nextLot}
-              style={navBtnStyle(!!nextLot)}
-              title={nextLot ? `Volgend: #${nextLot.number ?? '—'} ${nextLot.name} →` : 'Einde van de lijst'}
-              aria-label="Volgend lot"
-            >
-              →
-            </button>
-          )}
-        </div>
-      )}
+        {onNavigate && lot && (
+          <button
+            type="button"
+            onClick={() => nextLot && onNavigate(nextLot.id)}
+            disabled={!nextLot}
+            style={navBtnStyle(!!nextLot)}
+            title={nextLot ? `Volgend: #${nextLot.number ?? '—'} ${nextLot.name} →` : 'Einde van de lijst'}
+            aria-label="Volgend lot"
+          >
+            →
+          </button>
+        )}
+
+        {/* Titel + stats helemaal rechts, push via margin-left:auto */}
+        {(collectionTitle || stats) && (
+          <div style={metaTailStyle}>
+            {collectionTitle && (
+              <strong style={collectionTitleStyle}>{collectionTitle}</strong>
+            )}
+            {stats && <div style={statsWrapStyle}>{stats}</div>}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -112,11 +115,19 @@ const rowStyle = {
   display: 'flex', alignItems: 'center', gap: 10,
 }
 
-const metaRowStyle = {
+const singleRowStyle = {
   display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-  paddingBottom: 6,
-  marginBottom: 6,
-  borderBottom: '1px solid var(--border-default)',
+}
+
+const lotBlockStyle = {
+  display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.6rem',
+  minWidth: 0,
+}
+
+const metaTailStyle = {
+  display: 'flex', alignItems: 'center', gap: 12,
+  marginLeft: 'auto',
+  flexWrap: 'wrap',
 }
 
 const collectionTitleStyle = {
@@ -127,7 +138,6 @@ const collectionTitleStyle = {
 }
 
 const statsWrapStyle = {
-  marginLeft: 'auto',
   display: 'inline-flex', alignItems: 'center',
   color: 'var(--text-secondary)',
   fontSize: '0.85rem',

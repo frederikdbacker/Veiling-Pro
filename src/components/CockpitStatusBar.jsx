@@ -4,9 +4,10 @@
  * gem. duur per lot en verwacht einduur, op basis van de huidige stand
  * van alle lots in deze veiling.
  */
-export default function CockpitStatusBar({ lots }) {
+export default function CockpitStatusBar({ lots, inline = false }) {
   const total = lots.length
   if (total === 0) return null
+  const sectionStyle = inline ? barStyleInline : barStyle
 
   const hammered = lots.filter((l) => l.time_hammer != null)
   const sold     = hammered.filter((l) => l.sold === true)
@@ -16,7 +17,7 @@ export default function CockpitStatusBar({ lots }) {
   // Empty state: nog niets gehamerd
   if (hammered.length === 0) {
     return (
-      <section style={barStyle}>
+      <section style={sectionStyle}>
         <strong>0/{total}</strong> gehamerd
         <span style={sepStyle}> · </span>
         <em style={{ color: 'var(--text-muted)' }}>nog geen verkopen</em>
@@ -89,7 +90,7 @@ export default function CockpitStatusBar({ lots }) {
   }
 
   return (
-    <section style={barStyle}>
+    <section style={sectionStyle}>
       {segments.map((seg, i) => (
         <span key={`wrap-${i}`}>
           {i > 0 && <span style={sepStyle}> · </span>}
@@ -125,6 +126,18 @@ const barStyle = {
   fontSize: '0.875rem',
   lineHeight: 1.5,
   color: 'var(--text-primary)',
+  fontVariantNumeric: 'tabular-nums',
+}
+
+const barStyleInline = {
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  margin: 0,
+  fontFamily: 'var(--font-mono)',
+  fontSize: '0.85rem',
+  lineHeight: 1.4,
+  color: 'var(--text-secondary)',
   fontVariantNumeric: 'tabular-nums',
 }
 

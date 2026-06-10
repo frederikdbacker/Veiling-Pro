@@ -166,31 +166,10 @@ export default function CockpitPage() {
         nextLot={nextLot}
         onNavigate={setActiveLotById}
         backTo={`/collections/${collectionId}`}
+        collectionTitle={collection.name}
+        stats={<CockpitStatusBar lots={allLots} inline />}
+        allLots={allLots}
       />
-
-      {/* Veiling-titel */}
-      <h1 style={titleStyle}>{collection.name}</h1>
-
-      {/* Statusbalk + Veiling-afgesloten in dezelfde rij */}
-      <div style={statusBarRowStyle}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <CockpitStatusBar lots={allLots} />
-        </div>
-        {allLots.length > 0 && allLots.every((l) => l.time_hammer != null) && (
-          <Link to={`/collections/${collectionId}/summary`} style={summaryBtnStyle}>
-            📊 Overzicht einde veiling →
-          </Link>
-        )}
-        {collection.status === 'afgesloten' ? (
-          <span style={{ ...summaryBtnStyle, background: 'var(--bg-elevated)', color: 'var(--success)', cursor: 'default' }}>
-            🏁 Veiling afgesloten
-          </span>
-        ) : (
-          <button onClick={() => setCloseModalOpen(true)} style={closeAuctionBtnStyle}>
-            🏁 Veiling afgesloten
-          </button>
-        )}
-      </div>
 
       {/* Spotters-strip — links → rechts zoals in de zaal opgesteld */}
       <SpottersStrip spotters={spotters} />
@@ -236,6 +215,9 @@ export default function CockpitPage() {
           houseId={houseId}
           houseName={houseName}
           houseLogoUrl={collection.auction_houses?.logo_url}
+          collectionStatus={collection.status}
+          onOpenCloseModal={() => setCloseModalOpen(true)}
+          showFinalSummaryLink={allLots.length > 0 && allLots.every((l) => l.time_hammer != null)}
           onlineBiddingEnabled={!!collection.online_bidding_enabled}
           interestedClients={interestedClients}
           purchasesByClient={purchasesByClient}
@@ -263,6 +245,7 @@ function ActiveLotPanel({
   lot, collectionId, houseId, houseName, houseLogoUrl, onlineBiddingEnabled,
   interestedClients, purchasesByClient, allLots, spotters,
   onLotUpdated, onActiveLotChange,
+  collectionStatus, onOpenCloseModal, showFinalSummaryLink,
 }) {
   // Voorouder-tekstblokken (Père / 1ère / 2ème / 3ème / 4ème mère) komen
   // momenteel alleen voor bij Fences-imports. Voor andere huizen renderen
@@ -498,6 +481,23 @@ function ActiveLotPanel({
           <Card title="Opmerkingen verkoop">
             <NoteField key={`notes_verkoop-${lot.id}`} lotId={lot.id} fieldName="notes_verkoop" initialValue={lot.notes_verkoop} compact />
           </Card>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {showFinalSummaryLink && (
+              <Link to={`/collections/${collectionId}/summary`} style={summaryBtnStyle}>
+                📊 Overzicht einde veiling →
+              </Link>
+            )}
+            {collectionStatus === 'afgesloten' ? (
+              <span style={{ ...summaryBtnStyle, background: 'var(--bg-elevated)', color: 'var(--success)', cursor: 'default', textAlign: 'center' }}>
+                🏁 Veiling afgesloten
+              </span>
+            ) : (
+              <button onClick={onOpenCloseModal} style={closeAuctionBtnStyle}>
+                🏁 Veiling afgesloten
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

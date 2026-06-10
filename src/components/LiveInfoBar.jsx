@@ -12,80 +12,138 @@ import { Link } from 'react-router-dom'
  * Props:
  *   lot   het actieve lot-object (nullable — toont placeholder dan)
  */
-export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo }) {
-  if (!lot) return null
-
-  const order  = lot.auction_order ?? lot.number ?? '—'
-  const showCatExtra = lot.auction_order != null && lot.number != null && lot.auction_order !== lot.number
-  const name   = lot.name ?? '—'
-  const age    = lot.year != null
+export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo, collectionTitle, stats, allLots }) {
+  const order  = lot?.auction_order ?? lot?.number ?? '—'
+  const showCatExtra = lot && lot.auction_order != null && lot.number != null && lot.auction_order !== lot.number
+  const name   = lot?.name ?? '—'
+  const age    = lot?.year != null
     ? Math.max(0, new Date().getFullYear() - lot.year) + ' jaar'
     : null
-  const minBedrag = lot.reserve_price != null
+  const minBedrag = lot?.reserve_price != null
     ? `€${formatNum(lot.reserve_price)}`
-    : (lot.start_price != null ? `€${formatNum(lot.start_price)}` : null)
-  const sire = lot.sire ?? lot.pedigree?.sire?.name ?? null
-  const damSire = lot.pedigree?.dam?.sire?.name ?? null
+    : (lot?.start_price != null ? `€${formatNum(lot.start_price)}` : null)
 
   return (
     <div style={barStyle}>
-      <div style={rowStyle}>
+      {/* Rij 1 — meta: terug-knop · veiling-titel · stats */}
+      <div style={metaRowStyle}>
         {backTo && (
           <Link to={backTo} style={backLinkStyle} title="Terug naar de veiling">
             ← Naar veiling
           </Link>
         )}
-        {onNavigate && (
-          <button
-            type="button"
-            onClick={() => prevLot && onNavigate(prevLot.id)}
-            disabled={!prevLot}
-            style={navBtnStyle(!!prevLot)}
-            title={prevLot ? `← Vorig: #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
-            aria-label="Vorig lot"
-          >
-            ←
-          </button>
+        {collectionTitle && (
+          <strong style={collectionTitleStyle}>{collectionTitle}</strong>
         )}
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.6rem', flex: 1, minWidth: 0 }}>
-          {lot.is_charity && (
-            <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
-              🎁 CHARITY
-            </span>
-          )}
-          <span style={lotnrStyle}>#{order}</span>
-          <strong style={nameStyle}>{name}</strong>
-          {showCatExtra && (
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-              (Cat. nr {lot.number})
-            </span>
-          )}
-          {age && <Pill label="Leeftijd" value={age} />}
-          {minBedrag && <Pill label="Min" value={minBedrag} />}
-          {sire && <Pill label="V." value={sire} />}
-          {damSire && <Pill label="M.V." value={damSire} />}
-        </div>
-
-        {onNavigate && (
-          <button
-            type="button"
-            onClick={() => nextLot && onNavigate(nextLot.id)}
-            disabled={!nextLot}
-            style={navBtnStyle(!!nextLot)}
-            title={nextLot ? `Volgend: #${nextLot.number ?? '—'} ${nextLot.name} →` : 'Einde van de lijst'}
-            aria-label="Volgend lot"
-          >
-            →
-          </button>
-        )}
+        {stats && <div style={statsWrapStyle}>{stats}</div>}
       </div>
+
+      {/* Rij 2 — lot: ← · lotnr + naam + pills · → */}
+      {lot && (
+        <div style={rowStyle}>
+          {onNavigate && (
+            <button
+              type="button"
+              onClick={() => prevLot && onNavigate(prevLot.id)}
+              disabled={!prevLot}
+              style={navBtnStyle(!!prevLot)}
+              title={prevLot ? `← Vorig: #${prevLot.number ?? '—'} ${prevLot.name}` : 'Begin van de lijst'}
+              aria-label="Vorig lot"
+            >
+              ←
+            </button>
+          )}
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.6rem', flex: 1, minWidth: 0 }}>
+            {lot.is_charity && (
+              <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
+                🎁 CHARITY
+              </span>
+            )}
+            <span style={lotnrStyle}>#{order}</span>
+            {allLots && allLots.length > 0 && onNavigate ? (
+              <select
+                value={lot.id}
+                onChange={(e) => onNavigate(e.target.value)}
+                style={lotSelectStyle}
+                aria-label="Spring naar ander lot"
+                title="Spring naar ander lot"
+              >
+                {allLots.map((l) => {
+                  const ord = l.auction_order ?? l.number
+                  return (
+                    <option key={l.id} value={l.id}>
+                      #{ord ?? '—'} {l.name}
+                    </option>
+                  )
+                })}
+              </select>
+            ) : (
+              <strong style={nameStyle}>{name}</strong>
+            )}
+            {showCatExtra && (
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                (Cat. nr {lot.number})
+              </span>
+            )}
+            {age && <Pill label="Leeftijd" value={age} />}
+            {minBedrag && <Pill label="Min" value={minBedrag} />}
+          </div>
+
+          {onNavigate && (
+            <button
+              type="button"
+              onClick={() => nextLot && onNavigate(nextLot.id)}
+              disabled={!nextLot}
+              style={navBtnStyle(!!nextLot)}
+              title={nextLot ? `Volgend: #${nextLot.number ?? '—'} ${nextLot.name} →` : 'Einde van de lijst'}
+              aria-label="Volgend lot"
+            >
+              →
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
 const rowStyle = {
   display: 'flex', alignItems: 'center', gap: 10,
+}
+
+const metaRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
+  paddingBottom: 6,
+  marginBottom: 6,
+  borderBottom: '1px solid var(--border-default)',
+}
+
+const collectionTitleStyle = {
+  color: 'var(--text-primary)',
+  fontSize: '0.95rem',
+  fontWeight: 700,
+  letterSpacing: '0.02em',
+}
+
+const statsWrapStyle = {
+  marginLeft: 'auto',
+  display: 'inline-flex', alignItems: 'center',
+  color: 'var(--text-secondary)',
+  fontSize: '0.85rem',
+}
+
+const lotSelectStyle = {
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  padding: '4px 8px',
+  fontFamily: 'inherit',
+  fontSize: '0.95rem',
+  fontWeight: 700,
+  cursor: 'pointer',
+  maxWidth: '420px',
 }
 
 const backLinkStyle = {

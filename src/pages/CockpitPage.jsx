@@ -251,6 +251,19 @@ function ActiveLotPanel({
   // momenteel alleen voor bij Fences-imports. Voor andere huizen renderen
   // we ze niet in de cockpit-middenkolom.
   const showAncestorTexts = (houseName || '').toLowerCase().includes('fences')
+
+  // Gedeelde bod-tracker state — zodat de sticky actie-strip onderaan
+  // dezelfde waarde toont als de tracker in de actie-kolom.
+  const [trackerAmount, setTrackerAmount] = useState(Number(lot.start_price) || 0)
+  const [trackerSpotterId, setTrackerSpotterId] = useState('')
+  useEffect(() => {
+    setTrackerAmount(Number(lot.start_price) || 0)
+    setTrackerSpotterId('')
+  }, [lot.id, lot.start_price])
+
+  // Signaal-counter: bij klik op Verkocht in de sticky strip verhogen
+  // we deze; CockpitControls opent de hamer-modal via useEffect.
+  const [openHamerSignal, setOpenHamerSignal] = useState(0)
   const [activePhoto, setActivePhoto] = useState(0)
   const [photoOpen, setPhotoOpen] = useState(false)
 
@@ -443,6 +456,10 @@ function ActiveLotPanel({
               lotTypeId={lot.lot_type_id}
               startPrice={lot.start_price}
               spotters={spotters}
+              amount={trackerAmount}
+              onAmountChange={setTrackerAmount}
+              spotterId={trackerSpotterId}
+              onSpotterIdChange={setTrackerSpotterId}
             />
 
             <div style={actionDividerStyle}>
@@ -454,6 +471,7 @@ function ActiveLotPanel({
                 spotters={spotters}
                 allLots={allLots}
                 onLotUpdated={onLotUpdated}
+                openHamerSignal={openHamerSignal}
               />
             </div>
 
@@ -501,6 +519,37 @@ function ActiveLotPanel({
         </div>
       </div>
 
+      {/* Sticky actie-strip onderaan — altijd zichtbaar tijdens scrollen.
+          Toont huidig bod uit de tracker + spotter + grote Verkocht-knop
+          die de hamer-modal in CockpitControls opent via een signaal. */}
+      {!lot.time_hammer && (
+        <div style={stickyActionStripStyle}>
+          <div style={stickyLotStyle}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+              #{lot.auction_order ?? lot.number ?? '—'}
+            </span>
+            <strong style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+              {lot.name}
+            </strong>
+          </div>
+          <div style={stickyAmountStyle} className="num">
+            €{Number(trackerAmount || 0).toLocaleString('nl-BE', { maximumFractionDigits: 0 })}
+          </div>
+          {trackerSpotterId && (
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>
+              {spotters.find((s) => s.id === trackerSpotterId)?.name ?? ''}
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={() => setOpenHamerSignal((s) => s + 1)}
+            style={stickyVerkochtBtnStyle}
+          >
+            ✓ VERKOCHT
+          </button>
+        </div>
+      )}
+
       {/* Fotomodal */}
       {photoOpen && photos.length > 0 && (
         <Modal onClose={() => setPhotoOpen(false)} maxWidth={720}>
@@ -542,7 +591,7 @@ function ActiveLotPanel({
   )
 }
 
-function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, spotters, allLots, onLotUpdated }) {
+function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, spotters, allLots, onLotUpdated, openHamerSignal }) {
   const [busy, setBusy] = useState(null)
   const [hamerOpen, setHamerOpen] = useState(false)
   const [outcome, setOutcome] = useState('zaal')
@@ -586,6 +635,13 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
     setBuyer({ client_id: null, name: '' })
     setSpotterId(lot.spotter_id ?? null)
   }
+
+  // Extern signaal vanaf de sticky actie-strip onderaan: parent verhoogt
+  // openHamerSignal als de gebruiker daar op 'Verkocht' klikt.
+  useEffect(() => {
+    if (openHamerSignal && openHamerSignal > 0 && !lot.time_hammer) openHamer()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openHamerSignal])
 
   async function resolveBuyer() {
     if (buyer.client_id) {
@@ -986,6 +1042,51 @@ const subtitleStyle = {
   marginTop: 0,
   marginBottom: 'var(--space-4)',
 }
+const stickyActionStripStyle = {
+  position: 'sticky',
+  bottom: 0,
+  zIndex: 60,
+  display: 'flex',
+  alignItems: 'center',
+  gap: 14,
+  padding: '10px 16px',
+  background: 'var(--bg-elevated)',
+  borderTop: '2px solid var(--accent)',
+  marginLeft: 'calc(-1 * var(--space-5))',
+  marginRight: 'calc(-1 * var(--space-5))',
+  paddingLeft: 'var(--space-5)',
+  paddingRight: 'var(--space-5)',
+  boxShadow: '0 -4px 16px rgba(0,0,0,0.5)',
+  flexWrap: 'wrap',
+}
+
+const stickyLotStyle = {
+  display: 'inline-flex', alignItems: 'baseline', gap: 8,
+  minWidth: 0,
+}
+
+const stickyAmountStyle = {
+  marginLeft: 'auto',
+  fontSize: '1.6rem', fontWeight: 800,
+  color: 'var(--text-primary)',
+  fontFamily: 'var(--font-mono)',
+  fontVariantNumeric: 'tabular-nums',
+}
+
+const stickyVerkochtBtnStyle = {
+  flexShrink: 0,
+  padding: '0.7rem 1.6rem',
+  background: 'var(--accent)',
+  color: 'var(--bg-base)',
+  border: 'none',
+  borderRadius: 'var(--radius-md)',
+  fontSize: '1.05rem', fontWeight: 800,
+  letterSpacing: '0.04em',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  minHeight: 48,
+}
+
 const exitBtnStyle = {
   display: 'inline-flex', alignItems: 'center', gap: 4,
   padding: '6px 12px',

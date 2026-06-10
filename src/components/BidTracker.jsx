@@ -10,13 +10,34 @@ import { sortByRangeFrom } from '../lib/bidSteps'
  * Bewust pure UI-state: niets wordt naar de DB geschreven. Bij wissel van
  * lot (lotId-prop) resetten we naar de startprijs van dat lot.
  */
-export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice, spotters = [] }) {
+export default function BidTracker({
+  lotId, collectionId, lotTypeId, startPrice, spotters = [],
+  amount: amountProp, onAmountChange,
+  spotterId: spotterIdProp, onSpotterIdChange,
+}) {
   const [rules, setRules] = useState([])
-  const [amount, setAmount] = useState(Number(startPrice) || 0)
+  const [amountInner, setAmountInner] = useState(Number(startPrice) || 0)
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
-  const [spotterId, setSpotterId] = useState('')
+  const [spotterIdInner, setSpotterIdInner] = useState('')
   const [log, setLog] = useState([])
+
+  // Geliftde state (via props) overrulet de interne. Hierdoor kan de
+  // sticky actie-strip onderaan het bedrag en de spotter delen.
+  const isControlledAmount = amountProp != null
+  const amount = isControlledAmount ? amountProp : amountInner
+  const setAmount = (next) => {
+    const v = typeof next === 'function' ? next(amount) : next
+    if (onAmountChange) onAmountChange(v)
+    if (!isControlledAmount) setAmountInner(v)
+  }
+
+  const isControlledSpotter = spotterIdProp != null
+  const spotterId = isControlledSpotter ? spotterIdProp : spotterIdInner
+  const setSpotterId = (v) => {
+    if (onSpotterIdChange) onSpotterIdChange(v)
+    if (!isControlledSpotter) setSpotterIdInner(v)
+  }
 
   // Reset bij nieuw lot
   useEffect(() => {
@@ -24,6 +45,7 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
     setEditing(false)
     setSpotterId('')
     setLog([])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lotId, startPrice])
 
   function logBid(newAmount) {

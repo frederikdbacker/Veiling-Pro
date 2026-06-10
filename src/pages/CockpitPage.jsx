@@ -1048,7 +1048,7 @@ const lotCardTwoColStyle = {
   //   3 - Bod-tracker + Verkocht-knop + prijzen + biedstappen + Opmerkingen verkoop
   // Op smal scherm stackt het naar 1 kolom (zie .cockpit-lot-card in index.css).
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-  gap: 'var(--space-4)',
+  gap: 'var(--space-6)',
   padding: 'var(--space-4)',
   background: 'var(--bg-surface)',
   border: '1px solid var(--border-default)',

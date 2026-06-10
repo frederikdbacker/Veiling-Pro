@@ -360,6 +360,10 @@ function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
       <span style={{
         ...(showEdit ? nameInlineStyle : (showNote ? nameLineStyle : null)),
         ...(hasLevel ? { fontWeight: 800, color: 'var(--accent)' } : null),
+        minWidth: 0,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
       }}>
         {filled ? name : '—'}
       </span>
@@ -422,6 +426,7 @@ const treeStyle = {
 
 const boxBaseStyle = {
   display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
+  minWidth: 0,
   padding: '4px 6px',
   fontSize: '0.78rem',
   letterSpacing: '0.04em',

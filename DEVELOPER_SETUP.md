@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Laatste update: 7 juni 2026 (Spotterveld-fix + verbeterbundel)**
 
 ---
 

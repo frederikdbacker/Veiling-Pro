@@ -30,7 +30,7 @@ export default function CollectionSummaryPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, is_charity, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
+          .select('id, number, is_charity, withdrawn, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -66,9 +66,12 @@ export default function CollectionSummaryPage() {
     return <section><p style={{ color: 'var(--text-muted)' }}>Collectie niet gevonden.</p></section>
   }
 
-  // Charity-lots tellen niet mee in omzetstatistieken (#6 uit roadmap)
-  const regularLots = lots.filter((l) => !l.is_charity)
-  const charityLots = lots.filter((l) => l.is_charity)
+  // Charity-lots én withdrawn-lots tellen niet mee in omzetstatistieken
+  // (#6 = charity, migratie 0027 = withdrawn). Withdrawn-lots krijgen
+  // hieronder een eigen sectie.
+  const regularLots  = lots.filter((l) => !l.is_charity && !l.withdrawn)
+  const charityLots  = lots.filter((l) => l.is_charity && !l.withdrawn)
+  const withdrawnLots = lots.filter((l) => l.withdrawn)
 
   const total = regularLots.length
   // hammered = enkel lots die een live hamerslag hebben gekregen (relevant
@@ -169,7 +172,8 @@ export default function CollectionSummaryPage() {
             isFinished={isFinished}
           />
           {groups.length > 1 && <PerType groups={groups} />}
-          <PerLot lots={lots} />
+          <PerLot lots={lots.filter((l) => !l.withdrawn)} />
+          {withdrawnLots.length > 0 && <WithdrawnSection lots={withdrawnLots} />}
         </>
       )}
     </section>
@@ -301,6 +305,41 @@ function PerLot({ lots }) {
               {lot.name}
             </Link>
             <LotResult lot={lot} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+function WithdrawnSection({ lots }) {
+  return (
+    <section style={blockStyle}>
+      <h2 style={blockHeadingStyle}>
+        Niet-deelnemend
+        <span style={{ color: 'var(--text-muted)', fontWeight: 'normal', fontSize: '0.85em', marginLeft: 8 }}>
+          ({lots.length})
+        </span>
+      </h2>
+      <p style={{ color: 'var(--text-muted)', fontSize: '0.9em', margin: '0.25rem 0 0.75rem 0' }}>
+        Deze lots zijn uitgesloten van de omzet- en gemiddelden-berekeningen.
+      </p>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        {lots.map((lot) => (
+          <li
+            key={lot.id}
+            style={{
+              padding: '0.45rem 0',
+              borderBottom: '1px solid var(--border-default)',
+              display: 'flex', alignItems: 'baseline', gap: '0.75rem',
+              color: 'var(--text-muted)',
+            }}
+          >
+            <span style={{ minWidth: '2.5em', fontFamily: 'var(--font-mono)' }}>#{lot.number ?? '—'}</span>
+            <Link to={`/lots/${lot.id}`} style={{ flex: 1, color: 'var(--text-secondary)', textDecoration: 'line-through' }}>
+              {lot.name}
+            </Link>
+            <span style={{ color: 'var(--danger)', fontSize: '0.85em' }}>🚫 trok zich terug</span>
           </li>
         ))}
       </ul>

@@ -5,11 +5,16 @@
  * van alle lots in deze veiling.
  */
 export default function CockpitStatusBar({ lots, inline = false }) {
-  const total = lots.length
+  // Withdrawn-lots (migratie 0027) tellen niet mee in totaal/voortgang —
+  // ze hoeven niet gehamerd te worden, dus moeten ook niet "ontbreken"
+  // in de X/N teller.
+  const active = lots.filter((l) => !l.withdrawn)
+  const withdrawnCount = lots.length - active.length
+  const total = active.length
   if (total === 0) return null
   const sectionStyle = inline ? barStyleInline : barStyle
 
-  const hammered = lots.filter((l) => l.time_hammer != null)
+  const hammered = active.filter((l) => l.time_hammer != null)
   const sold     = hammered.filter((l) => l.sold === true)
   const notSold  = hammered.filter((l) => l.sold === false)
   const remaining = total - hammered.length
@@ -87,6 +92,12 @@ export default function CockpitStatusBar({ lots, inline = false }) {
         <span key="end">einde ~<strong>{formatHhMm(new Date(expectedEndMs))}</strong></span>
       )
     }
+  }
+
+  if (withdrawnCount > 0) {
+    segments.push(
+      <span key="withdrawn" style={{ color: 'var(--text-muted)' }}>🚫 {withdrawnCount} niet-deeln.</span>
+    )
   }
 
   return (

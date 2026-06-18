@@ -47,7 +47,7 @@ export default function CollectionPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, withdrawn')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -269,7 +269,7 @@ export default function CollectionPage() {
       alert(`Fout bij volgorde-update: ${firstError.error.message}`)
       // herlaad lots om corrupte state te voorkomen
       const { data } = await supabase.from('lots')
-        .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
+        .select('id, number, auction_order, is_charity, withdrawn, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
         .eq('collection_id', collectionId)
       if (data) setLots(data)
     }
@@ -573,7 +573,7 @@ export default function CollectionPage() {
             // Reload lots zodat bijgewerkte start_prices in de UI staan
             const { data } = await supabase
               .from('lots')
-              .select('id, number, auction_order, is_charity, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
+              .select('id, number, auction_order, is_charity, withdrawn, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
               .eq('collection_id', collection.id)
               .order('number', { nullsFirst: false })
               .order('name')
@@ -785,6 +785,7 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
           display: 'flex', alignItems: 'center', gap: '1rem',
           padding: '0.75rem 0',
           textDecoration: 'none', color: 'var(--text-primary)',
+          opacity: lot.withdrawn ? 0.55 : 1,
         }}
       >
         <Thumb src={lot.photos?.[0]} alt={lot.name} />
@@ -795,10 +796,15 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
                 🎁 CHARITY
               </span>
             )}
+            {lot.withdrawn && (
+              <span style={{ background: 'var(--danger)', color: '#fff', fontSize: '0.7em', padding: '1px 6px', borderRadius: 'var(--radius-sm)', marginRight: 6, fontWeight: 700, letterSpacing: '0.05em' }}>
+                🚫 NIET DEELN.
+              </span>
+            )}
             <span style={{ color: 'var(--text-muted)', marginRight: '0.5em' }}>
               #{order ?? '—'}
             </span>
-            {lot.name}
+            <span style={lot.withdrawn ? { textDecoration: 'line-through' } : undefined}>{lot.name}</span>
             {showCatExtra && (
               <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.85em', marginLeft: 8 }}>
                 (Cat. nr {lot.number})

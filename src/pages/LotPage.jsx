@@ -35,6 +35,18 @@ export default function LotPage() {
     if (error) setSportSaveError(error.message)
   }
 
+  // Toggle "trekt zich terug uit veiling" (migratie 0027). Optimistisch.
+  async function toggleWithdrawn() {
+    const next = !lot.withdrawn
+    setLot((prev) => ({ ...prev, withdrawn: next }))
+    const { error } = await supabase.from('lots').update({ withdrawn: next }).eq('id', lotId)
+    if (error) {
+      // Rollback bij fout
+      setLot((prev) => ({ ...prev, withdrawn: !next }))
+      alert(`Kon niet opslaan: ${error.message}`)
+    }
+  }
+
   useEffect(() => {
     setLot(null)
     setCollection(null)
@@ -130,6 +142,16 @@ export default function LotPage() {
         collection && { label: collection.name, to: `/collections/${collection.id}` },
         { label: lot.name },
       ].filter(Boolean)} />
+
+      {/* Withdrawn-banner — bovenaan, krijgt voorrang op missing-info */}
+      {lot.withdrawn && (
+        <div style={withdrawnBannerStyle} role="status">
+          <span>🚫 <strong>Dit lot neemt niet deel aan de veiling.</strong></span>
+          <button type="button" onClick={toggleWithdrawn} style={withdrawnUndoBtnStyle}>
+            ↩ Laat alsnog deelnemen
+          </button>
+        </div>
+      )}
 
       {/* Missing info banner */}
       {hasMissing(lot.missing_info) && (
@@ -308,6 +330,15 @@ export default function LotPage() {
         {lot.sold === false && (
           <div style={notSoldStyle}>
             ⊘ Niet verkocht{lot.sale_price != null ? ` (hoogste bod €${Number(lot.sale_price).toLocaleString('nl-BE')})` : ''}
+          </div>
+        )}
+        {/* Withdrawn-toggle — alleen tonen als het lot deelneemt; de
+            undo-knop staat in de banner bovenaan zodra het withdrawn is. */}
+        {!lot.withdrawn && (
+          <div style={{ marginTop: 'var(--space-3)' }}>
+            <button type="button" onClick={toggleWithdrawn} style={withdrawnToggleBtnStyle}>
+              🚫 Markeer als niet-deelnemend
+            </button>
           </div>
         )}
       </Block>
@@ -542,6 +573,39 @@ const missingBannerStyle = {
   marginBottom: 'var(--space-4)',
   fontSize: '0.9em',
   color: 'var(--warning)',
+}
+const withdrawnBannerStyle = {
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--danger)',
+  borderRadius: 'var(--radius-md)',
+  padding: 'var(--space-3) var(--space-4)',
+  marginBottom: 'var(--space-4)',
+  fontSize: '0.95em',
+  color: 'var(--danger)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 'var(--space-3)',
+  flexWrap: 'wrap',
+}
+const withdrawnUndoBtnStyle = {
+  border: '1px solid var(--danger)',
+  background: 'transparent',
+  color: 'var(--danger)',
+  padding: '6px 12px',
+  borderRadius: 'var(--radius-sm)',
+  fontWeight: 600,
+  fontSize: '0.9em',
+  cursor: 'pointer',
+}
+const withdrawnToggleBtnStyle = {
+  border: '1px solid var(--border-default)',
+  background: 'transparent',
+  color: 'var(--text-secondary)',
+  padding: '6px 12px',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.9em',
+  cursor: 'pointer',
 }
 const headerRowStyle = {
   display: 'flex', gap: 'var(--space-4)', alignItems: 'center',

@@ -65,7 +65,7 @@ export default function CockpitPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, auction_order, is_charity, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
+          .select('id, number, auction_order, is_charity, withdrawn, name, year, gender, studbook, size, stallion_approved, sold, sale_price, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_types(name_nl)')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -149,12 +149,20 @@ export default function CockpitPage() {
   const houseName = collection.auction_houses?.name
 
   // Vorig/volgend lot — gebruikt in de picker-balk om snel door de
-  // gesorteerde lijst te schuiven.
+  // gesorteerde lijst te schuiven. Withdrawn-lots (migratie 0027) worden
+  // overgeslagen: tijdens de live veiling wil je doorklikken naar het
+  // volgende dat ook écht in de piste komt.
   const activeIdx = activeLot ? allLots.findIndex((l) => l.id === activeLot.id) : -1
-  const prevLot = activeIdx > 0 ? allLots[activeIdx - 1] : null
-  const nextLot = activeIdx >= 0 && activeIdx < allLots.length - 1
-    ? allLots[activeIdx + 1]
-    : null
+  let prevLot = null
+  for (let i = activeIdx - 1; i >= 0; i--) {
+    if (!allLots[i].withdrawn) { prevLot = allLots[i]; break }
+  }
+  let nextLot = null
+  if (activeIdx >= 0) {
+    for (let i = activeIdx + 1; i < allLots.length; i++) {
+      if (!allLots[i].withdrawn) { nextLot = allLots[i]; break }
+    }
+  }
 
   return (
     <section>
@@ -217,7 +225,7 @@ export default function CockpitPage() {
           houseLogoUrl={collection.auction_houses?.logo_url}
           collectionStatus={collection.status}
           onOpenCloseModal={() => setCloseModalOpen(true)}
-          showFinalSummaryLink={allLots.length > 0 && allLots.every((l) => l.time_hammer != null)}
+          showFinalSummaryLink={allLots.length > 0 && allLots.every((l) => l.withdrawn || l.time_hammer != null)}
           onlineBiddingEnabled={!!collection.online_bidding_enabled}
           interestedClients={interestedClients}
           purchasesByClient={purchasesByClient}
@@ -560,6 +568,24 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
   }, [lot.id])
 
   const hammered = lot.time_hammer != null
+  const withdrawn = !!lot.withdrawn
+
+  // Toggle "neemt niet deel" (migratie 0027). Optimistisch — bij fout
+  // gooit Supabase een melding en wordt de state via onLotUpdated
+  // niet bijgewerkt.
+  async function toggleWithdrawn() {
+    const next = !withdrawn
+    setBusy('withdraw')
+    const { data, error } = await supabase
+      .from('lots')
+      .update({ withdrawn: next })
+      .eq('id', lot.id)
+      .select('*, lot_types(name_nl)')
+      .single()
+    setBusy(null)
+    if (error) { alert(`Fout: ${error.message}`); return }
+    if (data) onLotUpdated(data)
+  }
 
   /**
    * Bereken duur op basis van vorige hamer (#23 uit roadmap).
@@ -670,16 +696,36 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
         </div>
       )}
 
-      {/* Eén grote VERKOCHT-knop (#23 uit roadmap) */}
+      {/* Withdrawn-banner — toont prominent bij niet-deelnemend lot */}
+      {withdrawn && (
+        <div style={{ ...timersStyle, color: 'var(--danger)', fontWeight: 700 }}>
+          🚫 Neemt niet deel aan deze veiling
+        </div>
+      )}
+
+      {/* Eén grote VERKOCHT-knop (#23 uit roadmap) + Niet-deelnemend toggle */}
       <div style={controlsRowStyle}>
         <button
           type="button"
           onClick={openHamer}
-          disabled={hammered || busy === 'hamer-form'}
-          style={hammered ? doneBtnStyle : verkochtBtnStyle}
+          disabled={hammered || withdrawn || busy === 'hamer-form'}
+          style={hammered || withdrawn ? doneBtnStyle : verkochtBtnStyle}
         >
-          {hammered ? '✓ Afgehandeld' : (busy === 'hamer-form' ? '…' : 'VERKOCHT')}
+          {hammered ? '✓ Afgehandeld' : withdrawn ? '🚫 Niet deelnemend' : (busy === 'hamer-form' ? '…' : 'VERKOCHT')}
         </button>
+        {!hammered && (
+          <button
+            type="button"
+            onClick={toggleWithdrawn}
+            disabled={busy === 'withdraw'}
+            style={withdrawn ? withdrawUndoBtnStyle : withdrawBtnStyle}
+            title={withdrawn
+              ? 'Laat het lot alsnog deelnemen aan de veiling'
+              : 'Markeer dit lot als niet-deelnemend (bv. uitgevallen)'}
+          >
+            {busy === 'withdraw' ? '…' : (withdrawn ? '↩ Toch deelnemen' : '🚫 Niet deelnemend')}
+          </button>
+        )}
       </div>
 
       {/* Hamer-modal — fixed-positioned, geen invloed op de DOM-tree */}
@@ -1193,6 +1239,23 @@ const doneBtnStyle = {
   borderRadius: 'var(--radius-md)',
   cursor: 'default',
   fontFamily: 'inherit',
+}
+const withdrawBtnStyle = {
+  padding: '14px 16px',
+  fontSize: '0.9rem',
+  fontWeight: 600,
+  background: 'transparent',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  whiteSpace: 'nowrap',
+}
+const withdrawUndoBtnStyle = {
+  ...withdrawBtnStyle,
+  color: 'var(--danger)',
+  borderColor: 'var(--danger)',
 }
 const detailsStyle = {
   background: 'var(--bg-surface)',

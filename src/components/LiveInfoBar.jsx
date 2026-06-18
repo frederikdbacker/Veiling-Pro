@@ -59,9 +59,10 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
               >
                 {allLots.map((l) => {
                   const ord = l.auction_order ?? l.number
+                  const mark = l.withdrawn ? ' 🚫' : ''
                   return (
                     <option key={l.id} value={l.id}>
-                      #{ord ?? '—'} {l.name}
+                      #{ord ?? '—'} {l.name}{mark}
                     </option>
                   )
                 })}

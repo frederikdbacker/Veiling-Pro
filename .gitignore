@@ -13,3 +13,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Claude Code — persoonlijke overrides per Mac (team-instellingen
+# zitten in .claude/settings.json en worden wel gecommit).
+.claude/settings.local.json

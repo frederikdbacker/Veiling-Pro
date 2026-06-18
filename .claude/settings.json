@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bin/sync.sh pull",
+            "timeout": 30,
+            "statusMessage": "↓ Sync met GitHub (bin/sync.sh pull)…"
+          }
+        ]
+      }
+    ]
+  }
+}

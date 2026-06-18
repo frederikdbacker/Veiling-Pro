@@ -1,0 +1,198 @@
+{
+  "_note": "Per slug de gestructureerde 3-generatie pedigree-tree voor Schuttert Sport Sales 2026. Bron: screenshots van HorseTelex aangeleverd door Frederik op 2026-06-18. Wordt door scripts/import-schuttert-pedigree.mjs in lots.pedigree geschreven.",
+
+  "1-practically-perfect": {
+    "sire": {
+      "name": "Comthago VDL",
+      "sire": { "name": "Comme Il Faut", "sire": "Cornet Obolensky", "dam": "Ratina Z" },
+      "dam":  { "name": "Nastasia V",    "sire": "Carthago",         "dam": "Joyce I" }
+    },
+    "dam": {
+      "name": "Violet G",
+      "sire": { "name": "Heartbreaker", "sire": "Nimmerdor",   "dam": "Bacarole" },
+      "dam":  { "name": "Jercey",       "sire": "Raueck II B", "dam": "Flora" }
+    }
+  },
+
+  "2-pedrosilithy": {
+    "sire": {
+      "name": "Dakar VDL",
+      "sire": { "name": "Cardento", "sire": "Capitol I", "dam": "B-Estelle" },
+      "dam":  { "name": "Nisolde",  "sire": "Nimmerdor", "dam": "Isolde" }
+    },
+    "dam": {
+      "name": "Hilda",
+      "sire": { "name": "Chello III", "sire": "Contender", "dam": "Gracia III" },
+      "dam":  { "name": "A.Silithy",  "sire": "Sydney",    "dam": "O.Silithy" }
+    }
+  },
+
+  "3-parfait-amour-x": {
+    "sire": {
+      "name": "Comme Il Faut",
+      "sire": { "name": "Cornet Obolensky", "sire": "Clinton",   "dam": "Rabanna van Costersveld" },
+      "dam":  { "name": "Ratina Z",         "sire": "Ramiro Z",  "dam": "Argentina Z" }
+    },
+    "dam": {
+      "name": "Diona",
+      "sire": { "name": "Verdi TN", "sire": "Quidam de Revel", "dam": "Clarissa" },
+      "dam":  { "name": "Hiona",    "sire": "Creool",          "dam": "Riona" }
+    }
+  },
+
+  "4-rambo": {
+    "sire": {
+      "name": "Kitt SB",
+      "sire": { "name": "Emir R",        "sire": "Colman", "dam": "B.Termie R 23" },
+      "dam":  { "name": "G.Rubertha R3", "sire": "Sam R",  "dam": "N.Ruberth 14" }
+    },
+    "dam": {
+      "name": "Donja",
+      "sire": { "name": "Tolan R",  "sire": "Namelus R", "dam": "O.Termie 19" },
+      "dam":  { "name": "Mistral",  "sire": "Derrick",   "dam": "Hannalies" }
+    }
+  },
+
+  "5-rapide": {
+    "sire": {
+      "name": "El Barone 111 Z",
+      "sire": { "name": "Emerald van 't Ruytershof", "sire": "Diamant de Semilly", "dam": "Carthina Z" },
+      "dam":  { "name": "Naktibro",                  "sire": "Libero H",           "dam": "Fanakta" }
+    },
+    "dam": {
+      "name": "A.Fastrade",
+      "sire": { "name": "Canabis Z", "sire": "Contender", "dam": "Eileen III" },
+      "dam":  { "name": "Gaya 010",  "sire": "Voltaire",  "dam": "S.Fastrade" }
+    }
+  },
+
+  "6-hell-boy-as-red-wine": {
+    "sire": {
+      "name": "Liamant W",
+      "sire": { "name": "Diamant de Semilly", "sire": "Le Tot de Semilly", "dam": "Venise des Cresles" },
+      "dam":  { "name": "Zarina III",         "sire": "Heartbreaker",      "dam": "Uarina" }
+    },
+    "dam": {
+      "name": "Holiday Inn",
+      "sire": { "name": "Hickstead", "sire": "Hamlet",   "dam": "Jomara" },
+      "dam":  { "name": "Hana",      "sire": "Cantanis", "dam": "Hangana" }
+    }
+  },
+
+  "7-wonder-woman": {
+    "sire": {
+      "name": "Grandorado TN N.O.P.",
+      "sire": { "name": "Eldorado van de Zeshoek TN", "sire": "Clinton",    "dam": "Bijou Orai" },
+      "dam":  { "name": "Mom's Charmieque",           "sire": "Carolus II", "dam": "Termieque" }
+    },
+    "dam": {
+      "name": "Cute Girl Z",
+      "sire": { "name": "Comme Il Faut",                    "sire": "Cornet Obolensky", "dam": "Ratina Z" },
+      "dam":  { "name": "Pretty Woman van 't Paradijs NOP", "sire": "Vigo d'Arsouilles", "dam": "Sea Coast Monalisa van 't Paradijs" }
+    }
+  },
+
+  "8-wibo-van-de-crumelhaeve": {
+    "sire": {
+      "name": "Bacardi VDL",
+      "sire": { "name": "Corland",  "sire": "Cor de la Bryere", "dam": "Thyra" },
+      "dam":  { "name": "Supardi",  "sire": "Kannan GFE",       "dam": "Gupardie" }
+    },
+    "dam": {
+      "name": "Sunny Termie van de Crumelhaeve",
+      "sire": { "name": "Conthargos",     "sire": "Converter I", "dam": "Cajandra Z" },
+      "dam":  { "name": "B.Termie R 23",  "sire": "Rubert R",    "dam": "T.Termie 21" }
+    }
+  },
+
+  "9-wabulu-girl-w": {
+    "sire": {
+      "name": "Balou du Reventon",
+      "sire": { "name": "Cornet Obolensky", "sire": "Clinton",  "dam": "Rabanna van Costersveld" },
+      "dam":  { "name": "Georgia",          "sire": "Continue", "dam": "Georgette II" }
+    },
+    "dam": {
+      "name": "Jolly-Girl van 't Roosakker",
+      "sire": { "name": "Kashmir van Schuttershof", "sire": "Nabab de Reve", "dam": "Fines van Kameren" },
+      "dam":  { "name": "Electra van 't Roosakker", "sire": "Carthago",      "dam": "Atoucha van 't Roosakker" }
+    }
+  },
+
+  "10-cocolottie-w-z": {
+    "sire": {
+      "name": "Colestus",
+      "sire": { "name": "Cornet Obolensky", "sire": "Clinton",  "dam": "Rabanna van Costersveld" },
+      "dam":  { "name": "Spice Girl R",     "sire": "Stakkato", "dam": "Pepita" }
+    },
+    "dam": {
+      "name": "Novalottie W",
+      "sire": { "name": "Verdi TN",       "sire": "Quidam de Revel", "dam": "Clarissa" },
+      "dam":  { "name": "Oklahoma II W",  "sire": "Libero H",        "dam": "Elottie W" }
+    }
+  },
+
+  "11-camilla-vb": {
+    "sire": {
+      "name": "Corydon van T&L",
+      "sire": { "name": "Cornado I",    "sire": "Cornet Obolensky", "dam": "Acobata" },
+      "dam":  { "name": "Chaccos-Lued", "sire": "Chacco-Blue",      "dam": "Lancley" }
+    },
+    "dam": {
+      "name": "Emmeralda de Zélande Z",
+      "sire": { "name": "Emerald van 't Ruytershof", "sire": "Diamant de Semilly", "dam": "Carthina Z" },
+      "dam":  { "name": "Balou de Regor DM Z",       "sire": "Balou du Rouet",     "dam": "Ohaj de Regor" }
+    }
+  },
+
+  "12-walking-on-a-dream-reuvekamps": {
+    "sire": {
+      "name": "Drummer 2000 TN Z",
+      "sire": { "name": "Diamant de Semilly", "sire": "Le Tot de Semilly", "dam": "Venise des Cresles" },
+      "dam":  { "name": "China Touch Hero",   "sire": "Chin Chin",         "dam": "Laska III" }
+    },
+    "dam": {
+      "name": "Qui Vive ter Saleghem",
+      "sire": { "name": "Tinka's Boy",          "sire": "Zuidpool",      "dam": "Esprit" },
+      "dam":  { "name": "Kallgirl de la Pomme", "sire": "Nabab de Reve", "dam": "Cordula de Laubry" }
+    }
+  },
+
+  "13-epidote-rd-z": {
+    "sire": {
+      "name": "Emerald van 't Ruytershof",
+      "sire": { "name": "Diamant de Semilly", "sire": "Le Tot de Semilly", "dam": "Venise des Cresles" },
+      "dam":  { "name": "Carthina Z",         "sire": "Carthago",          "dam": "Tanagra 'S' van het Darohof" }
+    },
+    "dam": {
+      "name": "C'est Une Rose R&D Z",
+      "sire": { "name": "Chacco-Blue",            "sire": "Chambertin",         "dam": "Contara" },
+      "dam":  { "name": "Korona van 't Hoogeinde", "sire": "Echo van 't Spieveld", "dam": "Mom's Geena van 't Roosakker" }
+    }
+  },
+
+  "14-without-a-doubt": {
+    "sire": {
+      "name": "VDL Mattias",
+      "sire": { "name": "Comme Il Faut", "sire": "Cornet Obolensky", "dam": "Ratina Z" },
+      "dam":  { "name": "Ietrichta",     "sire": "Catoki",           "dam": "Sweet Tricia" }
+    },
+    "dam": {
+      "name": "Nina",
+      "sire": { "name": "Thunder van de Zuuthoeve", "sire": "Argentinus", "dam": "Jura van St. Maarten" },
+      "dam":  { "name": "Rina",                     "sire": "Indorado",   "dam": "Lina" }
+    }
+  },
+
+  "15-touch-of-tiger-z": {
+    "sire": {
+      "name": "Tiger van 't Ruytershof",
+      "sire": { "name": "Chacfly PS",              "sire": "Chacco-Blue",   "dam": "Shentara" },
+      "dam":  { "name": "Pearl van 't Ruytershof", "sire": "Comme Il Faut", "dam": "Gianthina van 't Ruytershof" }
+    },
+    "dam": {
+      "name": "Dina B",
+      "sire": { "name": "Tangelo van de Zuuthoeve", "sire": "Narcos II",  "dam": "Olympia van de Krekebeke" },
+      "dam":  { "name": "Tina B",                   "sire": "Manhattan",  "dam": "Summertime" }
+    }
+  }
+}

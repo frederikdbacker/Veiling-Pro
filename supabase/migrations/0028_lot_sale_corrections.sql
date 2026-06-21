@@ -1,4 +1,4 @@
--- Migratie 0026: audit-spoor voor correcties op een al-verkocht lot.
+-- Migratie 0028: audit-spoor voor correcties op een al-verkocht lot.
 --
 -- Een eerder verkocht lot moet achteraf corrigeerbaar zijn qua prijs, koper en
 -- spotter. Voorkeur = géén stille overschrijving: de actuele waarde blijft in

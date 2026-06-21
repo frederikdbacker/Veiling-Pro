@@ -3,7 +3,7 @@
 ## Deel 1: verkocht-voorinvulling, audit-correcties en inline pedigree-edit
 
 **Resultaat:** gemerged in `main` (PR #12, commit `c4e8a6b`), live op productie
-(https://veiling-pro.vercel.app). Migratie 0026 (`lot_sale_corrections`) staat
+(https://veiling-pro.vercel.app). Migratie 0028 (`lot_sale_corrections`) staat
 additief op productie (leeg). Deel 2 (sticky balk, cockpit-volgorde,
 bod-tracker-bediening) komt op een verse branch van `main`.
 
@@ -126,7 +126,7 @@ afviel), niet het stap-voor-stap verloop.
 
 - **Git op de Mac mini** staat nu op **SSH** (`git@github.com:…`) i.p.v. HTTPS:
   via SSH is er geen keychain nodig, dus de mini kan voortaan token-vrij pushen.
-- **Migratie 0026** is additief en al toegepast op productie; code en DB staan
+- **Migratie 0028** is additief en al toegepast op productie; code en DB staan
   los van elkaar (de merge raakt de DB niet).
 
 ## Verificatie (uitgevoerd)

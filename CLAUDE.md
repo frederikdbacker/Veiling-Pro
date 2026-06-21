@@ -33,3 +33,8 @@ bestand: de drie docs zijn leidend.
    feature-branch; commits/push enkel op vraag; commitberichten in het NL.
 7. Schema: live-DB gebruikt `collections`/`collection_id`,
    `lots.lot_type_id` is verplicht (`import-lots.mjs` leidt dat af).
+8. **Audit-spoor is onuitwisbaar.** Correctie-rijen (bv.
+   `lot_sale_corrections`) worden bij een echte fout **nooit gewist of
+   overschreven** — een verkeerde correctie wordt **tegen-geboekt** met een
+   nieuwe correctie-rij (oud → nieuw). Enkel zuivere testdata mag opgeruimd
+   worden, en dan expliciet als zodanig benoemd.

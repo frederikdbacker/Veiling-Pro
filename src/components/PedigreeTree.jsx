@@ -29,8 +29,12 @@ const LEVELS = [
 const RESULTS = ['Placed', 'Winner']
 
 export default function PedigreeTree({ pedigree, annotations, editable, lotId, renderTexts = true }) {
-  const empty = !pedigree
-    || (!pedigree.sire && !pedigree.dam)
+  // Lokale kopie zodat naam-correcties optimistisch zichtbaar zijn vóór de
+  // DB-write klaar is.
+  const [ped, setPed] = useState(pedigree)
+  useEffect(() => { setPed(pedigree) }, [pedigree])
+
+  const empty = !ped || (!ped.sire && !ped.dam)
 
   if (empty) {
     return (
@@ -40,8 +44,8 @@ export default function PedigreeTree({ pedigree, annotations, editable, lotId, r
     )
   }
 
-  const sire     = pedigree.sire ?? null
-  const dam      = pedigree.dam  ?? null
+  const sire     = ped.sire ?? null
+  const dam      = ped.dam  ?? null
   const sireSire = nodeOf(sire?.sire)
   const sireDam  = nodeOf(sire?.dam)
   const damSire  = nodeOf(dam?.sire)
@@ -57,38 +61,55 @@ export default function PedigreeTree({ pedigree, annotations, editable, lotId, r
       }
     : null
 
+  // Naam van een voorouder-vakje corrigeren (Fences-stamboom). Klik-om-te-
+  // bewerken; namen dragen geen markeringen dus er kan niets verschuiven.
+  // Read-modify-write (geserialiseerd per lot) zodat enkel de bewerkte knoop
+  // verandert en snelle saves elkaar niet overschrijven.
+  async function saveName(path, newName) {
+    const value = newName.trim()
+    const mutate = (p) => setNameAtPath(p, path, value)
+    const localNext = mutate(ped)
+    setPed(localNext)
+    await persistPedigree(lotId, localNext, mutate)
+  }
+  // Naam-bewerking enkel aanbieden als we het lot kennen (kunnen opslaan).
+  const nameEditFor = (path) => (lotId ? { path, onSave: saveName } : null)
+
   return (
     <>
       <div className="pedigree-scroll">
       <div style={treeStyle}>
         {/* Kolom 1 — ouders, elk span 4 */}
-        <Box name={nameOf(sire)} kind="sire" gridRow="1 / span 4" />
+        <Box name={nameOf(sire)} kind="sire" gridRow="1 / span 4" nameEdit={nameEditFor(['sire'])} />
         <Box name={nameOf(dam)}  kind="dam"  gridRow="5 / span 4"
              note={noteText(annotations?.dam)}
+             nameEdit={nameEditFor(['dam'])}
              edit={editFor('dam_sport_level', 'dam_result')} />
 
         {/* Kolom 2 — grootouders, elk span 2 */}
-        <Box name={nameOf(sireSire)} kind="sire" gridRow="1 / span 2" gridCol={2} />
-        <Box name={nameOf(sireDam)}  kind="dam"  gridRow="3 / span 2" gridCol={2} />
-        <Box name={nameOf(damSire)}  kind="sire" gridRow="5 / span 2" gridCol={2} />
+        <Box name={nameOf(sireSire)} kind="sire" gridRow="1 / span 2" gridCol={2} nameEdit={nameEditFor(['sire', 'sire'])} />
+        <Box name={nameOf(sireDam)}  kind="dam"  gridRow="3 / span 2" gridCol={2} nameEdit={nameEditFor(['sire', 'dam'])} />
+        <Box name={nameOf(damSire)}  kind="sire" gridRow="5 / span 2" gridCol={2} nameEdit={nameEditFor(['dam', 'sire'])} />
         <Box name={nameOf(damDam)}   kind="dam"  gridRow="7 / span 2" gridCol={2}
              note={noteText(annotations?.damsdam)}
+             nameEdit={nameEditFor(['dam', 'dam'])}
              edit={editFor('damsdam_sport_level', 'damsdam_result')} />
 
         {/* Kolom 3 — overgrootouders, elk 1 rij */}
-        <Box name={nameOf(sireSire?.sire)} kind="sire" gridRow="1 / span 1" gridCol={3} />
-        <Box name={nameOf(sireSire?.dam)}  kind="dam"  gridRow="2 / span 1" gridCol={3} />
-        <Box name={nameOf(sireDam?.sire)}  kind="sire" gridRow="3 / span 1" gridCol={3} />
-        <Box name={nameOf(sireDam?.dam)}   kind="dam"  gridRow="4 / span 1" gridCol={3} />
-        <Box name={nameOf(damSire?.sire)}  kind="sire" gridRow="5 / span 1" gridCol={3} />
-        <Box name={nameOf(damSire?.dam)}   kind="dam"  gridRow="6 / span 1" gridCol={3} />
-        <Box name={nameOf(damDam?.sire)}   kind="sire" gridRow="7 / span 1" gridCol={3} />
+        <Box name={nameOf(sireSire?.sire)} kind="sire" gridRow="1 / span 1" gridCol={3} nameEdit={nameEditFor(['sire', 'sire', 'sire'])} />
+        <Box name={nameOf(sireSire?.dam)}  kind="dam"  gridRow="2 / span 1" gridCol={3} nameEdit={nameEditFor(['sire', 'sire', 'dam'])} />
+        <Box name={nameOf(sireDam?.sire)}  kind="sire" gridRow="3 / span 1" gridCol={3} nameEdit={nameEditFor(['sire', 'dam', 'sire'])} />
+        <Box name={nameOf(sireDam?.dam)}   kind="dam"  gridRow="4 / span 1" gridCol={3} nameEdit={nameEditFor(['sire', 'dam', 'dam'])} />
+        <Box name={nameOf(damSire?.sire)}  kind="sire" gridRow="5 / span 1" gridCol={3} nameEdit={nameEditFor(['dam', 'sire', 'sire'])} />
+        <Box name={nameOf(damSire?.dam)}   kind="dam"  gridRow="6 / span 1" gridCol={3} nameEdit={nameEditFor(['dam', 'sire', 'dam'])} />
+        <Box name={nameOf(damDam?.sire)}   kind="sire" gridRow="7 / span 1" gridCol={3} nameEdit={nameEditFor(['dam', 'dam', 'sire'])} />
         <Box name={nameOf(damDam?.dam)}    kind="dam"  gridRow="8 / span 1" gridCol={3}
              note={noteText(annotations?.damsdamsdam)}
+             nameEdit={nameEditFor(['dam', 'dam', 'dam'])}
              edit={editFor('damsdamsdam_sport_level', 'damsdamsdam_result')} />
       </div>
       </div>
-      {renderTexts && <PedigreeTexts pedigree={pedigree} lotId={lotId} />}
+      {renderTexts && <PedigreeTexts pedigree={ped} lotId={lotId} />}
     </>
   )
 }
@@ -108,110 +129,166 @@ const BLOCK_PATHS = {
 }
 
 export function PedigreeTexts({ pedigree, lotId }) {
-  const blocks = [
-    { key: 'sire',         label: 'Père',       node: pedigree?.sire },
-    { key: 'dam',          label: '1ère mère',  node: pedigree?.dam },
-    { key: 'damdam',       label: '2ème mère',  node: nodeOf(pedigree?.dam?.dam) },
-    { key: 'damdamdam',    label: '3ème mère',  node: nodeOf(pedigree?.dam?.dam?.dam) },
-    { key: 'damdamdamdam', label: '4ème mère',  node: nodeOf(pedigree?.dam?.dam?.dam?.dam) },
-  ].filter((b) => b.node && typeof b.node === 'object' && b.node.text)
-
-  // Start ingeklapt — gebruiker klikt om een blok te openen.
-  const [open, setOpen] = useState({})
-  // Pop-up button bij selectie: { key, x, y, range: {start, end} } of null.
-  const [popup, setPopup] = useState(null)
-  // Lokale highlights-cache zodat de UI optimistisch updatet vóór de DB-write.
+  // Lokale cache zodat de UI optimistisch updatet vóór de DB-write.
   const [localPed, setLocalPed] = useState(pedigree)
   useEffect(() => { setLocalPed(pedigree) }, [pedigree])
 
-  function handleMouseUp(blockKey, bodyEl) {
-    const sel = window.getSelection()
-    if (!sel || sel.isCollapsed) { setPopup(null); return }
-    const range = sel.getRangeAt(0)
-    if (!bodyEl || !bodyEl.contains(range.commonAncestorContainer)) {
-      setPopup(null); return
-    }
-    const start = getCharOffset(bodyEl, range.startContainer, range.startOffset)
-    const end   = getCharOffset(bodyEl, range.endContainer,   range.endOffset)
-    if (end <= start) { setPopup(null); return }
-    const rect = range.getBoundingClientRect()
-    setPopup({
-      key: blockKey,
-      x: rect.left + rect.width / 2,
-      y: rect.top + window.scrollY,
-      range: { start, end },
-    })
-  }
+  const blocks = [
+    { key: 'sire',         label: 'Père',       node: localPed?.sire },
+    { key: 'dam',          label: '1ère mère',  node: localPed?.dam },
+    { key: 'damdam',       label: '2ème mère',  node: nodeOf(localPed?.dam?.dam) },
+    { key: 'damdamdam',    label: '3ème mère',  node: nodeOf(localPed?.dam?.dam?.dam) },
+    { key: 'damdamdamdam', label: '4ème mère',  node: nodeOf(localPed?.dam?.dam?.dam?.dam) },
+  ].filter((b) => b.node && typeof b.node === 'object' && b.node.text)
 
-  async function addHighlight() {
-    if (!popup || !lotId) return
-    const { key, range } = popup
-    const path = BLOCK_PATHS[key]
-    const next = addHighlightToPedigree(localPed, path, range)
-    setLocalPed(next)
-    setPopup(null)
-    window.getSelection()?.removeAllRanges()
-    await supabase.from('lots').update({ pedigree: next }).eq('id', lotId)
+  // Alle pedigree-mutaties lopen via dezelfde geserialiseerde read-modify-write
+  // (persistPedigree), zodat enkel de bewerkte knoop verandert.
+  async function saveText(path, newText) {
+    const mutate = (p) => setTextAtPath(p, path, newText)
+    const localNext = mutate(localPed)
+    setLocalPed(localNext)
+    await persistPedigree(lotId, localNext, mutate)
   }
-
-  async function removeHighlightAt(blockKey, charIndex) {
-    if (!lotId) return
-    const path = BLOCK_PATHS[blockKey]
-    const next = removeHighlightFromPedigree(localPed, path, charIndex)
-    setLocalPed(next)
-    await supabase.from('lots').update({ pedigree: next }).eq('id', lotId)
+  async function addHighlightAt(path, range) {
+    const mutate = (p) => addHighlightToPedigree(p, path, range)
+    const localNext = mutate(localPed)
+    setLocalPed(localNext)
+    await persistPedigree(lotId, localNext, mutate)
+  }
+  async function removeHighlightAt(path, charIndex) {
+    const mutate = (p) => removeHighlightFromPedigree(p, path, charIndex)
+    const localNext = mutate(localPed)
+    setLocalPed(localNext)
+    await persistPedigree(lotId, localNext, mutate)
   }
 
   if (blocks.length === 0) return null
 
   return (
     <div style={textsContainerStyle}>
-      {blocks.map(({ key, label, node: oldNode }) => {
-        // Gebruik lokale (mogelijk geüpdate) versie van de node
-        const localNode = getNodeAtPath(localPed, BLOCK_PATHS[key]) ?? oldNode
-        const isOpen = !!open[key]
-        const highlights = localNode.highlights ?? []
-        return (
-          <div key={key} style={textBlockStyle}>
-            <button
-              type="button"
-              onClick={() => setOpen((prev) => ({ ...prev, [key]: !prev[key] }))}
-              style={textHeaderBtnStyle}
-              aria-expanded={isOpen}
-            >
-              <span style={chevronStyle}>{isOpen ? '▾' : '▸'}</span>
-              <span style={textLabelStyle}>{label}</span>
-              <span style={textNameStyle}>{localNode.name}</span>
-            </button>
-            {isOpen ? (
-              <p
-                style={textBodyStyle}
-                onMouseUp={(e) => handleMouseUp(key, e.currentTarget)}
-              >
-                {renderTextWithHighlights(
-                  localNode.text,
-                  highlights,
-                  (charIndex) => removeHighlightAt(key, charIndex),
-                )}
-              </p>
-            ) : (
-              <p style={textTeaserStyle}>{teaserFrom(localNode.text)}</p>
-            )}
-          </div>
-        )
-      })}
-      {popup && (
+      {blocks.map(({ key, label, node }) => (
+        <PedigreeTextBlock
+          key={key}
+          label={label}
+          node={node}
+          path={BLOCK_PATHS[key]}
+          editable={!!lotId}
+          onSaveText={saveText}
+          onAddHighlight={addHighlightAt}
+          onRemoveHighlight={removeHighlightAt}
+        />
+      ))}
+    </div>
+  )
+}
+
+/**
+ * Eén voorouder-tekstblok (Père / 1ère mère / …). Geen modus: het gebaar zelf
+ * bepaalt de actie, op basis van de selectie bij het loslaten van de muis.
+ *   - Slepen over tekst (niet-lege selectie) → die selectie wordt een markering.
+ *   - Klik op een bestaande markering (lege selectie op een <mark>) → ze wist.
+ *   - Gewone klik op tekst (lege selectie) → bewerken (textarea). Bij opslaan
+ *     schuiven bestaande markeringen mee met de correctie (remapHighlights).
+ * Slepen en klikken sluiten elkaar uit (selectie wel/niet leeg), dus botsen ze
+ * nooit en is er geen verborgen modus om te ontdekken.
+ */
+function PedigreeTextBlock({ label, node, path, editable, onSaveText, onAddHighlight, onRemoveHighlight }) {
+  const [open, setOpen] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const [draft, setDraft] = useState(node.text ?? '')
+  const bodyRef = useRef(null)
+
+  // Verse externe tekst overnemen zolang we niet aan het typen zijn.
+  useEffect(() => { if (!editing) setDraft(node.text ?? '') }, [node.text, editing])
+
+  const highlights = node.highlights ?? []
+
+  function handleBodyMouseUp(e) {
+    if (!editable) return
+    const bodyEl = bodyRef.current
+    const sel = window.getSelection()
+    // Gesleepte selectie binnen de tekst → markeren.
+    if (sel && !sel.isCollapsed) {
+      const range = sel.getRangeAt(0)
+      if (bodyEl && bodyEl.contains(range.commonAncestorContainer)) {
+        const start = getCharOffset(bodyEl, range.startContainer, range.startOffset)
+        const end   = getCharOffset(bodyEl, range.endContainer,   range.endOffset)
+        if (end > start) {
+          onAddHighlight(path, { start, end })
+          sel.removeAllRanges()
+        }
+      }
+      return // selectie buiten dit blok of leeg-na-trim → niet bewerken
+    }
+    // Lege klik op het ✕-wisknopje → die markering bewust wissen. Elke andere
+    // klik (ook midden in een markering) → de tekst bewerken; de markering
+    // blijft en schuift mee bij opslaan (remap).
+    const rm = e.target.closest ? e.target.closest('[data-remove-mark]') : null
+    if (rm) {
+      onRemoveHighlight(path, Number(rm.dataset.removeMark))
+      return
+    }
+    startEdit()
+  }
+
+  function startEdit() {
+    if (!editable) return
+    setDraft(node.text ?? '')
+    setEditing(true)
+  }
+  function commitEdit() {
+    setEditing(false)
+    if (draft !== (node.text ?? '')) onSaveText(path, draft)
+  }
+  function cancelEdit() { setEditing(false); setDraft(node.text ?? '') }
+
+  return (
+    <div style={textBlockStyle}>
+      <div style={textHeaderRowStyle}>
         <button
           type="button"
-          onMouseDown={(e) => { e.preventDefault(); addHighlight() }}
-          style={{
-            ...highlightPopupStyle,
-            left: popup.x,
-            top: popup.y - 36,
-          }}
+          onClick={() => setOpen((v) => !v)}
+          style={textHeaderBtnStyle}
+          aria-expanded={open}
         >
-          ✦ Markeer
+          <span style={chevronStyle}>{open ? '▾' : '▸'}</span>
+          <span style={textLabelStyle}>{label}</span>
+          <span style={textNameStyle}>{node.name}</span>
         </button>
+      </div>
+
+      {open && editable && !editing && (
+        <div style={markHintStyle}>
+          ✦ Sleep over tekst = markeren · klik = corrigeren · klik op een markering = wissen
+        </div>
+      )}
+
+      {open ? (
+        editing ? (
+          <div>
+            <textarea
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              onBlur={commitEdit}
+              onKeyDown={(e) => { if (e.key === 'Escape') cancelEdit() }}
+              rows={Math.min(14, Math.max(3, Math.ceil((draft.length || 1) / 60)))}
+              style={textEditAreaStyle}
+              autoFocus
+            />
+            <div style={editHintStyle}>Klik buiten het veld om te bewaren · Esc annuleert</div>
+          </div>
+        ) : (
+          <p
+            ref={bodyRef}
+            style={{ ...textBodyStyle, cursor: 'text' }}
+            onMouseUp={editable ? handleBodyMouseUp : undefined}
+            title={editable ? 'Sleep om te markeren · klik om te corrigeren' : undefined}
+          >
+            {renderTextWithHighlights(node.text, highlights)}
+          </p>
+        )
+      ) : (
+        <p style={textTeaserStyle}>{teaserFrom(node.text)}</p>
       )}
     </div>
   )
@@ -221,7 +298,13 @@ export function PedigreeTexts({ pedigree, lotId }) {
 function getCharOffset(container, node, offset) {
   if (!container.contains(node)) return 0
   let chars = 0
-  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null)
+  // Tekst binnen het ✕-wisknopje hoort niet bij node.text en mag de offsets
+  // dus niet verschuiven (anders zou de remap naar het verkeerde stuk wijzen).
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (n.parentElement && n.parentElement.closest('[data-remove-mark]'))
+      ? NodeFilter.FILTER_REJECT
+      : NodeFilter.FILTER_ACCEPT,
+  })
   let current = walker.nextNode()
   while (current) {
     if (current === node) return chars + offset
@@ -231,8 +314,13 @@ function getCharOffset(container, node, offset) {
   return chars
 }
 
-/** Render text als alternerende plain + <mark> segments. */
-function renderTextWithHighlights(text, highlights, onRemove) {
+/**
+ * Render text als alternerende plain + <mark> segments. Elke markering bevat een
+ * klein ✕-overlay-knopje met `data-remove-mark={start}`; de klik-afhandeling op
+ * de tekstbody gebruikt dat om net die markering te wissen. Het ✕ staat buiten
+ * node.text en telt niet mee in de offsets (zie getCharOffset).
+ */
+function renderTextWithHighlights(text, highlights) {
   if (!highlights || highlights.length === 0) return text
   // Normaliseer en sorteer overlappende highlights
   const merged = mergeRanges(highlights)
@@ -244,10 +332,16 @@ function renderTextWithHighlights(text, highlights, onRemove) {
       <mark
         key={`h-${i}-${h.start}`}
         style={highlightStyle}
-        onClick={() => onRemove(h.start)}
-        title="Klik om markering te verwijderen"
+        title="Klik op de tekst om te corrigeren · ✕ om de markering te wissen"
       >
         {text.slice(h.start, h.end)}
+        <button
+          type="button"
+          data-remove-mark={h.start}
+          style={removeMarkBtnStyle}
+          title="Markering wissen"
+          aria-label="Markering wissen"
+        >×</button>
       </mark>
     )
     pos = h.end
@@ -327,11 +421,123 @@ function removeHighlightFromPedigree(ped, path, charIndex) {
   return next
 }
 
-function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
+/** Zet de tekst van een voorouder-knoop en map bestaande markeringen mee. */
+function setTextAtPath(ped, path, newText) {
+  const next = JSON.parse(JSON.stringify(ped || {}))
+  let parent = next
+  for (let i = 0; i < path.length - 1; i++) {
+    const k = path[i]
+    if (typeof parent[k] === 'string') parent[k] = { name: parent[k] }
+    if (!parent[k]) parent[k] = {}
+    parent = parent[k]
+  }
+  const last = path[path.length - 1]
+  let target = parent[last]
+  if (typeof target === 'string') target = { name: target }
+  if (!target) target = {}
+  const oldText = target.text ?? ''
+  const oldHighlights = Array.isArray(target.highlights) ? target.highlights : []
+  const remapped = remapHighlights(oldText, newText, oldHighlights)
+  target.text = newText
+  if (remapped.length) target.highlights = remapped
+  else delete target.highlights
+  parent[last] = target
+  return next
+}
+
+/** Corrigeer de naam van een voorouder-knoop, met behoud van de rest. */
+function setNameAtPath(ped, path, newName) {
+  const next = JSON.parse(JSON.stringify(ped || {}))
+  let parent = next
+  for (let i = 0; i < path.length - 1; i++) {
+    const k = path[i]
+    let child = parent[k]
+    if (typeof child === 'string') child = { name: child }
+    if (!child) child = {}
+    parent[k] = child
+    parent = child
+  }
+  const last = path[path.length - 1]
+  const target = parent[last]
+  if (target && typeof target === 'object') {
+    // Object-knoop (heeft mogelijk sire/dam/text/highlights) → enkel name aanpassen.
+    parent[last] = { ...target, name: newName }
+  } else {
+    // Bladknoop (string of leeg) → als string bewaren.
+    parent[last] = newName
+  }
+  return next
+}
+
+/**
+ * Herbereken markerings-bereiken {start,end} wanneer de tekst van één knoop
+ * gecorrigeerd wordt. Markeringen leven per knoop, dus ze kunnen nooit naar een
+ * andere tak verspringen; binnen de knoop schuiven ze mee via een
+ * prefix/suffix-diff zodat ze aan het gecorrigeerde stuk blijven hangen. Een
+ * bereik dat volledig wordt weggewist (start == end) verdwijnt.
+ */
+function remapHighlights(oldText, newText, highlights) {
+  if (!highlights || highlights.length === 0) return []
+  if (oldText === newText) return mergeRanges(highlights)
+  const oldLen = oldText.length
+  const newLen = newText.length
+  // Gemeenschappelijke prefix.
+  let p = 0
+  const maxP = Math.min(oldLen, newLen)
+  while (p < maxP && oldText[p] === newText[p]) p++
+  // Gemeenschappelijke suffix (niet overlappend met de prefix).
+  let s = 0
+  while (s < (maxP - p) && oldText[oldLen - 1 - s] === newText[newLen - 1 - s]) s++
+  const oldMidEnd = oldLen - s   // [p, oldMidEnd) = vervangen stuk in oude tekst
+  const newMidEnd = newLen - s
+  const delta = newLen - oldLen
+  const remap = (idx) => {
+    if (idx <= p) return idx                       // vóór de bewerking
+    if (idx >= oldMidEnd) return idx + delta        // ná de bewerking
+    return Math.min(Math.max(idx, p), newMidEnd)    // binnen het bewerkte stuk → klem
+  }
+  const out = highlights
+    .map((h) => ({ start: remap(h.start), end: remap(h.end) }))
+    .filter((h) => h.end > h.start)
+  return mergeRanges(out)
+}
+
+/**
+ * Read-modify-write van de pedigree-jsonb, geserialiseerd per lot.
+ *
+ * `pedigree` is één jsonb-kolom, maar we lezen vlak vóór elke write de actuele
+ * waarde opnieuw en passen enkel de bewerkte knoop toe (`mutate`), zodat geen
+ * andere tak verloren gaat. De per-lot wachtrij zorgt dat twee snelle saves op
+ * dezelfde knoop niet parallel lezen-en-schrijven: de tweede start pas nadat de
+ * eerste klaar is. `fallbackNext` wordt enkel gebruikt als het verse lezen faalt.
+ */
+const pedWriteQueue = new Map()
+
+async function persistPedigree(lotId, fallbackNext, mutate) {
+  if (!lotId) return
+  const run = async () => {
+    const { data, error } = await supabase
+      .from('lots').select('pedigree').eq('id', lotId).single()
+    const base = error ? fallbackNext : mutate(data?.pedigree ?? {})
+    const { error: writeError } = await supabase
+      .from('lots').update({ pedigree: base }).eq('id', lotId)
+    if (writeError) throw writeError
+  }
+  const prev = pedWriteQueue.get(lotId) ?? Promise.resolve()
+  const job = prev.catch(() => {}).then(run)
+  pedWriteQueue.set(lotId, job)
+  job.finally(() => { if (pedWriteQueue.get(lotId) === job) pedWriteQueue.delete(lotId) })
+  return job
+}
+
+function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null, nameEdit = null }) {
   const filled = name != null && String(name).trim().length > 0
   const showEdit = filled && edit
   const showNote = filled && !edit && note
   const hasLevel = (showEdit && edit.level) || !!showNote
+
+  const [editingName, setEditingName] = useState(false)
+  const [draftName, setDraftName] = useState('')
 
   function handleLevel(e) {
     const level = e.target.value || null
@@ -342,6 +548,18 @@ function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
   }
   function handleResult(e) {
     edit.onSave({ [edit.resultField]: e.target.value || null })
+  }
+
+  function startNameEdit(e) {
+    if (!nameEdit) return
+    e.stopPropagation()
+    setDraftName(filled ? String(name) : '')
+    setEditingName(true)
+  }
+  function commitName() {
+    setEditingName(false)
+    const v = draftName.trim()
+    if (v !== (filled ? String(name) : '')) nameEdit.onSave(nameEdit.path, v)
   }
 
   return (
@@ -357,16 +575,36 @@ function Box({ name, kind, gridRow, gridCol = 1, note = null, edit = null }) {
         ),
       }}
     >
-      <span style={{
-        ...(showEdit ? nameInlineStyle : (showNote ? nameLineStyle : null)),
-        ...(hasLevel ? { fontWeight: 800, color: 'var(--accent)' } : null),
-        minWidth: 0,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-      }}>
-        {filled ? name : '—'}
-      </span>
+      {editingName ? (
+        <input
+          value={draftName}
+          onChange={(e) => setDraftName(e.target.value)}
+          onBlur={commitName}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') commitName()
+            if (e.key === 'Escape') setEditingName(false)
+          }}
+          onClick={(e) => e.stopPropagation()}
+          autoFocus
+          style={nameInputStyle}
+        />
+      ) : (
+        <span
+          onClick={nameEdit ? startNameEdit : undefined}
+          title={nameEdit ? 'Klik om de naam te corrigeren' : undefined}
+          style={{
+            ...(showEdit ? nameInlineStyle : (showNote ? nameLineStyle : null)),
+            ...(hasLevel ? { fontWeight: 800, color: 'var(--accent)' } : null),
+            ...(nameEdit ? { cursor: 'pointer' } : null),
+            minWidth: 0,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {filled ? name : '—'}
+        </span>
+      )}
 
       {showNote && <span style={noteLineStyle}>{note}</span>}
 
@@ -514,20 +752,88 @@ const textBlockStyle = {
   paddingLeft: 'var(--space-3)',
 }
 
+const textHeaderRowStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  marginBottom: 2,
+}
+
 const textHeaderBtnStyle = {
   display: 'flex',
   alignItems: 'baseline',
   gap: 8,
-  marginBottom: 2,
   flexWrap: 'wrap',
   background: 'none',
   border: 0,
   padding: 0,
   cursor: 'pointer',
   textAlign: 'left',
-  width: '100%',
+  flex: 1,
+  minWidth: 0,
   color: 'inherit',
   fontFamily: 'inherit',
+}
+
+const markHintStyle = {
+  margin: '0 0 6px 22px',
+  fontSize: '0.68rem',
+  color: 'var(--text-muted)',
+  fontStyle: 'italic',
+}
+
+// ✕-wisknopje binnen een markering: visuele overlay, telt niet als tekst
+// (user-select: none) en wordt door getCharOffset overgeslagen.
+const removeMarkBtnStyle = {
+  marginLeft: 4,
+  padding: '0 4px',
+  border: 0,
+  borderRadius: 2,
+  background: 'rgba(0,0,0,0.18)',
+  color: '#1A1A1A',
+  fontFamily: 'inherit',
+  fontSize: '0.72rem',
+  lineHeight: 1,
+  fontWeight: 700,
+  cursor: 'pointer',
+  userSelect: 'none',
+  verticalAlign: 'baseline',
+}
+
+const textEditAreaStyle = {
+  width: '100%',
+  boxSizing: 'border-box',
+  padding: '0.5rem 0.65rem',
+  fontFamily: 'inherit',
+  fontSize: '0.8rem',
+  lineHeight: 1.5,
+  background: 'var(--bg-input)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--accent)',
+  borderRadius: 'var(--radius-sm)',
+  resize: 'vertical',
+}
+
+const editHintStyle = {
+  marginTop: 4,
+  fontSize: '0.7rem',
+  color: 'var(--text-muted)',
+  fontStyle: 'italic',
+}
+
+const nameInputStyle = {
+  font: 'inherit',
+  fontSize: '0.78rem',
+  textTransform: 'uppercase',
+  letterSpacing: '0.04em',
+  padding: '1px 4px',
+  width: '100%',
+  minWidth: 0,
+  boxSizing: 'border-box',
+  background: 'var(--bg-input)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--accent)',
+  borderRadius: 'var(--radius-sm)',
 }
 
 const chevronStyle = {
@@ -580,20 +886,4 @@ const highlightStyle = {
   padding: '0 2px',
   borderRadius: 2,
   cursor: 'pointer',
-}
-
-const highlightPopupStyle = {
-  position: 'absolute',
-  transform: 'translateX(-50%)',
-  zIndex: 200,
-  padding: '6px 12px',
-  background: '#FBBF24',
-  color: '#1A1A1A',
-  border: 0,
-  borderRadius: 'var(--radius-sm)',
-  fontSize: '0.8rem',
-  fontWeight: 600,
-  cursor: 'pointer',
-  boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
-  fontFamily: 'inherit',
 }

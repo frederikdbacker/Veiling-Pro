@@ -15,6 +15,8 @@ import LogoLink from '../components/LogoLink'
 import LiveInfoBar from '../components/LiveInfoBar'
 import PedigreeTree from '../components/PedigreeTree'
 import StarRating from '../components/StarRating'
+import EditableLongText from '../components/EditableLongText'
+import SaleCorrectionModal from '../components/SaleCorrectionModal'
 import {
   getInterestedClientsForLot,
   getPurchasesByClientsInAuction,
@@ -262,6 +264,8 @@ function ActiveLotPanel({
 
   const [activePhoto, setActivePhoto] = useState(0)
   const [photoOpen, setPhotoOpen] = useState(false)
+  // Huidige stand van de bod-tracker, om de Verkocht-pop-up voor te vullen.
+  const [trackerState, setTrackerState] = useState({ amount: 0, spotterId: null, hasBids: false })
 
   useEffect(() => { setActivePhoto(0); setPhotoOpen(false) }, [lot.id])
 
@@ -350,6 +354,7 @@ function ActiveLotPanel({
             <div style={actionSubtitleStyle}>Pedigree</div>
             <PedigreeTree
               pedigree={lot.pedigree}
+              lotId={lot.id}
               annotations={{
                 dam:         { level: lot.dam_sport_level,         result: lot.dam_result },
                 damsdam:     { level: lot.damsdam_sport_level,     result: lot.damsdam_result },
@@ -435,9 +440,16 @@ function ActiveLotPanel({
           {lot.equiratings_text && (
             <details style={detailsStyle}>
               <summary style={summaryStyle}>EquiRatings</summary>
-              <p style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0 0', lineHeight: 1.55, color: 'var(--text-secondary)' }}>
-                {lot.equiratings_text}
-              </p>
+              {/* Geperste tekst inline corrigeerbaar op de plek zelf (✏). */}
+              <div style={{ marginTop: '0.5rem' }}>
+                <EditableLongText
+                  key={`equi-cockpit-${lot.id}`}
+                  id={lot.id}
+                  fieldName="equiratings_text"
+                  initialValue={lot.equiratings_text}
+                  rows={6}
+                />
+              </div>
             </details>
           )}
         </div>
@@ -452,6 +464,7 @@ function ActiveLotPanel({
               lotTypeId={lot.lot_type_id}
               startPrice={lot.start_price}
               spotters={spotters}
+              onStateChange={setTrackerState}
             />
 
             <div style={actionDividerStyle}>
@@ -463,6 +476,7 @@ function ActiveLotPanel({
                 spotters={spotters}
                 allLots={allLots}
                 onLotUpdated={onLotUpdated}
+                trackerState={trackerState}
               />
             </div>
 
@@ -551,13 +565,14 @@ function ActiveLotPanel({
   )
 }
 
-function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, spotters, allLots, onLotUpdated }) {
+function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients, spotters, allLots, onLotUpdated, trackerState }) {
   const [busy, setBusy] = useState(null)
   const [hamerOpen, setHamerOpen] = useState(false)
   const [outcome, setOutcome] = useState('zaal')
   const [priceInput, setPriceInput] = useState('')
   const [buyer, setBuyer] = useState({ client_id: null, name: '' })
   const [spotterId, setSpotterId] = useState(null)
+  const [correctOpen, setCorrectOpen] = useState(false)
 
   useEffect(() => {
     setHamerOpen(false)
@@ -609,9 +624,12 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
   function openHamer() {
     setHamerOpen(true)
     setOutcome('zaal')
-    setPriceInput('')
+    // Voorinvullen vanuit de bod-tracker: laatste bod + spotter. Beide blijven
+    // overschrijfbaar — het is een suggestie, niet definitief.
+    const suggestedPrice = trackerState && trackerState.amount > 0 ? String(trackerState.amount) : ''
+    setPriceInput(suggestedPrice)
     setBuyer({ client_id: null, name: '' })
-    setSpotterId(lot.spotter_id ?? null)
+    setSpotterId(trackerState?.spotterId ?? lot.spotter_id ?? null)
   }
 
   async function resolveBuyer() {
@@ -726,7 +744,32 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
             {busy === 'withdraw' ? '…' : (withdrawn ? '↩ Toch deelnemen' : '🚫 Niet deelnemend')}
           </button>
         )}
+        {/* Een al-afgehandeld lot achteraf corrigeren (prijs/koper/spotter)
+            met audit-spoor — zie SaleCorrectionModal. */}
+        {hammered && (
+          <button
+            type="button"
+            onClick={() => setCorrectOpen(true)}
+            style={withdrawBtnStyle}
+            title="Pas prijs, koper of spotter aan (wordt bijgehouden in de historiek)"
+          >
+            ✎ Corrigeren
+          </button>
+        )}
       </div>
+
+      {/* Correctie-modal voor een al-afgehandeld lot */}
+      {correctOpen && (
+        <SaleCorrectionModal
+          lot={lot}
+          houseId={houseId}
+          spotters={spotters}
+          interestedClients={interestedClients}
+          onlineBiddingEnabled={onlineBiddingEnabled}
+          onClose={() => setCorrectOpen(false)}
+          onSaved={(updated) => { onLotUpdated(updated); setCorrectOpen(false) }}
+        />
+      )}
 
       {/* Hamer-modal — fixed-positioned, geen invloed op de DOM-tree */}
       {hamerOpen && !hammered && (

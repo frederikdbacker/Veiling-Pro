@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { sortByRangeFrom } from '../lib/bidSteps'
 
@@ -9,8 +9,12 @@ import { sortByRangeFrom } from '../lib/bidSteps'
  *
  * Bewust pure UI-state: niets wordt naar de DB geschreven. Bij wissel van
  * lot (lotId-prop) resetten we naar de startprijs van dat lot.
+ *
+ * Via `onStateChange({ amount, spotterId, hasBids })` deelt de tracker zijn
+ * huidige stand met de ouder, zodat de Verkocht-pop-up het laatste bod en de
+ * spotter kan voorinvullen. De bediening van de tracker blijft onveranderd.
  */
-export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice, spotters = [] }) {
+export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice, spotters = [], onStateChange }) {
   const [rules, setRules] = useState([])
   const [amount, setAmount] = useState(Number(startPrice) || 0)
   const [editing, setEditing] = useState(false)
@@ -25,6 +29,18 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
     setSpotterId('')
     setLog([])
   }, [lotId, startPrice])
+
+  // Huidige stand naar de ouder melden (via ref zodat een wisselende
+  // callback-identiteit geen render-lus veroorzaakt).
+  const onStateChangeRef = useRef(onStateChange)
+  useEffect(() => { onStateChangeRef.current = onStateChange })
+  useEffect(() => {
+    onStateChangeRef.current?.({
+      amount,
+      spotterId: spotterId || null,
+      hasBids: log.length > 0,
+    })
+  }, [amount, spotterId, log.length])
 
   function logBid(newAmount) {
     setLog((prev) => [

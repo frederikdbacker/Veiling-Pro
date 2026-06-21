@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import Breadcrumbs from '../components/Breadcrumbs'
+import SaleCorrectionModal from '../components/SaleCorrectionModal'
+import { getSpotters } from '../lib/spotters'
 
 /**
  * Overzichtspagina einde veiling. Toont kerncijfers, splitsing per
@@ -14,6 +16,8 @@ export default function CollectionSummaryPage() {
   const [collection, setCollection] = useState(null)
   const [lots, setLots] = useState([])
   const [lotTypes, setLotTypes] = useState([])
+  const [spotters, setSpotters] = useState([])
+  const [correctingLot, setCorrectingLot] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -22,7 +26,7 @@ export default function CollectionSummaryPage() {
     async function load() {
       setError(null)
       setLoading(true)
-      const [collectionRes, lotsRes, typesRes] = await Promise.all([
+      const [collectionRes, lotsRes, typesRes, spottersRes] = await Promise.all([
         supabase
           .from('collections')
           .select('*, auction_houses(id, name, logo_url)')
@@ -30,13 +34,14 @@ export default function CollectionSummaryPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, is_charity, withdrawn, name, sold, sale_price, sale_channel, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
+          .select('id, number, is_charity, withdrawn, name, sold, sale_price, sale_channel, buyer, buyer_client_id, spotter_id, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
         supabase
           .from('lot_types')
           .select('id, name_nl'),
+        getSpotters(collectionId).catch(() => []),
       ])
       if (cancelled) return
       setLoading(false)
@@ -46,10 +51,18 @@ export default function CollectionSummaryPage() {
       setCollection(collectionRes.data)
       setLots(lotsRes.data ?? [])
       setLotTypes(typesRes.data ?? [])
+      setSpotters(Array.isArray(spottersRes) ? spottersRes : [])
     }
     load()
     return () => { cancelled = true }
   }, [collectionId])
+
+  // Na een correctie: de gewijzigde lot-velden lokaal bijwerken zodat de rij
+  // meteen de actuele waarde toont.
+  function handleCorrected(updated) {
+    setLots((prev) => prev.map((l) => (l.id === updated.id ? { ...l, ...updated } : l)))
+    setCorrectingLot(null)
+  }
 
   if (loading) {
     return <section><p style={{ color: 'var(--text-muted)' }}>Overzicht laden…</p></section>
@@ -172,9 +185,20 @@ export default function CollectionSummaryPage() {
             isFinished={isFinished}
           />
           {groups.length > 1 && <PerType groups={groups} />}
-          <PerLot lots={lots.filter((l) => !l.withdrawn)} />
+          <PerLot lots={lots.filter((l) => !l.withdrawn)} onCorrect={setCorrectingLot} />
           {withdrawnLots.length > 0 && <WithdrawnSection lots={withdrawnLots} />}
         </>
+      )}
+
+      {correctingLot && (
+        <SaleCorrectionModal
+          lot={correctingLot}
+          houseId={houseId}
+          spotters={spotters}
+          onlineBiddingEnabled={!!collection.online_bidding_enabled}
+          onClose={() => setCorrectingLot(null)}
+          onSaved={handleCorrected}
+        />
       )}
     </section>
   )
@@ -283,30 +307,43 @@ function PerType({ groups }) {
   )
 }
 
-function PerLot({ lots }) {
+function PerLot({ lots, onCorrect }) {
   return (
     <section style={blockStyle}>
       <h2 style={blockHeadingStyle}>Per lot</h2>
       <ul style={{ listStyle: 'none', padding: 0, margin: '0.5rem 0 0 0' }}>
-        {lots.map((lot) => (
-          <li
-            key={lot.id}
-            style={{
-              padding: '0.5rem 0',
-              borderBottom: '1px solid var(--border-default)',
-              display: 'flex', alignItems: 'baseline',
-              gap: '0.75rem', flexWrap: 'wrap',
-            }}
-          >
-            <span style={{ color: 'var(--text-muted)', minWidth: '2.5em', fontFamily: 'var(--font-mono)' }}>
-              #{lot.number ?? '—'}
-            </span>
-            <Link to={`/lots/${lot.id}`} style={{ flex: 1, minWidth: '10em', color: 'var(--text-primary)', textDecoration: 'none' }}>
-              {lot.name}
-            </Link>
-            <LotResult lot={lot} />
-          </li>
-        ))}
+        {lots.map((lot) => {
+          const handled = lot.time_hammer != null || (lot.sold === true && lot.sale_price != null)
+          return (
+            <li
+              key={lot.id}
+              style={{
+                padding: '0.5rem 0',
+                borderBottom: '1px solid var(--border-default)',
+                display: 'flex', alignItems: 'baseline',
+                gap: '0.75rem', flexWrap: 'wrap',
+              }}
+            >
+              <span style={{ color: 'var(--text-muted)', minWidth: '2.5em', fontFamily: 'var(--font-mono)' }}>
+                #{lot.number ?? '—'}
+              </span>
+              <Link to={`/lots/${lot.id}`} style={{ flex: 1, minWidth: '10em', color: 'var(--text-primary)', textDecoration: 'none' }}>
+                {lot.name}
+              </Link>
+              <LotResult lot={lot} />
+              {handled && (
+                <button
+                  type="button"
+                  onClick={() => onCorrect(lot)}
+                  title="Verkoop corrigeren (prijs, koper of spotter)"
+                  style={correctBtnStyle}
+                >
+                  ✎
+                </button>
+              )}
+            </li>
+          )
+        })}
       </ul>
     </section>
   )
@@ -401,6 +438,16 @@ function formatAuctionDate(collection) {
   return d.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
+const correctBtnStyle = {
+  background: 'transparent',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  fontSize: '0.85rem',
+  padding: '2px 8px',
+}
 const crumbStyle = { color: 'var(--text-muted)', textDecoration: 'none' }
 const blockStyle = {
   marginTop: '1.25rem',

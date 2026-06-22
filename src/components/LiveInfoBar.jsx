@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 /**
@@ -47,6 +48,11 @@ export default function LiveInfoBar({
     ? `€${formatNum(trackerState.amount)}`
     : null
 
+  // Privacy-toggle voor reserve/min-prijs: een discrete knop rechtsboven
+  // blurt de Min-Pill wanneer iemand meekijkt naar het scherm. Local state
+  // per cockpit-sessie (verliest bij refresh — bewust simpel).
+  const [hidePrice, setHidePrice] = useState(false)
+
   return (
     <div className="live-info-bar" style={barStyle}>
       {/* Rij 1: navigatie + lot-info */}
@@ -82,7 +88,10 @@ export default function LiveInfoBar({
                 🎁 CHARITY
               </span>
             )}
-            <span style={lotnrStyle}>#{order}</span>
+            {/* Geen losse #N-span meer — de dropdown-options tonen het
+                zelf per regel ("#N {naam}"), zodat we geen dubbele hashtag
+                naast elkaar krijgen. Bij geen dropdown (fallback): toon #N
+                als prefix van de naam, niet als losse pil. */}
             {allLots && allLots.length > 0 && onNavigate ? (
               <select
                 value={lot.id}
@@ -102,7 +111,7 @@ export default function LiveInfoBar({
                 })}
               </select>
             ) : (
-              <strong style={nameStyle}>{name}</strong>
+              <strong style={nameStyle}>#{order} {name}</strong>
             )}
             {showCatExtra && (
               <span className="lib-cat-nr" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
@@ -110,7 +119,15 @@ export default function LiveInfoBar({
               </span>
             )}
             {age && <Pill className="lib-pill-age" label="Leeftijd" value={age} />}
-            {minBedrag && <Pill className="lib-pill-min" label="Min" value={minBedrag} />}
+            {minBedrag && (
+              <Pill
+                className="lib-pill-min"
+                label="Min"
+                value={minBedrag}
+                style={hidePrice ? hiddenPillStyle : undefined}
+                title={hidePrice ? 'Prijs verborgen — toggle rechts om te tonen' : undefined}
+              />
+            )}
           </div>
         )}
 
@@ -126,6 +143,18 @@ export default function LiveInfoBar({
             →
           </button>
         )}
+
+        {/* Privacy-toggle uiterst rechts — blurt de Min-Pill in de balk
+            voor wanneer iemand meekijkt naar het scherm. */}
+        <button
+          type="button"
+          onClick={() => setHidePrice((v) => !v)}
+          style={privacyBtnStyle}
+          title={hidePrice ? 'Reserveprijs tonen' : 'Reserveprijs verbergen'}
+          aria-label={hidePrice ? 'Reserveprijs tonen' : 'Reserveprijs verbergen'}
+        >
+          {hidePrice ? '🙈' : '👁'}
+        </button>
       </div>
 
       {/* Rij 2: live spotters + actueel bod + sessie-stats */}
@@ -168,9 +197,9 @@ export default function LiveInfoBar({
   )
 }
 
-function Pill({ label, value, className }) {
+function Pill({ label, value, className, style, title }) {
   return (
-    <span className={className} style={pillStyle}>
+    <span className={className} style={{ ...pillStyle, ...(style || {}) }} title={title}>
       <span style={pillLabelStyle}>{label}</span>
       <span>{value}</span>
     </span>
@@ -337,4 +366,25 @@ const bidLabelStyle = {
 const bidValueStyle = {
   fontSize: '1rem',
   fontFamily: 'var(--font-mono)',
+}
+
+const privacyBtnStyle = {
+  flexShrink: 0,
+  marginLeft: 'auto',
+  width: 36, height: 36,
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+  background: 'transparent',
+  color: 'var(--text-muted)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '1rem',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+}
+
+const hiddenPillStyle = {
+  filter: 'blur(7px)',
+  userSelect: 'none',
+  pointerEvents: 'none',
+  opacity: 0.85,
 }

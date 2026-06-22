@@ -1,0 +1,26 @@
+-- Migratie 0029: lots.maternal_line (jsonb) — diepe moederlijn-tekst.
+--
+-- De Fences-PDF-catalogus bevat per paard een uitgebreide moederlijn-
+-- beschrijving over maximaal 4 generaties (1ère/2ème/3ème/4ème mère) plus
+-- een familie-samenvatting onderaan ("On retrouve dans cette lignée
+-- maternelle..."). Die tekst hoort niet thuis in `pedigree` (jsonb voor
+-- de bracket-tree-structuur met sire/dam-knopen) en past ook niet in een
+-- vrij notitieveld (Frederik wil dat het automatisch geïmporteerd kan
+-- worden, en later evt. in een eigen UI-blok getoond wordt onder de
+-- pedigree-tree).
+--
+-- Structuur (alle keys optioneel):
+--   { "1": "<tekst 1ère mère>",
+--     "2": "<tekst 2ème mère>",
+--     "3": "<tekst 3ème mère>",
+--     "4": "<tekst 4ème mère>",
+--     "summary": "<familie-samenvatting>" }
+--
+-- Default null = onbekend. Niet elke PDF-pagina heeft alle 4 generaties
+-- (sommige paarden hebben beperkter familie-info beschikbaar). De
+-- importer schrijft alleen niet-null velden weg.
+--
+-- Geen UI-impact tot een component deze data uitleest — wordt later
+-- in een aparte sessie aan de LotPage / cockpit toegevoegd.
+
+alter table lots add column maternal_line jsonb;

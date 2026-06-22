@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
-import BidTracker from '../components/BidTracker'
+import BidTracker, { ONLINE_SENTINEL } from '../components/BidTracker'
 import { PedigreeTexts } from '../components/PedigreeTree'
 import CockpitStatusBar from '../components/CockpitStatusBar'
 import SpottersStrip from '../components/SpottersStrip'
@@ -464,6 +464,7 @@ function ActiveLotPanel({
               lotTypeId={lot.lot_type_id}
               startPrice={lot.start_price}
               spotters={spotters}
+              onlineBiddingEnabled={onlineBiddingEnabled}
               onStateChange={setTrackerState}
             />
 
@@ -623,13 +624,18 @@ function CockpitControls({ lot, houseId, onlineBiddingEnabled, interestedClients
 
   function openHamer() {
     setHamerOpen(true)
-    setOutcome('zaal')
     // Voorinvullen vanuit de bod-tracker: laatste bod + spotter. Beide blijven
     // overschrijfbaar — het is een suggestie, niet definitief.
+    //
+    // Sentinel-geval: tracker meldt ONLINE_SENTINEL als spotterId →
+    // vul kanaal 'online' voor en laat het spotter-veld leeg (online
+    // is geen persoon en geen UUID, mag NOOIT naar lots.spotter_id).
+    const isOnlineFromTracker = trackerState?.spotterId === ONLINE_SENTINEL
+    setOutcome(isOnlineFromTracker ? 'online' : 'zaal')
     const suggestedPrice = trackerState && trackerState.amount > 0 ? String(trackerState.amount) : ''
     setPriceInput(suggestedPrice)
     setBuyer({ client_id: null, name: '' })
-    setSpotterId(trackerState?.spotterId ?? lot.spotter_id ?? null)
+    setSpotterId(isOnlineFromTracker ? null : (trackerState?.spotterId ?? lot.spotter_id ?? null))
   }
 
   async function resolveBuyer() {

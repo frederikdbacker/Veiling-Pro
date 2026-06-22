@@ -28,9 +28,12 @@ bestand: de drie docs zijn leidend.
 5. **Back-up vóór elke schemawijziging**; **plan tonen vóór elke nieuwe
    feature**; **audit-rapport** (gewone taal + `docs/audits/` of `reports/`)
    spontaan aan het eind van elke substantiële sessie.
-6. **Multi-Mac sync:** sessiestart `bin/sync.sh pull`, sessie-einde
-   `bin/sync.sh done "tekst"` (nooit blind `git add .`). Altijd via een
-   feature-branch; commits/push enkel op vraag; commitberichten in het NL.
+6. **Multi-Mac sync + commit-discipline:** sessiestart `bin/sync.sh pull`,
+   sessie-einde `bin/sync.sh done "tekst"`. Stagen ALTIJD met expliciet
+   `git add <pad>` — NOOIT `git add -A`, `git add .`, of `git commit -a`
+   (voorkomt dat `.env`, cookies, tijdelijke CSV's per ongeluk in de git-
+   history belanden). Altijd via een feature-branch; commits/push enkel
+   op vraag; commitberichten in het NL.
 7. Schema: live-DB gebruikt `collections`/`collection_id`,
    `lots.lot_type_id` is verplicht (`import-lots.mjs` leidt dat af).
 8. **Audit-spoor is onuitwisbaar.** Correctie-rijen (bv.
@@ -38,3 +41,15 @@ bestand: de drie docs zijn leidend.
    overschreven** — een verkeerde correctie wordt **tegen-geboekt** met een
    nieuwe correctie-rij (oud → nieuw). Enkel zuivere testdata mag opgeruimd
    worden, en dan expliciet als zodanig benoemd.
+9. **Sessie-einde-checklist** (bij signaal "afsluiten", "klaar", "tot
+   morgen", …): typ de checklist letterlijk in het antwoord uit en vink
+   punt voor punt af. Niet "samenvatting + stop" — anders glipt er werk
+   tussendoor. Volgorde is bewust: het audit-rapport komt eerst, niet
+   laatst.
+   1. **Audit-rapport** geschreven naar `reports/<datum>_<thema>.md`.
+   2. `PROJECT_STATUS.md` bijgewerkt met header-sectie + audit-link.
+   3. `MEMORY.md` + memory-bestanden bijgewerkt waar relevant.
+   4. Build-check gedraaid (`npm run build` groen) als frontend geraakt.
+   5. Commit-message vooraf getoond, `git add <pad>`, commit-hash genoemd.
+   6. Tijdelijke/hulpbestanden in `/tmp/` of werkmap opgeruimd / benoemd.
+   7. Openstaande punten expliciet aan Frederik overgedragen.

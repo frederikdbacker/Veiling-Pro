@@ -1,0 +1,18 @@
+#!/bin/bash
+# Pre-commit hook voor veiling-pro.
+#
+# Houdt PROJECT_STATUS.md onder een limiet door oudste sessie-headers
+# naar een archief-bestand te verplaatsen. Doet niets als het bestand
+# al onder de limiet zit.
+#
+# Eenmalig activeren op deze machine:
+#   git config core.hooksPath .githooks
+# (synct niet automatisch over machines — op elke Mac uitvoeren)
+
+set -e
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+if [ -f scripts/prune_project_status.py ]; then
+    python3 scripts/prune_project_status.py || true
+fi

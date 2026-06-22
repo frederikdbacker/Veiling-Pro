@@ -259,3 +259,28 @@ hr {
   border-radius: 2px;
   color: #fff;
 }
+
+/* --- Sticky LiveInfoBar — compacte variant voor tablet portrait (≤900px) --- */
+/* Default: toon volle labels, verberg initialen */
+.live-info-bar .lib-spotter-initials { display: none; }
+
+@media (max-width: 900px) {
+  /* Compacter padding op de balk zelf */
+  .live-info-bar { padding: 6px 10px !important; }
+
+  /* "← Naar veiling" → enkel pijl, label verborgen */
+  .live-info-bar .lib-back-label { display: none; }
+
+  /* Veiling-titel verborgen (context al uit ←-knop) */
+  .live-info-bar .lib-collection-title { display: none; }
+
+  /* Charity + cat. nr + pills (leeftijd, min) verborgen */
+  .live-info-bar .lib-charity { display: none; }
+  .live-info-bar .lib-cat-nr { display: none; }
+  .live-info-bar .lib-pill-age { display: none; }
+  .live-info-bar .lib-pill-min { display: none; }
+
+  /* Spotters: initialen i.p.v. volle namen */
+  .live-info-bar .lib-spotter-name { display: none; }
+  .live-info-bar .lib-spotter-initials { display: inline; font-weight: 600; }
+}

@@ -3,18 +3,47 @@ import { supabase } from '../lib/supabase'
 import { sortByRangeFrom } from '../lib/bidSteps'
 
 /**
+ * Sentinel-spotterId voor "online" — geen UUID, geen persoon. Exporteren
+ * zodat CockpitPage (openHamer) dezelfde constante gebruikt; één bron
+ * voorkomt typo-mismatch tussen tracker en pop-up-voorinvulling.
+ */
+export const ONLINE_SENTINEL = '__online__'
+
+/**
  * BidTracker — efemeer geheugensteuntje tijdens een veiling. Toont een
- * huidig bedrag dat met +/– volgens de bestaande biedstappen kan worden
- * verhoogd of verlaagd, en kan ook handmatig getypt worden.
+ * huidig bedrag dat met +/– (of pijl-omhoog / pijl-omlaag / spacebar)
+ * volgens de bestaande biedstappen kan worden verhoogd of verlaagd, en
+ * kan ook handmatig getypt worden.
+ *
+ * Spotters worden als knoppenrij getoond (geen dropdown). Pijl-links /
+ * pijl-rechts wisselt de geselecteerde spotter (clamp aan de randen —
+ * geen wrap). 'O' selecteert "online" wanneer online-bieden actief is.
  *
  * Bewust pure UI-state: niets wordt naar de DB geschreven. Bij wissel van
  * lot (lotId-prop) resetten we naar de startprijs van dat lot.
  *
  * Via `onStateChange({ amount, spotterId, hasBids })` deelt de tracker zijn
  * huidige stand met de ouder, zodat de Verkocht-pop-up het laatste bod en de
- * spotter kan voorinvullen. De bediening van de tracker blijft onveranderd.
+ * spotter kan voorinvullen. spotterId is een UUID OF ONLINE_SENTINEL OF
+ * null — consumers moeten ONLINE_SENTINEL apart afhandelen (zie openHamer
+ * in CockpitPage).
+ *
+ * Sneltoetsen worden centraal afgevangen op `window` en respecteren een
+ * focus-guard: zodra een tekstveld (input, textarea, contenteditable) of
+ * select focus heeft, worden ALLE tracker-sneltoetsen genegeerd — zodat
+ * inline-edits (pedigree-naam, EditableLongText, SaleCorrectionModal,
+ * RichNoteField/TipTap) niet per ongeluk biedingen of spotterwissels
+ * triggeren.
  */
-export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice, spotters = [], onStateChange }) {
+export default function BidTracker({
+  lotId,
+  collectionId,
+  lotTypeId,
+  startPrice,
+  spotters = [],
+  onlineBiddingEnabled = false,
+  onStateChange,
+}) {
   const [rules, setRules] = useState([])
   const [amount, setAmount] = useState(Number(startPrice) || 0)
   const [editing, setEditing] = useState(false)
@@ -115,20 +144,83 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
     setEditing(false)
   }
 
+  // Spotter-navigatie via pijltjes. Bouwt de geordende lijst op basis van
+  // de `spotters` prop (al gesorteerd door de bron) + ONLINE_SENTINEL als
+  // online-bieden actief is. Clamp aan de randen — bij veilingdruk moet de
+  // rand voelbaar zijn, geen per-ongeluk rond-tollen.
+  function selectNeighbor(direction) {
+    const list = [
+      ...spotters,
+      ...(onlineBiddingEnabled ? [ONLINE_SENTINEL] : []),
+    ]
+    if (list.length === 0) return
+
+    const currentIdx = list.findIndex((s) =>
+      s === ONLINE_SENTINEL ? spotterId === ONLINE_SENTINEL : s.id === spotterId
+    )
+
+    if (currentIdx === -1) {
+      // Geen huidige selectie: pak de eerste resp. de laatste.
+      const target = direction > 0 ? list[0] : list[list.length - 1]
+      setSpotterId(target === ONLINE_SENTINEL ? ONLINE_SENTINEL : target.id)
+      return
+    }
+
+    const nextIdx = Math.max(0, Math.min(list.length - 1, currentIdx + direction))
+    if (nextIdx === currentIdx) return // al aan de rand
+    const target = list[nextIdx]
+    setSpotterId(target === ONLINE_SENTINEL ? ONLINE_SENTINEL : target.id)
+  }
+
+  // Centrale keydown-listener (één voor alle tracker-sneltoetsen).
+  // Focus-guard EERST — zodra een tekstveld actief is, gebeurt er niets.
+  useEffect(() => {
+    function onKey(e) {
+      const t = e.target
+      if (!t) return
+      if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT') return
+      if (t.isContentEditable) return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+
+      switch (e.key) {
+        case 'ArrowUp':    e.preventDefault(); up(); break
+        case 'ArrowDown':  e.preventDefault(); down(); break
+        case ' ':          e.preventDefault(); up(); break // spacebar
+        case 'ArrowLeft':  e.preventDefault(); selectNeighbor(-1); break
+        case 'ArrowRight': e.preventDefault(); selectNeighbor(+1); break
+        case 'o':
+        case 'O':
+          if (onlineBiddingEnabled) {
+            e.preventDefault()
+            setSpotterId(ONLINE_SENTINEL)
+          }
+          break
+        default: break
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // up/down/reset zijn pure (geen externe closures) maar krijgen wel nieuwe
+    // identiteit per render — dat is OK, het opnieuw mounten van één
+    // window-listener is verwaarloosbaar. selectNeighbor heeft echte deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotters, spotterId, onlineBiddingEnabled, rules])
+
   const step = stepFor(amount)
   const hasRules = rules.length > 0
+  const showSpotterRow = spotters.length > 0 || onlineBiddingEnabled
 
   return (
     <div>
       <div style={subtitleStyle}>
         Bod-tracker
-        <span style={hintStyle}>geheugensteuntje, niet opgeslagen</span>
+        <span style={hintStyle}>↑ +bod · ↓ −bod · ␣ +bod · ← → spotter{onlineBiddingEnabled ? ' · O online' : ''}</span>
       </div>
 
       <div style={trackerRowStyle}>
         <button
           type="button"
-          onClick={down}
+          onClick={(e) => { down(); e.currentTarget.blur() }}
           disabled={!hasRules || amount <= 0}
           style={stepBtnStyle}
           title={step > 0 ? `−€${formatNum(step)}` : 'geen biedstap'}
@@ -154,7 +246,7 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
         ) : (
           <button
             type="button"
-            onClick={startEdit}
+            onClick={(e) => { startEdit(); e.currentTarget.blur() }}
             style={amountBtnStyle}
             className="num"
             title="Klik om bedrag te typen"
@@ -165,7 +257,7 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
 
         <button
           type="button"
-          onClick={up}
+          onClick={(e) => { up(); e.currentTarget.blur() }}
           disabled={!hasRules}
           style={{ ...stepBtnStyle, ...stepBtnUpStyle }}
           title={step > 0 ? `+€${formatNum(step)}` : 'geen biedstap'}
@@ -175,7 +267,7 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
 
         <button
           type="button"
-          onClick={reset}
+          onClick={(e) => { reset(); e.currentTarget.blur() }}
           style={resetBtnStyle}
           title="Terug naar startprijs"
         >
@@ -193,31 +285,39 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
         </div>
       )}
 
-      {spotters.length > 0 && (
+      {showSpotterRow && (
         <div style={spotterRowStyle}>
-          <label style={spotterLabelStyle}>Spotter:</label>
-          <select
-            value={spotterId}
-            onChange={(e) => setSpotterId(e.target.value)}
-            style={spotterSelectStyle}
-          >
-            <option value="">— niemand —</option>
-            {spotters.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
+          {spotters.map((s) => (
+            <SpotterButton
+              key={s.id}
+              label={s.name}
+              active={spotterId === s.id}
+              onSelect={() => setSpotterId(s.id)}
+            />
+          ))}
+          {onlineBiddingEnabled && (
+            <SpotterButton
+              key="__online__"
+              label="Online"
+              icon="🌐"
+              variant="online"
+              active={spotterId === ONLINE_SENTINEL}
+              onSelect={() => setSpotterId(ONLINE_SENTINEL)}
+            />
+          )}
         </div>
       )}
 
       {log.length > 0 && (
         <ul style={logStyle} className="num">
           {[...log].reverse().slice(0, 6).map((entry, i) => {
-            const sp = spotters.find((s) => s.id === entry.spotterId)
+            const isOnline = entry.spotterId === ONLINE_SENTINEL
+            const sp = !isOnline ? spotters.find((s) => s.id === entry.spotterId) : null
             return (
               <li key={entry.ts + '-' + i} style={logRowStyle}>
                 <span>€{formatNum(entry.amount)}</span>
                 <span style={logSpotterStyle}>
-                  {sp ? sp.name : '—'}
+                  {isOnline ? '🌐 Online' : (sp ? sp.name : '—')}
                 </span>
               </li>
             )
@@ -225,6 +325,33 @@ export default function BidTracker({ lotId, collectionId, lotTypeId, startPrice,
         </ul>
       )}
     </div>
+  )
+}
+
+/**
+ * Klikbare spotter-knop. Blurt na klik zodat de toets-spacebar daarna
+ * door de centrale window-keydown wordt afgevangen (en dus een biedstap
+ * triggert) i.p.v. door de browser te worden geïnterpreteerd als
+ * "activeer gefocuste knop".
+ */
+function SpotterButton({ label, icon, active, onSelect, variant }) {
+  const style = {
+    ...spotterBtnBaseStyle,
+    ...(variant === 'online' ? spotterBtnOnlineStyle : {}),
+    ...(active
+      ? (variant === 'online' ? spotterBtnOnlineActiveStyle : spotterBtnActiveStyle)
+      : {}),
+  }
+  return (
+    <button
+      type="button"
+      onClick={(e) => { onSelect(); e.currentTarget.blur() }}
+      style={style}
+      title={variant === 'online' ? 'Sneltoets: O' : undefined}
+    >
+      {icon ? <span style={{ marginRight: 4 }}>{icon}</span> : null}
+      {label}
+    </button>
   )
 }
 
@@ -313,26 +440,40 @@ const stepHintStyle = {
 }
 
 const spotterRowStyle = {
-  display: 'flex', alignItems: 'center', gap: 6,
+  display: 'flex', alignItems: 'stretch', gap: 6, flexWrap: 'wrap',
   marginTop: 'var(--space-2)',
 }
 
-const spotterLabelStyle = {
-  fontSize: '0.75rem',
-  color: 'var(--text-muted)',
-  flexShrink: 0,
-}
-
-const spotterSelectStyle = {
-  flex: 1,
-  background: 'var(--bg-input)',
+const spotterBtnBaseStyle = {
+  background: 'var(--bg-elevated)',
   color: 'var(--text-primary)',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-sm)',
-  padding: '4px 6px',
+  padding: '6px 10px',
   fontFamily: 'inherit',
   fontSize: '0.85rem',
+  fontWeight: 600,
   cursor: 'pointer',
+  whiteSpace: 'nowrap',
+}
+
+const spotterBtnActiveStyle = {
+  background: 'var(--accent)',
+  color: 'var(--bg-base)',
+  borderColor: 'var(--accent)',
+}
+
+const spotterBtnOnlineStyle = {
+  // Andere kleur dan gewone spotters om duidelijk te maken dat dit géén
+  // persoon is. Gebruikt een blauw-getinte tint via een eigen border.
+  borderColor: '#5a8fd6',
+  color: '#a8c4ea',
+}
+
+const spotterBtnOnlineActiveStyle = {
+  background: '#5a8fd6',
+  color: 'var(--bg-base)',
+  borderColor: '#5a8fd6',
 }
 
 const logStyle = {

@@ -1,18 +1,40 @@
 import { Link } from 'react-router-dom'
 
 /**
- * Sticky infobar bovenaan de cockpit (#24 uit POST_ALOGA_ROADMAP.md).
- * Blijft zichtbaar tijdens scrollen en toont de cruciale lot-info
- * voor tijdens het veilen: lotnummer, naam, leeftijd, minimumbedrag,
- * vader, moedersvader.
+ * Sticky infobar bovenaan de cockpit. Blijft zichtbaar tijdens scrollen
+ * en groepeert alles wat permanent in beeld moet:
+ *   - ← Naar veiling (uiterst links)
+ *   - Veiling-titel
+ *   - Lot-navigatie (vorig | dropdown | volgend)
+ *   - Lot-meta (lotnummer, naam, leeftijd, min-bedrag, charity-badge)
+ *   - Spotters-strip (verhuisd van een aparte rij onder LiveInfoBar)
+ *   - Actueel bod (live uit BidTracker via trackerState)
+ *   - Sessie-stats (X/N gehamerd, omzet — via CockpitStatusBar inline)
  *
- * Eén balk — sessie-statistieken (omzet, gem. duur, eindetijd) horen
- * hier expliciet NIET bij; die zitten in de gewone CockpitStatusBar.
+ * Op tablet portrait (≤900px) toont de balk een compactere variant via
+ * een CSS-media-query in src/index.css (.live-info-bar__* classes).
+ *
+ * BELANGRIJK: de bar leest `trackerState` ALLEEN — geen mutatie. De
+ * BidTracker-onStateChange-callback (deel 1 + 2A) blijft intact.
  *
  * Props:
- *   lot   het actieve lot-object (nullable — toont placeholder dan)
+ *   lot              actief lot-object (nullable)
+ *   prevLot/nextLot  buur-lots voor navigatie-pijlen
+ *   onNavigate       callback bij dropdown-/pijlen-keuze
+ *   backTo           link voor "← Naar veiling"
+ *   collectionTitle  naam van de veiling
+ *   stats            React-element met sessie-statistieken
+ *   allLots          lijst voor de lot-dropdown
+ *   spotters         array van spotter-objecten (NIEUW in 2B)
+ *   trackerState     { amount, spotterId, hasBids } uit BidTracker (NIEUW in 2B)
  */
-export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo, collectionTitle, stats, allLots }) {
+export default function LiveInfoBar({
+  lot, prevLot, nextLot, onNavigate, backTo, collectionTitle, stats, allLots,
+  spotters = [],
+  trackerState = null,
+  hidePrice = false,
+  setHidePrice = () => {},
+}) {
   const order  = lot?.auction_order ?? lot?.number ?? '—'
   const showCatExtra = lot && lot.auction_order != null && lot.number != null && lot.auction_order !== lot.number
   const name   = lot?.name ?? '—'
@@ -23,11 +45,29 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
     ? `€${formatNum(lot.reserve_price)}`
     : (lot?.start_price != null ? `€${formatNum(lot.start_price)}` : null)
 
+  const liveBid = (trackerState?.amount != null && trackerState.amount > 0)
+    ? `€${formatNum(trackerState.amount)}`
+    : null
+
+  // Privacy-toggle voor reserve/min-prijs: state gelift naar CockpitPage
+  // zodat ook het prijsblok in kolom 3 (Start + Reserve) mee kan blurren.
+  // We krijgen hidePrice + setHidePrice via props.
+
   return (
-    <div style={barStyle}>
-      {/* Alle navigatie + meta + lot-info samen op één rij (wrapt op smal scherm) */}
-      <div style={singleRowStyle}>
-        {/* Uiterst links: lot-navigatie (prev / dropdown / next) */}
+    <div className="live-info-bar" style={barStyle}>
+      {/* Rij 1: navigatie + lot-info */}
+      <div className="live-info-bar__row" style={rowStyle}>
+        {backTo && (
+          <Link to={backTo} className="live-info-bar__back" style={backLinkStyle} title="Terug naar de veiling">
+            <span aria-hidden>←</span>
+            <span className="lib-back-label" style={{ marginLeft: 6 }}>Naar veiling</span>
+          </Link>
+        )}
+
+        {collectionTitle && (
+          <strong className="lib-collection-title" style={collectionTitleStyle}>{collectionTitle}</strong>
+        )}
+
         {onNavigate && lot && (
           <button
             type="button"
@@ -44,11 +84,14 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
         {lot && (
           <div style={lotBlockStyle}>
             {lot.is_charity && (
-              <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.7em', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 700, letterSpacing: '0.06em' }}>
+              <span className="lib-charity" style={charityBadgeStyle}>
                 🎁 CHARITY
               </span>
             )}
-            <span style={lotnrStyle}>#{order}</span>
+            {/* Geen losse #N-span meer — de dropdown-options tonen het
+                zelf per regel ("#N {naam}"), zodat we geen dubbele hashtag
+                naast elkaar krijgen. Bij geen dropdown (fallback): toon #N
+                als prefix van de naam, niet als losse pil. */}
             {allLots && allLots.length > 0 && onNavigate ? (
               <select
                 value={lot.id}
@@ -68,15 +111,23 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
                 })}
               </select>
             ) : (
-              <strong style={nameStyle}>{name}</strong>
+              <strong style={nameStyle}>#{order} {name}</strong>
             )}
             {showCatExtra && (
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+              <span className="lib-cat-nr" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                 (Cat. nr {lot.number})
               </span>
             )}
-            {age && <Pill label="Leeftijd" value={age} />}
-            {minBedrag && <Pill label="Min" value={minBedrag} />}
+            {age && <Pill className="lib-pill-age" label="Leeftijd" value={age} />}
+            {minBedrag && (
+              <Pill
+                className="lib-pill-min"
+                label="Min"
+                value={minBedrag}
+                style={hidePrice ? hiddenPillStyle : undefined}
+                title={hidePrice ? 'Prijs verborgen — toggle rechts om te tonen' : undefined}
+              />
+            )}
           </div>
         )}
 
@@ -93,42 +144,107 @@ export default function LiveInfoBar({ lot, prevLot, nextLot, onNavigate, backTo,
           </button>
         )}
 
-        {/* Rechts: 'Naar veiling' net voor de titel + stats */}
-        {(backTo || collectionTitle || stats) && (
-          <div style={metaTailStyle}>
-            {backTo && (
-              <Link to={backTo} style={backLinkStyle} title="Terug naar de veiling">
-                ← Naar veiling
-              </Link>
-            )}
-            {collectionTitle && (
-              <strong style={collectionTitleStyle}>{collectionTitle}</strong>
-            )}
-            {stats && <div style={statsWrapStyle}>{stats}</div>}
-          </div>
-        )}
+        {/* Privacy-toggle uiterst rechts — blurt de Min-Pill in de balk
+            voor wanneer iemand meekijkt naar het scherm. */}
+        <button
+          type="button"
+          onClick={() => setHidePrice((v) => !v)}
+          style={privacyBtnStyle}
+          title={hidePrice ? 'Reserveprijs tonen' : 'Reserveprijs verbergen'}
+          aria-label={hidePrice ? 'Reserveprijs tonen' : 'Reserveprijs verbergen'}
+        >
+          {hidePrice ? '🙈' : '👁'}
+        </button>
       </div>
+
+      {/* Rij 2: live spotters + actueel bod + sessie-stats */}
+      {(spotters.length > 0 || liveBid || stats) && (
+        <div className="live-info-bar__row live-info-bar__row--live" style={liveRowStyle}>
+          {spotters.length > 0 && (
+            <div className="live-info-bar__spotters" style={spottersStripStyle}>
+              <span aria-hidden style={{ marginRight: 4 }}>👥</span>
+              {spotters.map((s, i) => (
+                <span key={s.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  {i > 0 && <span style={sepStyle}>·</span>}
+                  <span
+                    className="lib-spotter-name"
+                    title={s.location ? `${s.name} — ${s.location}` : s.name}
+                  >
+                    {s.name}
+                  </span>
+                  <span
+                    className="lib-spotter-initials"
+                    title={s.location ? `${s.name} — ${s.location}` : s.name}
+                  >
+                    {initials(s.name)}
+                  </span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {liveBid && (
+            <div className="live-info-bar__bid" style={bidStyle} title="Actueel bod uit de bod-tracker (live)">
+              <span style={bidLabelStyle}>BOD</span>
+              <span style={bidValueStyle} className="num">{liveBid}</span>
+            </div>
+          )}
+
+          {stats && <div style={statsWrapStyle}>{stats}</div>}
+        </div>
+      )}
     </div>
   )
 }
 
-const rowStyle = {
-  display: 'flex', alignItems: 'center', gap: 10,
+function Pill({ label, value, className, style, title }) {
+  return (
+    <span className={className} style={{ ...pillStyle, ...(style || {}) }} title={title}>
+      <span style={pillLabelStyle}>{label}</span>
+      <span>{value}</span>
+    </span>
+  )
 }
 
-const singleRowStyle = {
+function initials(name) {
+  if (!name) return '?'
+  const parts = String(name).trim().split(/\s+/).slice(0, 2)
+  return parts.map((w) => w[0]?.toUpperCase() || '').join('') || '?'
+}
+
+function formatNum(n) {
+  if (n == null) return ''
+  return Number(n).toLocaleString('nl-BE', { maximumFractionDigits: 0 })
+}
+
+const barStyle = {
+  position: 'sticky',
+  top: 0,
+  zIndex: 50,
+  background: 'var(--bg-base, #1a1a1a)',
+  borderBottom: '1px solid var(--border-default)',
+  padding: '8px 12px',
+  marginBottom: 'var(--space-3)',
+  marginLeft: 'calc(-1 * var(--space-5))',
+  marginRight: 'calc(-1 * var(--space-5))',
+  paddingLeft: 'var(--space-5)',
+  paddingRight: 'var(--space-5)',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 6,
+}
+
+const rowStyle = {
   display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
+}
+
+const liveRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
 }
 
 const lotBlockStyle = {
   display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.6rem',
   minWidth: 0,
-}
-
-const metaTailStyle = {
-  display: 'flex', alignItems: 'center', gap: 12,
-  marginLeft: 'auto',
-  flexWrap: 'wrap',
 }
 
 const collectionTitleStyle = {
@@ -140,6 +256,7 @@ const collectionTitleStyle = {
 
 const statsWrapStyle = {
   display: 'inline-flex', alignItems: 'center',
+  marginLeft: 'auto',
   color: 'var(--text-secondary)',
   fontSize: '0.85rem',
 }
@@ -169,6 +286,13 @@ const backLinkStyle = {
   fontSize: '0.9em', fontWeight: 600,
 }
 
+const charityBadgeStyle = {
+  background: 'var(--accent)', color: '#fff',
+  fontSize: '0.7em', padding: '2px 8px',
+  borderRadius: 'var(--radius-sm)',
+  fontWeight: 700, letterSpacing: '0.06em',
+}
+
 function navBtnStyle(enabled) {
   return {
     flexShrink: 0,
@@ -186,33 +310,6 @@ function navBtnStyle(enabled) {
   }
 }
 
-function Pill({ label, value }) {
-  return (
-    <span style={pillStyle}>
-      <span style={pillLabelStyle}>{label}</span>
-      <span>{value}</span>
-    </span>
-  )
-}
-
-function formatNum(n) {
-  if (n == null) return ''
-  return Number(n).toLocaleString('nl-BE', { maximumFractionDigits: 0 })
-}
-
-const barStyle = {
-  position: 'sticky',
-  top: 0,
-  zIndex: 50,
-  background: 'var(--bg-base, #1a1a1a)',
-  borderBottom: '1px solid var(--border-default)',
-  padding: '8px 12px',
-  marginBottom: 'var(--space-3)',
-  marginLeft: 'calc(-1 * var(--space-5))',
-  marginRight: 'calc(-1 * var(--space-5))',
-  paddingLeft: 'var(--space-5)',
-  paddingRight: 'var(--space-5)',
-}
 const lotnrStyle = {
   color: 'var(--text-muted)',
   fontFamily: 'var(--font-mono)',
@@ -240,4 +337,54 @@ const pillLabelStyle = {
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   fontWeight: 600,
+}
+
+const spottersStripStyle = {
+  display: 'flex', alignItems: 'center',
+  gap: 8, flexWrap: 'wrap',
+  fontSize: '0.85rem',
+  color: 'var(--text-secondary)',
+}
+const sepStyle = {
+  color: 'var(--text-muted)',
+}
+
+const bidStyle = {
+  display: 'inline-flex', alignItems: 'baseline', gap: 6,
+  padding: '4px 12px',
+  background: 'var(--accent)',
+  color: 'var(--bg-base)',
+  borderRadius: 'var(--radius-sm)',
+  fontWeight: 700,
+}
+const bidLabelStyle = {
+  fontSize: '0.65rem',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  opacity: 0.85,
+}
+const bidValueStyle = {
+  fontSize: '1rem',
+  fontFamily: 'var(--font-mono)',
+}
+
+const privacyBtnStyle = {
+  flexShrink: 0,
+  marginLeft: 'auto',
+  width: 36, height: 36,
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+  background: 'transparent',
+  color: 'var(--text-muted)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '1rem',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+}
+
+const hiddenPillStyle = {
+  filter: 'blur(7px)',
+  userSelect: 'none',
+  pointerEvents: 'none',
+  opacity: 0.85,
 }

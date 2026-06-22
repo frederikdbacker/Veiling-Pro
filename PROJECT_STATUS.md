@@ -1,7 +1,43 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
-**Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+**Laatste update: 22 juni 2026 (Marathon-dag: Fences-PDF + werkwijze + cockpit 2A/2B + lege-state-fix)**
+**Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding + cockpit-iteratie.**
+
+---
+
+> **22 juni 2026 — Zes PRs op één dag (#13-#18).**
+> 1. Fences-script rename `selection`→`catalogus` (PR #13).
+> 2. Fences-PDF SELECTION DEAUVILLE 2026 verrijking: 76 lots krijgen
+>    3-gens pedigree-boom + moederlijn-tekst tot 4 generaties via parser-
+>    pipeline. Migraties 0029 + 0030 (kolom toegevoegd → data verhuisd
+>    naar pedigree.text-velden → kolom gedropt). Hergebruik bestaande
+>    `PedigreeTexts`-UI, geen React-werk (PR #14).
+> 3. Werkwijze-overdracht uit FEI-project Golf 1: data-agent
+>    geformaliseerd, settings.json team-allowlist, pre-commit hook +
+>    PROJECT_STATUS-prune-script, CLAUDE.md regel 6 versterkt
+>    (`git add <pad>`) + nieuwe regel 9 (sessie-einde-checklist) (PR #15).
+> 4. Cockpit deel 2A: bod-tracker spotter-dropdown → klikbare knoppen,
+>    sneltoetsen ↑↓←→ spacebar O met strikte focus-guard, online-knop
+>    en `ONLINE_SENTINEL` doorgekoppeld tot in de Verkocht-pop-up
+>    (`sale_channel='online'` voorinvulling) (PR #16).
+> 5. Cockpit deel 2B: sticky balk herzien (spotters + actueel-bod live
+>    erin, compacte variant ≤900px), dynamische veldvolgorde in kolom 2
+>    (gevuld bovenaan opengeklapt, leeg onderaan ingeklapt via
+>    `SortableCard` met useRef-mount-only — geen springen bij re-render),
+>    privacy-toggle 👁/🙈 die Min+Start+Reserve blurt (PR #17).
+> 6. Lege-cockpit-fix: lot-dropdown altijd zichtbaar in sticky balk
+>    (ook zonder actief lot) + prominent leeg-state-blok i.p.v. de
+>    subtiele "Kies hierboven…"-regel (PR #18).
+>
+> Volledig dagrapport met alle beslissingen, edge-cases en plan-iteraties:
+> `reports/2026-06-22_dagrapport.md`. Specifieke rapporten voor PR #13
+> en #14 in `reports/2026-06-22_rename-fences-selection-naar-catalogus.md`
+> en `reports/2026-06-22_fences-pdf-pedigree-import.md`.
+>
+> **Open punten**: (a) `git config core.hooksPath .githooks` éénmalig
+> draaien op Mac mini + MacBook; (b) Frederik checkt privacy-toggle op
+> Vercel-productie vóór publiek gebruik bij SELECTION 29 juni; (c) twee
+> losse `.mp4`-bestanden in werkmap nog onaangeroerd.
 
 ---
 

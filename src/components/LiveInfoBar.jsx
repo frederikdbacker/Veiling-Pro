@@ -81,55 +81,55 @@ export default function LiveInfoBar({
           </button>
         )}
 
-        {lot && (
-          <div style={lotBlockStyle}>
-            {lot.is_charity && (
-              <span className="lib-charity" style={charityBadgeStyle}>
-                🎁 CHARITY
-              </span>
-            )}
-            {/* Geen losse #N-span meer — de dropdown-options tonen het
-                zelf per regel ("#N {naam}"), zodat we geen dubbele hashtag
-                naast elkaar krijgen. Bij geen dropdown (fallback): toon #N
-                als prefix van de naam, niet als losse pil. */}
-            {allLots && allLots.length > 0 && onNavigate ? (
-              <select
-                value={lot.id}
-                onChange={(e) => onNavigate(e.target.value)}
-                style={lotSelectStyle}
-                aria-label="Spring naar ander lot"
-                title="Spring naar ander lot"
-              >
-                {allLots.map((l) => {
-                  const ord = l.auction_order ?? l.number
-                  const mark = l.withdrawn ? ' 🚫' : ''
-                  return (
-                    <option key={l.id} value={l.id}>
-                      #{ord ?? '—'} {l.name}{mark}
-                    </option>
-                  )
-                })}
-              </select>
-            ) : (
-              <strong style={nameStyle}>#{order} {name}</strong>
-            )}
-            {showCatExtra && (
-              <span className="lib-cat-nr" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                (Cat. nr {lot.number})
-              </span>
-            )}
-            {age && <Pill className="lib-pill-age" label="Leeftijd" value={age} />}
-            {minBedrag && (
-              <Pill
-                className="lib-pill-min"
-                label="Min"
-                value={minBedrag}
-                style={hidePrice ? hiddenPillStyle : undefined}
-                title={hidePrice ? 'Prijs verborgen — toggle rechts om te tonen' : undefined}
-              />
-            )}
-          </div>
-        )}
+        {/* Lot-blok + dropdown — dropdown is ook zichtbaar wanneer er
+            nog GEEN actief lot is, zodat Frederik vanaf de sticky balk
+            een lot kan kiezen (en de cockpit niet "leeg" voelt). */}
+        <div style={lotBlockStyle}>
+          {lot?.is_charity && (
+            <span className="lib-charity" style={charityBadgeStyle}>
+              🎁 CHARITY
+            </span>
+          )}
+          {allLots && allLots.length > 0 && onNavigate ? (
+            <select
+              value={lot?.id ?? ''}
+              onChange={(e) => onNavigate(e.target.value)}
+              style={lotSelectStyle}
+              aria-label={lot ? 'Spring naar ander lot' : 'Kies een lot in de piste'}
+              title={lot ? 'Spring naar ander lot' : 'Kies een lot in de piste'}
+            >
+              {!lot && (
+                <option value="" disabled>— Kies een lot in de piste —</option>
+              )}
+              {allLots.map((l) => {
+                const ord = l.auction_order ?? l.number
+                const mark = l.withdrawn ? ' 🚫' : ''
+                return (
+                  <option key={l.id} value={l.id}>
+                    #{ord ?? '—'} {l.name}{mark}
+                  </option>
+                )
+              })}
+            </select>
+          ) : lot ? (
+            <strong style={nameStyle}>#{order} {name}</strong>
+          ) : null}
+          {lot && showCatExtra && (
+            <span className="lib-cat-nr" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+              (Cat. nr {lot.number})
+            </span>
+          )}
+          {lot && age && <Pill className="lib-pill-age" label="Leeftijd" value={age} />}
+          {lot && minBedrag && (
+            <Pill
+              className="lib-pill-min"
+              label="Min"
+              value={minBedrag}
+              style={hidePrice ? hiddenPillStyle : undefined}
+              title={hidePrice ? 'Prijs verborgen — toggle rechts om te tonen' : undefined}
+            />
+          )}
+        </div>
 
         {onNavigate && lot && (
           <button

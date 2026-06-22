@@ -217,9 +217,19 @@ export default function CockpitPage() {
               </p>
             </div>
           ) : (
-            <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
-              Kies hierboven welk lot in de piste is om te beginnen.
-            </p>
+            <div style={emptyCockpitStyle}>
+              <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>🐎</div>
+              <h2 style={{ fontSize: '1.2rem', color: 'var(--text-primary)', margin: '0 0 var(--space-2) 0' }}>
+                Klaar om te beginnen
+              </h2>
+              <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
+                Kies bovenaan in de balk een lot uit de dropdown
+                <br />
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.9em' }}>
+                  ("— Kies een lot in de piste —")
+                </span>
+              </p>
+            </div>
           )}
         </div>
       )}
@@ -1389,6 +1399,20 @@ const rundownStyle = {
   padding: 'var(--space-5)',
   marginTop: 'var(--space-3)',
   maxWidth: 800,
+}
+const emptyCockpitStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  textAlign: 'center',
+  padding: 'var(--space-6) var(--space-4)',
+  marginTop: 'var(--space-5)',
+  background: 'var(--bg-surface)',
+  border: '1px dashed var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  maxWidth: 500,
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }
 const cardTitleStyle = {
   fontSize: '0.85rem',

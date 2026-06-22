@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 /**
@@ -33,6 +32,8 @@ export default function LiveInfoBar({
   lot, prevLot, nextLot, onNavigate, backTo, collectionTitle, stats, allLots,
   spotters = [],
   trackerState = null,
+  hidePrice = false,
+  setHidePrice = () => {},
 }) {
   const order  = lot?.auction_order ?? lot?.number ?? '—'
   const showCatExtra = lot && lot.auction_order != null && lot.number != null && lot.auction_order !== lot.number
@@ -48,10 +49,9 @@ export default function LiveInfoBar({
     ? `€${formatNum(trackerState.amount)}`
     : null
 
-  // Privacy-toggle voor reserve/min-prijs: een discrete knop rechtsboven
-  // blurt de Min-Pill wanneer iemand meekijkt naar het scherm. Local state
-  // per cockpit-sessie (verliest bij refresh — bewust simpel).
-  const [hidePrice, setHidePrice] = useState(false)
+  // Privacy-toggle voor reserve/min-prijs: state gelift naar CockpitPage
+  // zodat ook het prijsblok in kolom 3 (Start + Reserve) mee kan blurren.
+  // We krijgen hidePrice + setHidePrice via props.
 
   return (
     <div className="live-info-bar" style={barStyle}>

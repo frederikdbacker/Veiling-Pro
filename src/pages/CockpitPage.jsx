@@ -48,6 +48,10 @@ export default function CockpitPage() {
   // het live-bod ook kan tonen. Identiek payload-contract met BidTracker:
   // { amount, spotterId, hasBids }. Sticky leest alleen — wijzigt niets.
   const [trackerState, setTrackerState] = useState({ amount: 0, spotterId: null, hasBids: false })
+  // 2B: privacy-toggle voor reserve/min-prijs. Bediening in LiveInfoBar
+  // (👁 / 🙈 knop rechts), effect in LiveInfoBar (Min-Pill) én in
+  // ActiveLotPanel (Start + Reserve in het prijsblok van kolom 3).
+  const [hidePrice, setHidePrice] = useState(false)
 
   // Spotters laden bij wijzigen van collectionId — tonen in een kleine
   // strip tussen statusbalk en lot-picker (links → rechts in de zaal).
@@ -184,6 +188,8 @@ export default function CockpitPage() {
         allLots={allLots}
         spotters={spotters}
         trackerState={trackerState}
+        hidePrice={hidePrice}
+        setHidePrice={setHidePrice}
       />
 
       {closeModalOpen && (
@@ -249,6 +255,7 @@ export default function CockpitPage() {
           onActiveLotChange={setActiveLotById}
           trackerState={trackerState}
           setTrackerState={setTrackerState}
+          hidePrice={hidePrice}
         />
       )}
     </section>
@@ -263,6 +270,7 @@ function ActiveLotPanel({
   // 2B: trackerState gelift naar CockpitPage zodat de sticky LiveInfoBar
   // het live-bod kan tonen. Hier ontvangen we hem als prop.
   trackerState, setTrackerState,
+  hidePrice = false,
 }) {
   // Voorouder-tekstblokken (Père / 1ère / 2ème / 3ème / 4ème mère) komen
   // momenteel alleen voor bij Fences-imports. Voor andere huizen renderen
@@ -410,7 +418,11 @@ function ActiveLotPanel({
             </div>
 
             <div style={actionDividerStyle}>
-              <div style={priceBlockStyle} className="num">
+              <div
+                style={hidePrice ? { ...priceBlockStyle, ...hiddenPriceStyle } : priceBlockStyle}
+                className="num"
+                title={hidePrice ? 'Prijzen verborgen — toggle in de sticky balk om te tonen' : undefined}
+              >
                 <div>
                   <span style={priceLabelStyle}>Start</span>{' '}
                   <strong>€{formatNum(lot.start_price)}</strong>
@@ -1335,6 +1347,14 @@ const priceBlockStyle = {
   gap: 'var(--space-4)',
   fontSize: '1.05rem',
   color: 'var(--text-primary)',
+}
+// 2B: overlay-style voor privacy-toggle. Behoudt layout (filter, niet
+// display:none) zodat het paneel niet schuift wanneer Frederik toggelt.
+const hiddenPriceStyle = {
+  filter: 'blur(7px)',
+  userSelect: 'none',
+  pointerEvents: 'none',
+  opacity: 0.85,
 }
 const priceLabelStyle = {
   color: 'var(--text-muted)',

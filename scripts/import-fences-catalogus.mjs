@@ -1,7 +1,7 @@
-// Importeer een gescrapete Fences-catalogus-JSON (scrape-fences-selection.mjs)
+// Importeer een gescrapete Fences-catalogus-JSON (scrape-fences-catalogus.mjs)
 // in de BESTAANDE planned-collectie (we maken er geen nieuwe aan).
 //
-//   node --env-file=.env.local scripts/import-fences-selection.mjs <json> [naam-deel]
+//   node --env-file=.env.local scripts/import-fences-catalogus.mjs <json> [naam-deel]
 //
 // - Weigert te importeren als de scrape onvolledig was (meta.stopped_reason).
 // - Idempotent: stopt als de collectie al lots heeft.
@@ -14,7 +14,7 @@ import { readFile } from 'node:fs/promises'
 const sb = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_PUBLISHABLE_KEY)
 const file = process.argv[2]
 const nameMatch = process.argv[3] || 'élection'
-if (!file) { console.error('Usage: node scripts/import-fences-selection.mjs <json> [naam-deel]'); process.exit(1) }
+if (!file) { console.error('Usage: node scripts/import-fences-catalogus.mjs <json> [naam-deel]'); process.exit(1) }
 
 const { meta, horses } = JSON.parse(await readFile(file, 'utf8'))
 if (meta.stopped_reason) {

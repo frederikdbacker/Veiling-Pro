@@ -14,8 +14,8 @@
 // records. Exit-code 2 = onvolledig.
 //
 // Gebruik:
-//   node scripts/scrape-fences-selection.mjs <vente-slug> [auctionYear]
-//   node scripts/scrape-fences-selection.mjs selection 2026
+//   node scripts/scrape-fences-catalogus.mjs <vente-slug> [auctionYear]
+//   node scripts/scrape-fences-catalogus.mjs selection 2026
 
 import { writeFile, mkdir } from 'node:fs/promises'
 
@@ -25,7 +25,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const venteSlug = process.argv[2]
 const auctionYear = parseInt(process.argv[3] || '2026', 10)
 if (!venteSlug) {
-  console.error('Usage: node scripts/scrape-fences-selection.mjs <vente-slug> [year]')
+  console.error('Usage: node scripts/scrape-fences-catalogus.mjs <vente-slug> [year]')
   process.exit(1)
 }
 const CATALOG = `https://www.fences.fr/cheval/vente/${venteSlug}/`

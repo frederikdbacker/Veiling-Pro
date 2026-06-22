@@ -172,11 +172,49 @@ ruwere restore nodig zijn.
 
 ## Volgende stappen (apart)
 
-- **UI-blok voor `maternal_line`** op LotPage / cockpit — toont per
-  generatie de tekst, met expand/collapse voor compacte weergave.
 - Eventueel **`birth_info` als kolom op `lots`** + UI-vermelding.
 - **Parser-script herbruikbaar maken voor toekomstige Fences-catalogi**:
   de SELECTION 2027, SERVICE 2026, ELITE 2026 zullen waarschijnlijk
   dezelfde layout hebben (sjabloon-document van het zelfde drukker).
   Enige wijzigingen die nodig zouden kunnen zijn: page-watermark-tekst
   (datum verandert per jaar) en `COLLECTION_ID` in de importer.
+
+---
+
+## Vervolg in dezelfde sessie: UI-zichtbaar via PedigreeTexts
+
+Na de eerste import bleek `maternal_line` in een eigen kolom te staan
+zonder UI-koppeling. UI-onderzoek wees uit dat een bestaande component
+`PedigreeTexts` (`src/components/PedigreeTree.jsx:131`) precies het
+gewenste patroon biedt — klapbare blokken Père / 1ère / 2ème / 3ème /
+4ème mère met editen, slepen-om-te-markeren — maar leest `text`-velden
+ON DE pedigree-knopen (`pedigree.dam.text` etc.), zoals de Vente de
+Service 19/06/2026 al gebruikt.
+
+Frederik koos hergebruik van die bestaande UI boven een nieuw apart
+blok. Implementatie:
+
+- **Importer-script** uitgebreid om de PDF-tekst rechtstreeks in de
+  pedigree-knopen te plaatsen:
+  - `sire_description` → `pedigree.sire.text`
+  - `maternal_line[1..3]` → `pedigree.dam[.dam[.dam]].text`
+  - `maternal_line[4]` → nieuwe knoop op `pedigree.dam.dam.dam.dam`
+    met naam-extractie uit de tekst (eerste `NAAM (f. …)` patroon)
+  - `maternal_line.summary` → geappend aan diepste laag met
+    `\n\n— Famille —\n` visuele separator
+- **Slim-merge** uitgebreid: `text`-velden volgen dezelfde regel
+  (leeg → vullen, gelijk → niets, verschillend → DB behouden + log).
+  `highlights`-array (Frederiks markeringen) wordt nooit overschreven.
+- **Her-import** uitgevoerd op productie: 76/76 lots krijgen
+  `pedigree.sire.text` (Père) + `pedigree.dam.text` (1ère) +
+  `pedigree.dam.dam.text` (2ème), 67/76 `.dam.dam.dam.text` (3ème),
+  35/76 `.dam.dam.dam.dam.text` (4ème met geparste naam). 0 conflicten.
+- **Migratie 0030** (`alter table lots drop column maternal_line`)
+  toegepast op productie — kolom is redundant geworden. Data zit nu
+  in `lots.pedigree`; geen verlies.
+
+**Wat Frederik nu in de browser kan testen** (https://veiling-pro.vercel.app):
+op LotPage van een lot in SELECTION 2026 verschijnen onder de pedigree-
+bracket-tree de 5 klapbare blokken Père + 4 moeders + familie-
+samenvatting. Op CockpitPage staan dezelfde blokken in de "Voorouders"-
+Card in kolom 2.

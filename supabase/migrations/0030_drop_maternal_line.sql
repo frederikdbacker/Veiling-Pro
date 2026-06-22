@@ -1,0 +1,25 @@
+-- Migratie 0030: drop lots.maternal_line (jsonb).
+--
+-- Migratie 0029 maakte deze kolom aan om de moederlijn-tekst uit
+-- Fences-PDF-catalogi op te slaan. Bij UI-onderzoek bleek dat er al een
+-- component PedigreeTexts (src/components/PedigreeTree.jsx:131) bestaat
+-- die exact deze data toont, maar leest van `text`-velden OP de
+-- pedigree-knopen (pedigree.dam.text, pedigree.dam.dam.text, etc.) —
+-- zoals de Vente de Service 19/06/2026 al gebruikt.
+--
+-- De importer (scripts/import-fences-pdf-enrichment.mjs) is bijgewerkt
+-- om in die structuur te schrijven; de 76 SELECTION 2026-lots zijn
+-- her-geïmporteerd vóór deze migratie. lots.maternal_line is daardoor
+-- redundant.
+--
+-- Geen data-verlies: de tekst staat ook in lots.pedigree (pedigree.dam.text
+-- voor 1ère mère, .dam.dam.text voor 2ème mère, enz., en pedigree.sire.text
+-- voor de vader-beschrijving + .dam[...].dam.text voor 4ème mère met
+-- familie-samenvatting eraan geappend).
+--
+-- Rollback (mocht het ooit nodig zijn): de tekst in pedigree.*.text is
+-- via een eenvoudige re-projectie terug te genereren naar een
+-- maternal_line-kolom; en de PDF-bron (data/fences-selection-2026-pdf-
+-- enrichment.json) blijft in de repo staan voor heronderzoek.
+
+alter table lots drop column maternal_line;

@@ -1,11 +1,23 @@
 // Importeer de PDF-extractie van een Fences-catalogus in de bestaande
 // lots-rijen van de bijbehorende collectie.
 //
-// Per lot wordt:
-//   - `pedigree` (jsonb) slim-gemerged: knoop voor knoop. Een leeg DB-veld
-//     wordt gevuld; een gelijk veld blijft; een verschillend veld wordt
-//     NIET overschreven (DB heeft voorrang) en het conflict wordt gelogd.
-//   - `maternal_line` (jsonb, migratie 0029) altijd gevuld (was leeg).
+// Per lot wordt `pedigree` (jsonb) slim-gemerged: knoop voor knoop. Een
+// leeg DB-veld wordt gevuld; een gelijk veld blijft; een verschillend veld
+// wordt NIET overschreven (DB heeft voorrang) en het conflict wordt gelogd.
+//
+// Naast namen schrijft de importer ook `text`-velden OP de pedigree-knopen
+// (Service 19/06-2026 structuur), zodat het bestaande PedigreeTexts-
+// component ze automatisch toont:
+//   - sire_description       → pedigree.sire.text                    ("Père")
+//   - maternal_line["1"]     → pedigree.dam.text                     ("1ère mère")
+//   - maternal_line["2"]     → pedigree.dam.dam.text                 ("2ème mère")
+//   - maternal_line["3"]     → pedigree.dam.dam.dam.text             ("3ème mère")
+//   - maternal_line["4"]     → pedigree.dam.dam.dam.dam.text         ("4ème mère")
+//   - maternal_line.summary  → append aan diepste laag met "— Famille —"
+//
+// 4ème mère heeft geen knoop in onze 3-gens-boom; importer maakt hem aan
+// op pedigree.dam.dam.dam.dam met geparste naam + tekst. Bestaande
+// `highlights`-arrays (markeringen door Frederik) blijven altijd staan.
 //
 // Matching tussen JSON-lot en DB-lot: op `number` binnen de gegeven
 // collectie. Naam wordt apart vergeleken als sanity-check (met
@@ -59,6 +71,65 @@ const sb = createClient(URL, KEY)
 
 const norm = (s) => (s ?? '').replace(/[’`]/g, "'").replace(/\s+/g, ' ').trim()
 const sameName = (a, b) => norm(a).toLowerCase() === norm(b).toLowerCase()
+const sameText = (a, b) => norm(a) === norm(b)
+
+function clone(o) { return o == null ? o : JSON.parse(JSON.stringify(o)) }
+
+// Plaats tekst-velden uit het flat JSON-formaat (sire_description +
+// maternal_line) ON DE juiste pedigree-knopen, en voeg de families-summary
+// toe aan de diepste beschikbare moederlijn-tekst met visuele separator.
+// Resultaat is een pedigree-boom in de Service-19/06-structuur (knopen met
+// zowel `name` als `text`).
+function injectTextsIntoPdfPedigree(pdfPed, pdfLot) {
+  const ped = clone(pdfPed) ?? {}
+
+  // Sire-description in pedigree.sire.text ("Père"-blok)
+  if (pdfLot.sire_description) {
+    if (!ped.sire) ped.sire = {}
+    ped.sire.text = pdfLot.sire_description
+  }
+
+  // Maternal line in de drie bestaande dam-niveaus
+  const ml = pdfLot.maternal_line || {}
+  if (ml['1']) {
+    if (!ped.dam) ped.dam = {}
+    ped.dam.text = ml['1']
+  }
+  if (ml['2']) {
+    if (!ped.dam) ped.dam = {}
+    if (!ped.dam.dam) ped.dam.dam = {}
+    ped.dam.dam.text = ml['2']
+  }
+  if (ml['3']) {
+    if (!ped.dam) ped.dam = {}
+    if (!ped.dam.dam) ped.dam.dam = {}
+    if (!ped.dam.dam.dam) ped.dam.dam.dam = {}
+    ped.dam.dam.dam.text = ml['3']
+  }
+
+  // 4ème mère: knoop aanmaken op dam.dam.dam.dam met geparste naam
+  if (ml['4']) {
+    if (!ped.dam) ped.dam = {}
+    if (!ped.dam.dam) ped.dam.dam = {}
+    if (!ped.dam.dam.dam) ped.dam.dam.dam = {}
+    const m = ml['4'].match(/^([\p{Lu}][\p{Lu}0-9'’\s\-]*?)\s*\(\s*f\./u)
+    const name4 = m ? m[1].trim() : null
+    ped.dam.dam.dam.dam = name4
+      ? { name: name4, text: ml['4'] }
+      : { text: ml['4'] }
+  }
+
+  // Familie-samenvatting appenden aan diepste laag met visuele separator
+  if (ml.summary) {
+    const sep = '\n\n— Famille —\n'
+    if (ped.dam?.dam?.dam?.dam?.text)      ped.dam.dam.dam.dam.text += sep + ml.summary
+    else if (ped.dam?.dam?.dam?.text)      ped.dam.dam.dam.text     += sep + ml.summary
+    else if (ped.dam?.dam?.text)           ped.dam.dam.text         += sep + ml.summary
+    else if (ped.dam?.text)                ped.dam.text             += sep + ml.summary
+  }
+
+  return ped
+}
 
 // Slim-merge één pedigree-knoop (sire/dam/grandparent/...). Beide knopen
 // kunnen null/undefined zijn. Resultaat = DB-versie aangevuld met PDF-velden
@@ -87,6 +158,23 @@ function mergeNode(dbNode, pdfNode, pathArr, conflicts) {
     }
   }
 
+  // text (catalogustekst per voorouder)
+  if (pdfNode.text) {
+    if (!dbNode.text) {
+      out.text = pdfNode.text
+    } else if (!sameText(dbNode.text, pdfNode.text)) {
+      const dbExcerpt = dbNode.text.slice(0, 80) + (dbNode.text.length > 80 ? '…' : '')
+      const pdfExcerpt = pdfNode.text.slice(0, 80) + (pdfNode.text.length > 80 ? '…' : '')
+      conflicts.push({ path: pathArr.concat('text').join('.'), db: dbExcerpt, pdf: pdfExcerpt })
+    }
+  }
+
+  // highlights: NOOIT overschrijven (Frederiks markeringen). Alleen
+  // toevoegen als de DB-knoop er nog geen had.
+  if (pdfNode.highlights != null && dbNode.highlights == null) {
+    out.highlights = clone(pdfNode.highlights)
+  }
+
   // recursie sire/dam
   out.sire = mergeNode(dbNode.sire, pdfNode.sire, pathArr.concat('sire'), conflicts)
   out.dam  = mergeNode(dbNode.dam,  pdfNode.dam,  pathArr.concat('dam'),  conflicts)
@@ -98,8 +186,6 @@ function mergeNode(dbNode, pdfNode, pathArr, conflicts) {
   return out
 }
 
-function clone(o) { return o == null ? o : JSON.parse(JSON.stringify(o)) }
-
 function mergePedigree(dbPed, pdfPed, conflicts) {
   const merged = {
     sire: mergeNode(dbPed?.sire, pdfPed?.sire, ['sire'], conflicts),
@@ -107,8 +193,8 @@ function mergePedigree(dbPed, pdfPed, conflicts) {
   }
   if (merged.sire == null) delete merged.sire
   if (merged.dam == null) delete merged.dam
-  // Bewaar ook eventuele andere velden uit dbPed die niet in onze drie-gens
-  // boom zitten (zoals 'text'-annotaties uit migratie 0025).
+  // Bewaar ook eventuele andere top-level velden uit dbPed (bv. legacy
+  // annotaties uit migratie 0025 die niet onder sire/dam vallen).
   if (dbPed) {
     for (const k of Object.keys(dbPed)) {
       if (k !== 'sire' && k !== 'dam' && !(k in merged)) merged[k] = dbPed[k]
@@ -129,9 +215,11 @@ console.log(`🎯 Doel-collectie: ${COLLECTION_ID}`)
 console.log(`🔒 Mode: ${commit ? 'COMMIT — DB wordt geschreven' : 'DRY-RUN — geen DB-writes'}`)
 console.log()
 
-// Haal alle DB-lots op (één query)
+// Haal alle DB-lots op (één query). Selecteer enkel velden die we nodig
+// hebben — bewust GEEN `maternal_line` (kolom wordt later gedropt in
+// migratie 0030; importer hoort onafhankelijk daarvan te werken).
 const { data: dbLots, error } = await sb
-  .from('lots').select('id, number, name, pedigree, maternal_line')
+  .from('lots').select('id, number, name, pedigree')
   .eq('collection_id', COLLECTION_ID)
 
 if (error) { console.error('❌ DB-query mislukt:', error); process.exit(2) }
@@ -139,7 +227,12 @@ if (error) { console.error('❌ DB-query mislukt:', error); process.exit(2) }
 const dbByNumber = new Map(dbLots.map((l) => [l.number, l]))
 
 const allConflicts = []
-const summary = { matched: 0, missing: 0, namesMismatch: 0, pedFilledFresh: 0, pedConflicts: 0, mlFilled: 0, mlAlready: 0, written: 0 }
+const summary = {
+  matched: 0, missing: 0, namesMismatch: 0,
+  pedFilledFresh: 0, pedConflicts: 0,
+  sireTextFilled: 0, gen1: 0, gen2: 0, gen3: 0, gen4: 0,
+  written: 0,
+}
 
 for (const pdfLot of pdfLots) {
   const dbLot = dbByNumber.get(pdfLot.lot_number)
@@ -155,10 +248,14 @@ for (const pdfLot of pdfLots) {
     console.warn(`⚠ lot ${pdfLot.lot_number} — naam-verschil: DB="${dbLot.name}" PDF="${pdfLot.name}" (gaat door op nummer)`)
   }
 
+  // 1. Verrijk de PDF-pedigree met text-velden op de juiste knopen.
+  const pdfPedEnriched = injectTextsIntoPdfPedigree(pdfLot.pedigree, pdfLot)
+
+  // 2. Slim-merge met de DB-versie.
   const lotConflicts = []
   const wasEmpty = !dbLot.pedigree || (!dbLot.pedigree.sire && !dbLot.pedigree.dam)
-  const mergedPed = mergePedigree(dbLot.pedigree, pdfLot.pedigree, lotConflicts)
-  const newPed = wasEmpty ? pdfLot.pedigree : mergedPed
+  const mergedPed = mergePedigree(dbLot.pedigree, pdfPedEnriched, lotConflicts)
+  const newPed = wasEmpty ? pdfPedEnriched : mergedPed
 
   if (wasEmpty) summary.pedFilledFresh++
   summary.pedConflicts += lotConflicts.length
@@ -166,30 +263,37 @@ for (const pdfLot of pdfLots) {
     allConflicts.push({ lot_number: pdfLot.lot_number, name: pdfLot.name, conflicts: lotConflicts })
   }
 
-  // maternal_line: altijd vullen als nu null; bestaand → laten staan + log
-  let newMl = dbLot.maternal_line
-  if (dbLot.maternal_line == null) {
-    newMl = pdfLot.maternal_line
-    summary.mlFilled++
-  } else {
-    summary.mlAlready++
-  }
+  // Tekst-stats
+  if (newPed?.sire?.text)             summary.sireTextFilled++
+  if (newPed?.dam?.text)              summary.gen1++
+  if (newPed?.dam?.dam?.text)         summary.gen2++
+  if (newPed?.dam?.dam?.dam?.text)    summary.gen3++
+  if (newPed?.dam?.dam?.dam?.dam?.text) summary.gen4++
 
   if (onlyLot != null && commit === false) {
     console.log(`--- lot ${pdfLot.lot_number} ${pdfLot.name} ---`)
     console.log('  pedigree was leeg?:', wasEmpty)
     console.log('  conflicts:', lotConflicts.length)
     if (lotConflicts.length) for (const c of lotConflicts) console.log('    ·', c.path, 'DB="' + c.db + '" PDF="' + c.pdf + '"')
-    console.log('  resulting pedigree.sire.name:', newPed?.sire?.name)
-    console.log('  resulting pedigree.dam.name:', newPed?.dam?.name)
-    console.log('  maternal_line filled?:', dbLot.maternal_line == null)
-    console.log('  ml.1 (eerste 80):', (newMl?.['1'] || '').slice(0, 80))
+    console.log('  pedigree.sire.name:', newPed?.sire?.name)
+    console.log('  pedigree.sire.text (eerste 80):', (newPed?.sire?.text || '').slice(0, 80))
+    console.log('  pedigree.dam.name:', newPed?.dam?.name)
+    console.log('  pedigree.dam.text (eerste 80):', (newPed?.dam?.text || '').slice(0, 80))
+    console.log('  pedigree.dam.dam.name:', newPed?.dam?.dam?.name)
+    console.log('  pedigree.dam.dam.text (eerste 80):', (newPed?.dam?.dam?.text || '').slice(0, 80))
+    console.log('  pedigree.dam.dam.dam.name:', newPed?.dam?.dam?.dam?.name)
+    console.log('  pedigree.dam.dam.dam.text (eerste 80):', (newPed?.dam?.dam?.dam?.text || '').slice(0, 80))
+    console.log('  pedigree.dam.dam.dam.dam.name:', newPed?.dam?.dam?.dam?.dam?.name)
+    console.log('  pedigree.dam.dam.dam.dam.text (eerste 80):', (newPed?.dam?.dam?.dam?.dam?.text || '').slice(0, 80))
+    // Check of summary erin staat
+    const deepest = newPed?.dam?.dam?.dam?.dam?.text || newPed?.dam?.dam?.dam?.text || newPed?.dam?.dam?.text || newPed?.dam?.text || ''
+    console.log('  summary aanwezig in diepste tekst?:', deepest.includes('— Famille —'))
   }
 
   if (commit) {
     const { error: upErr } = await sb
       .from('lots')
-      .update({ pedigree: newPed, maternal_line: newMl })
+      .update({ pedigree: newPed })
       .eq('id', dbLot.id)
     if (upErr) {
       console.error(`❌ lot ${pdfLot.lot_number} update mislukt:`, upErr)
@@ -228,8 +332,11 @@ lines.push(`| Geen DB-match | ${summary.missing} |`)
 lines.push(`| Naam-verschil (zelfde nummer) | ${summary.namesMismatch} |`)
 lines.push(`| Pedigree was leeg → volledig gevuld | ${summary.pedFilledFresh} |`)
 lines.push(`| Pedigree-knoop-conflicten (DB behouden) | ${summary.pedConflicts} |`)
-lines.push(`| Maternal_line was leeg → gevuld | ${summary.mlFilled} |`)
-lines.push(`| Maternal_line bestond al → behouden | ${summary.mlAlready} |`)
+lines.push(`| pedigree.sire.text aanwezig (Père) | ${summary.sireTextFilled} |`)
+lines.push(`| pedigree.dam.text (1ère mère) | ${summary.gen1} |`)
+lines.push(`| pedigree.dam.dam.text (2ème mère) | ${summary.gen2} |`)
+lines.push(`| pedigree.dam.dam.dam.text (3ème mère) | ${summary.gen3} |`)
+lines.push(`| pedigree.dam.dam.dam.dam.text (4ème mère) | ${summary.gen4} |`)
 if (commit) lines.push(`| Lots werkelijk weggeschreven | ${summary.written} |`)
 lines.push(``)
 

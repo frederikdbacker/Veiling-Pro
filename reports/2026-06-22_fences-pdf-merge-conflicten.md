@@ -13,10 +13,13 @@
 | Gematched op nummer | 76 |
 | Geen DB-match | 0 |
 | Naam-verschil (zelfde nummer) | 8 |
-| Pedigree was leeg → volledig gevuld | 76 |
+| Pedigree was leeg → volledig gevuld | 0 |
 | Pedigree-knoop-conflicten (DB behouden) | 0 |
-| Maternal_line was leeg → gevuld | 76 |
-| Maternal_line bestond al → behouden | 0 |
+| pedigree.sire.text aanwezig (Père) | 76 |
+| pedigree.dam.text (1ère mère) | 76 |
+| pedigree.dam.dam.text (2ème mère) | 76 |
+| pedigree.dam.dam.dam.text (3ème mère) | 67 |
+| pedigree.dam.dam.dam.dam.text (4ème mère) | 35 |
 | Lots werkelijk weggeschreven | 76 |
 
 ## Conflicten

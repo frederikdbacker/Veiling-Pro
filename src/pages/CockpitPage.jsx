@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { getDays } from '../lib/collectionDays'
 import BidStepRulesPreview from '../components/BidStepRulesPreview'
@@ -37,7 +37,6 @@ import { getSpotters } from '../lib/spotters'
  */
 export default function CockpitPage() {
   const { collectionId, dayId } = useParams()
-  const navigate = useNavigate()
   const [collection, setCollection] = useState(null)
   const [days, setDays] = useState([])
   const [allLots, setAllLots] = useState([])
@@ -182,12 +181,6 @@ export default function CockpitPage() {
     }
   }
 
-  // Wissel van veilingdag via de URL (zodat back/forward werkt en de
-  // active-lot-effect netjes herlaadt).
-  function switchDay(newDayId) {
-    if (newDayId) navigate(`/cockpit/${collectionId}/${newDayId}`)
-  }
-
   if (error) {
     return (
       <section>
@@ -203,7 +196,10 @@ export default function CockpitPage() {
   const houseId   = collection.auction_houses?.id
   const houseName = collection.auction_houses?.name
 
-  const isMultiDay = days.length >= 2
+  // De cockpit is gescoped op precies één veilingdag (gekozen vóór binnenkomst
+  // via de dag-specifieke 'Open cockpit'-knop). Geen dag-chrome in de cockpit
+  // zelf — enkel de lots van die ene dag. `sessionClosed` bepaalt of de
+  // afsluit-knop al 'afgesloten' toont.
   const sessionClosed = legacyMode
     ? collection.status === 'afgesloten'
     : activeDay?.status === 'afgesloten'
@@ -241,18 +237,6 @@ export default function CockpitPage() {
         hidePrice={hidePrice}
         setHidePrice={setHidePrice}
       />
-
-      {/* Dag-kiezer bij een meerdaagse collectie. De live-sessie (active lot,
-          statusbalk, verwacht einduur) draait over de gekozen dag; de
-          spotters-strip blijft collectie-breed. */}
-      {isMultiDay && (
-        <DayPicker
-          days={days}
-          activeDayId={activeDay?.id}
-          lots={allLots}
-          onSwitch={switchDay}
-        />
-      )}
 
       {closeModalOpen && (
         <CloseAuctionModal
@@ -315,7 +299,6 @@ export default function CockpitPage() {
           houseName={houseName}
           houseLogoUrl={collection.auction_houses?.logo_url}
           sessionClosed={sessionClosed}
-          isMultiDay={isMultiDay}
           onOpenCloseModal={() => setCloseModalOpen(true)}
           showFinalSummaryLink={dayLots.length > 0 && dayLots.every((l) => l.withdrawn || l.time_hammer != null)}
           onlineBiddingEnabled={!!collection.online_bidding_enabled}
@@ -348,7 +331,7 @@ function ActiveLotPanel({
   lot, collectionId, houseId, houseName, houseLogoUrl, onlineBiddingEnabled,
   interestedClients, purchasesByClient, allLots, spotters,
   onLotUpdated, onActiveLotChange,
-  sessionClosed, isMultiDay, onOpenCloseModal, showFinalSummaryLink,
+  sessionClosed, onOpenCloseModal, showFinalSummaryLink,
   // 2B: trackerState gelift naar CockpitPage zodat de sticky LiveInfoBar
   // het live-bod kan tonen. Hier ontvangen we hem als prop.
   trackerState, setTrackerState,
@@ -536,11 +519,11 @@ function ActiveLotPanel({
             )}
             {sessionClosed ? (
               <span style={{ ...summaryBtnStyle, background: 'var(--bg-elevated)', color: 'var(--success)', cursor: 'default', textAlign: 'center' }}>
-                🏁 {isMultiDay ? 'Veilingdag afgesloten' : 'Veiling afgesloten'}
+                🏁 Veiling afgesloten
               </span>
             ) : (
               <button onClick={onOpenCloseModal} style={closeAuctionBtnStyle}>
-                🏁 {isMultiDay ? 'Veilingdag afsluiten' : 'Veiling afsluiten'}
+                🏁 Veiling afsluiten
               </button>
             )}
           </div>
@@ -1149,49 +1132,11 @@ function Card({ title, children, defaultOpen = true }) {
   )
 }
 
-/**
- * Dag-kiezer bovenaan de cockpit bij een meerdaagse collectie. Wisselt van
- * veilingdag via de URL; toont per dag het lot-aantal en de status.
- */
-function DayPicker({ days, activeDayId, lots, onSwitch }) {
-  const counts = useMemo(() => {
-    const m = new Map()
-    for (const l of lots) {
-      if (l.collection_day_id) m.set(l.collection_day_id, (m.get(l.collection_day_id) ?? 0) + 1)
-    }
-    return m
-  }, [lots])
-  return (
-    <div style={dayPickerStyle}>
-      <span style={dayPickerLabelStyle}>Veilingdag</span>
-      {days.map((d) => {
-        const active = d.id === activeDayId
-        return (
-          <button
-            key={d.id}
-            type="button"
-            onClick={() => !active && onSwitch(d.id)}
-            style={active ? dayTabActiveStyle : dayTabStyle}
-            aria-current={active ? 'true' : undefined}
-          >
-            Dag {d.day_index}
-            {d.date && <span style={{ opacity: 0.8, marginLeft: 6 }}>{formatDayShort(d.date)}</span>}
-            <span style={dayTabCountStyle}>{counts.get(d.id) ?? 0}</span>
-            {d.status === 'afgesloten' && <span title="afgesloten" style={{ marginLeft: 4 }}>🏁</span>}
-            {d.status === 'lopend' && <span title="lopend" style={{ marginLeft: 4 }}>🔴</span>}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
 function CloseAuctionModal({ collectionId, activeDay, days, lots, existingDebrief, onClose, onClosed }) {
   const [debrief, setDebrief] = useState(existingDebrief ?? '')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
 
-  const isMultiDay = Array.isArray(days) && days.length >= 2
   // Withdrawn-lots (migratie 0027) hoeven niet gehamerd te worden.
   const relevant = lots.filter((l) => !l.withdrawn)
   const remaining = relevant.filter((l) => l.time_hammer == null).length
@@ -1241,16 +1186,8 @@ function CloseAuctionModal({ collectionId, activeDay, days, lots, existingDebrie
   return (
     <Modal onClose={busy ? undefined : onClose} maxWidth={620}>
       <h3 style={{ margin: 0, marginBottom: 'var(--space-3)' }}>
-        🏁 {isMultiDay ? `Veilingdag ${activeDay?.day_index ?? ''} afsluiten` : 'Veiling afsluiten'}
+        🏁 Veiling afsluiten
       </h3>
-
-      {isMultiDay && (
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: 0 }}>
-          {willCloseCollection
-            ? 'Dit is de laatste open dag — de hele collectie wordt afgesloten.'
-            : `Alleen deze dag wordt afgesloten; nog ${otherOpenDays.length} dag${otherOpenDays.length > 1 ? 'en' : ''} open.`}
-        </p>
-      )}
 
       {!allHammered && (
         <p style={{ color: 'var(--warning)', fontSize: '0.9em', marginTop: 0 }}>
@@ -1300,7 +1237,7 @@ function CloseAuctionModal({ collectionId, activeDay, days, lots, existingDebrie
           borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontFamily: 'inherit',
           fontWeight: 600,
         }}>
-          {busy ? 'Afsluiten…' : (isMultiDay ? 'Sluit deze dag af' : 'Sluit veiling af')}
+          {busy ? 'Afsluiten…' : 'Sluit veiling af'}
         </button>
       </div>
     </Modal>
@@ -1367,11 +1304,6 @@ function formatYearAge(year) {
   return `${year}/${age} jaar`
 }
 
-function formatDayShort(d) {
-  if (!d) return ''
-  return new Date(d).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' })
-}
-
 /* ----- styles ----- */
 
 const crumbsStyle = {
@@ -1412,36 +1344,6 @@ const summaryBtnStyle = {
   borderRadius: 'var(--radius-sm)',
   textDecoration: 'none',
   fontWeight: 600,
-}
-const dayPickerStyle = {
-  display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
-  marginBottom: 'var(--space-3)',
-  padding: 'var(--space-2) var(--space-3)',
-  background: 'var(--bg-surface)',
-  border: '1px solid var(--border-default)',
-  borderRadius: 'var(--radius-md)',
-}
-const dayPickerLabelStyle = {
-  color: 'var(--text-muted)', fontSize: '0.75rem',
-  textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600,
-  marginRight: 4,
-}
-const dayTabStyle = {
-  display: 'inline-flex', alignItems: 'center', gap: 4,
-  padding: '0.35rem 0.7rem',
-  background: 'var(--bg-elevated)', color: 'var(--text-primary)',
-  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
-  cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9rem', fontWeight: 600,
-}
-const dayTabActiveStyle = {
-  ...dayTabStyle,
-  background: 'var(--accent)', color: 'var(--bg-base)',
-  border: '1px solid var(--accent)', cursor: 'default', fontWeight: 700,
-}
-const dayTabCountStyle = {
-  marginLeft: 6, padding: '0 6px',
-  background: 'rgba(0,0,0,0.18)', borderRadius: 'var(--radius-full)',
-  fontSize: '0.78em', fontFamily: 'var(--font-mono)',
 }
 const closeAuctionBtnStyle = {
   padding: 'var(--space-2) var(--space-4)',

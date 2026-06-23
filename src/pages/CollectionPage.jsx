@@ -355,6 +355,10 @@ export default function CollectionPage() {
         <CollectionMetaEditor
           collection={collection}
           open={metaOpen}
+          days={days}
+          lots={lots}
+          onDaysChanged={reloadDays}
+          onLotsChanged={reloadLots}
           onChange={(patch) => setCollection((prev) => ({ ...prev, ...patch }))}
         />
       )}
@@ -374,9 +378,17 @@ export default function CollectionPage() {
             className={`collection-actions-items${actionsMenuOpen ? ' open' : ''}`}
             style={actionRowStyle}
           >
-            <Link to={`/cockpit/${collection.id}`} style={primaryBtnStyle}>
-              🎬 Cockpit openen
-            </Link>
+            {/* Eén cockpit-knop bij een eendaagse verkoop; bij meerdere dagen
+                staat er per veilingdag een aparte 'Open cockpit'-knop in de
+                sectie Veilingdagen (je kiest de dag vóór je de cockpit ingaat). */}
+            {days.length <= 1 && (
+              <Link
+                to={days[0] ? `/cockpit/${collection.id}/${days[0].id}` : `/cockpit/${collection.id}`}
+                style={primaryBtnStyle}
+              >
+                🎬 Cockpit openen
+              </Link>
+            )}
             <Link to={`/collections/${collection.id}/summary`} style={secondaryBtnStyle}>
               📊 Overzicht
             </Link>
@@ -723,7 +735,6 @@ function CollectionDaysSection({ collectionId, days, lots, onDaysChanged, onLots
       <button type="button" onClick={() => setOpen((v) => !v)} style={daysHeaderBtnStyle} aria-expanded={open}>
         <span style={{ display: 'inline-block', width: 14 }}>{open ? '▾' : '▸'}</span>
         📅 Veilingdagen ({days.length})
-        {days.length === 1 && <span style={{ color: 'var(--text-muted)', fontWeight: 400, marginLeft: 6 }}>— eendaags</span>}
         {counts.unassigned > 0 && (
           <span style={unassignedBadgeStyle}>{counts.unassigned} niet toegewezen</span>
         )}
@@ -736,6 +747,8 @@ function CollectionDaysSection({ collectionId, days, lots, onDaysChanged, onLots
               <DayRow
                 key={day.id}
                 day={day}
+                collectionId={collectionId}
+                showCockpit={days.length >= 2}
                 lotCount={counts.m.get(day.id) ?? 0}
                 busy={busy}
                 canDelete={(counts.m.get(day.id) ?? 0) === 0 && days.length > 1}
@@ -764,7 +777,7 @@ function CollectionDaysSection({ collectionId, days, lots, onDaysChanged, onLots
   )
 }
 
-function DayRow({ day, lotCount, busy, canDelete, onChanged, onDelete }) {
+function DayRow({ day, collectionId, showCockpit, lotCount, busy, canDelete, onChanged, onDelete }) {
   const [date, setDate] = useState(day.date ?? '')
   const [label, setLabel] = useState(day.label ?? '')
   const [status, setStatus] = useState(day.status ?? 'planned')
@@ -812,6 +825,15 @@ function DayRow({ day, lotCount, busy, canDelete, onChanged, onDelete }) {
       <span style={dayLotCountStyle}>{lotCount} lot{lotCount === 1 ? '' : 's'}</span>
       {saveState === 'saving' && <small style={{ color: 'var(--text-muted)' }}>opslaan…</small>}
       {saveState === 'saved'  && <small style={{ color: 'var(--success)' }}>💾</small>}
+      {showCockpit && (
+        <Link
+          to={`/cockpit/${collectionId}/${day.id}`}
+          style={dayCockpitBtnStyle}
+          title={`Open de cockpit voor dag ${day.day_index}`}
+        >
+          🎬 Open cockpit
+        </Link>
+      )}
       <button
         type="button"
         onClick={onDelete}
@@ -1088,11 +1110,7 @@ function formatDayDate(d) {
 
 /* ---------- Sortable wrappers ---------- */
 
-function CollectionMetaEditor({ collection, onChange, open }) {
-  // Voor de date+time inputs: splits time_auction_start in date- en time-deel.
-  const startDate = collection.time_auction_start ? new Date(collection.time_auction_start) : null
-  const startTime = startDate ? startDate.toTimeString().slice(0, 5) : ''
-
+function CollectionMetaEditor({ collection, onChange, open, days = [], lots = [], onDaysChanged, onLotsChanged }) {
   if (!open) return null
   return (
     <div style={{ marginBottom: 'var(--space-4)' }}>
@@ -1108,6 +1126,13 @@ function CollectionMetaEditor({ collection, onChange, open }) {
             initialValue={collection.date} label="Datum"
             inputType="date"
             onSaved={(v) => onChange({ date: v })}
+          />
+          <DayCountField
+            collectionId={collection.id}
+            days={days}
+            lots={lots}
+            onDaysChanged={onDaysChanged}
+            onLotsChanged={onLotsChanged}
           />
           <AutoSaveText
             table="collections" id={collection.id} fieldName="location"
@@ -1134,6 +1159,97 @@ function CollectionMetaEditor({ collection, onChange, open }) {
             onSaved={(v) => onChange({ debrief_text: v })}
           />
         </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Aantal veilingdagen instellen vanuit de metadata-dropdown. Verhogen maakt
+ * extra dagen aan (datum gesuggereerd als dag-na-de-laatste); verlagen
+ * verwijdert lege dagen vanaf de hoogste day_index. Een dag met lots wordt
+ * NOOIT verwijderd (lots blijven behouden) — Frederik verplaatst die eerst.
+ * De fijnregeling (datums, labels, herverdelen) staat in de sectie
+ * "Veilingdagen".
+ */
+function DayCountField({ collectionId, days = [], lots = [], onDaysChanged, onLotsChanged }) {
+  const [busy, setBusy] = useState(false)
+  const [msg, setMsg] = useState(null)
+  const current = days.length
+
+  const lotCountByDay = useMemo(() => {
+    const m = new Map()
+    for (const l of lots) if (l.collection_day_id) m.set(l.collection_day_id, (m.get(l.collection_day_id) ?? 0) + 1)
+    return m
+  }, [lots])
+
+  const maxOption = Math.max(8, current)
+
+  async function setCount(target) {
+    if (target === current || busy) return
+    setBusy(true); setMsg(null)
+    try {
+      if (target > current) {
+        let lastDate = [...days].reverse().find((d) => d.date)?.date ?? null
+        for (let i = current; i < target; i++) {
+          let suggested = null
+          if (lastDate) {
+            const dt = new Date(lastDate); dt.setDate(dt.getDate() + 1)
+            suggested = dt.toISOString().slice(0, 10); lastDate = suggested
+          }
+          await createDay(collectionId, { date: suggested })
+        }
+        const n = target - current
+        setMsg(`${n} veilingdag${n > 1 ? 'en' : ''} toegevoegd.`)
+      } else {
+        // Verlagen: lege dagen verwijderen vanaf de hoogste day_index.
+        const ordered = [...days].sort((a, b) => b.day_index - a.day_index)
+        let toRemove = current - target
+        let blocked = null
+        for (const d of ordered) {
+          if (toRemove <= 0) break
+          if ((lotCountByDay.get(d.id) ?? 0) > 0) { blocked = d; break }
+          await deleteDay(d.id)
+          toRemove--
+        }
+        if (blocked) {
+          setMsg(`Dag ${blocked.day_index} bevat nog lots — verplaats die eerst in "Veilingdagen". Verdere dagen niet verwijderd.`)
+        }
+      }
+      if (onDaysChanged) await onDaysChanged()
+      if (onLotsChanged) await onLotsChanged()
+    } catch (e) {
+      setMsg(`Fout: ${e.message}`)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div style={{ marginTop: '0.75rem' }}>
+      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4, fontSize: '0.9em' }}>
+        Aantal veilingdagen
+      </label>
+      <select
+        value={current}
+        onChange={(e) => setCount(Number(e.target.value))}
+        disabled={busy || current === 0}
+        style={dayStatusSelectStyle}
+      >
+        {current === 0 && <option value={0}>—</option>}
+        {Array.from({ length: maxOption }, (_, i) => i + 1).map((n) => (
+          <option key={n} value={n}>{n} {n === 1 ? 'dag' : 'dagen'}</option>
+        ))}
+      </select>
+      {busy && <small style={{ color: 'var(--text-muted)', marginLeft: 8 }}>bezig…</small>}
+      <p style={{ color: 'var(--text-muted)', fontSize: '0.8em', margin: '4px 0 0 0' }}>
+        Verhogen voegt dagen toe; verlagen verwijdert lege dagen. Datums, labels en
+        het verdelen van lots regel je in de sectie "Veilingdagen" hieronder.
+      </p>
+      {msg && (
+        <small style={{ color: /Fout|bevat nog lots/.test(msg) ? 'var(--warning)' : 'var(--success)', display: 'block', marginTop: 4 }}>
+          {msg}
+        </small>
       )}
     </div>
   )
@@ -1761,6 +1877,12 @@ const dayStatusSelectStyle = {
 const dayLotCountStyle = {
   color: 'var(--text-secondary)', fontSize: '0.85em',
   fontFamily: 'var(--font-mono)', minWidth: '4.5em', textAlign: 'right',
+}
+const dayCockpitBtnStyle = {
+  display: 'inline-block', padding: '0.3rem 0.7rem',
+  background: 'var(--accent)', color: 'var(--bg-base)',
+  borderRadius: 'var(--radius-sm)', textDecoration: 'none',
+  fontSize: '0.85em', fontWeight: 700, whiteSpace: 'nowrap',
 }
 const rangeHelperStyle = {
   display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',

@@ -611,11 +611,6 @@ function CollectionRow({ collection: a, dayInfo }) {
       </Link>
       <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
         {dateText}
-        {multiDay && (
-          <span style={{ color: 'var(--text-muted)', marginLeft: 6 }}>
-            · {dayInfo.count} dagen
-          </span>
-        )}
         {a.location && ` — ${a.location}`}
         {a.status && ` — ${a.status}`}
       </div>

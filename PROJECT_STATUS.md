@@ -18,9 +18,15 @@
 > migraties **0031** (collection_days + backfill) en **0032** (pauzes per dag);
 > `src/lib/collectionDays.js`; dag-UI op CollectionPage (toevoegen/bewerken/
 > verwijderen, dag-gegroepeerde lotlijst met dropdown/slepen/bulk/bereik);
-> cockpit-dagkiezer + route `/cockpit/:id/:dayId`; per-dag overzicht + totaal;
-> datumreeks op het huisoverzicht; import/scrape dag-bewust incl. nieuwe
-> `scripts/scrape-fences-ordre-passage.mjs`.
+> per-dag overzicht + totaal; datumreeks op het huisoverzicht; import/scrape
+> dag-bewust incl. nieuwe `scripts/scrape-fences-ordre-passage.mjs`.
+>
+> **Vervolg (zelfde branch, na Frederiks feedback):** je kiest de veilingdag
+> vóór de cockpit — elke dag heeft een eigen **"Open cockpit"-knop**
+> (`/cockpit/:id/:dayId`); de cockpit zelf toont géén dag-chrome (dag-kiezer
+> verwijderd). De term "eendaags/tweedaags" is overal uit de UI. Het **aantal
+> veilingdagen** is instelbaar via de metadata-dropdown van de collectie
+> (lege dagen worden verwijderd, dagen mét lots nooit).
 >
 > **Nog te doen door Frederik:** Supabase-backup → migraties 0031 + 0032
 > draaien → code deployen (in die volgorde). Zie

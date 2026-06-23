@@ -31,6 +31,7 @@ export default function App() {
         <Route path="/collections/:collectionId/summary" element={<CollectionSummaryPage />} />
         <Route path="/lots/:lotId" element={<LotPage />} />
         <Route path="/cockpit/:collectionId" element={<CockpitPage />} />
+        <Route path="/cockpit/:collectionId/:dayId" element={<CockpitPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>

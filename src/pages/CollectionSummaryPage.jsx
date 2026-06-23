@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import Breadcrumbs from '../components/Breadcrumbs'
 import SaleCorrectionModal from '../components/SaleCorrectionModal'
 import { getSpotters } from '../lib/spotters'
+import { getDays } from '../lib/collectionDays'
 
 /**
  * Overzichtspagina einde veiling. Toont kerncijfers, splitsing per
@@ -17,6 +18,7 @@ export default function CollectionSummaryPage() {
   const [lots, setLots] = useState([])
   const [lotTypes, setLotTypes] = useState([])
   const [spotters, setSpotters] = useState([])
+  const [days, setDays] = useState([])
   const [correctingLot, setCorrectingLot] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -26,7 +28,7 @@ export default function CollectionSummaryPage() {
     async function load() {
       setError(null)
       setLoading(true)
-      const [collectionRes, lotsRes, typesRes, spottersRes] = await Promise.all([
+      const [collectionRes, lotsRes, typesRes, spottersRes, daysList] = await Promise.all([
         supabase
           .from('collections')
           .select('*, auction_houses(id, name, logo_url)')
@@ -34,7 +36,7 @@ export default function CollectionSummaryPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, is_charity, withdrawn, name, sold, sale_price, sale_channel, buyer, buyer_client_id, spotter_id, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
+          .select('id, number, is_charity, withdrawn, collection_day_id, name, sold, sale_price, sale_channel, buyer, buyer_client_id, spotter_id, time_hammer, duration_seconds, time_entered_ring, time_bidding_start, lot_type_id')
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
@@ -42,6 +44,7 @@ export default function CollectionSummaryPage() {
           .from('lot_types')
           .select('id, name_nl'),
         getSpotters(collectionId).catch(() => []),
+        getDays(collectionId),
       ])
       if (cancelled) return
       setLoading(false)
@@ -52,6 +55,7 @@ export default function CollectionSummaryPage() {
       setLots(lotsRes.data ?? [])
       setLotTypes(typesRes.data ?? [])
       setSpotters(Array.isArray(spottersRes) ? spottersRes : [])
+      setDays(Array.isArray(daysList) ? daysList : [])
     }
     load()
     return () => { cancelled = true }
@@ -173,6 +177,7 @@ export default function CollectionSummaryPage() {
         <EmptyState collectionId={collectionId} />
       ) : (
         <>
+          {days.length >= 2 && <PerDaySection days={days} regularLots={regularLots} />}
           <CoreStats
             total={total}
             hammered={hammered}
@@ -183,6 +188,7 @@ export default function CollectionSummaryPage() {
             avgDurationSec={avgDurationSec}
             wallclockSec={wallclockSec}
             isFinished={isFinished}
+            scopeLabel={days.length >= 2 ? 'hele verkoop' : null}
           />
           {groups.length > 1 && <PerType groups={groups} />}
           <PerLot lots={lots.filter((l) => !l.withdrawn)} onCorrect={setCorrectingLot} />
@@ -217,9 +223,40 @@ function EmptyState({ collectionId }) {
   )
 }
 
+function PerDaySection({ days, regularLots }) {
+  return (
+    <section style={blockStyle}>
+      <h2 style={blockHeadingStyle}>Per veilingdag</h2>
+      {days.map((day, i) => {
+        const dayLots = regularLots.filter((l) => l.collection_day_id === day.id)
+        const sold = dayLots.filter((l) => l.sold === true && l.sale_price != null)
+        const notSold = dayLots.filter((l) => l.sold === false && l.time_hammer != null)
+        const revenue = sold.reduce((s, l) => s + (Number(l.sale_price) || 0), 0)
+        const avg = sold.length > 0 ? revenue / sold.length : null
+        return (
+          <div key={day.id} style={{ padding: '0.5rem 0', borderTop: i > 0 ? '1px solid var(--border-default)' : 'none' }}>
+            <div style={{ fontWeight: 600 }}>
+              Dag {day.day_index}
+              {day.date && <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}> — {formatDayDate(day.date)}</span>}
+              {day.label && <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}> ({day.label})</span>}
+              <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}> · {dayLots.length} lots</span>
+            </div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: 2 }}>
+              <span style={{ color: 'var(--success)' }}>✓ {sold.length} verkocht</span>
+              {notSold.length > 0 && <> · <span style={{ color: 'var(--warning)' }}>⊘ {notSold.length} niet</span></>}
+              {' · '}omzet <strong>€{formatNum(revenue)}</strong>
+              {avg != null && <> · gem €{formatNum(avg)}</>}
+            </div>
+          </div>
+        )
+      })}
+    </section>
+  )
+}
+
 function CoreStats({
   total, hammered, sold, notSold,
-  totalRevenue, avgSalePrice, avgDurationSec, wallclockSec, isFinished,
+  totalRevenue, avgSalePrice, avgDurationSec, wallclockSec, isFinished, scopeLabel,
 }) {
   // Geïmporteerde veiling = geen live hamerslagen, wel sold + sale_price
   const isImported = hammered.length === 0 && sold.length > 0
@@ -227,6 +264,11 @@ function CoreStats({
     <section style={blockStyle}>
       <h2 style={blockHeadingStyle}>
         Kerncijfers
+        {scopeLabel && (
+          <span style={{ color: 'var(--text-muted)', fontWeight: 'normal', fontSize: '0.85em', marginLeft: 8 }}>
+            ({scopeLabel})
+          </span>
+        )}
         {isImported ? (
           <span style={{ color: 'var(--text-muted)', fontWeight: 'normal', fontSize: '0.85em', marginLeft: 8 }}>
             (geïmporteerde resultaten)
@@ -436,6 +478,11 @@ function formatAuctionDate(collection) {
   if (!collection.date) return '(datum onbekend)'
   const d = new Date(collection.date)
   return d.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+function formatDayDate(d) {
+  if (!d) return ''
+  return new Date(d).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 const correctBtnStyle = {

@@ -23,6 +23,10 @@ export async function createBreak(collectionId, fields = {}) {
     .from('collection_breaks')
     .insert({
       collection_id:       collectionId,
+      // collection_day_id (migratie 0032): aan welke veilingdag de pauze hangt.
+      // Bij een eendaagse collectie automatisch dag 1; bij meerdaags door
+      // Frederik gekozen in het pauze-formulier.
+      collection_day_id: fields.collection_day_id ?? null,
       after_lot_number: fields.after_lot_number ?? null,
       title:            fields.title?.trim() || 'Pauze',
       description:      fields.description?.trim() || null,
@@ -36,10 +40,11 @@ export async function createBreak(collectionId, fields = {}) {
 
 export async function updateBreak(id, patch) {
   const cleaned = {}
-  if ('after_lot_number' in patch) cleaned.after_lot_number = patch.after_lot_number ?? null
-  if ('title' in patch)            cleaned.title            = patch.title?.trim() || 'Pauze'
-  if ('description' in patch)      cleaned.description      = patch.description?.trim() || null
-  if ('duration_minutes' in patch) cleaned.duration_minutes = patch.duration_minutes ?? null
+  if ('after_lot_number' in patch)  cleaned.after_lot_number  = patch.after_lot_number ?? null
+  if ('collection_day_id' in patch) cleaned.collection_day_id = patch.collection_day_id ?? null
+  if ('title' in patch)             cleaned.title             = patch.title?.trim() || 'Pauze'
+  if ('description' in patch)       cleaned.description       = patch.description?.trim() || null
+  if ('duration_minutes' in patch)  cleaned.duration_minutes  = patch.duration_minutes ?? null
   const { error } = await supabase.from('collection_breaks').update(cleaned).eq('id', id)
   if (error) throw error
 }

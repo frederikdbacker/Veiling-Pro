@@ -211,7 +211,13 @@ export default function CollectionPage() {
       if (draft.id) {
         await updateBreak(draft.id, draft)
       } else {
-        await createBreak(collectionId, draft)
+        // Eendaagse collectie: automatisch aan dag 1 koppelen. Meerdaags:
+        // de in het formulier gekozen dag, anders dag 1 als default.
+        const draftWithDay = {
+          ...draft,
+          collection_day_id: draft.collection_day_id ?? (days[0]?.id ?? null),
+        }
+        await createBreak(collectionId, draftWithDay)
       }
       setBreakForm(null)
       await reloadBreaks()
@@ -469,6 +475,7 @@ export default function CollectionPage() {
               onClick={() => setBreakForm({
                 after_lot_number: null, title: 'Pauze',
                 description: '', duration_minutes: 15,
+                collection_day_id: days[0]?.id ?? null,
               })}
               style={addBreakBtnStyle}
             >
@@ -483,6 +490,7 @@ export default function CollectionPage() {
         <BreakForm
           draft={breakForm}
           lots={lots}
+          days={days}
           onChange={setBreakForm}
           onSave={() => handleSaveBreak(breakForm)}
           onCancel={() => setBreakForm(null)}
@@ -581,21 +589,25 @@ export default function CollectionPage() {
         </ul>
       ) : null}
 
-      {/* Bij alfabetisch of bij breaks zonder geldige positie: aparte sectie */}
+      {/* Bij alfabetisch / meerdaags / breaks zonder geldige positie: aparte sectie */}
       {orphanBreaks.length > 0 && (
         <div style={{ marginTop: 'var(--space-5)' }}>
           <h3 style={subHeadingStyle}>
-            {sortMode === 'alphabetical' ? 'Pauzes' : 'Pauzes zonder positie'}
+            {(sortMode === 'alphabetical' || days.length >= 2) ? 'Pauzes' : 'Pauzes zonder positie'}
           </h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {orphanBreaks.map((br) => (
-              <BreakRow
-                key={br.id}
-                br={br}
-                onEdit={() => setBreakForm({ ...br })}
-                onDelete={() => handleDeleteBreak(br.id)}
-              />
-            ))}
+            {orphanBreaks.map((br) => {
+              const day = days.length >= 2 ? days.find((d) => d.id === br.collection_day_id) : null
+              return (
+                <BreakRow
+                  key={br.id}
+                  br={br}
+                  dayLabel={day ? `Dag ${day.day_index}` : null}
+                  onEdit={() => setBreakForm({ ...br })}
+                  onDelete={() => handleDeleteBreak(br.id)}
+                />
+              )
+            })}
           </ul>
         </div>
       )}
@@ -1350,7 +1362,7 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
 
 /* ---------- Pauze-rij ---------- */
 
-function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
+function BreakRow({ br, onEdit, onDelete, dragHandleProps, dayLabel }) {
   const label = br.after_lot_number != null ? `${br.after_lot_number} BIS` : '— BIS'
   return (
     <li style={breakRowStyle}>
@@ -1367,6 +1379,7 @@ function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
       <div style={breakIconStyle}>⏸</div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+          {dayLabel && <span style={dayIndexBadgeStyle}>{dayLabel}</span>}
           <span style={breakLabelStyle}>{label}</span>
           <strong style={{ color: 'var(--text-primary)' }}>{br.title || 'Pauze'}</strong>
           {br.duration_minutes != null && (
@@ -1389,7 +1402,7 @@ function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
 
 /* ---------- Pauze-formulier ---------- */
 
-function BreakForm({ draft, lots, onChange, onSave, onCancel }) {
+function BreakForm({ draft, lots, days = [], onChange, onSave, onCancel }) {
   function set(field, value) { onChange({ ...draft, [field]: value }) }
 
   // Sorteer lots op number voor de dropdown (lots zonder nummer onderaan)
@@ -1402,6 +1415,22 @@ function BreakForm({ draft, lots, onChange, onSave, onCancel }) {
       <h3 style={{ ...subHeadingStyle, marginTop: 0 }}>
         {draft.id ? 'Pauze bewerken' : 'Nieuwe pauze'}
       </h3>
+      {days.length >= 2 && (
+        <div style={fieldRowStyle}>
+          <label style={fieldLabelStyle}>Veilingdag</label>
+          <select
+            value={draft.collection_day_id ?? ''}
+            onChange={(e) => set('collection_day_id', e.target.value || null)}
+            style={selectStyle}
+          >
+            {days.map((d) => (
+              <option key={d.id} value={d.id}>
+                Dag {d.day_index}{d.date ? ` (${formatDayDate(d.date)})` : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div style={fieldRowStyle}>
         <label style={fieldLabelStyle}>Na lot</label>
         <select

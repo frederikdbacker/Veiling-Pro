@@ -11,6 +11,7 @@ export default function HousePage() {
   const { houseId } = useParams()
   const [house, setHouse] = useState(null)
   const [collections, setCollections] = useState([])
+  const [daysByCollection, setDaysByCollection] = useState(new Map())
   const [status, setStatus] = useState('Laden…')
   const [editingMeta, setEditingMeta] = useState(false)
   const [addingCollection, setAddingCollection] = useState(false)
@@ -53,6 +54,26 @@ export default function HousePage() {
     setCollections(collectionsRes.data)
     setStatus(`${collectionsRes.data.length} veilingen`)
     if (!topLotRes.error) setTopLot(topLotRes.data ?? null)
+
+    // Veilingdagen (migratie 0031) per collectie ophalen → laat een
+    // meerdaagse collectie als datumreeks zien ("29 – 30 juni 2026").
+    const ids = (collectionsRes.data ?? []).map((c) => c.id)
+    if (ids.length > 0) {
+      const { data: daysData } = await supabase
+        .from('collection_days')
+        .select('collection_id, date')
+        .in('collection_id', ids)
+      if (daysData) {
+        const m = new Map()
+        for (const row of daysData) {
+          const e = m.get(row.collection_id) ?? { count: 0, dates: [] }
+          e.count += 1
+          if (row.date) e.dates.push(row.date)
+          m.set(row.collection_id, e)
+        }
+        setDaysByCollection(m)
+      }
+    }
   }
 
   useEffect(() => { load() }, [houseId])
@@ -371,7 +392,7 @@ export default function HousePage() {
             <>
               {upcoming.length > 0 && (
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {upcoming.map((a) => <CollectionRow key={a.id} collection={a} />)}
+                  {upcoming.map((a) => <CollectionRow key={a.id} collection={a} dayInfo={daysByCollection.get(a.id)} />)}
                 </ul>
               )}
 
@@ -393,7 +414,7 @@ export default function HousePage() {
                         if (cols.length === 1) {
                           return (
                             <ul key={y} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                              <CollectionRow collection={cols[0]} />
+                              <CollectionRow collection={cols[0]} dayInfo={daysByCollection.get(cols[0].id)} />
                             </ul>
                           )
                         }
@@ -411,7 +432,7 @@ export default function HousePage() {
                             </button>
                             {isOpen && (
                               <ul style={{ listStyle: 'none', padding: 0, margin: 0, paddingLeft: 'var(--space-4)' }}>
-                                {cols.map((a) => <CollectionRow key={a.id} collection={a} />)}
+                                {cols.map((a) => <CollectionRow key={a.id} collection={a} dayInfo={daysByCollection.get(a.id)} />)}
                               </ul>
                             )}
                           </div>
@@ -574,7 +595,9 @@ function formatDate(d) {
   })
 }
 
-function CollectionRow({ collection: a }) {
+function CollectionRow({ collection: a, dayInfo }) {
+  const multiDay = dayInfo && dayInfo.count > 1
+  const dateText = multiDay ? formatDateRange(dayInfo.dates) : formatDate(a.date)
   return (
     <li style={{
       padding: 'var(--space-3) 0',
@@ -587,12 +610,39 @@ function CollectionRow({ collection: a }) {
         {a.name}
       </Link>
       <div style={{ color: 'var(--text-secondary)', fontSize: '0.9em', marginTop: '0.25rem' }}>
-        {formatDate(a.date)}
+        {dateText}
+        {multiDay && (
+          <span style={{ color: 'var(--text-muted)', marginLeft: 6 }}>
+            · {dayInfo.count} dagen
+          </span>
+        )}
         {a.location && ` — ${a.location}`}
         {a.status && ` — ${a.status}`}
       </div>
     </li>
   )
+}
+
+// Datumreeks voor een meerdaagse collectie: "29 – 30 juni 2026" (zelfde
+// maand+jaar), "30 juni – 2 september 2026" (andere maand), of beide
+// volledig bij verschillend jaar.
+function formatDateRange(dates) {
+  const valid = (dates ?? []).filter(Boolean).map((d) => new Date(d)).sort((a, b) => a - b)
+  if (valid.length === 0) return '(datum onbekend)'
+  const first = valid[0]
+  const last = valid[valid.length - 1]
+  if (first.getTime() === last.getTime()) {
+    return first.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })
+  }
+  const sameYear = first.getFullYear() === last.getFullYear()
+  const sameMonth = sameYear && first.getMonth() === last.getMonth()
+  if (sameMonth) {
+    return `${first.getDate()} – ${last.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}`
+  }
+  if (sameYear) {
+    return `${first.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long' })} – ${last.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}`
+  }
+  return `${first.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })} – ${last.toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}`
 }
 
 const pastToggleStyle = {

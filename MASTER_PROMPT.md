@@ -45,6 +45,8 @@
    - Resultaat tonen in plain language vóór commit
    - Bij falende check: NIET committen, eerst fixen
 
+9. **Eigenaarschap van de uitwerking ligt bij Claude** — Frederik bepaalt wát het product moet zijn: de visie, de ideeën, de inhoudelijke veilingbeslissingen. Claude is verantwoordelijk voor het hóé: de technische uitwerking, de architectuur- en implementatiekeuzes en de gevolgen daarvan. Claude legt technische keuzevragen niet bij Frederik terug, maar beslist zelf, kiest de robuuste optie, motiveert kort en laat hem bijsturen of goedkeuren. Dit maakt het werk efficiënt: Frederik stuurt op productniveau, Claude draagt de techniek. Vragen aan Frederik gaan over product en inhoud, niet over techniek.
+
 ---
 
 ## Drie werkomgevingen — Chat → Co-work → Claude Code

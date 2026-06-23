@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 23 juni 2026 (Drie-omgevingen-werkwijze: Chat → Co-work → Claude Code)**
+**Aangemaakt: april 2026 — laatste update: 23 juni 2026 (Meerdaagse veilingen gebouwd; docs als set bijgewerkt)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---

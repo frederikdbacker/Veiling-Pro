@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Aangemaakt: april 2026 — laatste update: 23 juni 2026 (Drie-omgevingen-werkwijze: Chat → Co-work → Claude Code)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---
@@ -47,57 +47,82 @@
 
 ---
 
-## Twee werkomgevingen — chat en code
+## Drie werkomgevingen — Chat → Co-work → Claude Code
 
-### Chat (claude.ai — deze interface)
+Frederik werkt met drie Claude-omgevingen die elk één rol hebben. De vaste
+volgorde loopt van idee naar uitvoering: **Chat → Co-work → Claude Code**. Een
+stap overslaan mag enkel als de taak dat duidelijk toelaat (bv. een ruw idee
+dat al concreet genoeg is, rechtstreeks in Co-work).
 
-**Wat het is:** een gewoon gesprek. Geen terminal nodig.
+### 1. Claude Chat (claude.ai) — ruwe ideefase
 
-**Wat het kan:**
-- Plannen maken, blauwdrukken schrijven, documenten bijwerken
-- Korte vragen of uitleg
-- Werken vanaf iPad of smartphone
+**Rol:** eerste opzet van een prompt of idee, vaak onderweg (iPad/smartphone).
 
-**Wat het NIET kan:**
-- Bestanden in de repo zelf lezen of bewerken
-- Code direct draaien
-- Database queries uitvoeren
-- Sub-agents inzetten
+**Sterkte:** snel, overal beschikbaar.
 
-In chat schrijft Claude **patch-scripts** wanneer code nodig is. Hij downloadt het script en draait het via de terminal.
+**Beperking:** ziet de repo, de data of de projectstand NIET. Wat hier uitkomt
+is per definitie ruw en moet eerst door Co-work verfijnd worden vóór het naar
+code gaat.
 
 ---
 
-### Code (Claude Code — terminal op MacBook)
+### 2. Claude Co-work (desktop) — de spec-fabriek
 
-**Wat het is:** een commandotool die je start in de terminal vanuit de projectmap. Claude leest dan direct de bestanden in de repo en kan ze direct bewerken.
+**Rol:** Frederik levert de ruwe prompt aan; Co-work verfijnt die tot een
+concrete, uitvoerbare opdracht. Co-work heeft de `veiling-pro`-map gekoppeld en
+ziet dus de code, het schema, `PROJECT_STATUS.md`, de data en deze werkwijze.
 
-**Wat het kan:**
-- Direct bestanden lezen en bewerken in `~/veiling-pro/`
-- Tests draaien (npm build)
-- Git commit en push (met goedkeuring per stap)
-- Multi-file refactors in één opdracht
-- **Sub-agents inzetten**
-- **Build-checks uitvoeren vóór commit**
+**Sterkte:** verrijkt de prompt met échte bestandsnamen, schema-namen, bestaande
+componenten en de projectregels — zodat de opdracht meteen klopt en Claude Code
+niet hoeft te raden.
+
+**Levert af:** een afgewerkte opdracht volgens `PROMPT_TEMPLATE.md`, klaar om in
+Claude Code te plakken.
+
+**Beperking:** kan de repo lezen en bestanden bewerken, maar commit/pusht NIET
+zelf naar GitHub (geen login in deze omgeving) en draait de live build niet.
+Dat gebeurt in Claude Code.
+
+---
+
+### 3. Claude Code (terminal op MacBook of Mac mini) — de bouwer
+
+**Rol:** voert de door Co-work afgewerkte opdracht uit in de repo.
+
+**Sterkte:** leest/bewerkt bestanden direct, draait `npm run build`, commit en
+pusht (met goedkeuring per stap), zet sub-agents in.
 
 **Sessie starten:**
 ```bash
 cd ~/veiling-pro
+bin/sync.sh pull      # eerst veilig bijwerken naar GitHub
 claude
 ```
 
-**Eerste opdracht in elke nieuwe code-sessie altijd:**
-> "Lees PROJECT_STATUS.md, MASTER_PROMPT.md en DEVELOPER_SETUP.md voor context. Werkwijze uit deze documenten geldt onverkort. De gebruiker is niet-technisch, dus klein-stappen-werkwijze met visuele bevestiging na elke stap. Daarna: [concrete taak]."
+---
+
+### De overdrachtsregel (cruciaal tegen contextverlies)
+
+Elke opdracht die Co-work aan Claude Code doorgeeft, opent verplicht met:
+
+> "Lees eerst `MASTER_PROMPT.md`, `DEVELOPER_SETUP.md` en `PROJECT_STATUS.md`.
+> De werkwijze daarin geldt onverkort. Frederik is niet-technisch: werk in
+> kleine stappen met visuele bevestiging na elke stap. Werk op een
+> feature-branch, toon een plan vóór nieuwe features, en doe een build-check
+> (`npm run build`) vóór elke commit. Commit/push enkel op vraag, met expliciet
+> `git add <pad>`. Daarna: [concrete taak]."
+
+Zo begint Claude Code altijd correct, hoe ruw het oorspronkelijke idee ook was.
 
 ---
 
-### Beslisboom — bij elke nieuwe sessie
+### Beslisboom — waar begin ik?
 
-1. Is dit een ontwerp-/brainstorm-/documentvraag? → **chat**
-2. Heb ik geen MacBook bij de hand? → **chat**
-3. Gaat het om concrete code-wijzigingen in de repo? → **code**
-4. Gaat het om bug-onderzoek met logs of database? → **code**
-5. Twijfel? → begin in chat, schakel naar code zodra Claude een tweede patch-script wil schrijven
+1. Ruw idee, onderweg, geen Mac bij de hand? → **Chat** (later naar Co-work)
+2. Prompt klaar om te verfijnen met projectcontext? → **Co-work**
+3. Opdracht afgewerkt en klaar om te bouwen/committen? → **Claude Code**
+4. Twijfel? → begin in **Co-work**; die ziet de repo en kan inschatten of het
+   rechtstreeks naar Claude Code kan.
 
 ---
 

@@ -10,6 +10,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { readFile } from 'node:fs/promises'
+import { ensureDays, resolveDayId } from './lib/days.mjs'
 
 const sb = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_PUBLISHABLE_KEY)
 const file = process.argv[2]
@@ -39,6 +40,16 @@ console.log(`🎯 Collectie: ${coll.name} (${coll.status})`)
 const { count } = await sb.from('lots').select('id', { count: 'exact', head: true }).eq('collection_id', coll.id)
 if (count > 0) { console.error(`⏭️  ${count} lots bestaan al — gestopt (geen dubbele import).`); process.exit(1) }
 
+// Veilingdagen (migratie 0031). De collectie heeft die meestal al via
+// import-fences-calendrier.mjs (bv. Deauville Sélection = 2 dagen). De
+// gescrapete catalogus bevat GÉÉN dag-veld (één catalogus-URL voor beide
+// dagen), dus alle lots landen op dag 1; Frederik herverdeelt daarna in de
+// UI of via scrape-fences-ordre-passage.mjs. Een paard met h.day_index of
+// h.day_date wordt wél meteen juist gekoppeld.
+const days = await ensureDays(sb, coll.id, [])  // garandeert minstens dag 1
+const day1Id = days[0]?.id ?? null
+console.log(`📅 Veilingdagen: ${days.length} — onbekende dag → dag 1`)
+
 // lot_type-afleiding (zelfde regels als import-lots.mjs)
 const { data: lotTypes } = await sb.from('lot_types').select('id, name_nl')
 const findType = (re) => lotTypes.find((t) => re.test(t.name_nl))
@@ -56,6 +67,7 @@ function deriveLotType(h) {
 
 const rows = horses.map((h) => ({
   collection_id: coll.id,
+  collection_day_id: resolveDayId(h, days, day1Id),
   lot_type_id: deriveLotType(h),
   lot_type_auto: true,
   number: h.lot_number,

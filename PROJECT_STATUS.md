@@ -1,6 +1,6 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Laatste update: 23 juni 2026 (Drie-omgevingen-werkwijze: Chat → Co-work → Claude Code)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
 
 ---

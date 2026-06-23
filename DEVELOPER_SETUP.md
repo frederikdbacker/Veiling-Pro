@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 7 mei 2026 (Data-imports + UI-batch)**
+**Laatste update: 23 juni 2026 (Drie-omgevingen-werkwijze: Chat → Co-work → Claude Code)**
 
 ---
 

@@ -53,3 +53,19 @@ bestand: de drie docs zijn leidend.
    5. Commit-message vooraf getoond, `git add <pad>`, commit-hash genoemd.
    6. Tijdelijke/hulpbestanden in `/tmp/` of werkmap opgeruimd / benoemd.
    7. Openstaande punten expliciet aan Frederik overgedragen.
+10. **Werkwijze in drie stappen — Chat → Co-work → Claude Code.** Frederik
+    maakt een ruw idee/prompt (Claude Chat), laat die door Co-work verfijnen
+    tot een concrete opdracht mét projectcontext, en laat Claude Code die
+    uitvoeren. Volledige uitleg in `MASTER_PROMPT.md`, sectie "Drie
+    werkomgevingen"; het overdrachtssjabloon staat in `PROMPT_TEMPLATE.md`.
+    Elke overdracht naar Claude Code opent met: lees eerst de drie docs,
+    feature-branch, plan vóór feature, build-check vóór commit. **Wijs Frederik
+    op deze volgorde wanneer hij ervan dreigt af te wijken** — hij hoeft de
+    werkwijze niet te onthouden, dat is jouw taak.
+11. **Eigenaarschap van de uitwerking ligt bij Claude.** Frederik levert de
+    productvisie en de ideeën (wát het product moet zijn); de technische
+    uitwerking, de architectuur- en implementatiekeuzes én de
+    verantwoordelijkheid daarvoor liggen bij Claude (het hóé). Leg technische
+    keuzevragen niet bij Frederik terug — beslis zelf, kies de robuuste optie,
+    motiveer kort, en laat hem bijsturen of goedkeuren. Vragen aan Frederik
+    gaan over product en inhoud (de veilingwereld), niet over techniek.

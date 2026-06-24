@@ -1,7 +1,23 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 24 juni 2026 (URL-ingest: "Collectie ophalen" via geplakte link)**
+**Laatste update: 24 juni 2026 (Veilingdagen: UX-verfijningen + URL-ingest)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **24 juni 2026 — Veilingdagen: UX-verfijningen.**
+> Reeks verfijningen aan de meerdaagse-veilingen-functie (live op `main`):
+> cockpit per veilingdag als aparte ingang (geen dag-chrome in de cockpit;
+> per-dag "Open cockpit"-knop); term "eendaags/tweedaags" overal uit de UI;
+> Veilingdagen-sectie onder "Bewerk veiling-metadata"; dubbele "Aantal
+> veilingdagen"-dropdown verwijderd; nieuwe collectie krijgt automatisch dag 1
+> (self-heal); dag-groepen inklapbaar + selectievinkje weg; "Online biedingen"-
+> toggle uitgelijnd + herlabeld; "Sire × Damsire" achter elke paardennaam (uit
+> het pedigree). Werkwijze: gelijktijdige sessies voortaan in aparte
+> git-worktrees (na een incident waarbij een edit verloren ging in de gedeelde
+> map). Geen schemawijziging; de 0031-backfill is idempotent opnieuw gedraaid
+> voor één na-de-migratie aangemaakte collectie.
+> Audit-rapport: `reports/2026-06-24_veilingdagen-ux-verfijningen.md`.
 
 ---
 

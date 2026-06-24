@@ -25,9 +25,14 @@ bestand: de drie docs zijn leidend.
 3. **Diagnose vóór fix**; **volledige bestandsinhoud lezen vóór wijzigen**.
 4. **Build-check vóór elke commit** (`npm run build` moet slagen); bij falen
    niet committen, eerst fixen.
-5. **Back-up vóór elke schemawijziging**; **plan tonen vóór elke nieuwe
-   feature**; **audit-rapport** (gewone taal + `docs/audits/` of `reports/`)
-   spontaan aan het eind van elke substantiële sessie.
+5. **Back-up vóór elke schemawijziging** — **uitzondering:** *additieve +
+   idempotente* migraties (enkel toevoegen — `add column/table … if not
+   exists`, nieuwe index/policy; géén drop, rename of data-mutatie) mogen
+   **automatisch** worden toegepast, zonder aparte backup of bevestiging.
+   **Destructieve** migraties (drop/rename/data-wijziging) vereisen wél backup
+   + expliciete bevestiging vóór uitvoering. Verder: **plan tonen vóór elke
+   nieuwe feature**; **audit-rapport** (gewone taal + `docs/audits/` of
+   `reports/`) spontaan aan het eind van elke substantiële sessie.
 6. **Multi-Mac sync + commit-discipline:** sessiestart `bin/sync.sh pull`,
    sessie-einde `bin/sync.sh done "tekst"`. Stagen ALTIJD met expliciet
    `git add <pad>` — NOOIT `git add -A`, `git add .`, of `git commit -a`

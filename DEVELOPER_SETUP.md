@@ -92,6 +92,13 @@ De *secret* / *service_role* key NIET hier zetten — die mag nooit in client-co
 - **Project ID:** cjxtwzmryrpwoydrqqil
 - **Regio:** Frankfurt (eu-central-1)
 
+> **Migratiebeleid (sinds 24 juni 2026).** *Additieve + idempotente* migraties
+> (enkel toevoegen — `add column/table … if not exists`, nieuwe index/policy;
+> géén drop, rename of data-mutatie) mogen **automatisch** worden toegepast,
+> zonder aparte backup of bevestiging. **Destructieve** migraties (drop/rename/
+> data-wijziging) vereisen nog steeds een Supabase-backup én expliciete
+> bevestiging vóór uitvoering.
+
 ### Schema aanmaken (eenmalig)
 
 1. Ga naar Supabase Dashboard → SQL Editor → New query

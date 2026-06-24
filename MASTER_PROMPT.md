@@ -38,7 +38,7 @@
 
 6. **Audit-rapport aan eind van elke code-sessie** — plain language samenvatting: wat is er gewijzigd, wat zou er fout kunnen gaan, wat moet visueel gecontroleerd worden, hoe rollback indien nodig. Wordt ook opgeslagen als markdownbestand.
 
-7. **Database-backup vóór elke migratie** — geen uitzonderingen. Expliciete bevestiging vereist voordat een migratie in Supabase draait.
+7. **Database-backup vóór elke migratie** — met één duidelijke uitzondering. *Additieve + idempotente* migraties (enkel toevoegen — `add column/table … if not exists`, nieuwe index/policy; géén drop, rename of data-mutatie) mogen **automatisch** in Supabase worden toegepast, zonder aparte backup of expliciete bevestiging. **Destructieve** migraties (drop/rename/data-wijziging) vereisen nog steeds een backup én expliciete bevestiging vóór ze draaien.
 
 8. **Build-checks vóór elke commit** (deterministisch, niet AI):
    - Frontend-werk: `npm run build` slaagt zonder errors

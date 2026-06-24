@@ -39,7 +39,9 @@ _Wat moet Claude Code precies doen?_
 _Hoe kan Frederik visueel of functioneel controleren dat het werkt?_
 
 **6. Let op / risico's**
-_Audit-spoor onuitwisbaar, schema-gevoeligheden, back-up vóór migratie,
+_Audit-spoor onuitwisbaar, schema-gevoeligheden, back-up vóór migratie
+(uitzondering: additieve + idempotente migraties mogen automatisch, zonder
+backup/bevestiging; destructieve migraties wél met backup + bevestiging),
 deadline-impact, enz._
 
 ---

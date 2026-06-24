@@ -24,7 +24,7 @@ import {
 } from '../lib/breaks'
 import {
   getDays, createDay, updateDay, deleteDay,
-  assignLotToDay, bulkAssignLotsToDay, assignLotsByNumberRange,
+  assignLotToDay, assignLotsByNumberRange,
 } from '../lib/collectionDays'
 
 // Lot-kolommen die de lijst (gewone + dag-gegroepeerde weergave) nodig heeft.
@@ -927,7 +927,8 @@ function RangeAssignHelper({ collectionId, days, onLotsChanged }) {
 /* ---------- Dag-gegroepeerde lotlijst (drag-and-drop + dropdown + bulk) ---------- */
 
 function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChanged, hideRating }) {
-  const [selected, setSelected] = useState(() => new Set())
+  // Welke dag-groepen ingeklapt zijn (op droppableId). Standaard alles open.
+  const [collapsed, setCollapsed] = useState(() => new Set())
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
   const sortLots = (arr) => [...arr].sort((a, b) => {
@@ -947,21 +948,12 @@ function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChang
     if (l.collection_day_id != null && byDay.has(l.collection_day_id)) byDay.get(l.collection_day_id).push(l)
   }
 
-  function toggleSelected(id) {
-    setSelected((prev) => {
+  function toggleCollapse(id) {
+    setCollapsed((prev) => {
       const next = new Set(prev)
       if (next.has(id)) next.delete(id); else next.add(id)
       return next
     })
-  }
-
-  async function moveLots(ids, targetDayId) {
-    if (ids.length === 0) return
-    try {
-      await bulkAssignLotsToDay(ids, targetDayId)
-      setSelected(new Set())
-      await onLotsChanged()
-    } catch (e) { alert(`Verplaatsen mislukt: ${e.message}`) }
   }
 
   async function assignOne(lotId, dayId) {
@@ -979,32 +971,13 @@ function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChang
     if (overId === 'day-unassigned') target = null
     else if (overId.startsWith('day-')) target = overId.slice(4)
     else return
-    const activeId = String(active.id)
-    const ids = selected.has(activeId) ? [...selected] : [activeId]
-    await moveLots(ids, target)
+    await assignOne(String(active.id), target)
   }
 
   const dayOptions = days.map((d) => ({ id: d.id, label: `Dag ${d.day_index}${d.date ? ` (${formatDayDate(d.date)})` : ''}` }))
 
   return (
     <div>
-      {selected.size > 0 && (
-        <div style={bulkBarStyle}>
-          <strong>{selected.size}</strong> geselecteerd
-          <span style={{ color: 'var(--text-secondary)' }}>→ verplaats naar</span>
-          <select
-            defaultValue=""
-            onChange={(e) => { if (e.target.value !== '') moveLots([...selected], e.target.value === '__none__' ? null : e.target.value) }}
-            style={dayStatusSelectStyle}
-          >
-            <option value="" disabled>— kies dag —</option>
-            {dayOptions.map((d) => <option key={d.id} value={d.id}>{d.label}</option>)}
-            <option value="__none__">Niet toegewezen</option>
-          </select>
-          <button type="button" onClick={() => setSelected(new Set())} style={smallBtnStyle}>wis selectie</button>
-        </div>
-      )}
-
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         {unassigned.length > 0 && (
           <DayGroup
@@ -1015,8 +988,8 @@ function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChang
             lots={unassigned}
             dayOptions={dayOptions}
             currentDayId={null}
-            selected={selected}
-            onToggle={toggleSelected}
+            collapsed={collapsed.has('day-unassigned')}
+            onToggleCollapse={() => toggleCollapse('day-unassigned')}
             onAssignOne={assignOne}
             onRatingChanged={onRatingChanged}
             hideRating={hideRating}
@@ -1031,8 +1004,8 @@ function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChang
             lots={byDay.get(day.id) ? sortLots(byDay.get(day.id)) : []}
             dayOptions={dayOptions}
             currentDayId={day.id}
-            selected={selected}
-            onToggle={toggleSelected}
+            collapsed={collapsed.has(`day-${day.id}`)}
+            onToggleCollapse={() => toggleCollapse(`day-${day.id}`)}
             onAssignOne={assignOne}
             onRatingChanged={onRatingChanged}
             hideRating={hideRating}
@@ -1045,7 +1018,7 @@ function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChang
 
 function DayGroup({
   droppableId, title, subtitle, danger, lots, dayOptions, currentDayId,
-  selected, onToggle, onAssignOne, onRatingChanged, hideRating,
+  collapsed, onToggleCollapse, onAssignOne, onRatingChanged, hideRating,
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: droppableId })
   return (
@@ -1057,14 +1030,22 @@ function DayGroup({
         ...(isOver ? { background: 'var(--bg-elevated)', borderColor: 'var(--accent)' } : {}),
       }}
     >
-      <div style={dayGroupHeaderStyle}>
+      {/* Klik op de dag-kop om de groep in/uit te klappen. */}
+      <button
+        type="button"
+        onClick={onToggleCollapse}
+        style={dayGroupHeaderBtnStyle}
+        aria-expanded={!collapsed}
+        title={collapsed ? 'Dag uitklappen' : 'Dag inklappen'}
+      >
+        <span style={{ display: 'inline-block', width: 14, color: 'var(--text-muted)' }}>{collapsed ? '▸' : '▾'}</span>
         <strong style={{ color: danger ? 'var(--warning)' : 'var(--text-primary)' }}>{title}</strong>
         <span style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>{subtitle}</span>
         <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 'auto' }}>
           {lots.length} lot{lots.length === 1 ? '' : 's'}
         </span>
-      </div>
-      {lots.length === 0 ? (
+      </button>
+      {!collapsed && (lots.length === 0 ? (
         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.9em', margin: '0.5rem 0 0 0' }}>
           Sleep hier lots naartoe of kies deze dag in de dropdown van een lot.
         </p>
@@ -1076,20 +1057,18 @@ function DayGroup({
               lot={lot}
               dayOptions={dayOptions}
               currentDayId={currentDayId}
-              selected={selected.has(lot.id)}
-              onToggle={() => onToggle(lot.id)}
               onAssignOne={onAssignOne}
               onRatingChanged={onRatingChanged}
               hideRating={hideRating}
             />
           ))}
         </ul>
-      )}
+      ))}
     </div>
   )
 }
 
-function GroupedLotRow({ lot, dayOptions, currentDayId, selected, onToggle, onAssignOne, onRatingChanged, hideRating }) {
+function GroupedLotRow({ lot, dayOptions, currentDayId, onAssignOne, onRatingChanged, hideRating }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: lot.id })
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -1107,13 +1086,6 @@ function GroupedLotRow({ lot, dayOptions, currentDayId, selected, onToggle, onAs
       >
         ⠿
       </button>
-      <input
-        type="checkbox"
-        checked={selected}
-        onChange={onToggle}
-        style={{ flexShrink: 0 }}
-        aria-label={`Selecteer ${lot.name}`}
-      />
       <Thumb src={lot.photos?.[0]} alt={lot.name} small />
       <Link to={`/lots/${lot.id}`} style={{ flex: 1, minWidth: 0, textDecoration: 'none', color: 'var(--text-primary)', opacity: lot.withdrawn ? 0.55 : 1 }}>
         <div style={{ fontWeight: 600 }}>
@@ -1838,16 +1810,6 @@ const rangeInputStyle = {
   border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
   fontFamily: 'inherit',
 }
-const bulkBarStyle = {
-  position: 'sticky', top: 0, zIndex: 10,
-  display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-  padding: 'var(--space-2) var(--space-3)',
-  marginBottom: 'var(--space-2)',
-  background: 'var(--bg-elevated)',
-  border: '1px solid var(--accent-muted)',
-  borderRadius: 'var(--radius-sm)',
-  color: 'var(--text-primary)', fontSize: '0.9em',
-}
 const dayGroupStyle = {
   marginBottom: 'var(--space-3)',
   padding: 'var(--space-3)',
@@ -1856,10 +1818,13 @@ const dayGroupStyle = {
   borderRadius: 'var(--radius-md)',
   transition: 'background 0.12s, border-color 0.12s',
 }
-const dayGroupHeaderStyle = {
+const dayGroupHeaderBtnStyle = {
   display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap',
+  width: '100%',
   paddingBottom: 'var(--space-2)',
   borderBottom: '1px solid var(--border-default)',
+  background: 'transparent', border: 'none',
+  cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
 }
 const groupedRowStyle = {
   display: 'flex', alignItems: 'center', gap: 8,

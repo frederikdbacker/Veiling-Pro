@@ -29,8 +29,11 @@
 > ⚠️ Het plan noemde migratie 0031/0032, maar die waren al door de
 > meerdaagse-feature gebruikt → nu **0033/0034**.
 >
-> **Nog te doen door Frederik:** Supabase-backup → migraties 0033 + 0034 draaien
-> → code deployen → worker starten op de mini (`npm run worker` of LaunchAgent).
+> **Stand 24 juni 2026:** migraties **0033 + 0034 zijn toegepast** in productie
+> (additief+idempotent, automatisch toegepaste regel) en `main` is **gedeployed**
+> (Vercel). Beide features (URL-ingest + veilingdagen-metadata) staan samengevoegd
+> op `main`. **Enige resterende stap:** de **worker starten op de Mac mini**
+> (`npm run worker` of de LaunchAgent) — dat draait op Frederiks fysieke machine.
 > Zie `reports/2026-06-24_plak-collectielink-ingest.md`.
 >
 > Nog niet gebouwd (bewust later): fijnmazige her-scrape-merge op lot-niveau

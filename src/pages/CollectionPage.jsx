@@ -392,6 +392,18 @@ export default function CollectionPage() {
         />
       )}
 
+      {/* Veilingdagen — beheer + lot-verdeling, binnen het uitklapbare
+          'Bewerk veiling-metadata'-veld (alleen zichtbaar als dat open is). */}
+      {collection && metaOpen && (
+        <CollectionDaysSection
+          collectionId={collectionId}
+          days={days}
+          lots={lots}
+          onDaysChanged={reloadDays}
+          onLotsChanged={reloadLots}
+        />
+      )}
+
       {collection && (
         <div className="collection-actions">
           <button
@@ -454,17 +466,6 @@ export default function CollectionPage() {
             </label>
           </div>
         </div>
-      )}
-
-      {/* Veilingdagen — beheer + lot-verdeling over dagen */}
-      {collection && (
-        <CollectionDaysSection
-          collectionId={collectionId}
-          days={days}
-          lots={lots}
-          onDaysChanged={reloadDays}
-          onLotsChanged={reloadLots}
-        />
       )}
 
       {/* Sorteer + pauze-knoppen boven de lijst */}

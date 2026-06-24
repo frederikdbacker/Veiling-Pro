@@ -458,7 +458,7 @@ export default function CollectionPage() {
                 onChange={toggleOnlineBidding}
                 style={{ marginRight: 6 }}
               />
-              Online biedingen actief
+              Online biedingen
             </label>
           </div>
         </div>
@@ -1602,14 +1602,15 @@ const mobileActionsToggleStyle = {
   fontFamily: 'inherit',
 }
 const onlineToggleLabelStyle = {
-  marginLeft: 'auto',
+  // In lijn met de andere actie-knoppen (geen margin-left:auto die hem naar
+  // de rechterrand wegduwt); zelfde stijl als secondaryBtnStyle.
   display: 'inline-flex', alignItems: 'center',
   padding: '0.4rem 0.85rem',
-  background: 'var(--bg-surface)',
+  background: 'transparent',
   border: '1px solid var(--border-default)',
   borderRadius: 'var(--radius-sm)',
   color: 'var(--text-primary)',
-  fontSize: '0.9em',
+  fontSize: '0.9em', fontWeight: 600, fontFamily: 'inherit',
   cursor: 'pointer',
   userSelect: 'none',
 }

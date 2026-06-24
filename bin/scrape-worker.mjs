@@ -35,7 +35,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 
 // ── configuratie ───────────────────────────────────────────────────────────
-const POLL_INTERVAL_MS  = 4000      // hoe vaak we naar nieuwe jobs kijken
+const POLL_INTERVAL_MS  = 60000     // vangnet-interval (60s); realtime doet de instant-pickup
 const STALE_RUNNING_MIN = 20        // 'running' langer dan dit = vastgelopen (worker-crash)
 const MAX_ATTEMPTS      = 3         // plafond op pogingen per job
 const SCRAPE_RETRIES    = 2         // in-proces retries bij tijdelijke fout

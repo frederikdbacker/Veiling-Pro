@@ -9,6 +9,32 @@ import { supabase } from './supabase'
  * Zie docs/plan-plak-collectielink-ingest.md (sectie F).
  */
 
+/** Hartslag jonger dan dit ⇒ worker online (worker schrijft elke ~30s). */
+const WORKER_ONLINE_MS = 2 * 60 * 1000
+
+/**
+ * Online/offline-status van de scrape-worker o.b.v. zijn hartslag
+ * (worker_heartbeat, migratie 0035). De worker schrijft elke ~30s `last_seen`;
+ * we noemen hem online als die < 2 min oud is. Offline (of geen rij) ⇒ jobs
+ * blijven in de wachtrij tot de worker op de mini (her)start.
+ */
+export async function getWorkerStatus() {
+  const { data, error } = await supabase
+    .from('worker_heartbeat')
+    .select('last_seen, started_at, hostname')
+    .eq('id', 'scrape-worker')
+    .maybeSingle()
+  if (error || !data?.last_seen) return { online: false, lastSeen: null, secondsAgo: null }
+  const lastSeen = new Date(data.last_seen)
+  const ageMs = Date.now() - lastSeen.getTime()
+  return {
+    online: ageMs < WORKER_ONLINE_MS,
+    lastSeen,
+    secondsAgo: Math.max(0, Math.round(ageMs / 1000)),
+    hostname: data.hostname || null,
+  }
+}
+
 /** Mens-labels voor de statusweergave (queued/running/done/failed/canceled). */
 export const STATUS_LABEL = {
   queued:   'In wachtrij',

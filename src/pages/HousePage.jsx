@@ -8,6 +8,7 @@ import CountryAutocomplete from '../components/CountryAutocomplete'
 import CommitteeSection from '../components/CommitteeSection'
 import CollectionIngestModal from '../components/CollectionIngestModal'
 import ScrapeJobStatus from '../components/ScrapeJobStatus'
+import WorkerStatusBadge from '../components/WorkerStatusBadge'
 import { createDay } from '../lib/collectionDays'
 import { getRecentJobs, cancelJob, getJob, subscribeJob, createScrapeJob } from '../lib/scrapeJobs'
 
@@ -397,6 +398,9 @@ export default function HousePage() {
           <button onClick={() => setIngestOpen(true)} style={ingestBtnStyle}>
             🔗 Collectie ophalen
           </button>
+          <span style={{ display: 'inline-flex', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
+            <WorkerStatusBadge compact />
+          </span>
           {collections.length > 0 && (
             <button
               onClick={() => { setError(null); setDeleteMode(true) }}

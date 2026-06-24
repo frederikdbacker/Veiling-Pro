@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Modal from './Modal'
 import ScrapeJobStatus from './ScrapeJobStatus'
+import WorkerStatusBadge from './WorkerStatusBadge'
 import { analyzeUrl } from '../lib/scraperRegistry'
 import { createScrapeJob, subscribeJob, cancelJob, getJob } from '../lib/scrapeJobs'
 
@@ -80,6 +81,8 @@ export default function CollectionIngestModal({
   return (
     <Modal onClose={onClose} maxWidth={560}>
       <h2 style={{ marginTop: 0, color: 'var(--text-primary)' }}>{title}</h2>
+
+      <WorkerStatusBadge />
 
       {!job && (
         <>

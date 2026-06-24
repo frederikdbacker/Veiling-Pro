@@ -29,6 +29,7 @@ import { spawn } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import os from 'node:os'
 import { analyzeUrl } from '../src/lib/scraperRegistry.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -41,6 +42,8 @@ const MAX_ATTEMPTS      = 3         // plafond op pogingen per job
 const SCRAPE_RETRIES    = 2         // in-proces retries bij tijdelijke fout
 const SCRAPE_TIMEOUT_MS = 10 * 60 * 1000  // 10 min — ruim voor Puppeteer + tientallen pagina's
 const LOG_TAIL_CHARS    = 6000      // hoeveel scraper-stdout we bewaren in job.log
+const HEARTBEAT_MS      = 30000     // "ik leef nog" wegschrijven (eigen klokje, los van het scrapen)
+const HEARTBEAT_ID      = 'scrape-worker'
 
 const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY
@@ -318,6 +321,18 @@ async function tick() {
   }
 }
 
+// ── hartslag (online/offline-lampje in de webapp) ───────────────────────────
+// Eigen klokje, los van het scrapen, zodat het ook tijdens een lange ophaalbeurt
+// blijft kloppen. De webapp noemt de worker "online" als last_seen < 2 min oud is.
+let workerStartedAt = null
+async function heartbeat(first = false) {
+  try {
+    const row = { id: HEARTBEAT_ID, last_seen: nowIso() }
+    if (first) { workerStartedAt = nowIso(); row.started_at = workerStartedAt; row.hostname = os.hostname() }
+    await sb.from('worker_heartbeat').upsert(row, { onConflict: 'id' })
+  } catch (e) { log('⚠️  hartslag faalde:', e.message) }
+}
+
 async function main() {
   log('🚀 scrape-worker gestart.')
   log(`   Supabase: ${url}`)
@@ -325,6 +340,8 @@ async function main() {
   log(`   Poll    : elke ${POLL_INTERVAL_MS / 1000}s · stale-running ${STALE_RUNNING_MIN}min · max ${MAX_ATTEMPTS} pogingen`)
 
   await recoverStaleRunning()
+  await heartbeat(true)                          // eerste hartslag (met started_at)
+  const heartbeatTimer = setInterval(heartbeat, HEARTBEAT_MS)
 
   // Realtime is een snelheids-extra; polling is de garantie. Best-effort: als
   // realtime niet beschikbaar is, draait alles gewoon op de poll-lus.
@@ -341,6 +358,7 @@ async function main() {
     await tick()
     await sleep(POLL_INTERVAL_MS)
   }
+  clearInterval(heartbeatTimer)
   log('👋 worker gestopt.')
   process.exit(0)
 }

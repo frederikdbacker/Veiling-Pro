@@ -6,6 +6,7 @@ import AutoSaveText from '../components/AutoSaveText'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import CountryAutocomplete from '../components/CountryAutocomplete'
 import CommitteeSection from '../components/CommitteeSection'
+import { createDay } from '../lib/collectionDays'
 
 export default function HousePage() {
   const { houseId } = useParams()
@@ -114,8 +115,16 @@ export default function HousePage() {
 
   async function handleAddCollection(payload) {
     setError(null)
-    const { error } = await supabase.from('collections').insert({ ...payload, house_id: houseId })
+    const { data, error } = await supabase
+      .from('collections')
+      .insert({ ...payload, house_id: houseId })
+      .select('id, date')
+      .single()
     if (error) { setError(error.message); return false }
+    // Elke collectie start met precies één veilingdag (model-invariant sinds
+    // migratie 0031). Zonder dit zou een nieuwe collectie als "0 dagen" tonen.
+    try { await createDay(data.id, { date: data.date }) }
+    catch (e) { console.error('veilingdag aanmaken:', e) }
     setAddingCollection(false)
     await load()
     return true

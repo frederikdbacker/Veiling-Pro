@@ -20,6 +20,7 @@ const positive = [
   ['https://woodlandsinternational.weauction.nl/auctions/123', 'weauction'],
   ['https://swbauction.swb.org/auctions/5', 'weauction'],
   ['https://bid.dewoldensummersale.com/auctions/9', 'weauction'],
+  ['https://bid.thecollection-auction.com/auctions/34cbecb6-1d90-43aa-ad17-08de9f859131', 'weauction'],
   ['https://www.fences.fr/cheval/vente/selection/', 'fences-catalogus'],
   ['https://horseauctionbelgium.com/collectie/41', 'pwb'],
   ['https://paardenveilingonline.com/collectie/56', 'pwb'],
@@ -51,6 +52,9 @@ check('weauction url+house', JSON.stringify(wea.args) === JSON.stringify(['https
 
 const weaHint = analyzeUrl('https://bid.aloga-auction.com/auctions/x')
 check('weauction houseHint = Aloga', weaHint.houseName === 'Aloga' && weaHint.argsOk)
+
+const tcHint = analyzeUrl('https://bid.thecollection-auction.com/auctions/34cbecb6-1d90-43aa-ad17-08de9f859131')
+check('weauction houseHint = The Collection', tcHint.houseName === 'The Collection' && tcHint.argsOk)
 
 console.log('\nHuisnaam-hints:')
 check('fences hint', analyzeUrl('https://www.fences.fr/cheval/vente/selection/').houseHint === 'Agence Fences')

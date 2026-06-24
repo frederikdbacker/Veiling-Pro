@@ -63,13 +63,14 @@ export const SCRAPERS = [
     needsHouseName: true,
     match: (u) =>
       /(^|\.)weauction\.nl$/i.test(u.hostname) ||
-      /^bid\.(aloga-auction|wefsporthorseauction|dewoldensummersale)\.com$/i.test(u.hostname) ||
+      /^bid\.(aloga-auction|wefsporthorseauction|dewoldensummersale|thecollection-auction)\.com$/i.test(u.hostname) ||
       u.hostname.toLowerCase() === 'swbauction.swb.org',
     houseHint: (u) => {
       const h = u.hostname.toLowerCase()
       if (h.includes('aloga')) return 'Aloga'
       if (h.includes('wefsporthorse')) return 'WEF Sporthorse Auction'
       if (h.includes('dewoldensummersale')) return 'De Wolden Summer Sale'
+      if (h.includes('thecollection')) return 'The Collection'
       if (h.includes('swbauction')) return 'Swedish Warmblood'
       return null
     },

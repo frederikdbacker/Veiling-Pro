@@ -1,9 +1,36 @@
 # Audit-rapport — "Collectie ophalen" via een geplakte link (URL-ingest)
 
 **Datum:** 24 juni 2026
-**Branch:** `feat/plak-collectielink-ingest` (nog niet gepusht, geen PR)
 **Plan:** `docs/plan-plak-collectielink-ingest.md`
 **Build:** `npm run build` ✓ groen · registry-test ✓ · worker boot-test ✓
+
+---
+
+## Eindstand (24 juni 2026 — LIVE, door Frederik visueel bevestigd)
+
+> De "nog te doen"-stappen in §4 hieronder zijn **intussen uitgevoerd**. Actuele stand:
+>
+> - **Migraties toegepast in productie:** `0033_collection_source_url`,
+>   `0034_scrape_jobs`, `0035_worker_heartbeat` (allemaal additief+idempotent,
+>   automatisch toegepast volgens de nieuwe migratieregel — zie onder).
+> - **Gedeployed:** branch `feat/plak-collectielink-ingest` **én** de parallelle
+>   `fix/veilingdagen-in-metadata` zijn samengevoegd op `main` (één klein
+>   `CollectionPage.jsx`-conflict opgelost, beide features behouden) en gepusht →
+>   Vercel. Frederik heeft de werking op de webapp bevestigd.
+> - **Worker draait** op de Mac mini als **LaunchAgent** (achtergronddienst, niet
+>   in een terminal; auto-start bij herstart, auto-restart bij crash). Poll-vangnet
+>   staat op **60s**, realtime doet de instant-pickup.
+> - **Worker-status-lampje** toegevoegd: de worker schrijft elke 30s een hartslag
+>   (`worker_heartbeat`, migratie 0035); de webapp toont 🟢 online / 🔴 offline in
+>   de "Collectie ophalen"-modal en als compact lampje naast de knop.
+> - **Nieuwe werkwijze-regel:** additieve + idempotente migraties mogen voortaan
+>   automatisch toegepast worden (zonder backup/bevestiging); destructieve nog wél.
+>   Vastgelegd in CLAUDE.md, MASTER_PROMPT.md, PROMPT_TEMPLATE.md, DEVELOPER_SETUP.md.
+> - **Worker-beheer** (status/log/herstart/stop/start) gedocumenteerd in
+>   `DEVELOPER_SETUP.md` — ook opvraagbaar via Co-work.
+> - **Samenwerking 2 sessies:** beide draaien nu in een eigen git-worktree
+>   (`~/veiling-pro` = Plak; `~/veiling-pro-veilingdagen` = veilingdagen) zodat ze
+>   elkaars HEAD niet meer verschuiven.
 
 ---
 

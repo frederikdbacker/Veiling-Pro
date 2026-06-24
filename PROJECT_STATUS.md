@@ -29,12 +29,15 @@
 > ⚠️ Het plan noemde migratie 0031/0032, maar die waren al door de
 > meerdaagse-feature gebruikt → nu **0033/0034**.
 >
-> **Stand 24 juni 2026:** migraties **0033 + 0034 zijn toegepast** in productie
-> (additief+idempotent, automatisch toegepaste regel) en `main` is **gedeployed**
-> (Vercel). Beide features (URL-ingest + veilingdagen-metadata) staan samengevoegd
-> op `main`. **Enige resterende stap:** de **worker starten op de Mac mini**
-> (`npm run worker` of de LaunchAgent) — dat draait op Frederiks fysieke machine.
-> Zie `reports/2026-06-24_plak-collectielink-ingest.md`.
+> **Stand 24 juni 2026 — LIVE (door Frederik bevestigd).** Migraties **0033 + 0034
+> + 0035** toegepast in productie (additief+idempotent, automatisch toegepaste
+> regel) en `main` **gedeployed** (Vercel). Beide features (URL-ingest +
+> veilingdagen-metadata) staan samengevoegd op `main`. De **worker draait** op de
+> Mac mini als **LaunchAgent** (achtergronddienst, auto-start na herstart;
+> poll-vangnet 60s, realtime instant). Een **worker-status-lampje** (🟢/🔴, via
+> `worker_heartbeat`/0035) toont in de webapp of imports verwerkt worden.
+> Worker-beheer + de nieuwe migratieregel staan gedocumenteerd. Zie
+> `reports/2026-06-24_plak-collectielink-ingest.md`.
 >
 > Nog niet gebouwd (bewust later): fijnmazige her-scrape-merge op lot-niveau
 > (handmatige velden behouden) — plan fase I.5.

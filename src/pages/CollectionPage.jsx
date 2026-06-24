@@ -69,11 +69,38 @@ export default function CollectionPage() {
       if (collectionRes.error) { setStatus(`Fout bij ophalen collectie: ${collectionRes.error.message}`); return }
       if (lotsRes.error)    { setStatus(`Fout bij ophalen lots: ${lotsRes.error.message}`); return }
 
+      let resolvedDays = daysList
+      let resolvedLots = lotsRes.data
+      // Self-heal: elke collectie hoort minstens één veilingdag te hebben
+      // (model-invariant sinds migratie 0031). Een collectie die ná de
+      // backfill is aangemaakt mist die anders → maak dag 1 aan en koppel
+      // losse lots eraan, zodat de UI nooit "0 dagen" toont.
+      if (resolvedDays.length === 0) {
+        try {
+          await createDay(collectionId, { date: collectionRes.data?.date || null })
+          resolvedDays = await getDays(collectionId)
+          const day1 = resolvedDays.find((d) => d.day_index === 1)
+          if (day1) {
+            await supabase.from('lots')
+              .update({ collection_day_id: day1.id })
+              .eq('collection_id', collectionId)
+              .is('collection_day_id', null)
+            const { data: relots } = await supabase
+              .from('lots')
+              .select(LOT_LIST_COLUMNS)
+              .eq('collection_id', collectionId)
+              .order('number', { nullsFirst: false })
+              .order('name')
+            if (relots) resolvedLots = relots
+          }
+        } catch (e) { console.error('self-heal veilingdag:', e) }
+      }
+
       setCollection(collectionRes.data)
-      setLots(lotsRes.data)
+      setLots(resolvedLots)
       setBreaks(breaksList)
-      setDays(daysList)
-      setStatus(`${lotsRes.data.length} lots`)
+      setDays(resolvedDays)
+      setStatus(`${resolvedLots.length} lots`)
     }
     load()
   }, [collectionId])
@@ -724,7 +751,7 @@ function CollectionDaysSection({ collectionId, days, lots, onDaysChanged, onLots
     return (
       <div style={daysSectionStyle}>
         <div style={{ color: 'var(--text-muted)', fontSize: '0.9em' }}>
-          📅 Veilingdagen worden beschikbaar zodra migratie 0031 is uitgevoerd.
+          📅 Veilingdag wordt voorbereid… herlaad de pagina als dit blijft staan.
         </div>
       </div>
     )

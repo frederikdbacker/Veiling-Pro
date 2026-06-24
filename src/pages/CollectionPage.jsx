@@ -13,6 +13,7 @@ import { supabase } from '../lib/supabase'
 import { hasMissing, translateMissing } from '../lib/missingInfo'
 import Breadcrumbs from '../components/Breadcrumbs'
 import BulkStartPriceModal from '../components/BulkStartPriceModal'
+import CollectionIngestModal from '../components/CollectionIngestModal'
 import RundownField from '../components/RundownField'
 import AutoSaveText from '../components/AutoSaveText'
 import LotTypesSelector from '../components/LotTypesSelector'
@@ -45,6 +46,7 @@ export default function CollectionPage() {
   const [newLotName, setNewLotName] = useState(null) // null = form gesloten, string = open
   const [copyFeedback, setCopyFeedback] = useState(null)
   const [bulkPriceOpen, setBulkPriceOpen] = useState(false)
+  const [ingestOpen, setIngestOpen] = useState(false)
   const [metaOpen, setMetaOpen] = useState(false)
   const [actionsMenuOpen, setActionsMenuOpen] = useState(false)
 
@@ -425,6 +427,9 @@ export default function CollectionPage() {
             <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
               💰 Bulk startbedrag
             </button>
+            <button onClick={() => setIngestOpen(true)} style={secondaryBtnStyle} title="Haal de catalogus van deze collectie op via een link">
+              🔗 Catalogus ophalen
+            </button>
             <Link to={`/collections/${collection.id}/clients`} style={secondaryBtnStyle}>
               👥 Klanten
             </Link>
@@ -687,6 +692,17 @@ export default function CollectionPage() {
               .order('name')
             if (data) setLots(data)
           }}
+        />
+      )}
+
+      {ingestOpen && collection && (
+        <CollectionIngestModal
+          houseId={collection.house_id}
+          houseName={collection.auction_houses?.name ?? null}
+          collectionId={collection.id}
+          mode="refresh"
+          initialUrl={collection.source_url || ''}
+          onClose={() => { setIngestOpen(false); reloadLots(); reloadDays() }}
         />
       )}
     </section>

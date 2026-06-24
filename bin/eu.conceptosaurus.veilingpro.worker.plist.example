@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Voorbeeld-LaunchAgent voor de scrape-worker op de Mac mini.
+
+  Hiermee start de worker automatisch op bij het inloggen en herstart launchd
+  hem als hij ooit crasht (KeepAlive). De worker zelf herstelt vastgelopen
+  jobs bij opstart, dus een herstart is altijd veilig.
+
+  INSTALLEREN (eenmalig, NIET door Claude gedaan — dit doet Frederik zelf):
+    1. Pas hieronder de paden aan:
+       - /Users/JOUW-NAAM/veiling-pro      → echte projectpad op de mini
+       - /usr/local/bin/node               → uitvoer van `which node` op de mini
+    2. Kopieer (zonder .example) naar de LaunchAgents-map:
+         cp bin/eu.conceptosaurus.veilingpro.worker.plist.example \
+            ~/Library/LaunchAgents/eu.conceptosaurus.veilingpro.worker.plist
+    3. Laden + starten:
+         launchctl load  ~/Library/LaunchAgents/eu.conceptosaurus.veilingpro.worker.plist
+       Stoppen kan met `launchctl unload <pad>`.
+    4. Logs verschijnen in worker.out.log / worker.err.log in de projectmap.
+
+  NB: --env-file=.env.local zorgt dat de Supabase-sleutels uit .env.local komen
+  (die staat niet in git). Voeg daar optioneel SUPABASE_SERVICE_ROLE_KEY toe.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>eu.conceptosaurus.veilingpro.worker</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>--env-file=.env.local</string>
+    <string>bin/scrape-worker.mjs</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/JOUW-NAAM/veiling-pro</string>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <!-- Niet vaker dan elke 10s herstarten bij een crash-lus -->
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+
+  <key>StandardOutPath</key>
+  <string>/Users/JOUW-NAAM/veiling-pro/worker.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/JOUW-NAAM/veiling-pro/worker.err.log</string>
+</dict>
+</plist>

@@ -1,7 +1,52 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 23 juni 2026 (Meerdaagse veilingen — dag-opsplitsing gebouwd)**
+**Laatste update: 24 juni 2026 (URL-ingest: "Collectie ophalen" via geplakte link)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **24 juni 2026 — "Collectie ophalen" via een geplakte link (URL-ingest).**
+> Je plakt binnen een veilinghuis een collectie-link en klikt **"Collectie
+> ophalen"**; het systeem kiest automatisch de juiste scraper, haalt de
+> catalogus op en zet de paarden in een nieuwe collectie — met live status
+> (In wachtrij → Bezig met ophalen → Klaar / Mislukt). Op een collectie-pagina
+> doet **"🔗 Catalogus ophalen"** hetzelfde voor een bestaande collectie.
+>
+> Architectuur: de SPA schrijft enkel een rij in de nieuwe tabel `scrape_jobs`;
+> een **lokale worker op de Mac mini** (`bin/scrape-worker.mjs`) pikt die op,
+> draait de bestaande scraper- + import-scripts **ongewijzigd**, en schrijft
+> status/voortgang terug. De SPA volgt dat live via Supabase realtime (met
+> polling-fallback). Eén gedeelde **scraper-registry** (`src/lib/scraperRegistry.js`)
+> bepaalt host → scraper, gebruikt door zowel de browser als de worker.
+>
+> Gebouwd op branch `feat/plak-collectielink-ingest` (nog niet gepusht):
+> migraties **0033** (`collections.source_url`) + **0034** (`scrape_jobs`);
+> `src/lib/scraperRegistry.js`, `src/lib/scrapeJobs.js`,
+> `src/components/CollectionIngestModal.jsx`, `src/components/ScrapeJobStatus.jsx`,
+> `bin/scrape-worker.mjs` (+ LaunchAgent-voorbeeld); knoppen op HousePage
+> (incl. "Recente imports") en CollectionPage. Bestaande scrapers onaangeraakt.
+>
+> ⚠️ Het plan noemde migratie 0031/0032, maar die waren al door de
+> meerdaagse-feature gebruikt → nu **0033/0034**.
+>
+> **Nog te doen door Frederik:** Supabase-backup → migraties 0033 + 0034 draaien
+> → code deployen → worker starten op de mini (`npm run worker` of LaunchAgent).
+> Zie `reports/2026-06-24_plak-collectielink-ingest.md`.
+>
+> Nog niet gebouwd (bewust later): fijnmazige her-scrape-merge op lot-niveau
+> (handmatige velden behouden) — plan fase I.5.
+
+---
+
+> **23 juni 2026 — Werkwijze Co-work + repo-opruiming (docs-only).**
+> Drieluik **Chat → Co-work → Claude Code** vastgelegd in `MASTER_PROMPT.md`
+> (nieuwe sectie "Drie werkomgevingen") + `PROMPT_TEMPLATE.md` als vast
+> overdrachtssjabloon; `CLAUDE.md` verwijst ernaar. Nieuw principe
+> "eigenaarschap van de uitwerking ligt bij Claude" (hóé = Claude, wát =
+> Frederik). Repo opgeruimd: stale iCloud-`(5)`-kopieën + dubbel root-rapport
+> weg, pedigree-prompt gearchiveerd in `reports/prompts-uitgevoerd/`. Geen
+> code- of schemawijziging. PR #20 gemerged (merge-commit `4c56a4e`).
+> Audit-rapport: `reports/2026-06-23_werkwijze-co-work-en-opruiming.md`.
 
 ---
 

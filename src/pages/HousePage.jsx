@@ -6,7 +6,10 @@ import AutoSaveText from '../components/AutoSaveText'
 import AutoSaveUrl from '../components/AutoSaveUrl'
 import CountryAutocomplete from '../components/CountryAutocomplete'
 import CommitteeSection from '../components/CommitteeSection'
+import CollectionIngestModal from '../components/CollectionIngestModal'
+import ScrapeJobStatus from '../components/ScrapeJobStatus'
 import { createDay } from '../lib/collectionDays'
+import { getRecentJobs, cancelJob, getJob, subscribeJob, createScrapeJob } from '../lib/scrapeJobs'
 
 export default function HousePage() {
   const { houseId } = useParams()
@@ -16,6 +19,8 @@ export default function HousePage() {
   const [status, setStatus] = useState('Laden…')
   const [editingMeta, setEditingMeta] = useState(false)
   const [addingCollection, setAddingCollection] = useState(false)
+  const [ingestOpen, setIngestOpen] = useState(false)
+  const [recentJobs, setRecentJobs] = useState([])
   const [error, setError] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
   const [deleteMode, setDeleteMode] = useState(false)
@@ -78,6 +83,44 @@ export default function HousePage() {
   }
 
   useEffect(() => { load() }, [houseId])
+
+  // Recente URL-imports (scrape_jobs) van dit huis ophalen.
+  async function loadRecentJobs() {
+    setRecentJobs(await getRecentJobs(houseId))
+  }
+  useEffect(() => { if (houseId) loadRecentJobs() }, [houseId])
+
+  // Abonneer op nog-lopende jobs zodat hun status live in de lijst bijwerkt.
+  // Dependency is een id:status-string zodat we enkel her-abonneren bij een
+  // statuswissel (niet bij elke progress-tick → geen abonnement-lus).
+  const activeKey = recentJobs.filter((j) => j.status === 'queued' || j.status === 'running').map((j) => j.id).join(',')
+  useEffect(() => {
+    const active = recentJobs.filter((j) => j.status === 'queued' || j.status === 'running')
+    if (active.length === 0) return
+    const unsubs = active.map((j) =>
+      subscribeJob(j.id, (updated) =>
+        setRecentJobs((prev) => prev.map((x) => (x.id === updated.id ? updated : x))),
+      ),
+    )
+    return () => unsubs.forEach((u) => u())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeKey])
+
+  async function handleCancelJob(j) {
+    try {
+      await cancelJob(j.id)
+      const fresh = await getJob(j.id)
+      if (fresh) setRecentJobs((prev) => prev.map((x) => (x.id === fresh.id ? fresh : x)))
+    } catch (e) { setError(e.message) }
+  }
+  async function handleRetryJob(j) {
+    try {
+      const created = await createScrapeJob({
+        sourceUrl: j.source_url, houseId, collectionId: j.collection_id, mode: j.mode, scraperKey: j.scraper_key,
+      })
+      setRecentJobs((prev) => [created, ...prev])
+    } catch (e) { setError(e.message) }
+  }
 
   // Lot-zoekfunctie binnen alle collecties van dit huis
   const [search, setSearch] = useState('')
@@ -351,6 +394,9 @@ export default function HousePage() {
           <button onClick={() => setAddingCollection(true)} style={addBtnStyle}>
             + Veiling toevoegen
           </button>
+          <button onClick={() => setIngestOpen(true)} style={ingestBtnStyle}>
+            🔗 Collectie ophalen
+          </button>
           {collections.length > 0 && (
             <button
               onClick={() => { setError(null); setDeleteMode(true) }}
@@ -381,6 +427,19 @@ export default function HousePage() {
             if (ok) setDeleteMode(false)
           }}
         />
+      )}
+
+      {recentJobs.length > 0 && (
+        <div style={{ marginBottom: 'var(--space-4)' }}>
+          <h3 style={{ ...subheadStyle, marginTop: 'var(--space-3)' }}>Recente imports</h3>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {recentJobs.map((j) => (
+              <li key={j.id} style={{ padding: '6px 0', borderBottom: '1px solid var(--border-default)' }}>
+                <ScrapeJobStatus job={j} compact onCancel={handleCancelJob} onRetry={handleRetryJob} />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {collections.length > 0 ? (
@@ -462,6 +521,23 @@ export default function HousePage() {
 
       {/* Comitéleden onderaan, na de veilingen */}
       {house && <CommitteeSection houseId={house.id} />}
+
+      {ingestOpen && (
+        <CollectionIngestModal
+          houseId={houseId}
+          houseName={house?.name ?? null}
+          mode="create"
+          onClose={() => { setIngestOpen(false); loadRecentJobs() }}
+          onJobChange={(j) => {
+            // Houd het lijstje synchroon met de modal-job (toevoegen of bijwerken).
+            setRecentJobs((prev) => {
+              const i = prev.findIndex((x) => x.id === j.id)
+              if (i === -1) return [j, ...prev]
+              const next = prev.slice(); next[i] = j; return next
+            })
+          }}
+        />
+      )}
     </section>
   )
 }
@@ -688,6 +764,13 @@ const addBtnStyle = {
   padding: '8px 16px',
   background: 'var(--accent)', color: '#fff',
   border: 'none', borderRadius: 'var(--radius-sm)',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+  marginBottom: 'var(--space-3)',
+}
+const ingestBtnStyle = {
+  padding: '8px 16px',
+  background: 'transparent', color: 'var(--accent)',
+  border: '1px solid var(--accent)', borderRadius: 'var(--radius-sm)',
   fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
   marginBottom: 'var(--space-3)',
 }

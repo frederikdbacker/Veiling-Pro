@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 23 juni 2026 (Meerdaagse veilingen gebouwd; docs als set bijgewerkt)**
+**Aangemaakt: april 2026 — laatste update: 24 juni 2026 (URL-ingest "Collectie ophalen" gebouwd; docs als set bijgewerkt)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---

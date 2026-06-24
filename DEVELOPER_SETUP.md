@@ -188,12 +188,44 @@ optioneel een `SUPABASE_SERVICE_ROLE_KEY` toe (netter voor een serverside-achtig
 proces); zonder valt hij terug op de publishable key. **Service-role key nooit
 in git of in client-code.**
 
-### Automatisch starten na herstart (LaunchAgent, aanrader op de mini)
+### Automatisch starten na herstart (LaunchAgent) — AL GEÏNSTALLEERD op de mini
 
-Zie de instructie boven in `bin/eu.conceptosaurus.veilingpro.worker.plist.example`:
-paden aanpassen → kopiëren (zonder `.example`) naar `~/Library/LaunchAgents/` →
-`launchctl load <pad>`. `KeepAlive` herstart hem na een crash; de worker zet bij
-opstart vastgelopen jobs zelf terug, dus herstarten is altijd veilig.
+Sinds **24 juni 2026** draait de worker op de Mac mini als achtergronddienst
+(launchd), **niet in een terminalvenster**. Hij start vanzelf op bij inloggen/
+herstart (`RunAtLoad`) en herstart zichzelf na een crash (`KeepAlive`); de worker
+zet bij opstart vastgelopen jobs zelf terug, dus herstarten is altijd veilig.
+
+- Dienst-bestand op de mini: `~/Library/LaunchAgents/eu.conceptosaurus.veilingpro.worker.plist`
+- Sjabloon in de repo (voor een nieuwe machine): `bin/eu.conceptosaurus.veilingpro.worker.plist.example`
+- Poll-vangnet staat op 60s; realtime doet de instant-pickup.
+
+### Worker beheren (dagelijks — op de mini)
+
+De worker heeft **geen venster**; zijn "scherm" is een logbestand. Handige commando's:
+
+```bash
+# Draait hij? (een getal = PID = ja, hij leeft)
+launchctl list | grep veilingpro
+
+# Live meekijken met wat hij doet (Ctrl-C stopt enkel het meekijken, niet de worker)
+tail -f ~/veiling-pro/worker.out.log
+
+# Herstarten (bv. na een code-update / git pull)
+launchctl kickstart -k gui/$(id -u)/eu.conceptosaurus.veilingpro.worker
+
+# Tijdelijk stoppen
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/eu.conceptosaurus.veilingpro.worker.plist
+
+# Weer starten
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/eu.conceptosaurus.veilingpro.worker.plist
+```
+
+Logbestanden: `~/veiling-pro/worker.out.log` (gewone uitvoer) en `worker.err.log`
+(fouten). **Voorwaarde:** de mini mag niet in slaap gaan, anders wachten jobs tot
+hij wakker is (Systeeminstellingen → Energie → niet automatisch slapen).
+
+> Deze commando's zijn ook altijd opvraagbaar via Claude (Co-work/Code) — die
+> lezen dit bestand. Je hoeft ze dus niet te onthouden.
 
 ### Hoe het samenhangt
 

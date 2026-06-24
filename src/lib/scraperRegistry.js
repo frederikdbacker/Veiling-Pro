@@ -177,6 +177,17 @@ export const SCRAPERS = [
   },
 
   {
+    key: 'extrahorses',
+    label: 'Extra Horses',
+    engine: 'fetch',
+    script: 'scrape-extrahorses.mjs',
+    importer: 'import-lots.mjs',
+    houseHint: () => 'Extra Horses',
+    match: (u) => /(^|\.)venteexclusive\.extrahorses\.com$/i.test(u.hostname),
+    buildArgs: ({ rawUrl }) => ({ ok: true, args: [rawUrl] }),
+  },
+
+  {
     key: 'olympic-dream',
     label: 'Olympic Dream Auction',
     engine: 'fetch',

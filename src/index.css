@@ -284,3 +284,9 @@ hr {
   .live-info-bar .lib-spotter-name { display: none; }
   .live-info-bar .lib-spotter-initials { display: inline; font-weight: 600; }
 }
+
+/* Pulserende voortgangsbalk voor de URL-ingest (onbepaalde voortgang). */
+@keyframes vp-pulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.6; }
+}

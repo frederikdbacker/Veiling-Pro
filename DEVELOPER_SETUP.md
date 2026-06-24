@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 23 juni 2026 (Meerdaagse veilingen — migraties 0031 + 0032)**
+**Laatste update: 24 juni 2026 (URL-ingest "Collectie ophalen" — migraties 0033 + 0034 + worker)**
 
 ---
 
@@ -120,6 +120,11 @@ De *secret* / *service_role* key NIET hier zetten — die mag nooit in client-co
      ⚠️ Backup vóór uitvoeren. Draai vóór de code-deploy.
    - `0032_breaks_per_day.sql` — pauzes per dag (`collection_breaks.collection_day_id`).
      Draai ná 0031.
+   - `0033_collection_source_url.sql` — **URL-ingest**: `collections.source_url`
+     (bron-URL van een via-link opgehaalde collectie). Additief + idempotent.
+   - `0034_scrape_jobs.sql` — **URL-ingest**: wachtrij-/audit-tabel `scrape_jobs`
+     + RLS + realtime. Additief + idempotent. Draai ná 0033.
+     ⚠️ Backup vóór 0033/0034. Daarna: deploy + start de worker (zie onder).
 3. Verifieer in Table Editor dat alle tabellen bestaan:
    - `auction_houses`, `auctions` (met `online_bidding_enabled`), `lots`
    - `lot_types`, `auction_lot_types`, `bid_step_rules`
@@ -150,6 +155,46 @@ npm run dev
 
 De app opent op http://localhost:5173. De homepage toont een lijstje van
 auction_houses uit Supabase als verbinding-smoke-test.
+
+---
+
+## Scrape-worker (URL-ingest "Collectie ophalen")
+
+De knop **"Collectie ophalen"** (een link plakken → catalogus automatisch
+binnenhalen) werkt enkel als de **worker** draait. De worker is een klein,
+lang-lopend Node-proces dat de tabel `scrape_jobs` afleest, de bestaande
+scraper- + import-scripts spawnt, en de status terugschrijft. Bedoeld voor de
+**Mac mini die altijd aanstaat**.
+
+**Vereist eerst:** migraties 0033 + 0034 toegepast (zie boven).
+
+### Handmatig starten
+
+```bash
+cd ~/veiling-pro
+npm run worker
+```
+
+Hij blijft draaien en logt elke job. Stoppen met Ctrl-C (sluit netjes af).
+De worker gebruikt `.env.local` (`VITE_SUPABASE_URL` + een sleutel). Voeg daar
+optioneel een `SUPABASE_SERVICE_ROLE_KEY` toe (netter voor een serverside-achtig
+proces); zonder valt hij terug op de publishable key. **Service-role key nooit
+in git of in client-code.**
+
+### Automatisch starten na herstart (LaunchAgent, aanrader op de mini)
+
+Zie de instructie boven in `bin/eu.conceptosaurus.veilingpro.worker.plist.example`:
+paden aanpassen → kopiëren (zonder `.example`) naar `~/Library/LaunchAgents/` →
+`launchctl load <pad>`. `KeepAlive` herstart hem na een crash; de worker zet bij
+opstart vastgelopen jobs zelf terug, dus herstarten is altijd veilig.
+
+### Hoe het samenhangt
+
+- De host → scraper-keuze staat in `src/lib/scraperRegistry.js` (gedeeld door de
+  browser en de worker). Een nieuwe site toevoegen = één scraper + één
+  registry-regel. Test met `npm run test:registry`.
+- Een via-link opgehaalde collectie is een gewone `collections`-rij en stroomt
+  dus in de veilingdagen/cockpit-flow (migraties 0031/0032).
 
 ---
 

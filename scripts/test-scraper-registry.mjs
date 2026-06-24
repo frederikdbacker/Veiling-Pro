@@ -30,6 +30,8 @@ const positive = [
   ['https://schuttertsportsales.com/lot-category/2026/', 'schuttert'],
   ['https://www.starsaleauctions.com/veulens/starsale-veulenoverzicht-2025', 'starsale'],
   ['https://www.jumpingschrodertwente.nl/olympic-dream-auction', 'olympic-dream'],
+  ['https://venteexclusive.extrahorses.com/fr/', 'extrahorses'],
+  ['https://venteexclusive.extrahorses.com/fr/selection-detail?id=174', 'extrahorses'],
 ]
 for (const [url, key] of positive) {
   const m = matchScraper(url)
@@ -59,6 +61,7 @@ check('weauction houseHint = The Collection', tcHint.houseName === 'The Collecti
 console.log('\nHuisnaam-hints:')
 check('fences hint', analyzeUrl('https://www.fences.fr/cheval/vente/selection/').houseHint === 'Agence Fences')
 check('334 hint', analyzeUrl('https://334sporthorsestud.com/live-auction/3').houseHint === '334 Auction')
+check('extrahorses hint', analyzeUrl('https://venteexclusive.extrahorses.com/fr/').houseHint === 'Extra Horses')
 
 console.log('\nNegatieve gevallen:')
 check('Hippomundo → no_scraper', matchScraper('https://www.hippomundo.com/en/horse/123').reason === 'no_scraper')

@@ -30,7 +30,7 @@ import {
 // Lot-kolommen die de lijst (gewone + dag-gegroepeerde weergave) nodig heeft.
 // Op één plek zodat de eerste load en alle reloads identiek zijn.
 const LOT_LIST_COLUMNS =
-  'id, number, auction_order, is_charity, collection_day_id, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, withdrawn, sold, sale_price, sale_channel'
+  'id, number, auction_order, is_charity, collection_day_id, name, discipline, year, gender, studbook, sire, dam, pedigree, photos, missing_info, rating, stallion_approved, withdrawn, sold, sale_price, sale_channel'
 
 export default function CollectionPage() {
   const { collectionId } = useParams()
@@ -1068,6 +1068,20 @@ function DayGroup({
   )
 }
 
+// "Sire × Damsire"-notatie voor in de lotlijst. De sire komt uit de
+// `sire`-kolom (betrouwbaar; pedigree.sire.name is bij sommige imports fout
+// gesplitst). De damsire (moedersvader) bestaat enkel in het pedigree-veld:
+// pedigree.dam.sire.name. Geeft null als beide ontbreken.
+function sireDamsire(lot) {
+  const ped = lot.pedigree || {}
+  const sire = lot.sire || ped.sire?.name || null
+  const damsire = ped.dam?.sire?.name || null
+  const parts = []
+  if (sire) parts.push(sire)
+  if (damsire) parts.push(damsire)
+  return parts.length ? parts.join(' × ') : null
+}
+
 function GroupedLotRow({ lot, dayOptions, currentDayId, onAssignOne, onRatingChanged, hideRating }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: lot.id })
   const style = {
@@ -1075,6 +1089,7 @@ function GroupedLotRow({ lot, dayOptions, currentDayId, onAssignOne, onRatingCha
     opacity: isDragging ? 0.5 : 1,
   }
   const order = lot.auction_order ?? lot.number
+  const sd = sireDamsire(lot)
   return (
     <li ref={setNodeRef} style={{ ...groupedRowStyle, ...style }}>
       <button
@@ -1094,6 +1109,11 @@ function GroupedLotRow({ lot, dayOptions, currentDayId, onAssignOne, onRatingCha
           )}
           <span style={{ color: 'var(--text-muted)', marginRight: '0.4em' }}>#{order ?? '—'}</span>
           <span style={lot.withdrawn ? { textDecoration: 'line-through' } : undefined}>{lot.name}</span>
+          {sd && (
+            <span style={{ fontWeight: 400, fontSize: '0.82em', color: 'var(--text-muted)', marginLeft: 8 }}>
+              {sd}
+            </span>
+          )}
         </div>
         <div style={{ color: 'var(--text-secondary)', fontSize: '0.82em' }}>
           {[lot.discipline, lot.year, lot.gender, lot.studbook].filter(Boolean).join(' • ')}

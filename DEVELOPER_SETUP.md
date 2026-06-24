@@ -1,6 +1,6 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 23 juni 2026 (Drie-omgevingen-werkwijze: Chat → Co-work → Claude Code)**
+**Laatste update: 23 juni 2026 (Meerdaagse veilingen — migraties 0031 + 0032)**
 
 ---
 
@@ -113,6 +113,13 @@ De *secret* / *service_role* key NIET hier zetten — die mag nooit in client-co
    - `0011_auction_breaks.sql` — `auction_breaks` tabel voor pauzes
      (BIS-blokken) tussen lots
    - `0012_online_bidding.sql` — `auctions.online_bidding_enabled` bool
+   - `0013`–`0030` — diverse uitbreidingen (o.a. lot_type verplicht 0013,
+     rename auctions→collections 0018, withdrawn 0027, sale-corrections 0028)
+   - `0031_collection_days.sql` — **veilingdagen**: tabel `collection_days`
+     + `lots.collection_day_id` + backfill (één dag per bestaande collectie).
+     ⚠️ Backup vóór uitvoeren. Draai vóór de code-deploy.
+   - `0032_breaks_per_day.sql` — pauzes per dag (`collection_breaks.collection_day_id`).
+     Draai ná 0031.
 3. Verifieer in Table Editor dat alle tabellen bestaan:
    - `auction_houses`, `auctions` (met `online_bidding_enabled`), `lots`
    - `lot_types`, `auction_lot_types`, `bid_step_rules`
@@ -260,7 +267,8 @@ veiling-pro/
 │   │   ├── clients.js            Klanten-helpers (zoek, create, seating,
 │   │   │                          koppeling, aankoop-aggregatie)
 │   │   ├── spotters.js           Spotter-helpers (globaal + junction)
-│   │   └── breaks.js             Pauze-helpers (auction_breaks)
+│   │   ├── breaks.js             Pauze-helpers (collection_breaks, per dag)
+│   │   └── collectionDays.js     Veilingdag-helpers (collection_days, 0031)
 │   ├── pages/
 │   │   ├── HousesPage.jsx           / — lijst van veilinghuizen
 │   │   ├── HousePage.jsx            /houses/:id — veilingen voor een huis

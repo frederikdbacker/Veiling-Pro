@@ -11,6 +11,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { readFile } from 'node:fs/promises'
+import { ensureDays, resolveDayId } from './lib/days.mjs'
 
 const url = process.env.VITE_SUPABASE_URL
 const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY
@@ -71,6 +72,23 @@ const { data: collection, error: aErr } = await supabase
 if (aErr) { console.error('❌ Auction:', aErr.message); process.exit(1) }
 console.log(`🎯 Auction: ${collection.name} (${collection.id})`)
 
+// 2a) veilingdagen (migratie 0031). meta.days = array ISO-datums voor een
+//     meerdaagse verkoop; anders één dag met meta.date. Paarden kunnen via
+//     h.day_index (1-based) of h.day_date aan een dag gekoppeld worden;
+//     zonder dag-info landen ze op dag 1 (zichtbaar in de cockpit).
+const dayDates = Array.isArray(meta.days) && meta.days.length > 0
+  ? meta.days
+  : (meta.date ? [meta.date] : [])
+let days = []
+try {
+  days = await ensureDays(supabase, collection.id, dayDates)
+  if (dayDates[0] && collection.date !== dayDates[0]) {
+    await supabase.from('collections').update({ date: dayDates[0] }).eq('id', collection.id)
+  }
+  console.log(`📅 Veilingdagen: ${days.length}`)
+} catch (e) { console.error('❌ Veilingdagen:', e.message); process.exit(1) }
+const day1Id = days[0]?.id ?? null
+
 // 2b) lot_types ophalen voor auto-derive (zie migratie 0013)
 const { data: lotTypes, error: tErr } = await supabase
   .from('lot_types')
@@ -127,6 +145,7 @@ if (count && count > 0) {
 // 4) map horses naar lot-rijen
 const rows = horses.map(h => ({
   collection_id:        collection.id,
+  collection_day_id: resolveDayId(h, days, day1Id),
   lot_type_id:       deriveLotType(h),
   lot_type_auto:     true,
   number:            h.lot_number,

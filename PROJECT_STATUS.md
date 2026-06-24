@@ -1,7 +1,36 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 23 juni 2026 (Drie-omgevingen-werkwijze: Chat → Co-work → Claude Code)**
+**Laatste update: 23 juni 2026 (Meerdaagse veilingen — dag-opsplitsing gebouwd)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **23 juni 2026 — Meerdaagse veilingen (dag-opsplitsing).**
+> Een collectie kan nu over meerdere **veilingdagen** lopen (bv. Deauville
+> Sélection = ma 29 + di 30 juni). Nieuwe kindtabel `collection_days` +
+> `lots.collection_day_id`; de live-sessie (active lot, statusbalk, verwacht
+> einduur, status) draait per dag, spotters/biedstaffels/klanten blijven
+> collectie-breed, pauzes gaan naar dag-niveau. Volledig backward-compatible:
+> elke bestaande collectie krijgt automatisch één dag → eendaags gedrag
+> ongewijzigd.
+>
+> Gebouwd op branch `feat/meerdaagse-veilingdagen` (nog niet gepusht):
+> migraties **0031** (collection_days + backfill) en **0032** (pauzes per dag);
+> `src/lib/collectionDays.js`; dag-UI op CollectionPage (toevoegen/bewerken/
+> verwijderen, dag-gegroepeerde lotlijst met dropdown/slepen/bulk/bereik);
+> per-dag overzicht + totaal; datumreeks op het huisoverzicht; import/scrape
+> dag-bewust incl. nieuwe `scripts/scrape-fences-ordre-passage.mjs`.
+>
+> **Vervolg (zelfde branch, na Frederiks feedback):** je kiest de veilingdag
+> vóór de cockpit — elke dag heeft een eigen **"Open cockpit"-knop**
+> (`/cockpit/:id/:dayId`); de cockpit zelf toont géén dag-chrome (dag-kiezer
+> verwijderd). De term "eendaags/tweedaags" is overal uit de UI. Het **aantal
+> veilingdagen** is instelbaar via de metadata-dropdown van de collectie
+> (lege dagen worden verwijderd, dagen mét lots nooit).
+>
+> **Nog te doen door Frederik:** Supabase-backup → migraties 0031 + 0032
+> draaien → code deployen (in die volgorde). Zie
+> `reports/2026-06-23_meerdaagse-veilingdagen.md`.
 
 ---
 

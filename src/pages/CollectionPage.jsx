@@ -3,6 +3,7 @@ import StarRating from '../components/StarRating'
 import { Link, useParams } from 'react-router-dom'
 import {
   DndContext, closestCenter, PointerSensor, useSensor, useSensors,
+  useDroppable, useDraggable,
 } from '@dnd-kit/core'
 import {
   SortableContext, useSortable, arrayMove, verticalListSortingStrategy,
@@ -20,12 +21,22 @@ import SpottersField from '../components/SpottersField'
 import {
   getBreaks, createBreak, updateBreak, deleteBreak,
 } from '../lib/breaks'
+import {
+  getDays, createDay, updateDay, deleteDay,
+  assignLotToDay, bulkAssignLotsToDay, assignLotsByNumberRange,
+} from '../lib/collectionDays'
+
+// Lot-kolommen die de lijst (gewone + dag-gegroepeerde weergave) nodig heeft.
+// Op één plek zodat de eerste load en alle reloads identiek zijn.
+const LOT_LIST_COLUMNS =
+  'id, number, auction_order, is_charity, collection_day_id, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, withdrawn, sold, sale_price, sale_channel'
 
 export default function CollectionPage() {
   const { collectionId } = useParams()
   const [collection, setCollection] = useState(null)
   const [lots, setLots] = useState([])
   const [breaks, setBreaks] = useState([])
+  const [days, setDays] = useState([])
   const [status, setStatus] = useState('Laden…')
   const [selectedTypeIds, setSelectedTypeIds] = useState(new Set())
   const [sortMode, setSortMode] = useState('number') // 'number' | 'alphabetical' | 'rating'
@@ -39,7 +50,7 @@ export default function CollectionPage() {
 
   useEffect(() => {
     async function load() {
-      const [collectionRes, lotsRes, breaksList] = await Promise.all([
+      const [collectionRes, lotsRes, breaksList, daysList] = await Promise.all([
         supabase
           .from('collections')
           .select('*, auction_houses(id, name)')
@@ -47,11 +58,12 @@ export default function CollectionPage() {
           .single(),
         supabase
           .from('lots')
-          .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, withdrawn')
+          .select(LOT_LIST_COLUMNS)
           .eq('collection_id', collectionId)
           .order('number', { nullsFirst: false })
           .order('name'),
         getBreaks(collectionId),
+        getDays(collectionId),
       ])
 
       if (collectionRes.error) { setStatus(`Fout bij ophalen collectie: ${collectionRes.error.message}`); return }
@@ -60,10 +72,27 @@ export default function CollectionPage() {
       setCollection(collectionRes.data)
       setLots(lotsRes.data)
       setBreaks(breaksList)
+      setDays(daysList)
       setStatus(`${lotsRes.data.length} lots`)
     }
     load()
   }, [collectionId])
+
+  async function reloadDays() {
+    setDays(await getDays(collectionId))
+  }
+
+  // Herlaad lots (na dag-toewijzing of bulk-verplaatsing). Houdt dezelfde
+  // sortering en kolommen aan als de eerste load.
+  async function reloadLots() {
+    const { data } = await supabase
+      .from('lots')
+      .select(LOT_LIST_COLUMNS)
+      .eq('collection_id', collectionId)
+      .order('number', { nullsFirst: false })
+      .order('name')
+    if (data) setLots(data)
+  }
 
   const houseId = collection?.auction_houses?.id
   const houseName = collection?.auction_houses?.name
@@ -116,6 +145,8 @@ export default function CollectionPage() {
   }, [lots, breaks, sortMode])
 
   const orphanBreaks = useMemo(() => {
+    // Dag-gegroepeerde weergave (meerdaagse collectie): pauzes los eronder.
+    if (days.length >= 2) return breaks
     if (sortMode === 'number') {
       // Breaks met after_lot_number die niet matcht een bestaand lot
       const lotNumbers = new Set(lots.map((l) => l.number).filter((n) => n != null))
@@ -125,7 +156,7 @@ export default function CollectionPage() {
     }
     // bij alfabetisch of rating: alle breaks zijn los
     return breaks
-  }, [breaks, lots, sortMode])
+  }, [breaks, lots, sortMode, days])
 
   function handleRatingChanged(lotId, newRating) {
     setLots((prev) => prev.map((l) => l.id === lotId ? { ...l, rating: newRating } : l))
@@ -154,6 +185,11 @@ export default function CollectionPage() {
     const maxNumber = lots.reduce((m, l) => (l.number != null && l.number > m ? l.number : m), 0)
     const slug = name.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
                     .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    // Bij een eendaagse collectie meteen aan die ene veilingdag koppelen,
+    // anders blijft het lot "Niet toegewezen" (en zou het in de cockpit
+    // — die per dag filtert — niet verschijnen). Bij meerdere dagen laat
+    // Frederik bewust zelf kiezen.
+    const defaultDayId = days.length === 1 ? days[0].id : null
     const { data: row, error } = await supabase
       .from('lots')
       .insert({
@@ -161,8 +197,9 @@ export default function CollectionPage() {
         name, slug,
         number: maxNumber + 1,
         lot_type_auto: true,
+        collection_day_id: defaultDayId,
       })
-      .select('id, number, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved')
+      .select(LOT_LIST_COLUMNS)
       .single()
     if (error) { alert(`Lot toevoegen mislukt: ${error.message}`); return }
     setLots((prev) => [...prev, row])
@@ -174,7 +211,13 @@ export default function CollectionPage() {
       if (draft.id) {
         await updateBreak(draft.id, draft)
       } else {
-        await createBreak(collectionId, draft)
+        // Eendaagse collectie: automatisch aan dag 1 koppelen. Meerdaags:
+        // de in het formulier gekozen dag, anders dag 1 als default.
+        const draftWithDay = {
+          ...draft,
+          collection_day_id: draft.collection_day_id ?? (days[0]?.id ?? null),
+        }
+        await createBreak(collectionId, draftWithDay)
       }
       setBreakForm(null)
       await reloadBreaks()
@@ -269,7 +312,7 @@ export default function CollectionPage() {
       alert(`Fout bij volgorde-update: ${firstError.error.message}`)
       // herlaad lots om corrupte state te voorkomen
       const { data } = await supabase.from('lots')
-        .select('id, number, auction_order, is_charity, withdrawn, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
+        .select(LOT_LIST_COLUMNS)
         .eq('collection_id', collectionId)
       if (data) setLots(data)
     }
@@ -312,6 +355,10 @@ export default function CollectionPage() {
         <CollectionMetaEditor
           collection={collection}
           open={metaOpen}
+          days={days}
+          lots={lots}
+          onDaysChanged={reloadDays}
+          onLotsChanged={reloadLots}
           onChange={(patch) => setCollection((prev) => ({ ...prev, ...patch }))}
         />
       )}
@@ -331,9 +378,17 @@ export default function CollectionPage() {
             className={`collection-actions-items${actionsMenuOpen ? ' open' : ''}`}
             style={actionRowStyle}
           >
-            <Link to={`/cockpit/${collection.id}`} style={primaryBtnStyle}>
-              🎬 Cockpit openen
-            </Link>
+            {/* Eén cockpit-knop bij een eendaagse verkoop; bij meerdere dagen
+                staat er per veilingdag een aparte 'Open cockpit'-knop in de
+                sectie Veilingdagen (je kiest de dag vóór je de cockpit ingaat). */}
+            {days.length <= 1 && (
+              <Link
+                to={days[0] ? `/cockpit/${collection.id}/${days[0].id}` : `/cockpit/${collection.id}`}
+                style={primaryBtnStyle}
+              >
+                🎬 Cockpit openen
+              </Link>
+            )}
             <Link to={`/collections/${collection.id}/summary`} style={secondaryBtnStyle}>
               📊 Overzicht
             </Link>
@@ -367,6 +422,17 @@ export default function CollectionPage() {
             </label>
           </div>
         </div>
+      )}
+
+      {/* Veilingdagen — beheer + lot-verdeling over dagen */}
+      {collection && (
+        <CollectionDaysSection
+          collectionId={collectionId}
+          days={days}
+          lots={lots}
+          onDaysChanged={reloadDays}
+          onLotsChanged={reloadLots}
+        />
       )}
 
       {/* Sorteer + pauze-knoppen boven de lijst */}
@@ -421,6 +487,7 @@ export default function CollectionPage() {
               onClick={() => setBreakForm({
                 after_lot_number: null, title: 'Pauze',
                 description: '', duration_minutes: 15,
+                collection_day_id: days[0]?.id ?? null,
               })}
               style={addBreakBtnStyle}
             >
@@ -435,6 +502,7 @@ export default function CollectionPage() {
         <BreakForm
           draft={breakForm}
           lots={lots}
+          days={days}
           onChange={setBreakForm}
           onSave={() => handleSaveBreak(breakForm)}
           onCancel={() => setBreakForm(null)}
@@ -491,10 +559,19 @@ export default function CollectionPage() {
         </div>
       )}
 
-      {/* Lijst met lots + ingevoegde breaks. Bij Lotnummer-sortering
-          zijn breaks sleepbaar tussen lots; lots zelf zijn niet
-          sleepbaar. Bij A-Z wordt drag uitgeschakeld. */}
-      {items.length > 0 && sortMode === 'number' ? (
+      {/* Meerdaagse collectie (≥2 veilingdagen): lots gegroepeerd per dag
+          met "Niet toegewezen"-groep, herverdelen via dropdown/slepen/bulk.
+          Eendaagse collectie: de bestaande platte lijst (onveranderd). */}
+      {days.length >= 2 ? (
+        <DayGroupedLots
+          collectionId={collectionId}
+          days={days}
+          lots={lots}
+          onLotsChanged={reloadLots}
+          onRatingChanged={handleRatingChanged}
+          hideRating={hideRatings}
+        />
+      ) : items.length > 0 && sortMode === 'number' ? (
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -524,21 +601,25 @@ export default function CollectionPage() {
         </ul>
       ) : null}
 
-      {/* Bij alfabetisch of bij breaks zonder geldige positie: aparte sectie */}
+      {/* Bij alfabetisch / meerdaags / breaks zonder geldige positie: aparte sectie */}
       {orphanBreaks.length > 0 && (
         <div style={{ marginTop: 'var(--space-5)' }}>
           <h3 style={subHeadingStyle}>
-            {sortMode === 'alphabetical' ? 'Pauzes' : 'Pauzes zonder positie'}
+            {(sortMode === 'alphabetical' || days.length >= 2) ? 'Pauzes' : 'Pauzes zonder positie'}
           </h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {orphanBreaks.map((br) => (
-              <BreakRow
-                key={br.id}
-                br={br}
-                onEdit={() => setBreakForm({ ...br })}
-                onDelete={() => handleDeleteBreak(br.id)}
-              />
-            ))}
+            {orphanBreaks.map((br) => {
+              const day = days.length >= 2 ? days.find((d) => d.id === br.collection_day_id) : null
+              return (
+                <BreakRow
+                  key={br.id}
+                  br={br}
+                  dayLabel={day ? `Dag ${day.day_index}` : null}
+                  onEdit={() => setBreakForm({ ...br })}
+                  onDelete={() => handleDeleteBreak(br.id)}
+                />
+              )
+            })}
           </ul>
         </div>
       )}
@@ -573,7 +654,7 @@ export default function CollectionPage() {
             // Reload lots zodat bijgewerkte start_prices in de UI staan
             const { data } = await supabase
               .from('lots')
-              .select('id, number, auction_order, is_charity, withdrawn, name, discipline, year, gender, studbook, sire, dam, photos, missing_info, rating, stallion_approved, sold, sale_price, sale_channel')
+              .select(LOT_LIST_COLUMNS)
               .eq('collection_id', collection.id)
               .order('number', { nullsFirst: false })
               .order('name')
@@ -585,13 +666,451 @@ export default function CollectionPage() {
   )
 }
 
+/* ---------- Veilingdagen (meerdaagse collectie) ---------- */
+
+/**
+ * Beheersectie voor veilingdagen: dagen toevoegen/bewerken/verwijderen +
+ * een snelle "lots #A–#B → dag X"-bulkhelper. Lot-telling per dag wordt
+ * live uit `lots` berekend. Een dag met lots kan niet verwijderd worden
+ * (eerst herverdelen — geen cascade-verlies).
+ *
+ * Standaard ingeklapt bij een eendaagse collectie (de backward-compat-stand
+ * waar dagen niet relevant zijn), open zodra er meerdere dagen zijn.
+ */
+function CollectionDaysSection({ collectionId, days, lots, onDaysChanged, onLotsChanged }) {
+  const [open, setOpen] = useState(days.length !== 1)
+  const [busy, setBusy] = useState(false)
+
+  const counts = useMemo(() => {
+    const m = new Map()
+    let unassigned = 0
+    for (const l of lots) {
+      if (l.collection_day_id == null) unassigned++
+      else m.set(l.collection_day_id, (m.get(l.collection_day_id) ?? 0) + 1)
+    }
+    return { m, unassigned }
+  }, [lots])
+
+  async function handleAddDay() {
+    setBusy(true)
+    try {
+      // Suggereer de dag ná de laatste bestaande datum (één dag later).
+      let suggestedDate = null
+      const lastWithDate = [...days].reverse().find((d) => d.date)
+      if (lastWithDate?.date) {
+        const dt = new Date(lastWithDate.date)
+        dt.setDate(dt.getDate() + 1)
+        suggestedDate = dt.toISOString().slice(0, 10)
+      }
+      await createDay(collectionId, { date: suggestedDate })
+      await onDaysChanged()
+    } catch (e) { alert(`Dag toevoegen mislukt: ${e.message}`) }
+    finally { setBusy(false) }
+  }
+
+  async function handleDeleteDay(day) {
+    if (!window.confirm(`Veilingdag ${day.day_index}${day.date ? ` (${formatDayDate(day.date)})` : ''} verwijderen?`)) return
+    setBusy(true)
+    try {
+      await deleteDay(day.id)
+      await onDaysChanged()
+      await onLotsChanged()
+    } catch (e) { alert(e.message) }
+    finally { setBusy(false) }
+  }
+
+  if (days.length === 0) {
+    // Migratie 0031 nog niet uitgevoerd voor deze collectie.
+    return (
+      <div style={daysSectionStyle}>
+        <div style={{ color: 'var(--text-muted)', fontSize: '0.9em' }}>
+          📅 Veilingdagen worden beschikbaar zodra migratie 0031 is uitgevoerd.
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div style={daysSectionStyle}>
+      <button type="button" onClick={() => setOpen((v) => !v)} style={daysHeaderBtnStyle} aria-expanded={open}>
+        <span style={{ display: 'inline-block', width: 14 }}>{open ? '▾' : '▸'}</span>
+        📅 Veilingdagen ({days.length})
+        {counts.unassigned > 0 && (
+          <span style={unassignedBadgeStyle}>{counts.unassigned} niet toegewezen</span>
+        )}
+      </button>
+
+      {open && (
+        <div style={{ marginTop: 'var(--space-3)' }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {days.map((day) => (
+              <DayRow
+                key={day.id}
+                day={day}
+                collectionId={collectionId}
+                showCockpit={days.length >= 2}
+                lotCount={counts.m.get(day.id) ?? 0}
+                busy={busy}
+                canDelete={(counts.m.get(day.id) ?? 0) === 0 && days.length > 1}
+                onChanged={onDaysChanged}
+                onDelete={() => handleDeleteDay(day)}
+              />
+            ))}
+          </ul>
+
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 'var(--space-3)' }}>
+            <button type="button" onClick={handleAddDay} disabled={busy} style={addBreakBtnStyle}>
+              + Veilingdag toevoegen
+            </button>
+          </div>
+
+          {days.length >= 2 && (
+            <RangeAssignHelper
+              collectionId={collectionId}
+              days={days}
+              onLotsChanged={onLotsChanged}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DayRow({ day, collectionId, showCockpit, lotCount, busy, canDelete, onChanged, onDelete }) {
+  const [date, setDate] = useState(day.date ?? '')
+  const [label, setLabel] = useState(day.label ?? '')
+  const [status, setStatus] = useState(day.status ?? 'planned')
+  const [saveState, setSaveState] = useState('idle')
+
+  async function commit(patch) {
+    setSaveState('saving')
+    try {
+      await updateDay(day.id, patch)
+      setSaveState('saved')
+      if (onChanged) await onChanged()
+      setTimeout(() => setSaveState('idle'), 1200)
+    } catch (e) { setSaveState('error'); alert(`Opslaan mislukt: ${e.message}`) }
+  }
+
+  return (
+    <li style={dayRowStyle}>
+      <span style={dayIndexBadgeStyle}>Dag {day.day_index}</span>
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => { setDate(e.target.value); commit({ date: e.target.value || null }) }}
+        style={dayDateInputStyle}
+        aria-label={`Datum dag ${day.day_index}`}
+      />
+      <input
+        type="text"
+        value={label}
+        onChange={(e) => setLabel(e.target.value)}
+        onBlur={() => { if ((label || '') !== (day.label ?? '')) commit({ label }) }}
+        placeholder="label (optioneel) — bv. maandag"
+        style={dayLabelInputStyle}
+        aria-label={`Label dag ${day.day_index}`}
+      />
+      <select
+        value={status}
+        onChange={(e) => { setStatus(e.target.value); commit({ status: e.target.value }) }}
+        style={dayStatusSelectStyle}
+        aria-label={`Status dag ${day.day_index}`}
+      >
+        <option value="planned">gepland</option>
+        <option value="lopend">lopend</option>
+        <option value="afgesloten">afgesloten</option>
+      </select>
+      <span style={dayLotCountStyle}>{lotCount} lot{lotCount === 1 ? '' : 's'}</span>
+      {saveState === 'saving' && <small style={{ color: 'var(--text-muted)' }}>opslaan…</small>}
+      {saveState === 'saved'  && <small style={{ color: 'var(--success)' }}>💾</small>}
+      {showCockpit && (
+        <Link
+          to={`/cockpit/${collectionId}/${day.id}`}
+          style={dayCockpitBtnStyle}
+          title={`Open de cockpit voor dag ${day.day_index}`}
+        >
+          🎬 Open cockpit
+        </Link>
+      )}
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={busy || !canDelete}
+        title={canDelete ? 'Verwijder deze dag' : 'Dag met lots of de laatste dag kan niet verwijderd worden'}
+        style={{ ...smallBtnStyle, opacity: canDelete ? 1 : 0.4 }}
+      >
+        ✕
+      </button>
+    </li>
+  )
+}
+
+function RangeAssignHelper({ collectionId, days, onLotsChanged }) {
+  const [from, setFrom] = useState('')
+  const [to, setTo] = useState('')
+  const [dayId, setDayId] = useState(days[0]?.id ?? '')
+  const [feedback, setFeedback] = useState(null)
+  const [busy, setBusy] = useState(false)
+
+  async function apply() {
+    const f = Number(from), t = Number(to)
+    if (Number.isNaN(f) || Number.isNaN(t)) { setFeedback('Vul geldige lotnummers in.'); return }
+    setBusy(true); setFeedback(null)
+    try {
+      const n = await assignLotsByNumberRange(collectionId, f, t, dayId || null)
+      setFeedback(`${n} lot${n === 1 ? '' : 's'} verplaatst.`)
+      await onLotsChanged()
+    } catch (e) { setFeedback(`Fout: ${e.message}`) }
+    finally { setBusy(false) }
+  }
+
+  return (
+    <div style={rangeHelperStyle}>
+      <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>Snel verdelen: lots #</span>
+      <input type="number" value={from} onChange={(e) => setFrom(e.target.value)} placeholder="van" style={rangeInputStyle} />
+      <span style={{ color: 'var(--text-muted)' }}>–</span>
+      <input type="number" value={to} onChange={(e) => setTo(e.target.value)} placeholder="tot" style={rangeInputStyle} />
+      <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>→</span>
+      <select value={dayId} onChange={(e) => setDayId(e.target.value)} style={dayStatusSelectStyle}>
+        {days.map((d) => (
+          <option key={d.id} value={d.id}>Dag {d.day_index}{d.date ? ` (${formatDayDate(d.date)})` : ''}</option>
+        ))}
+      </select>
+      <button type="button" onClick={apply} disabled={busy} style={addBreakBtnStyle}>Verplaats</button>
+      {feedback && <span style={{ color: 'var(--text-secondary)', fontSize: '0.85em' }}>{feedback}</span>}
+    </div>
+  )
+}
+
+/* ---------- Dag-gegroepeerde lotlijst (drag-and-drop + dropdown + bulk) ---------- */
+
+function DayGroupedLots({ collectionId, days, lots, onLotsChanged, onRatingChanged, hideRating }) {
+  const [selected, setSelected] = useState(() => new Set())
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
+
+  const sortLots = (arr) => [...arr].sort((a, b) => {
+    if (a.is_charity && !b.is_charity) return -1
+    if (!a.is_charity && b.is_charity) return 1
+    const ao = a.auction_order ?? a.number
+    const bo = b.auction_order ?? b.number
+    if (ao == null && bo == null) return (a.name ?? '').localeCompare(b.name ?? '', 'nl')
+    if (ao == null) return 1
+    if (bo == null) return -1
+    return ao - bo
+  })
+
+  const unassigned = sortLots(lots.filter((l) => l.collection_day_id == null))
+  const byDay = new Map(days.map((d) => [d.id, []]))
+  for (const l of lots) {
+    if (l.collection_day_id != null && byDay.has(l.collection_day_id)) byDay.get(l.collection_day_id).push(l)
+  }
+
+  function toggleSelected(id) {
+    setSelected((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id); else next.add(id)
+      return next
+    })
+  }
+
+  async function moveLots(ids, targetDayId) {
+    if (ids.length === 0) return
+    try {
+      await bulkAssignLotsToDay(ids, targetDayId)
+      setSelected(new Set())
+      await onLotsChanged()
+    } catch (e) { alert(`Verplaatsen mislukt: ${e.message}`) }
+  }
+
+  async function assignOne(lotId, dayId) {
+    try {
+      await assignLotToDay(lotId, dayId)
+      await onLotsChanged()
+    } catch (e) { alert(`Verplaatsen mislukt: ${e.message}`) }
+  }
+
+  async function handleDragEnd(event) {
+    const { active, over } = event
+    if (!over) return
+    const overId = String(over.id)
+    let target = null
+    if (overId === 'day-unassigned') target = null
+    else if (overId.startsWith('day-')) target = overId.slice(4)
+    else return
+    const activeId = String(active.id)
+    const ids = selected.has(activeId) ? [...selected] : [activeId]
+    await moveLots(ids, target)
+  }
+
+  const dayOptions = days.map((d) => ({ id: d.id, label: `Dag ${d.day_index}${d.date ? ` (${formatDayDate(d.date)})` : ''}` }))
+
+  return (
+    <div>
+      {selected.size > 0 && (
+        <div style={bulkBarStyle}>
+          <strong>{selected.size}</strong> geselecteerd
+          <span style={{ color: 'var(--text-secondary)' }}>→ verplaats naar</span>
+          <select
+            defaultValue=""
+            onChange={(e) => { if (e.target.value !== '') moveLots([...selected], e.target.value === '__none__' ? null : e.target.value) }}
+            style={dayStatusSelectStyle}
+          >
+            <option value="" disabled>— kies dag —</option>
+            {dayOptions.map((d) => <option key={d.id} value={d.id}>{d.label}</option>)}
+            <option value="__none__">Niet toegewezen</option>
+          </select>
+          <button type="button" onClick={() => setSelected(new Set())} style={smallBtnStyle}>wis selectie</button>
+        </div>
+      )}
+
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        {unassigned.length > 0 && (
+          <DayGroup
+            droppableId="day-unassigned"
+            title="Niet toegewezen"
+            subtitle="Sleep of kies een dag per lot"
+            danger
+            lots={unassigned}
+            dayOptions={dayOptions}
+            currentDayId={null}
+            selected={selected}
+            onToggle={toggleSelected}
+            onAssignOne={assignOne}
+            onRatingChanged={onRatingChanged}
+            hideRating={hideRating}
+          />
+        )}
+        {days.map((day) => (
+          <DayGroup
+            key={day.id}
+            droppableId={`day-${day.id}`}
+            title={`Dag ${day.day_index}${day.label ? ` — ${day.label}` : ''}`}
+            subtitle={day.date ? formatDayDate(day.date) : 'geen datum'}
+            lots={byDay.get(day.id) ? sortLots(byDay.get(day.id)) : []}
+            dayOptions={dayOptions}
+            currentDayId={day.id}
+            selected={selected}
+            onToggle={toggleSelected}
+            onAssignOne={assignOne}
+            onRatingChanged={onRatingChanged}
+            hideRating={hideRating}
+          />
+        ))}
+      </DndContext>
+    </div>
+  )
+}
+
+function DayGroup({
+  droppableId, title, subtitle, danger, lots, dayOptions, currentDayId,
+  selected, onToggle, onAssignOne, onRatingChanged, hideRating,
+}) {
+  const { setNodeRef, isOver } = useDroppable({ id: droppableId })
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        ...dayGroupStyle,
+        ...(danger ? { borderColor: 'var(--warning)' } : {}),
+        ...(isOver ? { background: 'var(--bg-elevated)', borderColor: 'var(--accent)' } : {}),
+      }}
+    >
+      <div style={dayGroupHeaderStyle}>
+        <strong style={{ color: danger ? 'var(--warning)' : 'var(--text-primary)' }}>{title}</strong>
+        <span style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>{subtitle}</span>
+        <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: 'auto' }}>
+          {lots.length} lot{lots.length === 1 ? '' : 's'}
+        </span>
+      </div>
+      {lots.length === 0 ? (
+        <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.9em', margin: '0.5rem 0 0 0' }}>
+          Sleep hier lots naartoe of kies deze dag in de dropdown van een lot.
+        </p>
+      ) : (
+        <ul style={{ listStyle: 'none', padding: 0, margin: '0.25rem 0 0 0' }}>
+          {lots.map((lot) => (
+            <GroupedLotRow
+              key={lot.id}
+              lot={lot}
+              dayOptions={dayOptions}
+              currentDayId={currentDayId}
+              selected={selected.has(lot.id)}
+              onToggle={() => onToggle(lot.id)}
+              onAssignOne={onAssignOne}
+              onRatingChanged={onRatingChanged}
+              hideRating={hideRating}
+            />
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function GroupedLotRow({ lot, dayOptions, currentDayId, selected, onToggle, onAssignOne, onRatingChanged, hideRating }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: lot.id })
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    opacity: isDragging ? 0.5 : 1,
+  }
+  const order = lot.auction_order ?? lot.number
+  return (
+    <li ref={setNodeRef} style={{ ...groupedRowStyle, ...style }}>
+      <button
+        {...attributes}
+        {...listeners}
+        style={{ border: 'none', background: 'transparent', color: 'var(--text-muted)', cursor: 'grab', padding: '4px 6px', fontSize: '1.1em', touchAction: 'none' }}
+        title="Versleep naar een andere dag"
+        aria-label="Versleep lot"
+      >
+        ⠿
+      </button>
+      <input
+        type="checkbox"
+        checked={selected}
+        onChange={onToggle}
+        style={{ flexShrink: 0 }}
+        aria-label={`Selecteer ${lot.name}`}
+      />
+      <Thumb src={lot.photos?.[0]} alt={lot.name} small />
+      <Link to={`/lots/${lot.id}`} style={{ flex: 1, minWidth: 0, textDecoration: 'none', color: 'var(--text-primary)', opacity: lot.withdrawn ? 0.55 : 1 }}>
+        <div style={{ fontWeight: 600 }}>
+          {lot.withdrawn && (
+            <span style={{ background: 'var(--danger)', color: '#fff', fontSize: '0.65em', padding: '1px 5px', borderRadius: 'var(--radius-sm)', marginRight: 6, fontWeight: 700 }}>🚫</span>
+          )}
+          <span style={{ color: 'var(--text-muted)', marginRight: '0.4em' }}>#{order ?? '—'}</span>
+          <span style={lot.withdrawn ? { textDecoration: 'line-through' } : undefined}>{lot.name}</span>
+        </div>
+        <div style={{ color: 'var(--text-secondary)', fontSize: '0.82em' }}>
+          {[lot.discipline, lot.year, lot.gender, lot.studbook].filter(Boolean).join(' • ')}
+        </div>
+      </Link>
+      <select
+        value={currentDayId ?? ''}
+        onChange={(e) => onAssignOne(lot.id, e.target.value || null)}
+        style={rowDaySelectStyle}
+        aria-label={`Veilingdag voor ${lot.name}`}
+      >
+        <option value="">— Niet toegewezen —</option>
+        {dayOptions.map((d) => <option key={d.id} value={d.id}>{d.label}</option>)}
+      </select>
+      {!hideRating && (
+        <StarRating lotId={lot.id} initialValue={lot.rating} size="0.8em" onSaved={(r) => onRatingChanged?.(lot.id, r)} />
+      )}
+    </li>
+  )
+}
+
+function formatDayDate(d) {
+  if (!d) return ''
+  return new Date(d).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
 /* ---------- Sortable wrappers ---------- */
 
-function CollectionMetaEditor({ collection, onChange, open }) {
-  // Voor de date+time inputs: splits time_auction_start in date- en time-deel.
-  const startDate = collection.time_auction_start ? new Date(collection.time_auction_start) : null
-  const startTime = startDate ? startDate.toTimeString().slice(0, 5) : ''
-
+function CollectionMetaEditor({ collection, onChange, open, days = [], lots = [], onDaysChanged, onLotsChanged }) {
   if (!open) return null
   return (
     <div style={{ marginBottom: 'var(--space-4)' }}>
@@ -607,6 +1126,13 @@ function CollectionMetaEditor({ collection, onChange, open }) {
             initialValue={collection.date} label="Datum"
             inputType="date"
             onSaved={(v) => onChange({ date: v })}
+          />
+          <DayCountField
+            collectionId={collection.id}
+            days={days}
+            lots={lots}
+            onDaysChanged={onDaysChanged}
+            onLotsChanged={onLotsChanged}
           />
           <AutoSaveText
             table="collections" id={collection.id} fieldName="location"
@@ -633,6 +1159,97 @@ function CollectionMetaEditor({ collection, onChange, open }) {
             onSaved={(v) => onChange({ debrief_text: v })}
           />
         </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Aantal veilingdagen instellen vanuit de metadata-dropdown. Verhogen maakt
+ * extra dagen aan (datum gesuggereerd als dag-na-de-laatste); verlagen
+ * verwijdert lege dagen vanaf de hoogste day_index. Een dag met lots wordt
+ * NOOIT verwijderd (lots blijven behouden) — Frederik verplaatst die eerst.
+ * De fijnregeling (datums, labels, herverdelen) staat in de sectie
+ * "Veilingdagen".
+ */
+function DayCountField({ collectionId, days = [], lots = [], onDaysChanged, onLotsChanged }) {
+  const [busy, setBusy] = useState(false)
+  const [msg, setMsg] = useState(null)
+  const current = days.length
+
+  const lotCountByDay = useMemo(() => {
+    const m = new Map()
+    for (const l of lots) if (l.collection_day_id) m.set(l.collection_day_id, (m.get(l.collection_day_id) ?? 0) + 1)
+    return m
+  }, [lots])
+
+  const maxOption = Math.max(8, current)
+
+  async function setCount(target) {
+    if (target === current || busy) return
+    setBusy(true); setMsg(null)
+    try {
+      if (target > current) {
+        let lastDate = [...days].reverse().find((d) => d.date)?.date ?? null
+        for (let i = current; i < target; i++) {
+          let suggested = null
+          if (lastDate) {
+            const dt = new Date(lastDate); dt.setDate(dt.getDate() + 1)
+            suggested = dt.toISOString().slice(0, 10); lastDate = suggested
+          }
+          await createDay(collectionId, { date: suggested })
+        }
+        const n = target - current
+        setMsg(`${n} veilingdag${n > 1 ? 'en' : ''} toegevoegd.`)
+      } else {
+        // Verlagen: lege dagen verwijderen vanaf de hoogste day_index.
+        const ordered = [...days].sort((a, b) => b.day_index - a.day_index)
+        let toRemove = current - target
+        let blocked = null
+        for (const d of ordered) {
+          if (toRemove <= 0) break
+          if ((lotCountByDay.get(d.id) ?? 0) > 0) { blocked = d; break }
+          await deleteDay(d.id)
+          toRemove--
+        }
+        if (blocked) {
+          setMsg(`Dag ${blocked.day_index} bevat nog lots — verplaats die eerst in "Veilingdagen". Verdere dagen niet verwijderd.`)
+        }
+      }
+      if (onDaysChanged) await onDaysChanged()
+      if (onLotsChanged) await onLotsChanged()
+    } catch (e) {
+      setMsg(`Fout: ${e.message}`)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div style={{ marginTop: '0.75rem' }}>
+      <label style={{ display: 'block', fontWeight: 600, marginBottom: 4, fontSize: '0.9em' }}>
+        Aantal veilingdagen
+      </label>
+      <select
+        value={current}
+        onChange={(e) => setCount(Number(e.target.value))}
+        disabled={busy || current === 0}
+        style={dayStatusSelectStyle}
+      >
+        {current === 0 && <option value={0}>—</option>}
+        {Array.from({ length: maxOption }, (_, i) => i + 1).map((n) => (
+          <option key={n} value={n}>{n} {n === 1 ? 'dag' : 'dagen'}</option>
+        ))}
+      </select>
+      {busy && <small style={{ color: 'var(--text-muted)', marginLeft: 8 }}>bezig…</small>}
+      <p style={{ color: 'var(--text-muted)', fontSize: '0.8em', margin: '4px 0 0 0' }}>
+        Verhogen voegt dagen toe; verlagen verwijdert lege dagen. Datums, labels en
+        het verdelen van lots regel je in de sectie "Veilingdagen" hieronder.
+      </p>
+      {msg && (
+        <small style={{ color: /Fout|bevat nog lots/.test(msg) ? 'var(--warning)' : 'var(--success)', display: 'block', marginTop: 4 }}>
+          {msg}
+        </small>
       )}
     </div>
   )
@@ -861,7 +1478,7 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
 
 /* ---------- Pauze-rij ---------- */
 
-function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
+function BreakRow({ br, onEdit, onDelete, dragHandleProps, dayLabel }) {
   const label = br.after_lot_number != null ? `${br.after_lot_number} BIS` : '— BIS'
   return (
     <li style={breakRowStyle}>
@@ -878,6 +1495,7 @@ function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
       <div style={breakIconStyle}>⏸</div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+          {dayLabel && <span style={dayIndexBadgeStyle}>{dayLabel}</span>}
           <span style={breakLabelStyle}>{label}</span>
           <strong style={{ color: 'var(--text-primary)' }}>{br.title || 'Pauze'}</strong>
           {br.duration_minutes != null && (
@@ -900,7 +1518,7 @@ function BreakRow({ br, onEdit, onDelete, dragHandleProps }) {
 
 /* ---------- Pauze-formulier ---------- */
 
-function BreakForm({ draft, lots, onChange, onSave, onCancel }) {
+function BreakForm({ draft, lots, days = [], onChange, onSave, onCancel }) {
   function set(field, value) { onChange({ ...draft, [field]: value }) }
 
   // Sorteer lots op number voor de dropdown (lots zonder nummer onderaan)
@@ -913,6 +1531,22 @@ function BreakForm({ draft, lots, onChange, onSave, onCancel }) {
       <h3 style={{ ...subHeadingStyle, marginTop: 0 }}>
         {draft.id ? 'Pauze bewerken' : 'Nieuwe pauze'}
       </h3>
+      {days.length >= 2 && (
+        <div style={fieldRowStyle}>
+          <label style={fieldLabelStyle}>Veilingdag</label>
+          <select
+            value={draft.collection_day_id ?? ''}
+            onChange={(e) => set('collection_day_id', e.target.value || null)}
+            style={selectStyle}
+          >
+            {days.map((d) => (
+              <option key={d.id} value={d.id}>
+                Dag {d.day_index}{d.date ? ` (${formatDayDate(d.date)})` : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div style={fieldRowStyle}>
         <label style={fieldLabelStyle}>Na lot</label>
         <select
@@ -990,8 +1624,8 @@ function SortToggleButton({ active, onClick, children }) {
   )
 }
 
-function Thumb({ src, alt }) {
-  const size = 72
+function Thumb({ src, alt, small }) {
+  const size = small ? 40 : 72
   if (!src) {
     return (
       <div
@@ -1187,4 +1821,112 @@ const saveBtnStyle = {
   background: 'var(--accent)', color: 'var(--bg-base)',
   border: 'none', borderRadius: 'var(--radius-sm)',
   cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit',
+}
+
+/* ---------- Veilingdagen-styles ---------- */
+const daysSectionStyle = {
+  margin: 'var(--space-3) 0',
+  padding: 'var(--space-3) var(--space-4)',
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+}
+const daysHeaderBtnStyle = {
+  display: 'inline-flex', alignItems: 'center', gap: 8,
+  background: 'transparent', border: 'none', cursor: 'pointer',
+  color: 'var(--text-primary)', fontFamily: 'inherit',
+  fontSize: '0.95em', fontWeight: 700, padding: 0,
+}
+const unassignedBadgeStyle = {
+  marginLeft: 10,
+  padding: '1px 8px',
+  background: 'var(--warning)', color: '#000',
+  borderRadius: 'var(--radius-sm)',
+  fontSize: '0.75em', fontWeight: 700,
+}
+const dayRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
+  padding: 'var(--space-2) 0',
+  borderBottom: '1px solid var(--border-default)',
+}
+const dayIndexBadgeStyle = {
+  fontFamily: 'var(--font-mono)', fontSize: '0.8em', fontWeight: 700,
+  color: 'var(--accent)', padding: '2px 8px',
+  border: '1px solid var(--accent-muted)', borderRadius: 'var(--radius-sm)',
+  flexShrink: 0,
+}
+const dayDateInputStyle = {
+  padding: '0.3rem 0.5rem', fontSize: '0.9em',
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontFamily: 'inherit',
+}
+const dayLabelInputStyle = {
+  flex: 1, minWidth: 120,
+  padding: '0.3rem 0.5rem', fontSize: '0.9em',
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontFamily: 'inherit',
+}
+const dayStatusSelectStyle = {
+  padding: '0.3rem 0.5rem', fontSize: '0.9em',
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontFamily: 'inherit',
+}
+const dayLotCountStyle = {
+  color: 'var(--text-secondary)', fontSize: '0.85em',
+  fontFamily: 'var(--font-mono)', minWidth: '4.5em', textAlign: 'right',
+}
+const dayCockpitBtnStyle = {
+  display: 'inline-block', padding: '0.3rem 0.7rem',
+  background: 'var(--accent)', color: 'var(--bg-base)',
+  borderRadius: 'var(--radius-sm)', textDecoration: 'none',
+  fontSize: '0.85em', fontWeight: 700, whiteSpace: 'nowrap',
+}
+const rangeHelperStyle = {
+  display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
+  marginTop: 'var(--space-3)', paddingTop: 'var(--space-3)',
+  borderTop: '1px solid var(--border-default)',
+}
+const rangeInputStyle = {
+  width: '5em',
+  padding: '0.3rem 0.5rem', fontSize: '0.9em',
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontFamily: 'inherit',
+}
+const bulkBarStyle = {
+  position: 'sticky', top: 0, zIndex: 10,
+  display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
+  padding: 'var(--space-2) var(--space-3)',
+  marginBottom: 'var(--space-2)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--accent-muted)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--text-primary)', fontSize: '0.9em',
+}
+const dayGroupStyle = {
+  marginBottom: 'var(--space-3)',
+  padding: 'var(--space-3)',
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-md)',
+  transition: 'background 0.12s, border-color 0.12s',
+}
+const dayGroupHeaderStyle = {
+  display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap',
+  paddingBottom: 'var(--space-2)',
+  borderBottom: '1px solid var(--border-default)',
+}
+const groupedRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 8,
+  padding: '0.4rem 0',
+  borderBottom: '1px solid var(--border-default)',
+}
+const rowDaySelectStyle = {
+  padding: '0.25rem 0.4rem', fontSize: '0.8em',
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontFamily: 'inherit', flexShrink: 0, maxWidth: '11em',
 }

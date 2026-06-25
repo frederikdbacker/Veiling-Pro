@@ -211,8 +211,8 @@ const titleStyle = {
 }
 const addBtnStyle = {
   padding: '6px 14px',
-  background: 'var(--accent)', color: '#fff',
-  border: 'none', borderRadius: 'var(--radius-sm)',
+  background: 'transparent', color: 'var(--accent)',
+  border: '1px solid var(--accent)', borderRadius: 'var(--radius-sm)',
   fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
   marginBottom: 'var(--space-3)',
 }

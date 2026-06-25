@@ -117,7 +117,7 @@ export default function AutoSaveUrl({
 function SaveIndicator({ status }) {
   const base = { fontSize: '0.8em', marginLeft: 4 }
   switch (status.state) {
-    case 'idle':    return <small style={{ ...base, color: 'var(--text-muted)' }}>·</small>
+    case 'idle':    return null
     case 'pending': return <small style={{ ...base, color: 'var(--text-muted)' }}>typen…</small>
     case 'saving':  return <small style={{ ...base, color: 'var(--text-muted)' }}>opslaan…</small>
     case 'saved':

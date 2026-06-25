@@ -106,7 +106,7 @@ export default function EditableLongText({
 function SaveIndicator({ status }) {
   const small = { fontSize: '0.8em' }
   switch (status.state) {
-    case 'idle':    return <small style={{ ...small, color: 'var(--text-muted)' }}>·</small>
+    case 'idle':    return null
     case 'pending': return <small style={{ ...small, color: 'var(--text-muted)' }}>typen…</small>
     case 'saving':  return <small style={{ ...small, color: 'var(--text-muted)' }}>opslaan…</small>
     case 'saved':   return (

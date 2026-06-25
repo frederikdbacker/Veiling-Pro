@@ -179,7 +179,7 @@ function formatThousands(value) {
 function SaveIndicator({ status }) {
   const base = { fontSize: '0.8em', marginLeft: 4 }
   switch (status.state) {
-    case 'idle':    return <small style={{ ...base, color: '#bbb' }}>·</small>
+    case 'idle':    return null
     case 'pending': return <small style={{ ...base, color: '#aaa' }}>typen…</small>
     case 'saving':  return <small style={{ ...base, color: '#aaa' }}>opslaan…</small>
     case 'saved':

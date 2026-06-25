@@ -10,6 +10,7 @@ import CollectionIngestModal from '../components/CollectionIngestModal'
 import ScrapeJobStatus from '../components/ScrapeJobStatus'
 import WorkerStatusBadge from '../components/WorkerStatusBadge'
 import { createDay } from '../lib/collectionDays'
+import { setCollectionArchived } from '../lib/houses'
 import { getRecentJobs, cancelJob, getJob, subscribeJob, createScrapeJob } from '../lib/scrapeJobs'
 
 export default function HousePage() {
@@ -24,7 +25,7 @@ export default function HousePage() {
   const [recentJobs, setRecentJobs] = useState([])
   const [error, setError] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
-  const [deleteMode, setDeleteMode] = useState(false)
+  const [manageOpen, setManageOpen] = useState(false)
 
   const [topLot, setTopLot] = useState(null)
   const [pastOpen, setPastOpen] = useState(false)
@@ -239,6 +240,17 @@ export default function HousePage() {
     }
   }
 
+  // Archiveren (zacht verbergen) i.p.v. verwijderen — bewaart de data.
+  async function archiveCollection(c, archived) {
+    setError(null)
+    try {
+      await setCollectionArchived(c.id, archived)
+      setCollections((prev) => prev.map((x) => (x.id === c.id ? { ...x, archived } : x)))
+    } catch (e) {
+      setError(`Archiveren mislukt — ${e.message}`)
+    }
+  }
+
   return (
     <section>
       <Breadcrumbs trail={[
@@ -390,25 +402,26 @@ export default function HousePage() {
 
       <h2 style={subheadStyle}>Veilingen</h2>
 
-      {!addingCollection && !deleteMode && (
-        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-3)' }}>
+      {!addingCollection && !manageOpen && (
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
           <button onClick={() => setAddingCollection(true)} style={addBtnStyle}>
             + Veiling toevoegen
           </button>
           <button onClick={() => setIngestOpen(true)} style={ingestBtnStyle}>
             🔗 Collectie ophalen
           </button>
-          <span style={{ display: 'inline-flex', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
-            <WorkerStatusBadge compact />
-          </span>
           {collections.length > 0 && (
             <button
-              onClick={() => { setError(null); setDeleteMode(true) }}
+              onClick={() => { setError(null); setManageOpen(true) }}
               style={deleteToggleStyle}
             >
-              − Veiling verwijderen
+              🗂 Veilingen beheren
             </button>
           )}
+          {/* Worker-status sluit het rijtje rechts af. */}
+          <span style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 'auto' }}>
+            <WorkerStatusBadge compact />
+          </span>
         </div>
       )}
 
@@ -419,17 +432,14 @@ export default function HousePage() {
         />
       )}
 
-      {deleteMode && (
-        <DeleteCollectionPanel
+      {manageOpen && (
+        <ManageCollectionsPanel
           collections={collections}
           busy={deletingId != null}
-          onCancel={() => setDeleteMode(false)}
-          onDelete={async (id) => {
-            const c = collections.find((x) => x.id === id)
-            if (!c) return
-            const ok = await deleteCollection(c)
-            if (ok) setDeleteMode(false)
-          }}
+          onCancel={() => setManageOpen(false)}
+          onArchive={(c) => archiveCollection(c, true)}
+          onRestore={(c) => archiveCollection(c, false)}
+          onDelete={async (c) => { await deleteCollection(c) }}
         />
       )}
 
@@ -452,8 +462,10 @@ export default function HousePage() {
           const isPast = (c) =>
             c.status === 'afgesloten' ||
             (c.date && new Date(c.date) < now && c.status !== 'planned' && c.status !== 'lopend')
-          const upcoming = collections.filter((c) => !isPast(c))
-          const past = collections.filter(isPast)
+          // Gearchiveerde veilingen tonen we hier niet (beheer ze via "Veilingen beheren").
+          const active = collections.filter((c) => !c.archived)
+          const upcoming = active.filter((c) => !isPast(c))
+          const past = active.filter(isPast)
           const pastByYear = past.reduce((acc, c) => {
             const y = c.date ? new Date(c.date).getFullYear() : 'Onbekend'
             ;(acc[y] ||= []).push(c)
@@ -579,14 +591,18 @@ function CountryAutoSaveRow({ houseId, initialValue, onSaved }) {
   )
 }
 
-function DeleteCollectionPanel({ collections, busy, onCancel, onDelete }) {
+function ManageCollectionsPanel({ collections, busy, onCancel, onArchive, onRestore, onDelete }) {
   const [sel, setSel] = useState('')
+  const active = collections.filter((c) => !c.archived)
+  const archived = collections.filter((c) => c.archived)
+  const selected = active.find((c) => c.id === sel) || null
+
   return (
-    <div style={formStyle}>
+    <div style={{ ...formStyle, maxWidth: 560 }}>
       <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9em' }}>
-        Kies de veiling die je wil verwijderen. Dit verwijdert óók alle lots
-        en bijhorende data en kan <strong>niet</strong> ongedaan gemaakt
-        worden. Tip: maak eerst een Supabase-backup.
+        <strong>Archiveren</strong> verbergt een veiling maar bewaart alle data.
+        <strong> Verwijderen</strong> wist de veiling én alle lots definitief
+        (niet ongedaan te maken). Kies een veiling:
       </p>
       <select
         value={sel}
@@ -596,25 +612,56 @@ function DeleteCollectionPanel({ collections, busy, onCancel, onDelete }) {
         autoFocus
       >
         <option value="">— kies een veiling —</option>
-        {collections.map((c) => (
+        {active.map((c) => (
           <option key={c.id} value={c.id}>
             {c.name}{c.date ? ` — ${formatDate(c.date)}` : ''}
           </option>
         ))}
       </select>
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <button
           type="button"
-          disabled={!sel || busy}
-          onClick={() => onDelete(sel)}
+          disabled={!selected || busy}
+          onClick={() => selected && onArchive(selected)}
+          style={archiveBtnStyle}
+        >
+          🗂 Archiveren
+        </button>
+        <button
+          type="button"
+          disabled={!selected || busy}
+          onClick={() => selected && onDelete(selected)}
           style={dangerConfirmStyle}
         >
-          {busy ? 'Verwijderen…' : 'Verwijder geselecteerde veiling'}
+          {busy ? 'Verwijderen…' : '🗑 Definitief verwijderen'}
         </button>
         <button type="button" disabled={busy} onClick={onCancel} style={cancelBtnStyle}>
-          Annuleer
+          Sluiten
         </button>
       </div>
+
+      {archived.length > 0 && (
+        <div style={{ marginTop: 'var(--space-2)', borderTop: '1px solid var(--border-default)', paddingTop: 'var(--space-2)' }}>
+          <p style={{ margin: '0 0 6px', color: 'var(--text-secondary)', fontSize: '0.85em', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Gearchiveerd ({archived.length})
+          </p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {archived.map((c) => (
+              <li key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', color: 'var(--text-muted)' }}>
+                <span style={{ flex: 1, fontSize: '0.9em' }}>
+                  {c.name}{c.date ? ` — ${formatDate(c.date)}` : ''}
+                </span>
+                <button type="button" disabled={busy} onClick={() => onRestore(c)} style={smallOutlineBtnStyle}>
+                  ↩ Herstellen
+                </button>
+                <button type="button" disabled={busy} onClick={() => onDelete(c)} style={smallDangerBtnStyle}>
+                  🗑
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
@@ -766,8 +813,8 @@ const subheadStyle = {
 }
 const addBtnStyle = {
   padding: '8px 16px',
-  background: 'var(--accent)', color: '#fff',
-  border: 'none', borderRadius: 'var(--radius-sm)',
+  background: 'transparent', color: 'var(--accent)',
+  border: '1px solid var(--accent)', borderRadius: 'var(--radius-sm)',
   fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
   marginBottom: 'var(--space-3)',
 }
@@ -819,4 +866,22 @@ const dangerConfirmStyle = {
   background: 'var(--danger)', color: '#fff',
   border: 'none', borderRadius: 'var(--radius-sm)',
   fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+}
+const archiveBtnStyle = {
+  padding: '6px 14px',
+  background: 'transparent', color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+}
+const smallOutlineBtnStyle = {
+  padding: '3px 8px',
+  background: 'transparent', color: 'var(--accent)',
+  border: '1px solid var(--accent)', borderRadius: 'var(--radius-sm)',
+  fontSize: '0.8em', cursor: 'pointer', fontFamily: 'inherit',
+}
+const smallDangerBtnStyle = {
+  padding: '3px 8px',
+  background: 'transparent', color: 'var(--danger)',
+  border: '1px solid var(--danger)', borderRadius: 'var(--radius-sm)',
+  fontSize: '0.8em', cursor: 'pointer', fontFamily: 'inherit',
 }

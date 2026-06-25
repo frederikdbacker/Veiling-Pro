@@ -223,6 +223,16 @@ export default function LotPage() {
               ))}
             </div>
           )}
+          {/* "Niet-deelnemend"-knop direct onder het identiteits-blok
+              (discipline · leeftijd · geslacht · stamboek). De undo-knop staat
+              in de banner bovenaan zodra het lot withdrawn is. */}
+          {!lot.withdrawn && (
+            <div style={{ marginTop: 'var(--space-2)' }}>
+              <button type="button" onClick={toggleWithdrawn} style={withdrawnToggleBtnStyle}>
+                🚫 Markeer als niet-deelnemend
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -332,15 +342,6 @@ export default function LotPage() {
             ⊘ Niet verkocht{lot.sale_price != null ? ` (hoogste bod €${Number(lot.sale_price).toLocaleString('nl-BE')})` : ''}
           </div>
         )}
-        {/* Withdrawn-toggle — alleen tonen als het lot deelneemt; de
-            undo-knop staat in de banner bovenaan zodra het withdrawn is. */}
-        {!lot.withdrawn && (
-          <div style={{ marginTop: 'var(--space-3)' }}>
-            <button type="button" onClick={toggleWithdrawn} style={withdrawnToggleBtnStyle}>
-              🚫 Markeer als niet-deelnemend
-            </button>
-          </div>
-        )}
       </Block>
 
       {/* Pedigree — onder de prijzen. Sportprestaties per moederlijn zijn
@@ -396,6 +397,7 @@ export default function LotPage() {
       {/* Beschrijving — catalogustekst + EquiRatings samengevoegd in één blok.
           Allebei bewerkbaar via ✏ wanneer de scrape niets vond. */}
       <Block title="Beschrijving">
+        <div style={fieldLabelStyle}>Catalogustekst (van de website)</div>
         <EditableLongText
           key={`cat-${lotId}`}
           id={lotId}
@@ -404,6 +406,7 @@ export default function LotPage() {
           placeholder="catalogustekst"
         />
         <div style={{ height: 'var(--space-4)' }} />
+        <div style={fieldLabelStyle}>Mijn beschrijving</div>
         <EditableLongText
           key={`equi-${lotId}`}
           id={lotId}
@@ -655,6 +658,11 @@ const lotTitleStyle = {
 }
 const metaStyle = {
   color: 'var(--text-secondary)', margin: '0.25rem 0 0 0',
+}
+const fieldLabelStyle = {
+  fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.04em',
+  textTransform: 'uppercase', color: 'var(--text-muted)',
+  marginBottom: '0.35rem',
 }
 const soldStyle = {
   marginTop: 'var(--space-3)',

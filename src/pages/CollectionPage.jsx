@@ -400,6 +400,28 @@ export default function CollectionPage() {
         />
       )}
 
+      {/* Meerdaagse veiling: per veilingdag een altijd-zichtbare cockpit-knop
+          (los van de metadata-bewerker), zodat je de cockpit per dag direct vindt. */}
+      {collection && days.length >= 2 && (
+        <div style={dayCockpitRowStyle}>
+          <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em', fontWeight: 600 }}>
+            Cockpit per dag:
+          </span>
+          {days.map((d) => (
+            <Link
+              key={d.id}
+              to={`/cockpit/${collection.id}/${d.id}`}
+              style={dayCockpitBtnStyle}
+              title={`Open de cockpit voor dag ${d.day_index}`}
+            >
+              🎬 Dag {d.day_index}
+              {d.date ? ` — ${new Date(d.date).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' })}` : ''}
+              {d.label ? ` (${d.label})` : ''}
+            </Link>
+          ))}
+        </div>
+      )}
+
       {collection && (
         <div className="collection-actions">
           <button
@@ -435,8 +457,8 @@ export default function CollectionPage() {
             <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
               💰 Bulk startbedrag
             </button>
-            <button onClick={() => setIngestOpen(true)} style={secondaryBtnStyle} title="Haal de catalogus van deze collectie op via een link">
-              🔗 Catalogus ophalen
+            <button onClick={() => setIngestOpen(true)} style={secondaryBtnStyle} title="Haal de collectie van deze veiling op via een link">
+              🔗 Collectie ophalen
             </button>
             <Link to={`/collections/${collection.id}/clients`} style={secondaryBtnStyle}>
               👥 Klanten
@@ -865,15 +887,8 @@ function DayRow({ day, collectionId, showCockpit, lotCount, busy, canDelete, onC
       <span style={dayLotCountStyle}>{lotCount} lot{lotCount === 1 ? '' : 's'}</span>
       {saveState === 'saving' && <small style={{ color: 'var(--text-muted)' }}>opslaan…</small>}
       {saveState === 'saved'  && <small style={{ color: 'var(--success)' }}>💾</small>}
-      {showCockpit && (
-        <Link
-          to={`/cockpit/${collectionId}/${day.id}`}
-          style={dayCockpitBtnStyle}
-          title={`Open de cockpit voor dag ${day.day_index}`}
-        >
-          🎬 Open cockpit
-        </Link>
-      )}
+      {/* De "Open cockpit"-knop staat niet meer hier (metadata-bewerker), maar
+          als altijd-zichtbare knop per dag bovenaan de collectie-pagina. */}
       <button
         type="button"
         onClick={onDelete}
@@ -1818,6 +1833,14 @@ const dayCockpitBtnStyle = {
   background: 'var(--accent)', color: 'var(--bg-base)',
   borderRadius: 'var(--radius-sm)', textDecoration: 'none',
   fontSize: '0.85em', fontWeight: 700, whiteSpace: 'nowrap',
+}
+const dayCockpitRowStyle = {
+  display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap',
+  margin: 'var(--space-2) 0 var(--space-3)',
+  padding: 'var(--space-2) var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
 }
 const rangeHelperStyle = {
   display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',

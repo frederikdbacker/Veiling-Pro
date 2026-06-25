@@ -77,14 +77,11 @@ export default function HousesPage() {
       <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
       {error && <p style={{ color: 'var(--danger)' }}>❌ {error}</p>}
 
+      {/* Eén ingang voor al het huis-beheer: toevoegen + archiveren/verwijderen
+          samen onder "Beheren". "Alle klanten" blijft los (navigatie). */}
       <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-3)' }}>
-        {!adding && (
-          <button onClick={() => setAdding(true)} style={addBtnStyle}>
-            + Veilinghuis toevoegen
-          </button>
-        )}
         <button
-          onClick={() => { setManaging((v) => !v); setError(null) }}
+          onClick={() => { setManaging((v) => !v); setAdding(false); setError(null) }}
           style={managing ? { ...manageBtnStyle, borderColor: 'var(--accent)', color: 'var(--accent)' } : manageBtnStyle}
         >
           🗂 {managing ? 'Klaar met beheren' : 'Beheren'}
@@ -94,13 +91,22 @@ export default function HousesPage() {
         </Link>
       </div>
 
-      {adding && <AddHouseForm onSave={handleAdd} onCancel={() => setAdding(false)} />}
-
       {managing && (
-        <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 'var(--space-3)', color: 'var(--text-secondary)', fontSize: '0.9em' }}>
-          <input type="checkbox" checked={showArchived} onChange={(e) => setShowArchived(e.target.checked)} />
-          Toon gearchiveerd ({houses.filter((h) => h.archived).length})
-        </label>
+        <div style={managePanelStyle}>
+          <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button onClick={() => setAdding((v) => !v)} style={addBtnStyle}>
+              + Veilinghuis toevoegen
+            </button>
+            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginLeft: 'auto', color: 'var(--text-secondary)', fontSize: '0.9em' }}>
+              <input type="checkbox" checked={showArchived} onChange={(e) => setShowArchived(e.target.checked)} />
+              Toon gearchiveerd ({houses.filter((h) => h.archived).length})
+            </label>
+          </div>
+          {adding && <AddHouseForm onSave={handleAdd} onCancel={() => setAdding(false)} />}
+          <p style={{ margin: '4px 0 0', color: 'var(--text-muted)', fontSize: '0.85em' }}>
+            Klik op een veilinghuis-kaart om het te archiveren of te verwijderen.
+          </p>
+        </div>
       )}
 
       <div style={{
@@ -278,6 +284,14 @@ const manageBtnStyle = {
   background: 'transparent', color: 'var(--text-secondary)',
   border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
   fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+}
+const managePanelStyle = {
+  display: 'flex', flexDirection: 'column', gap: 8,
+  padding: 'var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+  marginBottom: 'var(--space-3)',
 }
 const cardActionStyle = (danger) => ({
   flex: 1, padding: '4px 6px',

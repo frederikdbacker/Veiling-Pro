@@ -402,45 +402,53 @@ export default function HousePage() {
 
       <h2 style={subheadStyle}>Veilingen</h2>
 
-      {!addingCollection && !manageOpen && (
+      {/* Eén ingang voor al het veiling-beheer: toevoegen, ophalen via link,
+          en archiveren/verwijderen/herstellen — samen onder "Veilingen beheren". */}
+      {!manageOpen ? (
         <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
-          <button onClick={() => setAddingCollection(true)} style={addBtnStyle}>
-            + Veiling toevoegen
+          <button onClick={() => { setError(null); setManageOpen(true) }} style={manageToggleStyle}>
+            🗂 Veilingen beheren
           </button>
-          <button onClick={() => setIngestOpen(true)} style={ingestBtnStyle}>
-            🔗 Collectie ophalen
-          </button>
-          {collections.length > 0 && (
-            <button
-              onClick={() => { setError(null); setManageOpen(true) }}
-              style={deleteToggleStyle}
-            >
-              🗂 Veilingen beheren
-            </button>
-          )}
           {/* Worker-status sluit het rijtje rechts af. */}
           <span style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 'auto' }}>
             <WorkerStatusBadge compact />
           </span>
         </div>
-      )}
+      ) : (
+        <div style={{ ...formStyle, maxWidth: 580 }}>
+          <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', alignItems: 'center' }}>
+            <button onClick={() => setAddingCollection((v) => !v)} style={addBtnStyle}>
+              + Veiling toevoegen
+            </button>
+            <button onClick={() => setIngestOpen(true)} style={ingestBtnStyle}>
+              🔗 Collectie ophalen
+            </button>
+            <button
+              onClick={() => { setManageOpen(false); setAddingCollection(false) }}
+              style={{ ...cancelBtnStyle, marginLeft: 'auto' }}
+            >
+              Klaar
+            </button>
+          </div>
 
-      {addingCollection && (
-        <AddCollectionForm
-          onSave={handleAddCollection}
-          onCancel={() => setAddingCollection(false)}
-        />
-      )}
+          {addingCollection && (
+            <AddCollectionForm
+              onSave={handleAddCollection}
+              onCancel={() => setAddingCollection(false)}
+            />
+          )}
 
-      {manageOpen && (
-        <ManageCollectionsPanel
-          collections={collections}
-          busy={deletingId != null}
-          onCancel={() => setManageOpen(false)}
-          onArchive={(c) => archiveCollection(c, true)}
-          onRestore={(c) => archiveCollection(c, false)}
-          onDelete={async (c) => { await deleteCollection(c) }}
-        />
+          {collections.length > 0 && (
+            <ManageCollectionsPanel
+              collections={collections}
+              busy={deletingId != null}
+              embedded
+              onArchive={(c) => archiveCollection(c, true)}
+              onRestore={(c) => archiveCollection(c, false)}
+              onDelete={async (c) => { await deleteCollection(c) }}
+            />
+          )}
+        </div>
       )}
 
       {recentJobs.length > 0 && (
@@ -591,14 +599,16 @@ function CountryAutoSaveRow({ houseId, initialValue, onSaved }) {
   )
 }
 
-function ManageCollectionsPanel({ collections, busy, onCancel, onArchive, onRestore, onDelete }) {
+function ManageCollectionsPanel({ collections, busy, onCancel, onArchive, onRestore, onDelete, embedded = false }) {
   const [sel, setSel] = useState('')
   const active = collections.filter((c) => !c.archived)
   const archived = collections.filter((c) => c.archived)
   const selected = active.find((c) => c.id === sel) || null
 
   return (
-    <div style={{ ...formStyle, maxWidth: 560 }}>
+    <div style={embedded
+      ? { display: 'flex', flexDirection: 'column', gap: 8, marginTop: 'var(--space-2)', paddingTop: 'var(--space-2)', borderTop: '1px solid var(--border-default)' }
+      : { ...formStyle, maxWidth: 560 }}>
       <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9em' }}>
         <strong>Archiveren</strong> verbergt een veiling maar bewaart alle data.
         <strong> Verwijderen</strong> wist de veiling én alle lots definitief
@@ -635,9 +645,11 @@ function ManageCollectionsPanel({ collections, busy, onCancel, onArchive, onRest
         >
           {busy ? 'Verwijderen…' : '🗑 Definitief verwijderen'}
         </button>
-        <button type="button" disabled={busy} onClick={onCancel} style={cancelBtnStyle}>
-          Sluiten
-        </button>
+        {!embedded && onCancel && (
+          <button type="button" disabled={busy} onClick={onCancel} style={cancelBtnStyle}>
+            Sluiten
+          </button>
+        )}
       </div>
 
       {archived.length > 0 && (
@@ -860,6 +872,12 @@ const deleteToggleStyle = {
   border: '1px solid var(--danger)', borderRadius: 'var(--radius-sm)',
   fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
   marginBottom: 'var(--space-3)',
+}
+const manageToggleStyle = {
+  padding: '8px 16px',
+  background: 'transparent', color: 'var(--text-secondary)',
+  border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)',
+  fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const dangerConfirmStyle = {
   padding: '6px 14px',

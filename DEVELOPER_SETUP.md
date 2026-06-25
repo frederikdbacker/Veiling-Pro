@@ -1,6 +1,16 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 24 juni 2026 (URL-ingest "Collectie ophalen" — migraties 0033 + 0034 + worker)**
+**Laatste update: 25 juni 2026 (scrapers + Hippomundo-stamboom + UI-batch; migratie 0036 `archived`)**
+
+> **Nieuw 25 juni 2026.** Scrapers: `scripts/scrape-extrahorses.mjs` (Extra Horses)
+> en `scripts/scrape-weauction-api.mjs` (nieuwe weauction/Tailwind-frontend, o.a.
+> The Collection — de oude `scrape-weauction.mjs` voor Aloga/WEF blijft naast hem
+> bestaan; de registry kiest per host). De weauction-api-scraper haalt ook de
+> volledige Hippomundo-stamboom op via Puppeteer (Cloudflare wordt door een echte
+> browser opgelost). `scripts/update-pedigree-from-scrape.mjs` patcht pedigree van
+> bestaande lots niet-destructief. Migratie **0036** voegt `archived` toe aan
+> `collections` + `auction_houses` (additief; gearchiveerde items worden in de UI
+> verborgen met een "Toon gearchiveerd"-schakelaar onder "Beheren").
 
 ---
 

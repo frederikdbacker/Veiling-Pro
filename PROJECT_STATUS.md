@@ -1,7 +1,33 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 24 juni 2026 (Veilingdagen: UX-verfijningen + URL-ingest)**
+**Laatste update: 25 juni 2026 (Scrapers + Hippomundo-stamboom + UI-batch)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **25 juni 2026 — Scrapers, volledige stamboom en een UI-opruimbatch.**
+> Vijf samenhangende stukken, alles live op `main`:
+> 1. **The Collection** (3 juli) herkend in de scraper-registry (weauction).
+> 2. **Extra Horses** (Megève, 17 juli) — nieuwe `scrape-extrahorses.mjs`
+>    (kale fetch + browser-UA), 21 lots geïmporteerd.
+> 3. The Collection draait een **nieuwere weauction-frontend** (Tailwind + JSON-API):
+>    aparte `scrape-weauction-api.mjs` (de bewezen `scrape-weauction.mjs` voor
+>    Aloga/WEF blijft ongewijzigd); registry routet per host.
+> 4. **Volledige 3-generatie-stamboom** uit de Hippomundo-embed: via een echte
+>    browser (Puppeteer) wordt Cloudflare opgelost en de bracket op geometrie
+>    geparseerd naar `lots.pedigree` (mét de echte moeder). `import-lots.mjs`
+>    slaat `pedigree` nu op; `update-pedigree-from-scrape.mjs` patcht bestaande
+>    lots niet-destructief. DB: 21 The Collection-lots verrijkt; een dubbele
+>    collectie opgeruimd ("The Collection Live 2026" behouden).
+> 5. **UI-batch** (migratie **0036**: `archived` op collections + auction_houses):
+>    archiveren/verwijderen van veilingen én huizen onder één "Beheren"-knop,
+>    subtielere outline-knoppen, worker-status naar rechts, "Collectie ophalen"
+>    overal, cockpit per veilingdag altijd zichtbaar, lot-pagina opgeschoond
+>    (gelabelde beschrijvingsvelden, status-puntjes weg, withdrawn-knop verplaatst).
+>
+> Audit-rapport: `reports/2026-06-25_scrapers-pedigree-en-ui-batch.md`.
+> Geparkeerd: fijnmazige her-scrape-merge op lot-niveau; Hippomundo blijft een
+> externe Cloudflare-afhankelijkheid (best-effort).
 
 ---
 

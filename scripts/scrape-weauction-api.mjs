@@ -9,10 +9,14 @@
 // Eén (gepagineerde) call geeft alle lots met volledige data. Geen browser nodig.
 //
 // Afstamming: de volledige 3-generatie-stamboom is een Hippomundo-embed
-// (Cloudflare-protected, niet scrapebaar). We bewaren de Hippomundo-link per lot
-// (url_hippomundo → de echte stamboom, 1 klik weg) en de VADER uit de
-// "Vader X Moedersvader"-regel in de beschrijving; de moeder blijft leeg (die
-// regel toont de moedersvader, niet de moeder) en wordt in missing_info gezet.
+// (pedigreeUrl per lot uit /api/Items/<id>). Hippomundo zit achter Cloudflare,
+// maar een ÉCHTE browser (Puppeteer) lost de challenge op en de boom rendert.
+// We navigeren rechtstreeks naar de embed-URL (same-origin → uitleesbaar),
+// lossen Cloudflare één keer op (cookie blijft hangen → daarna snel), en parsen
+// de bracket op geometrie naar onze pedigree-jsonb { sire/dam met 3 generaties }.
+// Zo krijgen we ook de ÉCHTE moeder (pedigree.dam.name). De Hippomundo-link
+// blijft bewaard in url_hippomundo. Lukt de boom niet → fallback op de
+// "Vader X Moedersvader"-regel uit de beschrijving (vader + moedersvader).
 //
 // Schrijft data/weauction-<slug>.json (zelfde meta+horses[]-formaat als de
 // andere scrapers); daarna importeert scripts/import-lots.mjs dat.
@@ -23,6 +27,7 @@
 //   node scripts/scrape-weauction-api.mjs \
 //     "https://bid.thecollection-auction.com/auctions/<id>" "The Collection" "The Collection Live 2026"
 
+import puppeteer from 'puppeteer'
 import { writeFile, mkdir } from 'node:fs/promises'
 import { dirname } from 'node:path'
 
@@ -74,14 +79,106 @@ function parseSubtitle(s) {
   return { year, gender, size }
 }
 
-// Eerste regel van de beschrijving = "Vader X Moedersvader" (shorthand). We
-// nemen enkel de VADER zeker over; deel 2 is de moedersvader, niet de moeder.
-function sireFromDescription(desc) {
-  if (!desc) return { sire: null, pedigree_raw: null }
+// FALLBACK als de Hippomundo-boom niet lukt: eerste regel van de beschrijving =
+// "Vader X Moedersvader" (shorthand). Vader (deel 1) + moedersvader (deel 2) →
+// minimale pedigree-jsonb { sire:{name}, dam:{ sire:{name} } }. De moeder zelf
+// blijft dan leeg (die staat enkel in de Hippomundo-stamboom).
+function pedigreeFromDescription(desc) {
+  if (!desc) return { sire: null, pedigree_raw: null, pedigree: null }
   const firstLine = desc.split('\n')[0].replace(/\r/g, '').trim()
   const m = firstLine.match(/^(.+?)\s+[x×]\s+(.+)$/i)
-  if (!m) return { sire: null, pedigree_raw: null }
-  return { sire: m[1].trim(), pedigree_raw: firstLine }
+  if (!m) return { sire: null, pedigree_raw: firstLine || null, pedigree: null }
+  const sire = m[1].trim()
+  const damsire = m[2].trim()
+  const pedigree = { sire: { name: sire }, dam: { sire: { name: damsire } } }
+  return { sire, pedigree_raw: firstLine, pedigree }
+}
+
+// ── Hippomundo 3-generatie-stamboom (via Puppeteer) ──────────────────────────
+// De bracket is een visuele layout; we parsen op GEOMETRIE: cluster de
+// naam-vakjes in kolommen (x), en wijs kinderen toe aan hun dichtstbijzijnde
+// ouder (y) — boven = sire, onder = dam. Robuust tegen ontbrekende voorouders.
+function hippoAncestorBoxes(boxes) {
+  return boxes.filter((b) =>
+    b.y < 240 &&                       // enkel de boom-region (prozatekst staat lager)
+    /[A-Za-z]/.test(b.name) &&
+    !/^\(/.test(b.name) &&             // "(Cumano)" e.d. zijn annotaties, geen voorouders
+    !/^xx\s*:/i.test(b.name) &&
+    !/^level\b/i.test(b.name) &&
+    !/etc/i.test(b.name) &&
+    !/black type/i.test(b.name) &&
+    !/:$/.test(b.name) &&
+    !/^(HLR|HR|HD|OS|SF|KWPN|BWP)\b/.test(b.name) &&
+    !/^\d/.test(b.name))
+}
+
+function hippoClusterByX(boxes) {
+  const sorted = [...boxes].sort((a, b) => a.x - b.x)
+  const cols = []
+  for (const b of sorted) {
+    const last = cols[cols.length - 1]
+    if (last && Math.abs(b.x - last.x) < 120) last.items.push(b)
+    else cols.push({ x: b.x, items: [b] })
+  }
+  return cols
+}
+
+function hippoAssign(children, parents) {
+  const map = new Map(parents.map((p) => [p, []]))
+  for (const c of children) {
+    let best = parents[0], bd = Infinity
+    for (const p of parents) { const d = Math.abs(c.y - p.y); if (d < bd) { bd = d; best = p } }
+    map.get(best).push(c)
+  }
+  for (const arr of map.values()) arr.sort((a, b) => a.y - b.y)
+  return map
+}
+
+function parseHippoPedigree(boxes) {
+  const cols = hippoClusterByX(hippoAncestorBoxes(boxes))
+  if (cols.length < 4) return null
+  // cols[0]=subject, [1]=ouders, [2]=grootouders, [3]=overgrootouders
+  const parents = [...cols[1].items].sort((a, b) => a.y - b.y)
+  if (parents.length < 2) return null
+  const gpByParent = hippoAssign(cols[2].items, parents)
+  const ggpByGp = hippoAssign(cols[3].items, cols[2].items)
+  const gpNode = (gpBox) => {
+    if (!gpBox) return null
+    const kids = ggpByGp.get(gpBox) || []
+    return { name: gpBox.name, sire: kids[0] ? { name: kids[0].name } : null, dam: kids[1] ? { name: kids[1].name } : null }
+  }
+  const parentNode = (pBox) => {
+    if (!pBox) return null
+    const kids = gpByParent.get(pBox) || []
+    return { name: pBox.name, sire: gpNode(kids[0]), dam: gpNode(kids[1]) }
+  }
+  return { sire: parentNode(parents[0]), dam: parentNode(parents[1]) }
+}
+
+// Haal één Hippomundo-pedigree op via een (gedeelde) Puppeteer-page.
+// Pollt tot de boom ÉCHT parseerbaar is (Cloudflare voorbij + bracket gerenderd)
+// i.p.v. een vaste wachttijd — robuust tegen wisselende laadtijden.
+async function fetchHippoPedigree(page, url) {
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 })
+  const collect = () => page.evaluate(() => {
+    const out = []
+    document.querySelectorAll('*').forEach((el) => {
+      const direct = [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent.trim()).filter(Boolean).join(' ')
+      if (!direct || direct.length > 40) return
+      const r = el.getBoundingClientRect()
+      if (r.width < 15 || r.height < 6) return
+      out.push({ name: direct, x: Math.round(r.x), y: Math.round(r.y) })
+    })
+    return out
+  })
+  let last = null
+  for (let i = 0; i < 25; i++) { // max ~25s; stopt zodra de boom compleet is
+    await new Promise((r) => setTimeout(r, 1000))
+    const ped = parseHippoPedigree(await collect())
+    last = ped || last
+    if (ped && ped.sire?.name && ped.dam?.name) return ped // ouders gevuld → klaar
+  }
+  return last
 }
 
 function fullImageUrl(imagePath) {
@@ -98,7 +195,14 @@ function mapItem(item) {
   const lotNumber = numMatch ? parseInt(numMatch[1], 10) : (item.orderNumber ?? null)
   const name = (item.name || '').replace(/^\s*\d+\.\s*/, '').trim() || (item.name || '').trim()
   const { year, gender, size } = parseSubtitle(item.subtitle)
-  const { sire, pedigree_raw } = sireFromDescription(item.description)
+  // Afstamming: volledige Hippomundo-boom als die opgehaald is, anders de
+  // "Vader X Moedersvader"-regel uit de beschrijving als fallback.
+  const desc = pedigreeFromDescription(item.description)
+  const tree = item._pedigree || null
+  const pedigree = tree || desc.pedigree
+  const sire = tree?.sire?.name || desc.sire || null
+  const dam = tree?.dam?.name || null            // de ÉCHTE moeder (enkel uit de boom)
+  const pedigree_raw = desc.pedigree_raw
 
   // Foto's: hoofdfoto + itemMedias met mediaType 0 (afbeeldingen).
   const photoSet = new Set()
@@ -122,7 +226,8 @@ function mapItem(item) {
 
   const missing = [
     !sire && 'sire',
-    'dam', // moeder zit enkel in de Hippomundo-embed (Cloudflare) / prozatekst
+    !dam && 'dam',
+    !pedigree && 'pedigree',
     !item.startingAmount && 'starting_bid',
     photoSet.size === 0 && 'photos',
   ].filter(Boolean)
@@ -137,8 +242,9 @@ function mapItem(item) {
     size,
     studbook: null,
     sire,
-    dam: null,
+    dam,
     pedigree_raw,
+    pedigree,
     photos: [...photoSet].slice(0, 8),
     video_url,
     source_url: AUCTION_URL,
@@ -178,9 +284,8 @@ while (true) {
 }
 
 // De lijst-API geeft pedigreeUrl: null — die staat enkel op /api/Items/<id>.
-// Verrijk per lot met één detail-call (Hippomundo-stamboomlink). Faalt een
-// call → gewoon zonder link verder (niet fataal).
-let enriched = 0
+// Stap 1: per lot de Hippomundo-link ophalen (één detail-call).
+let linked = 0
 for (let i = 0; i < raw.length; i++) {
   const id = raw[i].id
   if (!id) continue
@@ -188,12 +293,44 @@ for (let i = 0; i < raw.length; i++) {
     const r = await fetch(`${ORIGIN}/api/Items/${encodeURIComponent(id)}`, { headers: UA })
     if (r.ok) {
       const detail = await r.json()
-      if (detail?.pedigreeUrl) { raw[i].pedigreeUrl = detail.pedigreeUrl; enriched++ }
+      if (detail?.pedigreeUrl) { raw[i].pedigreeUrl = detail.pedigreeUrl; linked++ }
     }
   } catch { /* link is optioneel */ }
   await new Promise((res) => setTimeout(res, 120)) // nette pauze
 }
-console.log(`   ✓ ${enriched}/${raw.length} pedigree-links opgehaald`)
+console.log(`   ✓ ${linked}/${raw.length} Hippomundo-links opgehaald`)
+
+// Stap 2: per lot de volledige 3-generatie-stamboom ophalen via Puppeteer.
+// Eén gedeelde browser: de eerste navigatie lost Cloudflare op, de cookie
+// blijft hangen → de rest gaat snel. Mislukt een boom → fallback (beschrijving).
+const withLink = raw.filter((it) => it.pedigreeUrl)
+if (withLink.length) {
+  console.log(`   ⏳ stambomen ophalen (Hippomundo, ${withLink.length} lots)…`)
+  let treeOk = 0, done = 0
+  for (let i = 0; i < raw.length; i++) {
+    if (!raw[i].pedigreeUrl) continue
+    done++
+    // Verse browser per lot: na de eerste Cloudflare-clearance escaleert de
+    // challenge voor volgende navigaties binnen dezelfde browser. Een verse
+    // browser per lot lost dat op (bewezen). Kleine pauze ertussen = netjes.
+    const browser = await puppeteer.launch({ headless: 'new' })
+    try {
+      const pg = await browser.newPage()
+      await pg.setUserAgent(UA['User-Agent'])
+      await pg.setViewport({ width: 1280, height: 1400 })
+      const ped = await fetchHippoPedigree(pg, raw[i].pedigreeUrl)
+      if (ped && (ped.sire || ped.dam)) {
+        raw[i]._pedigree = ped; treeOk++
+        process.stdout.write(`   [${done}/${withLink.length}] ${raw[i].name?.slice(0, 30)} → ${ped.sire?.name || '?'} × ${ped.dam?.name || '?'}\n`)
+      } else {
+        process.stdout.write(`   [${done}/${withLink.length}] ${raw[i].name?.slice(0, 30)} → geen boom (fallback)\n`)
+      }
+    } catch (e) { process.stdout.write(`   [${done}/${withLink.length}] fout: ${e.message}\n`) }
+    finally { await browser.close() }
+    await new Promise((r) => setTimeout(r, 800))
+  }
+  console.log(`   ✓ ${treeOk}/${withLink.length} volledige stambomen geparseerd`)
+}
 
 const horses = raw.map(mapItem)
 console.log(`📋 Found ${horses.length} lots`)

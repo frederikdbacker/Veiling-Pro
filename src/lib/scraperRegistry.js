@@ -55,6 +55,28 @@ export function liveAuctionParts(u) {
 
 export const SCRAPERS = [
   {
+    // NIEUWE weauction-frontend (Tailwind + JSON-API), o.a. The Collection.
+    // Aparte scraper zodat de bewezen oude scrape-weauction.mjs (Aloga/WEF)
+    // onaangeraakt blijft. Deze entry staat VÓÓR 'weauction' zodat de smalle
+    // host-match wint. needsHouseName + collectionName (voor "Catalogus
+    // ophalen" in een bestaande collectie → geen duplicaat).
+    key: 'weauction-api',
+    label: 'weauction (nieuw)',
+    engine: 'fetch',
+    script: 'scrape-weauction-api.mjs',
+    importer: 'import-lots.mjs',
+    needsHouseName: true,
+    match: (u) => /^bid\.thecollection-auction\.com$/i.test(u.hostname),
+    houseHint: () => 'The Collection',
+    buildArgs: ({ rawUrl, houseName, collectionName }) => {
+      if (!houseName) return { ok: false, missing: 'house', message: 'Huisnaam ontbreekt voor deze weauction-collectie.' }
+      const args = [rawUrl, houseName]
+      if (collectionName) args.push(collectionName) // bestaande collectie vullen
+      return { ok: true, args }
+    },
+  },
+
+  {
     key: 'weauction',
     label: 'weauction',
     engine: 'puppeteer',
@@ -63,14 +85,13 @@ export const SCRAPERS = [
     needsHouseName: true,
     match: (u) =>
       /(^|\.)weauction\.nl$/i.test(u.hostname) ||
-      /^bid\.(aloga-auction|wefsporthorseauction|dewoldensummersale|thecollection-auction)\.com$/i.test(u.hostname) ||
+      /^bid\.(aloga-auction|wefsporthorseauction|dewoldensummersale)\.com$/i.test(u.hostname) ||
       u.hostname.toLowerCase() === 'swbauction.swb.org',
     houseHint: (u) => {
       const h = u.hostname.toLowerCase()
       if (h.includes('aloga')) return 'Aloga'
       if (h.includes('wefsporthorse')) return 'WEF Sporthorse Auction'
       if (h.includes('dewoldensummersale')) return 'De Wolden Summer Sale'
-      if (h.includes('thecollection')) return 'The Collection'
       if (h.includes('swbauction')) return 'Swedish Warmblood'
       return null
     },

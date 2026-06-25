@@ -46,6 +46,11 @@
   <key>ThrottleInterval</key>
   <integer>10</integer>
 
+  <!-- Geef de worker tijd om netjes af te sluiten (sluit zelf binnen ~8s af).
+       Zonder deze sleutel valt launchd terug op ~20s en stuurt daarna SIGKILL. -->
+  <key>ExitTimeOut</key>
+  <integer>25</integer>
+
   <key>StandardOutPath</key>
   <string>/Users/JOUW-NAAM/veiling-pro/worker.out.log</string>
   <key>StandardErrorPath</key>

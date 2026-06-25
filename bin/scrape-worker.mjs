@@ -44,6 +44,7 @@ const SCRAPE_TIMEOUT_MS = 10 * 60 * 1000  // 10 min — ruim voor Puppeteer + ti
 const LOG_TAIL_CHARS    = 6000      // hoeveel scraper-stdout we bewaren in job.log
 const HEARTBEAT_MS      = 30000     // "ik leef nog" wegschrijven (eigen klokje, los van het scrapen)
 const HEARTBEAT_ID      = 'scrape-worker'
+const HARD_EXIT_MS      = 8000      // vangnet: lukt nette afsluiting niet binnen dit venster, forceer exit(0)
 
 const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY
@@ -59,6 +60,17 @@ const sb = createClient(url, key, { auth: { persistSession: false } })
 const nowIso = () => new Date().toISOString()
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const tail = (s, n = LOG_TAIL_CHARS) => (s.length > n ? '…' + s.slice(-n) : s)
+
+// Onderbreekbare sleep voor de poll-lus: keert meteen terug zodra de signal-
+// handler `wakePoll()` aanroept, zodat een stopsignaal niet eerst de volle
+// poll-interval hoeft uit te zitten.
+let wakePoll = null
+function interruptibleSleep(ms) {
+  return new Promise((resolve) => {
+    const t = setTimeout(() => { wakePoll = null; resolve() }, ms)
+    wakePoll = () => { clearTimeout(t); wakePoll = null; resolve() }
+  })
+}
 
 function log(...a) { console.log(`[${nowIso()}]`, ...a) }
 
@@ -109,6 +121,7 @@ function runScript(script, args, { jobId, phaseLabel } = {}) {
     const child = spawn(process.execPath, ['--env-file=.env.local', join('scripts', script), ...args], {
       cwd: ROOT, env: process.env,
     })
+    currentChild = child            // zodat shutdown() een lopende scrape kan afbreken
     let out = ''
     let lastFlush = 0
     let killedForTimeout = false
@@ -124,9 +137,10 @@ function runScript(script, args, { jobId, phaseLabel } = {}) {
     child.stderr.on('data', (d) => { out += d.toString(); maybeFlush() })
 
     const timer = setTimeout(() => { killedForTimeout = true; child.kill('SIGKILL') }, SCRAPE_TIMEOUT_MS)
-    child.on('error', (e) => { clearTimeout(timer); reject(e) })
+    child.on('error', (e) => { clearTimeout(timer); if (currentChild === child) currentChild = null; reject(e) })
     child.on('close', (code) => {
       clearTimeout(timer)
+      if (currentChild === child) currentChild = null
       if (killedForTimeout) return reject(new Error(`timeout na ${SCRAPE_TIMEOUT_MS / 60000} min — ${script}`))
       resolve({ code, out })
     })
@@ -222,6 +236,7 @@ async function processJob(job) {
     }
     if (lastErr && !isTransient(lastErr.message)) break  // niet-tijdelijk → stop met retryen
   }
+  if (stopping) return  // afsluit-kill: niet als 'failed' wegschrijven — shutdown() zet de job op 'queued'
   if (lastErr) return failJob(job.id, lastErr.message, scrapeOut)
 
   // 4) outputbestand bepalen + compleetheidscheck (geen half werk)
@@ -253,8 +268,10 @@ async function processJob(job) {
   try {
     const { code, out } = await runScript(importer, importArgs, { jobId: job.id, phaseLabel: 'importeren' })
     impOut = out
+    if (stopping) return  // afsluit-kill tijdens import: shutdown() zet de job op 'queued'
     if (code !== 0) return failJob(job.id, `import eindigde met code ${code}\n${tail(out, 1500)}`, scrapeOut + '\n--- import ---\n' + out)
   } catch (e) {
+    if (stopping) return
     return failJob(job.id, e.message, scrapeOut + '\n--- import ---\n' + impOut)
   }
 
@@ -301,9 +318,16 @@ async function recoverStaleRunning() {
   }
 }
 
-// ── hoofdlus ─────────────────────────────────────────────────────────────────
+// ── hoofdlus + afsluit-state ─────────────────────────────────────────────────
 let stopping = false
 let ticking = false
+let currentChild = null   // lopend scraper/importer-child (door runScript gezet)
+let currentJobId = null   // job die nú verwerkt wordt (door tick gezet)
+let channel = null        // realtime-channel (in main gezet, in teardown afgemeld)
+let heartbeatTimer = null // hartslag-interval (in main gezet, in teardown gestopt)
+let interruptedJobId = null // job die door een stopsignaal werd afgebroken (door teardown op 'queued' gezet)
+let tornDown = false      // teardown-guard: afsluitopruiming draait precies één keer
+let exited = false        // exit-guard: process.exit(0) gebeurt precies één keer
 
 async function tick() {
   if (ticking || stopping) return
@@ -311,8 +335,10 @@ async function tick() {
   try {
     let job
     while (!stopping && (job = await claimNextQueued())) {
+      currentJobId = job.id
       try { await processJob(job) }
-      catch (e) { await failJob(job.id, e.message, e.stack || e.message) }
+      catch (e) { if (!stopping) await failJob(job.id, e.message, e.stack || e.message) }
+      finally { currentJobId = null }
     }
   } catch (e) {
     log('⚠️  tick-fout:', e.message)
@@ -341,30 +367,80 @@ async function main() {
 
   await recoverStaleRunning()
   await heartbeat(true)                          // eerste hartslag (met started_at)
-  const heartbeatTimer = setInterval(heartbeat, HEARTBEAT_MS)
+  heartbeatTimer = setInterval(heartbeat, HEARTBEAT_MS)
 
   // Realtime is een snelheids-extra; polling is de garantie. Best-effort: als
   // realtime niet beschikbaar is, draait alles gewoon op de poll-lus.
   try {
-    sb.channel('scrape_jobs_worker')
+    channel = sb.channel('scrape_jobs_worker')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'scrape_jobs' }, () => { tick() })
       .subscribe((s) => { if (s === 'SUBSCRIBED') log('   Realtime: aan (directe pickup van nieuwe jobs)') })
   } catch (e) {
     log('   Realtime: uit —', e.message, '(polling blijft werken)')
   }
 
-  // poll-lus
+  // poll-lus — onderbreekbare sleep zodat een stopsignaal niet eerst de volle
+  // poll-interval hoeft uit te zitten.
   while (!stopping) {
     await tick()
-    await sleep(POLL_INTERVAL_MS)
+    if (stopping) break
+    await interruptibleSleep(POLL_INTERVAL_MS)
   }
-  clearInterval(heartbeatTimer)
+  await teardown()
+  finalExit()
+}
+
+// ── nette afsluiting (precies één keer, ongeacht de trigger) ─────────────────
+/**
+ * Ruim hartslag + realtime-channel op en geef een afgebroken job terug aan de
+ * wachtrij. Idempotent via `tornDown`. Wordt in elk afsluitpad *awaited* vóór
+ * `finalExit()`, zodat de queued-reset zeker in de DB landt en de job niet op
+ * 'running' blijft hangen.
+ */
+async function teardown() {
+  if (tornDown) return
+  tornDown = true
+  if (heartbeatTimer) clearInterval(heartbeatTimer)
+  // afgebroken scrape teruggeven aan de wachtrij (geen 'running' laten hangen,
+  // niet als 'failed' wegschrijven) — net als recoverStaleRunning doet.
+  if (interruptedJobId) {
+    await patchJob(interruptedJobId, { status: 'queued', progress: { phase: 'onderbroken — opnieuw in wachtrij' } })
+  }
+  if (channel) { try { await sb.removeChannel(channel) } catch {} }
   log('👋 worker gestopt.')
+}
+/** Sluit het proces af met code 0. Idempotent via `exited` — nooit een SIGKILL. */
+function finalExit() {
+  if (exited) return
+  exited = true
   process.exit(0)
 }
 
+/**
+ * Stopsignaal afhandelen. 1e signaal: vlag zetten, poll-lus wekken, lopende
+ * scrape netjes afbreken + terugzetten op 'queued', en een harde vangnet-timer
+ * starten. 2e signaal: meteen afsluiten.
+ */
+function shutdown(sig) {
+  if (stopping) { log(`\n${sig} (nogmaals) — meteen afsluiten.`); return finalExit() }
+  stopping = true
+  log(`\n${sig} ontvangen — netjes afsluiten…`)
+
+  // lopende scrape afbreken; het job-id onthouden zodat teardown() het *awaited*
+  // op 'queued' zet (zie teardown — fire-and-forget hier zou door process.exit
+  // worden afgekapt en de job op 'running' laten hangen).
+  interruptedJobId = currentJobId
+  if (currentChild) { try { currentChild.kill('SIGTERM') } catch {} }
+
+  if (wakePoll) wakePoll()  // onderbreek de poll-sleep → poll-lus draait teardown + exit
+
+  // vangnet: lukt de nette afsluiting niet binnen HARD_EXIT_MS, forceer dan zelf
+  // exit(0) via dezelfde geguarde teardown — launchd hoeft nooit te SIGKILL'en.
+  setTimeout(async () => { await teardown(); finalExit() }, HARD_EXIT_MS).unref()
+}
+
 for (const sig of ['SIGINT', 'SIGTERM']) {
-  process.on(sig, () => { if (!stopping) { stopping = true; log(`\n${sig} ontvangen — netjes afsluiten…`) } })
+  process.on(sig, () => shutdown(sig))
 }
 
 main().catch((e) => { log('💥 fatale fout:', e); process.exit(1) })

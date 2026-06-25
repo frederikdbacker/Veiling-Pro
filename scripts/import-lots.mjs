@@ -159,6 +159,10 @@ const rows = horses.map(h => ({
   sire:              h.sire,
   dam:               h.dam,
   pedigree_raw:      h.pedigree_raw,
+  // Gestructureerde 3-generatie-stamboom (jsonb). De meeste scrapers leveren
+  // dit niet → blijft null (ongewijzigd gedrag). scrape-weauction-api.mjs vult
+  // minimaal { sire, dam.sire } zodat de pedigree-boom + "sire × damsire" tonen.
+  pedigree:          h.pedigree ?? null,
   catalog_text:      h.catalog_text,
   equiratings_text:  h.equiratings_text,
   photos:            h.photos ?? [],

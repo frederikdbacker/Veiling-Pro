@@ -1,7 +1,26 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 25 juni 2026 (Scrapers + Hippomundo-stamboom + UI-batch)**
+**Laatste update: 25 juni 2026 (Worker sluit netjes af — geen SIGKILL meer)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **25 juni 2026 — Scrape-worker sluit netjes af (geen SIGKILL meer).**
+> De worker op de Mac mini werd bij elke herstart hardhandig afgeschoten
+> (exit-status **-9**): de poll-lus zat vast in een 60s-pauze en de LaunchAgent
+> had geen `ExitTimeOut`. Nu: onderbreekbare pauze (idle stop in ms), één
+> gecoördineerd + idempotent afsluitpad (teardown/exit elk precies één keer),
+> harde vangnet-timeout van 8s die zélf met code 0 afsluit, en een lopende
+> scrape wordt bij afsluiten op **"in wachtrij"** teruggezet (awaited, zodat het
+> in de DB landt) i.p.v. "mislukt". `ExitTimeOut = 25s` in beide plists; live
+> plist herladen. Getest: idle herstart → "worker gestopt" in 6 ms, exit 0; en
+> herstart **midden in een scrape** → opdracht ging `running → queued → done`
+> (21 lots), nooit "mislukt" of vastgelopen. Geen schemawijziging.
+> Testdata (een duplicaat-collectie uit de her-imports) na bevestiging + backup
+> opgeruimd; originele collectie ongemoeid.
+> Audit-rapport: `reports/2026-06-25_worker-nette-afsluiting.md`.
+> Restpunt: de importer is voor `mode=create` niet volledig idempotent (tweede
+> collectie bij licht andere veilingnaam) — overwegen te dedupen op `source_url`.
 
 ---
 

@@ -13,6 +13,7 @@
 
 import { writeFile, mkdir } from 'node:fs/promises'
 import { dirname } from 'node:path'
+import puppeteer from 'puppeteer'
 
 const BASE = 'https://www.zangersheide.com'
 const SLUG = process.argv[2]
@@ -23,10 +24,71 @@ if (!SLUG) {
   process.exit(1)
 }
 
-async function fetchHtml(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; veiling-pro-scraper)' } })
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${url}`)
-  return res.text()
+// ── Transport via een ECHTE browser (Puppeteer) ──────────────────────────────
+// zangersheide.com staat achter Cloudflare: een kale fetch geeft 403 (ook de
+// homepage). Een echte browser passeert de challenge. GEVERIFIEERD: een tweede
+// navigatie in DEZELFDE browsersessie wordt door Cloudflare hard geblokkeerd
+// ("Attention Required"), maar een VERSE incognito-context per pagina komt er
+// wél langs — en is veel lichter dan een volledige browser-relaunch per lot
+// (belangrijk bij grote foals-veilingen, 50-100 lots). Eén gedeeld browser-
+// proces; per pagina een verse context; bij een Cloudflare-blok retryen (en als
+// laatste redmiddel een volledige relaunch, bewezen).
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+const POLL_SECONDS = 25
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+const isCloudflareBlock = (html) => /Attention Required! \| Cloudflare|cdn-cgi\/styles\/cf\.errors/i.test(html)
+
+let browser = null
+async function getBrowser() {
+  if (!browser) browser = await puppeteer.launch({ headless: 'new' })
+  return browser
+}
+async function newContext(b) {
+  return b.createBrowserContext ? b.createBrowserContext() : b.createIncognitoBrowserContext()
+}
+
+/** Render één URL en poll tot de echte inhoud er staat (Cloudflare voorbij). */
+async function renderPage(page, url, ready) {
+  await page.setUserAgent(UA)
+  await page.setViewport({ width: 1280, height: 1400 })
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => {})
+  let html = ''
+  for (let i = 0; i < POLL_SECONDS; i++) {
+    await sleep(1000)
+    html = await page.content().catch(() => '')
+    if (!isCloudflareBlock(html) && ready(html)) return { html, blocked: false }
+  }
+  return { html, blocked: isCloudflareBlock(html) }
+}
+
+async function renderInContext(url, ready) {
+  const ctx = await newContext(await getBrowser())
+  try { return await renderPage(await ctx.newPage(), url, ready) }
+  finally { await ctx.close().catch(() => {}) }
+}
+
+async function renderInFreshBrowser(url, ready) {
+  const b = await puppeteer.launch({ headless: 'new' })
+  try { return await renderPage(await b.newPage(), url, ready) }
+  finally { await b.close().catch(() => {}) }
+}
+
+/**
+ * Haal de gerenderde HTML van een pagina op. `ready(html)` bepaalt wanneer de
+ * echte inhoud geladen is. Onderscheidt een Cloudflare-blok van een échte 0:
+ * bij een blok → retry met een verse context (en daarna één volledige relaunch),
+ * NOOIT stil als leeg behandelen.
+ */
+async function fetchHtml(url, ready = () => true) {
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const { html, blocked } = await renderInContext(url, ready)
+    if (!blocked && ready(html)) return html
+    await sleep(1200 * attempt) // pauze tegen rate-limiting vóór de retry
+  }
+  // laatste redmiddel: volledige relaunch (bewezen Cloudflare-aanpak)
+  const { html, blocked } = await renderInFreshBrowser(url, ready)
+  if (!blocked && ready(html)) return html
+  throw new Error(`Cloudflare bleef blokkeren (verse contexts + relaunch) — ${url}`)
 }
 
 /**
@@ -132,7 +194,7 @@ function slugify(name) {
 
 async function scrapeLotPage(relUrl) {
   const url = relUrl.startsWith('http') ? relUrl : BASE + relUrl
-  const html = await fetchHtml(url)
+  const html = await fetchHtml(url, (h) => /typo-h1/.test(h))
 
   // Extract h1 (horse name) — locate position so we can search after it
   const h1Match = html.match(/<h1[^>]*typo-h1[^>]*>\s*([\s\S]*?)\s*<\/h1>/i)
@@ -186,7 +248,7 @@ async function scrapeLotPage(relUrl) {
 // ---------------------------------------------------------------------
 
 console.log(`📥 Fetching collection page: ${BASE}/nl/auctions/${SLUG}`)
-const collectionHtml = await fetchHtml(`${BASE}/nl/auctions/${SLUG}`)
+const collectionHtml = await fetchHtml(`${BASE}/nl/auctions/${SLUG}`, (h) => h.includes(`/nl/auctions/${SLUG}/`))
 
 // Extract collection-naam uit eerste h1, fallback naar <title>
 const rawTitle = clean(extractFirst(collectionHtml, /<h1[^>]*>\s*([\s\S]*?)\s*<\/h1>/i))
@@ -223,9 +285,18 @@ const lotUrls = [...new Set(
 
 console.log(`📋 Found ${lotUrls.length} lots`)
 
+// HARDE check: de collectiepagina rendert (anders had fetchHtml gegooid), maar
+// 0 lot-links = écht leeg of gewijzigde markup → afbreken, geen lege scrape.
+if (lotUrls.length === 0) {
+  await browser?.close().catch(() => {})
+  console.error('❌ Geen lot-URLs op de collectiepagina — afgebroken (geen lege import).')
+  process.exit(1)
+}
+
 const horses = []
 for (let i = 0; i < lotUrls.length; i++) {
   const url = lotUrls[i]
+  if (i > 0) await sleep(600) // kleine pauze tussen lots — netjes tegen rate-limiting
   process.stdout.write(`\r  scraping ${i + 1}/${lotUrls.length}…`)
   try {
     const horse = await scrapeLotPage(url)
@@ -235,6 +306,13 @@ for (let i = 0; i < lotUrls.length; i++) {
   }
 }
 console.log(`\n✅ Scraped ${horses.length} horses`)
+
+// HARDE check: geen enkel lot gelukt → fout (nooit stil een lege catalogus importeren).
+if (horses.length === 0) {
+  await browser?.close().catch(() => {})
+  console.error('❌ 0 lots opgehaald (alle lot-pagina\'s faalden) — afgebroken, geen lege import.')
+  process.exit(1)
+}
 
 // Sort by lot_number waar gegeven
 horses.sort((a, b) => {
@@ -259,6 +337,8 @@ const output = {
   },
   horses,
 }
+
+await browser?.close().catch(() => {})
 
 const outPath = `data/zangersheide-${SLUG}.json`
 await mkdir(dirname(outPath), { recursive: true })

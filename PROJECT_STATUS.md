@@ -1,7 +1,22 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 26 juni 2026 (weauction-routing op capaciteit + regressietest)**
+**Laatste update: 26 juni 2026 (Zangersheide-scraper gerepareerd — Cloudflare)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **26 juni 2026 — Zangersheide-scraper gerepareerd (Cloudflare → Puppeteer).**
+> De live regressietest vond een stille breuk: zangersheide.com staat achter
+> Cloudflare → kale fetch 403 → `scrape-zangersheide.mjs` gaf 0 lots. Fix: enkel
+> de transport-laag vervangen door een echte browser. Geverifieerd dat een verse
+> **incognito-context per pagina** Cloudflare passeert (een tweede navigatie in
+> dezelfde sessie wordt geblokkeerd) — één gedeeld browserproces, licht genoeg
+> voor foals-veilingen van 50-100 lots. Cloudflare-blok wordt onderscheiden van
+> een echte 0 (retry verse context → volledige relaunch als laatste redmiddel),
+> harde fail bij 0 lots; parsing ongewijzigd. Resultaat: Stallion Auction 2026 →
+> 18 lots compleet; **regressietest nu 9 groen · 0 rood · 2 overgeslagen** (pwb +
+> livesauction nog skip). Geen schemawijziging.
+> Audit-rapport: `reports/2026-06-26_zangersheide-cloudflare-fix.md`.
 
 ---
 

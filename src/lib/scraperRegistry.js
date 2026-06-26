@@ -51,6 +51,33 @@ export function liveAuctionParts(u) {
   return { base: u.origin, auctionId: m ? m[1] : null }
 }
 
+/**
+ * Canonieke sleutel van een collectie-bron-URL, voor dedupe op de link.
+ *
+ * BELANGRIJK — moet TEKEN-VOOR-TEKEN gelijk zijn aan de gegenereerde
+ * DB-kolom `collections.source_url_norm` (migratie 0037):
+ *   lower( strip-trailing-slash( strip-vanaf-?-of-#( btrim(url) ) ) )
+ * Laag 1 (worker) matcht in JS met deze functie; laag 3 (uniek slot) zit op de
+ * SQL-kolom. Wijken ze af, dan mist laag 1 een bestaande veiling en valt de
+ * import op de unieke index i.p.v. netjes "staat er al" te melden — dus elke
+ * wijziging hier moet samen met de migratie-expressie mee.
+ *
+ * Bewust simpel en deterministisch: we strippen ALLE query-/fragment-parameters,
+ * want voor de huidige sites zit de veiling-identiteit in het PAD (UUID/slug),
+ * niet in een parameter. Zet een site de id ooit in een parameter, dan voegen we
+ * hier (en in de migratie) een per-site whitelist toe.
+ *
+ * @returns {string|null} genormaliseerde link, of null bij lege/witruimte-input.
+ */
+export function normalizeSourceUrl(rawUrl) {
+  const trimmed = String(rawUrl ?? '').trim()
+  if (!trimmed) return null
+  return trimmed
+    .replace(/[?#].*$/, '')   // alles vanaf de eerste ? of # weg
+    .replace(/\/+$/, '')      // trailing slashes weg
+    .toLowerCase()
+}
+
 // ── de registry ────────────────────────────────────────────────────────────
 
 export const SCRAPERS = [

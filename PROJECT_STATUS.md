@@ -1,7 +1,25 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 25 juni 2026 (Worker sluit netjes af — geen SIGKILL meer)**
+**Laatste update: 26 juni 2026 (Dedupe collectie op de link — geen dubbele meer)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **26 juni 2026 — "Collectie ophalen" maakt geen dubbele collectie meer.**
+> Een veiling wordt voortaan herkend aan zijn **link** i.p.v. zijn naam. Bij een
+> her-ophaling van een al-bestaande veiling: geen tweede collectie, maar de
+> melding *"Deze veiling stond al in het systeem"* + de gebruiker landt op de
+> bestaande collectie (productkeuze: melden + naar de bestaande). Drie lagen:
+> (1) gedeelde `normalizeSourceUrl()` in `src/lib/scraperRegistry.js`; (2) de
+> worker checkt vóór het scrapen op de genormaliseerde link en sluit netjes af
+> met `progress.already`; (3) DB-slot via een **gegenereerde** kolom
+> `collections.source_url_norm` + partiële unieke index (migratie **0037**,
+> additief/idempotent, toegepast) — `import-lots.mjs` schrijft de link nu al bij
+> creatie (optionele `--source-url`-vlag) zodat het slot bij de insert bijt.
+> Kern: JS-helper en DB-kolom zijn teken-voor-teken gelijk (bewezen met een
+> pariteitstest over 5 link-varianten). Getest e2e: bestaande link her-ophalen →
+> "bestond al", geen duplicaat; slot bijt met een nette foutmelding.
+> Audit-rapport: `reports/2026-06-26_dedupe-collectie-op-link.md`.
 
 ---
 

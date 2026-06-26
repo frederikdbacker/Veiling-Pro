@@ -30,7 +30,7 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import os from 'node:os'
-import { analyzeUrl } from '../src/lib/scraperRegistry.js'
+import { analyzeUrl, normalizeSourceUrl } from '../src/lib/scraperRegistry.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -83,6 +83,7 @@ function humanize(message = '') {
   if (/stopped_reason|onvolledig/.test(m)) return 'De catalogus kon niet volledig opgehaald worden — niets geïmporteerd (geen half werk).'
   if (/geen scraper|no_scraper/.test(m)) return 'Voor deze website is er nog geen scraper. De link is bewaard; Claude Code kan er een toevoegen.'
   if (/already|al \d+ lots|bestaan al|dubbele import/.test(m)) return 'Deze collectie heeft al lots — niet opnieuw geïmporteerd (geen dubbels).'
+  if (/source_url_norm|collections_source_url_norm_key/.test(m)) return 'Deze veiling staat al in het systeem onder een andere naam — niet opnieuw geïmporteerd (geen dubbele collectie).'
   return message.split('\n')[0].slice(0, 240) || 'Onbekende fout.'
 }
 
@@ -102,13 +103,15 @@ async function failJob(id, errMsg, logText) {
   await patchJob(id, { status: 'failed', error: humanize(errMsg), log: tail(logText || errMsg), finished_at: nowIso(), progress: { phase: 'mislukt' } })
   log('✗ job', id, 'failed:', humanize(errMsg))
 }
-async function finishJob(id, { collectionId, lotsImported, logText }) {
+async function finishJob(id, { collectionId, lotsImported, logText, alreadyExisted = false }) {
   await patchJob(id, {
     status: 'done', collection_id: collectionId ?? null, lots_imported: lotsImported ?? null,
     log: tail(logText || ''), error: null, finished_at: nowIso(),
-    progress: { phase: 'klaar', scraped: lotsImported ?? null },
+    // `already: true` → de veiling stond er al; de UI toont dan een eigen melding
+    // i.p.v. "lots geladen", met dezelfde "Open collectie →"-link.
+    progress: alreadyExisted ? { phase: 'bestond al', already: true } : { phase: 'klaar', scraped: lotsImported ?? null },
   })
-  log('✓ job', id, 'done —', lotsImported, 'lots')
+  log(alreadyExisted ? '↪ job' : '✓ job', id, alreadyExisted ? 'done — veiling bestond al' : `done — ${lotsImported} lots`)
 }
 
 /**
@@ -214,6 +217,27 @@ async function processJob(job) {
     return failJob(job.id, analysis.message || 'Kon de scraper-argumenten niet bepalen.', analysis.message || '')
   }
 
+  // 2b) dedupe op de LINK (laag 1): staat deze veiling al in het systeem? Dan
+  //     niet scrapen, geen tweede collectie — meld het en stuur naar de
+  //     bestaande collectie. Enkel voor mode=create; refresh wijst al een
+  //     bestaande collectie aan. Matcht op de genormaliseerde link, exact
+  //     gelijk aan de DB-kolom collections.source_url_norm (migratie 0037).
+  if (job.mode === 'create') {
+    const norm = normalizeSourceUrl(job.source_url)
+    if (norm) {
+      const { data: existing } = await sb
+        .from('collections').select('id, name')
+        .eq('source_url_norm', norm).limit(1).maybeSingle()
+      if (existing) {
+        log('↪ job', job.id, '— veiling bestaat al:', existing.name)
+        return finishJob(job.id, {
+          collectionId: existing.id, lotsImported: null, alreadyExisted: true,
+          logText: `Deze veiling staat al in het systeem: "${existing.name}". Niet opnieuw opgehaald.`,
+        })
+      }
+    }
+  }
+
   // 3) scrapen — met in-proces retry/backoff bij tijdelijke fouten
   await setProgress(job.id, { phase: 'scrapen' })
   let scrapeOut = ''
@@ -263,6 +287,11 @@ async function processJob(job) {
     // onderscheidend deel van de collectienaam (langste woord).
     const distinctive = collectionName.split(/\s+/).filter((w) => w.length >= 4).sort((a, b) => b.length - a.length)[0] || collectionName
     importArgs.push(distinctive)
+  } else if (job.source_url) {
+    // import-lots-pad (create): de link al bij het AANMAKEN op de collectie
+    // zetten, zodat source_url_norm + uniek slot een duplicaat bij de insert
+    // tegenhouden (named flag — verstoort de positionele Fences-args niet).
+    importArgs.push(`--source-url=${job.source_url}`)
   }
   let impOut = ''
   try {

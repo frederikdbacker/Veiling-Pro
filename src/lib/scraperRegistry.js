@@ -82,49 +82,44 @@ export function normalizeSourceUrl(rawUrl) {
 
 export const SCRAPERS = [
   {
-    // NIEUWE weauction-frontend (Tailwind + JSON-API), o.a. The Collection.
-    // Aparte scraper zodat de bewezen oude scrape-weauction.mjs (Aloga/WEF)
-    // onaangeraakt blijft. Deze entry staat VÓÓR 'weauction' zodat de smalle
-    // host-match wint. needsHouseName + collectionName (voor "Catalogus
-    // ophalen" in een bestaande collectie → geen duplicaat).
-    key: 'weauction-api',
-    label: 'weauction (nieuw)',
-    engine: 'fetch',
-    script: 'scrape-weauction-api.mjs',
-    importer: 'import-lots.mjs',
-    needsHouseName: true,
-    match: (u) => /^bid\.thecollection-auction\.com$/i.test(u.hostname),
-    houseHint: () => 'The Collection',
-    buildArgs: ({ rawUrl, houseName, collectionName }) => {
-      if (!houseName) return { ok: false, missing: 'house', message: 'Huisnaam ontbreekt voor deze weauction-collectie.' }
-      const args = [rawUrl, houseName]
-      if (collectionName) args.push(collectionName) // bestaande collectie vullen
-      return { ok: true, args }
-    },
-  },
-
-  {
+    // weauction — ÉÉN entry voor alle weauction-tenants (oud + nieuw). De keuze
+    // tussen de JSON-API-scraper en de Puppeteer-DOM-scraper valt NIET hier op
+    // host, maar in scrape-weauction-dispatch.mjs op CAPACITEIT (API aanwezig?).
+    // Zo blijft een tenant die naar de nieuwe Tailwind-frontend migreert gewoon
+    // werken, zonder registry-wijziging.
+    //
+    // BEWUSTE KEUZE: `match` blijft een host-ALLOWLIST. Een gloednieuwe
+    // weauction-tenant (andere host) moet hier nog steeds met zijn host worden
+    // toegevoegd — we matchen niet blind op "ziet eruit als weauction", om
+    // valse matches op willekeurige sites te vermijden. Nieuwe host erbij? Voeg
+    // 'm toe aan match + houseHint hieronder.
     key: 'weauction',
     label: 'weauction',
-    engine: 'puppeteer',
-    script: 'scrape-weauction.mjs',
+    engine: 'puppeteer',                       // beide routes gebruiken Puppeteer (API voor Hippomundo, DOM voor alles)
+    script: 'scrape-weauction-dispatch.mjs',
     importer: 'import-lots.mjs',
     needsHouseName: true,
     match: (u) =>
+      /^bid\.thecollection-auction\.com$/i.test(u.hostname) ||
       /(^|\.)weauction\.nl$/i.test(u.hostname) ||
       /^bid\.(aloga-auction|wefsporthorseauction|dewoldensummersale)\.com$/i.test(u.hostname) ||
       u.hostname.toLowerCase() === 'swbauction.swb.org',
     houseHint: (u) => {
       const h = u.hostname.toLowerCase()
+      if (h.includes('thecollection-auction')) return 'The Collection'
       if (h.includes('aloga')) return 'Aloga'
       if (h.includes('wefsporthorse')) return 'WEF Sporthorse Auction'
       if (h.includes('dewoldensummersale')) return 'De Wolden Summer Sale'
       if (h.includes('swbauction')) return 'Swedish Warmblood'
       return null
     },
-    buildArgs: ({ rawUrl, houseName }) => {
+    buildArgs: ({ rawUrl, houseName, collectionName }) => {
       if (!houseName) return { ok: false, missing: 'house', message: 'Huisnaam ontbreekt voor deze weauction-collectie.' }
-      return { ok: true, args: [rawUrl, houseName] }
+      // collectionName doorgeven (argv[4]) → "Catalogus ophalen" in een
+      // bestaande collectie vult die i.p.v. een nieuwe te maken (geen duplicaat).
+      const args = [rawUrl, houseName]
+      if (collectionName) args.push(collectionName)
+      return { ok: true, args }
     },
   },
 

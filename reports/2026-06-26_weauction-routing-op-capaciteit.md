@@ -64,13 +64,21 @@ doet zélf al de Hippomundo-stamboomstap, dus de API-route is voor Aloga/WEF zel
 
 ## Getest (acceptatie — groen)
 
-- **Regressietest (snel):** 4 groen · 0 rood · 7 overgeslagen, exit 0.
-  - weauction · The Collection (nieuwe frontend) → ✅ 21 lots
-  - weauction · Aloga (oude tenant → nu API) → ✅ 24 lots
-  - weauction · WEF (oude tenant → nu API) → ✅ 14 lots
-  - extrahorses · Extra Horses (Megève) → ✅ 21 lots (echte scrape)
-  - pwb/zangersheide/livesauction/schuttert/starsale/olympic-dream/fences →
-    ⏭ overgeslagen (vul een actuele veiling-URL in om mee te testen).
+- **Regressietest:** 8 groen · 1 rood · 2 overgeslagen (exit 1 — terecht, zie
+  zangersheide). Fixtures uitgebreid van 4 naar 9 actief (recente veiling per
+  platform uit de DB):
+  - weauction · The Collection → ✅ 21 · Aloga → ✅ 24 · WEF → ✅ 14 (via API)
+  - extrahorses → ✅ 21 · schuttert → ✅ 15 · starsale → ✅ 48 ·
+    olympic-dream → ✅ 16 · fences-catalogus → ✅ 26 (echte scrapes)
+  - **zangersheide → ❌ (echte vondst):** zangersheide.com staat nu achter
+    **Cloudflare** — een kale fetch geeft 403 (ook de homepage). De fetch-scraper
+    `scrape-zangersheide.mjs` is daardoor stuk en moet naar een echte-browser-
+    aanpak (Puppeteer, zoals bij Hippomundo). Bewust NIET geskipt: de site is niet
+    offline, dit rood is een terechte stille-breuk-melding. **Aparte fix-taak.**
+  - pwb · livesauction → ⏭ overgeslagen (geen bruikbare entry-URL in de DB:
+    geen PWB-`/collectie/<id>` resp. geen livesauction-`/live-auction/<id>`).
+  - De test laat **geen** `data/*.json` gewijzigd achter: een overschreven
+    bestaand bestand wordt hersteld, een nieuw bestand gewist.
 - **Dispatcher end-to-end:** geldige auction → "JSON-API — 21 lots"; onbestaande
   auction-id → "DOM-vangnet — API leeg (0 lots)". Routekeuze correct.
 - **Routing-assertie:** alle 5 weauction-hosts → één `weauction`-entry → de

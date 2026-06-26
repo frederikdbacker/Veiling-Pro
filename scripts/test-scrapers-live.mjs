@@ -69,6 +69,14 @@ const FIXTURES = [
   // vervang door een actuele 334- of woodlands-/live-auction/<id> als deze rood wordt.
   { key: 'livesauction', label: 'Livesauction · 334 Sporthorse Stud', mode: 'scrape',
     url: 'https://334sporthorsestud.com/live-auction/3' },
+
+  // horse24: gedateerde editie als canary. Wordt deze ROOD, check EERST of de
+  // pagina nog bestaat (open de URL of curl 'm) vóór je concludeert dat de
+  // scraper stuk is — een afgelopen veiling kan offline gaan. Vervang dan door
+  // een actuele auction-URL (sitemap: verdener-auktion-online.com/sitemap.xml,
+  // of de eerstvolgende OnLive-veiling).
+  { key: 'horse24', label: 'HORSE24 · Verdener Fohlen 137', mode: 'scrape',
+    url: 'https://verdener-auktion-online.com/de/auctions/details/39-verdener-auktion-online-fohlen-137' },
 ]
 
 // ── helpers ──────────────────────────────────────────────────────────────────

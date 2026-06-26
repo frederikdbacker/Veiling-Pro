@@ -23,9 +23,15 @@ if (!url || !key) {
 
 const file = process.argv[2]
 if (!file) {
-  console.error('Usage: node --env-file=.env.local scripts/import-lots.mjs <json-file>')
+  console.error('Usage: node --env-file=.env.local scripts/import-lots.mjs <json-file> [--source-url=<url>]')
   process.exit(1)
 }
+
+// Optionele bron-URL (door de worker meegegeven bij URL-ingest). Wordt bij het
+// AANMAKEN op de collectie gezet, zodat de gegenereerde kolom source_url_norm +
+// het uniek slot (migratie 0037) een duplicaat-by-link al bij de insert
+// tegenhouden. Afwezig (handmatige import) → gedrag ongewijzigd, source_url NULL.
+const sourceUrlArg = (process.argv.find((a) => a.startsWith('--source-url=')) || '').slice('--source-url='.length) || null
 
 const supabase = createClient(url, key)
 
@@ -63,6 +69,7 @@ if (meta.location) collectionPayload.location = meta.location
 if (meta.status)   collectionPayload.status = meta.status
 if (meta.notes)    collectionPayload.notes = meta.notes
 if (meta.time_auction_start) collectionPayload.time_auction_start = meta.time_auction_start
+if (sourceUrlArg)  collectionPayload.source_url = sourceUrlArg  // link al bij creatie → slot bijt bij insert
 const { data: collection, error: aErr } = await supabase
   .from('collections')
   .upsert(collectionPayload, { onConflict: 'house_id,name' })

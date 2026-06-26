@@ -32,7 +32,7 @@ export default function ScrapeJobStatus({ job, compact = false, onRetry, onCance
         </span>
         {job.status === 'done' && job.collection_id && (
           <Link to={`/collections/${job.collection_id}`} style={{ color: 'var(--accent)', fontWeight: 600 }}>
-            {job.lots_imported != null ? `${job.lots_imported} lots →` : 'Open →'}
+            {job.progress?.already ? 'bestond al → open' : (job.lots_imported != null ? `${job.lots_imported} lots →` : 'Open →')}
           </Link>
         )}
         {job.status === 'failed' && job.error && (
@@ -79,7 +79,9 @@ export default function ScrapeJobStatus({ job, compact = false, onRetry, onCance
       {job.status === 'done' && (
         <div style={{ marginTop: 'var(--space-2)' }}>
           <p style={{ color: 'var(--text-primary)', margin: '0 0 var(--space-2)' }}>
-            ✓ {job.lots_imported != null ? `${job.lots_imported} lots geladen.` : 'Collectie geladen.'}
+            {job.progress?.already
+              ? 'ℹ️ Deze veiling stond al in het systeem — niet opnieuw opgehaald. Open de bestaande collectie hieronder.'
+              : `✓ ${job.lots_imported != null ? `${job.lots_imported} lots geladen.` : 'Collectie geladen.'}`}
           </p>
           {job.collection_id && (
             <Link to={`/collections/${job.collection_id}`} style={primaryLinkStyle}>Open collectie →</Link>

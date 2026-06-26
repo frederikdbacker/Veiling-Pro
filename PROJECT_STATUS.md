@@ -18,8 +18,14 @@
 > `collectionName`-doorgifte behouden (dedupe-op-link intact). Nieuwe **live
 > regressietest `scripts/test-scrapers-live.mjs`**: ✅/❌-tabel, weauction
 > goedkoop via de API-listing (PageSize hoog), volledige scrape achter `--deep`.
-> Testrun: The Collection 21 · Aloga 24 · WEF 14 · Extra Horses 21 → 4 groen, 0
-> rood. Geen schemawijziging. Worker draait op de nieuwe routing na een herstart.
+> Testrun (fixtures uitgebreid naar 9 actief): The Collection 21 · Aloga 24 · WEF
+> 14 · Extra Horses 21 · Schuttert 15 · Starsale 48 · Olympic Dream 16 · Fences
+> SERVICE 26 → **8 groen**; **zangersheide ROOD** (echte vondst: zangersheide.com
+> staat nu achter Cloudflare → kale fetch 403 → `scrape-zangersheide.mjs` stuk,
+> moet naar Puppeteer — **aparte fix-taak**); pwb + livesauction overgeslagen
+> (geen bruikbare entry-URL in de DB). De test vervuilt de working tree niet
+> (overschreven `data/*.json` worden hersteld). Geen schemawijziging. Worker
+> draait op de nieuwe routing na een herstart.
 > Audit-rapport: `reports/2026-06-26_weauction-routing-op-capaciteit.md`.
 
 ---

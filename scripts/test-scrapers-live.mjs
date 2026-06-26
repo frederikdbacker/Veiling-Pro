@@ -14,7 +14,7 @@
 
 import { analyzeUrl } from '../src/lib/scraperRegistry.js'
 import { spawn } from 'node:child_process'
-import { readFile, readdir, unlink, access } from 'node:fs/promises'
+import { readFile, writeFile, readdir, unlink, access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { dirname, join, basename } from 'node:path'
 
@@ -41,21 +41,46 @@ const FIXTURES = [
   { key: 'extrahorses',  label: 'Extra Horses (Megève)', mode: 'scrape',
     url: 'https://venteexclusive.extrahorses.com/fr/' },
 
-  // Overige scrapers — vul een ACTUELE veiling-URL in en verwijder 'skip' om mee te testen.
-  { key: 'pwb',           label: 'PWB / Horse Auction Belgium', mode: 'scrape', url: '', skip: 'geen actuele veiling-URL ingevuld' },
-  { key: 'zangersheide',  label: 'Zangersheide',               mode: 'scrape', url: '', skip: 'geen actuele veiling-URL ingevuld' },
-  { key: 'livesauction',  label: 'Livesauction (Pweb)',        mode: 'scrape', url: '', skip: 'geen actuele veiling-URL ingevuld' },
-  { key: 'schuttert',     label: 'Schuttert Sport Sales',      mode: 'scrape', url: '', skip: 'geen actuele veiling-URL ingevuld' },
-  { key: 'starsale',      label: 'Starsale',                   mode: 'scrape', url: '', skip: 'geen actuele veiling-URL ingevuld' },
-  { key: 'olympic-dream', label: 'Olympic Dream Auction',      mode: 'scrape', url: '', skip: 'geen actuele veiling-URL ingevuld' },
-  { key: 'fences-catalogus', label: 'Fences (catalogus)',      mode: 'scrape', url: '', skip: 'needsExistingCollection — apart te testen via een bestaande collectie' },
+  // Overige scrapers — representatieve recente veiling per platform (uit de DB).
+  // Een afgesloten-maar-nog-online veiling is prima als canary. Werkt een URL
+  // niet meer → rood (terecht: stille breuk gevangen); update 'm dan.
+  // BEKEND ROOD (26-06-2026): zangersheide.com staat nu achter Cloudflare — een
+  // kale fetch geeft 403 (ook de homepage). De fetch-scraper scrape-zangersheide.mjs
+  // is daardoor stuk en moet naar een echte-browser-aanpak (Puppeteer, zoals bij
+  // Hippomundo). Bewust NIET op 'skip' gezet: de site is niet offline, dit ROOD is
+  // een terechte stille-breuk-melding tot de scraper gefixt is.
+  { key: 'zangersheide',  label: 'Zangersheide Stallion Auction 2026', mode: 'scrape',
+    url: 'https://www.zangersheide.com/nl/auctions/zangersheide-stallion-auction-2026' },
+  { key: 'schuttert',     label: 'Schuttert Sport Sales 2026', mode: 'scrape',
+    url: 'https://schuttertsportsales.com/lot-category/2026/' },
+  { key: 'starsale',      label: 'Starsale Veulenoverzicht 2025', mode: 'scrape',
+    url: 'https://www.starsaleauctions.com/veulens/2025/' },
+  { key: 'olympic-dream', label: 'Olympic Dream Auction', mode: 'scrape',
+    url: 'https://www.jumpingschrodertwente.nl/olympic-dream-auction' },
+  { key: 'fences-catalogus', label: 'Fences SERVICE (catalogus)', mode: 'scrape',
+    url: 'https://www.fences.fr/cheval/vente/service/' },
+
+  // Geen bruikbare entry-URL in de DB → bewust overgeslagen (vul een actuele
+  // veiling-URL in om mee te testen):
+  { key: 'pwb',          label: 'PWB / Horse Auction Belgium', mode: 'scrape', url: '',
+    skip: 'geen PWB-collectie met bruikbare /collectie/<id>-URL in de DB' },
+  { key: 'livesauction', label: 'Livesauction (Pweb)', mode: 'scrape', url: '',
+    skip: 'geen /live-auction/<id>-URL in de DB (334/Woodlands gebruiken /auction/<slug>)' },
 ]
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 const exists = (p) => access(p).then(() => true, () => false)
-async function dataDirSnapshot() {
-  try { return new Set((await readdir(join(ROOT, 'data'))).filter((f) => f.endsWith('.json'))) }
-  catch { return new Set() }
+// Snapshot van data/*.json mét inhoud, zodat we ná de test een door een scraper
+// OVERSCHREVEN bestaand bestand kunnen herstellen (en een nieuw bestand wissen).
+// Zo vervuilt de test niets in de working tree.
+async function dataDirContents() {
+  const map = new Map()
+  try {
+    for (const f of (await readdir(join(ROOT, 'data'))).filter((f) => f.endsWith('.json'))) {
+      try { map.set(f, await readFile(join(ROOT, 'data', f))) } catch {}
+    }
+  } catch {}
+  return map
 }
 
 /** Goedkope lot-telling via de weauction JSON-API-listing (geen Hippomundo). */
@@ -93,15 +118,15 @@ async function scrapeCount(fixture, beforeFiles) {
   if (!outPath) throw new Error('geen data/*.json-pad in scraper-output')
   const parsed = JSON.parse(await readFile(join(ROOT, outPath), 'utf8'))
   const records = parsed.horses || (parsed.collections ? parsed.collections.flatMap((c) => c.horses || []) : [])
-  // opruimen: enkel een bestand verwijderen dat dit script zelf nieuw aanmaakte
-  if (!beforeFiles.has(basename(outPath))) {
-    await unlink(join(ROOT, outPath)).catch(() => {})
-  }
+  // opruimen: bestaand bestand → herstel de originele inhoud; nieuw bestand → wis.
+  const base = basename(outPath)
+  if (beforeFiles.has(base)) await writeFile(join(ROOT, outPath), beforeFiles.get(base)).catch(() => {})
+  else await unlink(join(ROOT, outPath)).catch(() => {})
   return records.length
 }
 
 // ── runner ───────────────────────────────────────────────────────────────────
-const before = await dataDirSnapshot()
+const before = await dataDirContents()
 const results = []
 
 for (const fx of FIXTURES) {

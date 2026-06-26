@@ -60,12 +60,15 @@ const FIXTURES = [
   { key: 'fences-catalogus', label: 'Fences SERVICE (catalogus)', mode: 'scrape',
     url: 'https://www.fences.fr/cheval/vente/service/' },
 
-  // Geen bruikbare entry-URL in de DB → bewust overgeslagen (vul een actuele
-  // veiling-URL in om mee te testen):
-  { key: 'pwb',          label: 'PWB / Horse Auction Belgium', mode: 'scrape', url: '',
-    skip: 'geen PWB-collectie met bruikbare /collectie/<id>-URL in de DB' },
-  { key: 'livesauction', label: 'Livesauction (Pweb)', mode: 'scrape', url: '',
-    skip: 'geen /live-auction/<id>-URL in de DB (334/Woodlands gebruiken /auction/<slug>)' },
+  // pwb: alle lots op de collectiepagina (één fetch, geen detailpagina's).
+  // Alternatief als deze ooit rood wordt: https://paardenveilingonline.com/collectie/56
+  { key: 'pwb',          label: 'PWB / Horse Auction Belgium', mode: 'scrape',
+    url: 'https://horseauctionbelgium.com/collectie/41' },
+  // livesauction: /live-auction/<id> = collectie, daarna per lot /auction/<slug>
+  // (≈30 fetches → wat trager). Woodlands /live-auction/8 gaf 500 (verlopen);
+  // vervang door een actuele 334- of woodlands-/live-auction/<id> als deze rood wordt.
+  { key: 'livesauction', label: 'Livesauction · 334 Sporthorse Stud', mode: 'scrape',
+    url: 'https://334sporthorsestud.com/live-auction/3' },
 ]
 
 // ── helpers ──────────────────────────────────────────────────────────────────

@@ -1,7 +1,19 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 26 juni 2026 (Zangersheide-scraper gerepareerd — Cloudflare)**
+**Laatste update: 26 juni 2026 (Regressietest dekt nu alle 11 scrapers)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **26 juni 2026 — Regressietest dekt nu alle 11 scrapers (pwb + livesauction).**
+> De laatste twee blinde vlekken gedicht. Live op de mini geverifieerd dat
+> `horseauctionbelgium.com/collectie/41` (pwb, 28 lots) en
+> `334sporthorsestud.com/live-auction/3` (livesauction, 30 lots) werken → als
+> actieve fixtures gezet (de offline-snapshot-vangnet was niet nodig). Alleen
+> `scripts/test-scrapers-live.mjs` gewijzigd (fixtures); scrapers/registry
+> ongemoeid. Run: **11 groen · 0 rood · 0 overgeslagen** (exit 0). Geen
+> schemawijziging.
+> Audit-rapport: `reports/2026-06-26_regressietest-volledige-dekking.md`.
 
 ---
 

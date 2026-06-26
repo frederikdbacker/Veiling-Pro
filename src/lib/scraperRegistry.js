@@ -240,6 +240,36 @@ export const SCRAPERS = [
     match: (u) => /(^|\.)jumpingschrodertwente\.nl$/i.test(u.hostname),
     buildArgs: () => ({ ok: true, args: [] }),
   },
+
+  {
+    // HORSE24-platform (Hannoveraner OnLive / Verden + alle *.horse24.com
+    // tenants: thelker, kemper, dsp, westfalen, …). De Vue-app geeft
+    // :auction/:lots/:lot server-side mee → pure fetch volstaat (lib in
+    // scripts/lib/horse24.mjs).
+    key: 'horse24',
+    label: 'HORSE24 / Hannoveraner OnLive',
+    engine: 'fetch',
+    script: 'scrape-horse24.mjs',
+    importer: 'import-lots.mjs',
+    needsHouseName: true,
+    match: (u) =>
+      /^verdener-auktion-online\.com$/i.test(u.hostname) ||
+      /(^|\.)horse24\.com$/i.test(u.hostname),
+    houseHint: (u) => {
+      const h = u.hostname.toLowerCase()
+      // Verden/Hannoveraner → vaste huisnaam; andere tenants → UI vraagt 'm.
+      if (h === 'verdener-auktion-online.com' || h.startsWith('hannoveraner.')) return 'Hannoveraner Verband'
+      return null
+    },
+    buildArgs: ({ rawUrl, houseName, collectionName }) => {
+      if (!houseName) return { ok: false, missing: 'house', message: 'Huisnaam ontbreekt voor deze HORSE24-collectie.' }
+      // collectionName doorgeven (argv[4]) → "Catalogus ophalen" in een
+      // bestaande collectie vult die i.p.v. een nieuwe te maken (geen duplicaat).
+      const args = [rawUrl, houseName]
+      if (collectionName) args.push(collectionName)
+      return { ok: true, args }
+    },
+  },
 ]
 
 /**

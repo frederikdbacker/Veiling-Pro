@@ -1,7 +1,23 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 26 juni 2026 (Regressietest dekt nu alle 11 scrapers)**
+**Laatste update: 26 juni 2026 (HORSE24-scraper geport — Hannoveraner OnLive)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **26 juni 2026 — HORSE24-scraper geport naar main (Hannoveraner OnLive).**
+> De bewezen-maar-nooit-gemergede HORSE24-logica (commit `ab1b6ba`,
+> `scripts/lib/horse24.mjs`) naar main gebracht. HORSE24-sites
+> (verdener-auktion-online.com, `*.horse24.com`) geven hun data server-side als
+> Vue-props mee → pure fetch leest de hele collectie incl. 3-generatie-afstamming
+> (mét de échte moeder). Live geverifieerd (auction 137, via de sitemap): 29 lots,
+> stamboek Hannoveraner, afstamming/foto's/video compleet. Toegevoegd: lib
+> ongewijzigd geport, standalone `scripts/scrape-horse24.mjs` (import-lots-formaat),
+> registry-entry `horse24` (match verdener + `*.horse24.com`; houseHint
+> 'Hannoveraner Verband' voor de Verden/Hannoveraner-host; `collectionName`-
+> doorgifte → dedupe-op-link intact), en een live canary in de regressietest.
+> Run: **12 groen · 0 rood · 0 overgeslagen** (horse24 nu ✅). Geen schemawijziging.
+> Audit-rapport: `reports/2026-06-26_horse24-port.md`.
 
 ---
 

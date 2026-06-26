@@ -1,7 +1,26 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 26 juni 2026 (Dedupe collectie op de link — geen dubbele meer)**
+**Laatste update: 26 juni 2026 (weauction-routing op capaciteit + regressietest)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **26 juni 2026 — weauction-routing frontend-onafhankelijk + live regressietest.**
+> De registry koos de weauction-scraper op **hostnaam** (The Collection → nieuwe
+> JSON-API-scraper, rest → oude DOM-scraper). Migreerde een tenant naar de nieuwe
+> frontend, dan bleef die naar de DOM-scraper wijzen → stil 0 lots. Geverifieerd:
+> **álle** weauction-tenants (Aloga/WEF/De Wolden/The Collection) leveren de
+> JSON-API. Nu: één `weauction`-registry-entry → **dispatcher
+> `scrape-weauction-dispatch.mjs`** die op **capaciteit** kiest (API-probe → de
+> API-scraper incl. Hippomundo; 404/leeg → DOM-vangnet; transient netwerk/5xx →
+> retry, anders luide fout, nooit stil terugvallen). Beide bestaande scrapers
+> ongewijzigd (dynamische import in hetzelfde proces). `houseHint` +
+> `collectionName`-doorgifte behouden (dedupe-op-link intact). Nieuwe **live
+> regressietest `scripts/test-scrapers-live.mjs`**: ✅/❌-tabel, weauction
+> goedkoop via de API-listing (PageSize hoog), volledige scrape achter `--deep`.
+> Testrun: The Collection 21 · Aloga 24 · WEF 14 · Extra Horses 21 → 4 groen, 0
+> rood. Geen schemawijziging. Worker draait op de nieuwe routing na een herstart.
+> Audit-rapport: `reports/2026-06-26_weauction-routing-op-capaciteit.md`.
 
 ---
 

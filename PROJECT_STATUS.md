@@ -1,7 +1,26 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 26 juni 2026 (HORSE24-scraper geport — Hannoveraner OnLive)**
+**Laatste update: 27 juni 2026 (KWPN-scraper; regressietest dekt nu 13 scrapers)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **27 juni 2026 — KWPN-veilingen (kwpn.auction) via een eigen scraper.**
+> KWPN zit in de Pweb/Media-Primair-familie (verwant aan 334/Woodlands), maar de
+> lot-detail-markup wijkt wezenlijk af → geen drop-in op `scrape-livesauction.mjs`
+> maar een **eigen scraper** (livesauction blijft byte-voor-byte ongemoeid). NL-
+> paden `/live-veiling/<id>` + `/veiling/<slug>`; velden in `<td>LABEL:</td><td>…`;
+> afstamming uit een rowspan-driehoek → `lots.pedigree` met de **échte moeder**
+> (de KWPN-link/titel toont de moedersvader, niet de moeder). Discipline per lot
+> afgeleid (niet hardcoded). Nieuw: `scripts/lib/kwpn.mjs` + `scripts/scrape-kwpn.mjs`
+> + `scripts/test-kwpn-pedigree.mjs` (offline robuustheidstest: partiële stamboom
+> → geen crash/verschuiving). Registry-entry `kwpn` (host `kwpn.auction`,
+> houseHint 'KWPN', collectionName-doorgifte). Live-canary `live-veiling/303` in de
+> regressietest. Geen schemawijziging. Verificatie: **live regressietest 13 groen ·
+> 0 rood** (KWPN 26 lots, 334 30 lots → 334/Woodlands onaangeroerd), `test:registry`
+> groen (+ één pre-existing stale `weauction-api`-verwachting bijgewerkt naar
+> `weauction`), pedigree-test 16/16, `npm run build` groen. PR #28 (`9e5092a`).
+> Audit-rapport: `reports/2026-06-27_kwpn-scraper.md`.
 
 ---
 

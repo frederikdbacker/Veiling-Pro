@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 25 juni 2026 (scrapers + Hippomundo-stamboom + UI-batch; docs als set bijgewerkt)**
+**Aangemaakt: april 2026 — laatste update: 27 juni 2026 (KWPN-scraper; docs als set bijgewerkt, werkwijze ongewijzigd)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---

@@ -52,6 +52,16 @@ export function liveAuctionParts(u) {
 }
 
 /**
+ * KWPN (kwpn.auction): base-origin + collectie-id. KWPN gebruikt het NL-pad
+ * /live-veiling/<id>; de EN-variant /live-auction/<id> wijst naar dezelfde
+ * collectie en wordt ook geaccepteerd (de scraper normaliseert naar NL).
+ */
+export function kwpnAuctionParts(u) {
+  const m = u.pathname.match(/\/live-(?:veiling|auction)\/(\d+)/i)
+  return { base: u.origin, auctionId: m ? m[1] : null }
+}
+
+/**
  * Canonieke sleutel van een collectie-bron-URL, voor dedupe op de link.
  *
  * BELANGRIJK — moet TEKEN-VOOR-TEKEN gelijk zijn aan de gegenereerde
@@ -186,6 +196,31 @@ export const SCRAPERS = [
       if (!auctionId) return { ok: false, missing: 'auction_id', message: 'Kon het collectie-nummer (/live-auction/<id>) niet uit de URL halen.' }
       if (!houseName) return { ok: false, missing: 'house', message: 'Huisnaam ontbreekt voor deze Livesauction-collectie.' }
       return { ok: true, args: [base, auctionId, houseName] }
+    },
+  },
+
+  {
+    // KWPN (kwpn.auction) — Pweb/Media-Primair-familie, verwant aan livesauction
+    // (334/Woodlands) MAAR met afwijkende lot-detail-markup → eigen scraper
+    // scrape-kwpn.mjs (livesauction blijft byte-voor-byte ongemoeid). Match is
+    // een host-ALLOWLIST, conform de bewuste keuze elders in deze file.
+    key: 'kwpn',
+    label: 'KWPN Auction',
+    engine: 'fetch',
+    script: 'scrape-kwpn.mjs',
+    importer: 'import-lots.mjs',
+    needsHouseName: true,
+    match: (u) => /(^|\.)kwpn\.auction$/i.test(u.hostname),
+    houseHint: () => 'KWPN',
+    buildArgs: ({ url, houseName, collectionName }) => {
+      const { base, auctionId } = kwpnAuctionParts(url)
+      if (!auctionId) return { ok: false, missing: 'auction_id', message: 'Kon het collectie-nummer (/live-veiling/<id>) niet uit de URL halen.' }
+      if (!houseName) return { ok: false, missing: 'house', message: 'Huisnaam ontbreekt voor deze KWPN-collectie.' }
+      // collectionName doorgeven (argv[5]) → "Catalogus ophalen" in een
+      // bestaande collectie vult die i.p.v. een nieuwe te maken (dedupe-op-link).
+      const args = [base, auctionId, houseName]
+      if (collectionName) args.push(collectionName)
+      return { ok: true, args }
     },
   },
 

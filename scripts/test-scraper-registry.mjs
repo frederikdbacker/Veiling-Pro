@@ -20,7 +20,13 @@ const positive = [
   ['https://woodlandsinternational.weauction.nl/auctions/123', 'weauction'],
   ['https://swbauction.swb.org/auctions/5', 'weauction'],
   ['https://bid.dewoldensummersale.com/auctions/9', 'weauction'],
-  ['https://bid.thecollection-auction.com/auctions/34cbecb6-1d90-43aa-ad17-08de9f859131', 'weauction-api'],
+  // The Collection routeert sinds de weauction-unificatie (26-06) naar de ene
+  // 'weauction'-entry (de API/DOM-keuze valt op capaciteit in de dispatcher,
+  // niet meer op een aparte registry-key). Verwachting bijgewerkt van het oude
+  // 'weauction-api' naar 'weauction'.
+  ['https://bid.thecollection-auction.com/auctions/34cbecb6-1d90-43aa-ad17-08de9f859131', 'weauction'],
+  ['https://kwpn.auction/live-veiling/303', 'kwpn'],
+  ['https://kwpn.auction/en/live-auction/303', 'kwpn'],
   ['https://bid.aloga-auction.com/auctions/x', 'weauction'],
   ['https://www.fences.fr/cheval/vente/selection/', 'fences-catalogus'],
   ['https://horseauctionbelgium.com/collectie/41', 'pwb'],
@@ -50,6 +56,13 @@ check('olympic-dream geen args', analyzeUrl('https://www.jumpingschrodertwente.n
 const live = analyzeUrl('https://woodlandsinternational.eu/live-auction/8', { houseName: 'Woodlands International Sales' })
 check('livesauction base+id+house', JSON.stringify(live.args) === JSON.stringify(['https://woodlandsinternational.eu', '8', 'Woodlands International Sales']))
 
+const kwpn = analyzeUrl('https://kwpn.auction/live-veiling/303')
+check('kwpn base+id+house (houseHint KWPN)', JSON.stringify(kwpn.args) === JSON.stringify(['https://kwpn.auction', '303', 'KWPN']) && kwpn.houseName === 'KWPN')
+const kwpnEn = analyzeUrl('https://kwpn.auction/en/live-auction/303')
+check('kwpn EN-pad → zelfde id', kwpnEn.argsOk && kwpnEn.args[1] === '303')
+const kwpnColl = analyzeUrl('https://kwpn.auction/live-veiling/303', { collectionName: 'KWPN Select Sale Dressage' })
+check('kwpn geeft collectienaam door (geen duplicaat)', JSON.stringify(kwpnColl.args) === JSON.stringify(['https://kwpn.auction', '303', 'KWPN', 'KWPN Select Sale Dressage']))
+
 const wea = analyzeUrl('https://bid.aloga-auction.com/auctions/x', { houseName: 'Aloga' })
 check('weauction url+house', JSON.stringify(wea.args) === JSON.stringify(['https://bid.aloga-auction.com/auctions/x', 'Aloga']))
 
@@ -66,6 +79,7 @@ console.log('\nHuisnaam-hints:')
 check('fences hint', analyzeUrl('https://www.fences.fr/cheval/vente/selection/').houseHint === 'Agence Fences')
 check('334 hint', analyzeUrl('https://334sporthorsestud.com/live-auction/3').houseHint === '334 Auction')
 check('extrahorses hint', analyzeUrl('https://venteexclusive.extrahorses.com/fr/').houseHint === 'Extra Horses')
+check('kwpn hint', analyzeUrl('https://kwpn.auction/live-veiling/303').houseHint === 'KWPN')
 
 console.log('\nNegatieve gevallen:')
 check('Hippomundo → no_scraper', matchScraper('https://www.hippomundo.com/en/horse/123').reason === 'no_scraper')

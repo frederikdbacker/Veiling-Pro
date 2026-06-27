@@ -77,6 +77,14 @@ const FIXTURES = [
   // of de eerstvolgende OnLive-veiling).
   { key: 'horse24', label: 'HORSE24 · Verdener Fohlen 137', mode: 'scrape',
     url: 'https://verdener-auktion-online.com/de/auctions/details/39-verdener-auktion-online-fohlen-137' },
+
+  // kwpn: /live-veiling/<id> = collectie, daarna per lot /veiling/<slug>
+  // (≈26 fetches → wat trager). Wordt deze ROOD, check EERST of de pagina nog
+  // bestaat (open de URL of curl 'm) vóór je concludeert dat de scraper stuk is —
+  // een afgelopen veiling kan offline gaan. Vervang dan door een actuele
+  // kwpn.auction/live-veiling/<id> (zie /collecties op de site).
+  { key: 'kwpn', label: 'KWPN Select Sale Dressage', mode: 'scrape',
+    url: 'https://kwpn.auction/live-veiling/303' },
 ]
 
 // ── helpers ──────────────────────────────────────────────────────────────────

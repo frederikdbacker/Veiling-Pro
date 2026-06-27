@@ -1,6 +1,16 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 25 juni 2026 (scrapers + Hippomundo-stamboom + UI-batch; migratie 0036 `archived`)**
+**Laatste update: 27 juni 2026 (KWPN-scraper; docs als set bijgewerkt)**
+
+> **Nieuw 27 juni 2026.** KWPN-scraper: `scripts/lib/kwpn.mjs` + `scripts/scrape-kwpn.mjs`
+> voor kwpn.auction (NL-paden `/live-veiling` + `/veiling`). KWPN zit in de
+> Pweb/Media-Primair-familie maar wijkt te veel af voor een drop-in op
+> `scrape-livesauction.mjs` → eigen scraper; livesauction (334/Woodlands)
+> ongewijzigd. De afstamming wordt uit de rowspan-pedigree-driehoek geparsed naar
+> `lots.pedigree` (de échte moeder, niet de slug-moedersvader). Registry-key `kwpn`.
+> Live-canary + offline pedigree-robuustheidstest (`scripts/test-kwpn-pedigree.mjs`,
+> los draaibaar met `node`). Geen schemawijziging. Zie
+> `reports/2026-06-27_kwpn-scraper.md`.
 
 > **Nieuw 25 juni 2026.** Scrapers: `scripts/scrape-extrahorses.mjs` (Extra Horses)
 > en `scripts/scrape-weauction-api.mjs` (nieuwe weauction/Tailwind-frontend, o.a.

@@ -30,7 +30,7 @@ import {
 // Lot-kolommen die de lijst (gewone + dag-gegroepeerde weergave) nodig heeft.
 // Op één plek zodat de eerste load en alle reloads identiek zijn.
 const LOT_LIST_COLUMNS =
-  'id, number, auction_order, is_charity, collection_day_id, name, discipline, year, gender, studbook, sire, dam, pedigree, photos, missing_info, rating, stallion_approved, withdrawn, sold, sale_price, sale_channel'
+  'id, number, auction_order, is_charity, collection_day_id, name, discipline, year, gender, studbook, sire, dam, pedigree, photos, missing_info, rating, stallion_approved, withdrawn, sold, sale_price, sale_channel, start_price'
 
 export default function CollectionPage() {
   const { collectionId } = useParams()
@@ -186,6 +186,27 @@ export default function CollectionPage() {
     // bij alfabetisch of rating: alle breaks zijn los
     return breaks
   }, [breaks, lots, sortMode, days])
+
+  // Pre-flight: lots zonder startprijs. Een leeg startbedrag betekent dat de
+  // bod-tracker in de cockpit geen vertrekpunt heeft — enkel signaleren, niet
+  // blokkeren (productkeuze Frederik 30-06). Teruggetrokken lots tellen niet mee:
+  // die gaan de cockpit niet in, dus een waarschuwing daar zou ruis zijn.
+  const lotsWithoutStartPrice = useMemo(
+    () => lots.filter((l) => !l.withdrawn && l.start_price == null),
+    [lots]
+  )
+
+  function jumpToFirstWithoutStartPrice() {
+    const first = lotsWithoutStartPrice[0]
+    if (!first) return
+    const el = document.getElementById(`lot-anchor-${first.id}`)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      el.style.transition = 'background-color 0.3s'
+      el.style.backgroundColor = 'var(--bg-elevated)'
+      setTimeout(() => { el.style.backgroundColor = '' }, 1500)
+    }
+  }
 
   function handleRatingChanged(lotId, newRating) {
     setLots((prev) => prev.map((l) => l.id === lotId ? { ...l, rating: newRating } : l))
@@ -608,6 +629,23 @@ export default function CollectionPage() {
             Annuleren
           </button>
         </div>
+      )}
+
+      {/* Pre-flight: signaleer loten zonder startprijs vóór de cockpit. Klikbaar
+          → springt naar het eerste zo'n lot. Enkel informatief (niet blokkerend). */}
+      {lots.length > 0 && lotsWithoutStartPrice.length > 0 && (
+        <button
+          type="button"
+          onClick={jumpToFirstWithoutStartPrice}
+          style={preflightBannerStyle}
+          title="Klik om naar het eerste lot zonder startprijs te springen"
+        >
+          ⚠ {lotsWithoutStartPrice.length}{' '}
+          {lotsWithoutStartPrice.length === 1 ? 'lot' : 'loten'} zonder startprijs
+          <span style={{ color: 'var(--text-secondary)', fontWeight: 400, marginLeft: 8, fontSize: '0.85em' }}>
+            — klik om te bekijken
+          </span>
+        </button>
       )}
 
       {/* Meerdaagse collectie (≥2 veilingdagen): lots gegroepeerd per dag
@@ -1106,7 +1144,7 @@ function GroupedLotRow({ lot, dayOptions, currentDayId, onAssignOne, onRatingCha
   const order = lot.auction_order ?? lot.number
   const sd = sireDamsire(lot)
   return (
-    <li ref={setNodeRef} style={{ ...groupedRowStyle, ...style }}>
+    <li id={`lot-anchor-${lot.id}`} ref={setNodeRef} style={{ ...groupedRowStyle, ...style }}>
       <button
         {...attributes}
         {...listeners}
@@ -1127,6 +1165,11 @@ function GroupedLotRow({ lot, dayOptions, currentDayId, onAssignOne, onRatingCha
           {sd && (
             <span style={{ fontWeight: 400, fontSize: '0.82em', color: 'var(--text-muted)', marginLeft: 8 }}>
               {sd}
+            </span>
+          )}
+          {!lot.withdrawn && lot.start_price == null && (
+            <span title="Dit lot heeft nog geen startprijs — de cockpit heeft dan geen vertrekpunt" style={noStartPriceBadgeStyle}>
+              ⚠ geen startprijs
             </span>
           )}
         </div>
@@ -1327,7 +1370,7 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
   const order = lot.auction_order ?? lot.number
   const showCatExtra = lot.auction_order != null && lot.number != null && lot.auction_order !== lot.number
   return (
-    <li style={{
+    <li id={`lot-anchor-${lot.id}`} style={{
       borderBottom: '1px solid var(--border-default)',
       display: 'flex', alignItems: 'center', gap: '0.5rem', paddingRight: '0.5rem',
     }}>
@@ -1385,6 +1428,11 @@ function LotRow({ lot, onRatingChanged, hideRating, dragHandleProps }) {
                 }}
               >
                 ⚠ {lot.missing_info.length}
+              </span>
+            )}
+            {!lot.withdrawn && lot.start_price == null && (
+              <span title="Dit lot heeft nog geen startprijs — de cockpit heeft dan geen vertrekpunt" style={noStartPriceBadgeStyle}>
+                ⚠ geen startprijs
               </span>
             )}
           </div>
@@ -1605,6 +1653,24 @@ function Thumb({ src, alt, small }) {
 const actionRowStyle = {
   display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8,
   marginBottom: 'var(--space-4)',
+}
+const preflightBannerStyle = {
+  display: 'block', width: '100%', textAlign: 'left',
+  margin: 'var(--space-3) 0',
+  padding: '0.6rem 0.85rem',
+  background: 'rgba(239, 68, 68, 0.12)',
+  border: '1px solid var(--warning)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--warning)', fontWeight: 700, fontSize: '0.95em',
+  cursor: 'pointer', fontFamily: 'inherit',
+}
+const noStartPriceBadgeStyle = {
+  marginLeft: '0.5em',
+  background: 'rgba(239, 68, 68, 0.15)',
+  color: 'var(--warning)',
+  fontWeight: 600, fontSize: '0.72em',
+  padding: '1px 6px', borderRadius: 'var(--radius-sm)',
+  whiteSpace: 'nowrap',
 }
 const primaryBtnStyle = {
   display: 'inline-block', padding: '0.4rem 0.85rem',

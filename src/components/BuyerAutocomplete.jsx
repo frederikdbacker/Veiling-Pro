@@ -101,7 +101,7 @@ export default function BuyerAutocomplete({
                 style={s.priority ? prioritySuggestionBtnStyle : suggestionBtnStyle}
               >
                 {s.priority && (
-                  <span style={{ color: '#5A8A5A', marginRight: 6 }}>★</span>
+                  <span style={{ color: 'var(--accent)', marginRight: 6 }}>★</span>
                 )}
                 {s.name}
               </button>
@@ -115,26 +115,27 @@ export default function BuyerAutocomplete({
 
 const inputStyle = {
   padding: '0.4rem 0.5rem', fontSize: '1em',
-  border: '1px solid #ccc', borderRadius: 4,
+  background: 'var(--bg-input)', color: 'var(--text-primary)',
+  border: '1px solid var(--border-default)', borderRadius: 4,
   width: '100%', boxSizing: 'border-box',
   fontFamily: 'inherit',
 }
 const suggestionsStyle = {
   position: 'absolute', top: '100%', left: 0, right: 0,
   margin: '2px 0 0 0', padding: 0,
-  background: '#fff', border: '1px solid #ccc',
+  background: 'var(--bg-elevated)', border: '1px solid var(--border-default)',
   borderRadius: 4, listStyle: 'none',
   maxHeight: 200, overflowY: 'auto', zIndex: 10,
-  boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+  boxShadow: 'var(--shadow-md)',
 }
 const suggestionBtnStyle = {
   width: '100%', textAlign: 'left',
   padding: '0.4rem 0.65rem',
-  background: 'transparent', border: 'none',
+  background: 'transparent', color: 'var(--text-primary)', border: 'none',
   cursor: 'pointer', fontSize: '0.95em',
   fontFamily: 'inherit',
 }
 const prioritySuggestionBtnStyle = {
   ...suggestionBtnStyle,
-  background: '#f4f1ea',
+  background: 'var(--bg-input)',
 }

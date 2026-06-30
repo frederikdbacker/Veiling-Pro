@@ -112,3 +112,63 @@ export async function swapOrder(collectionId, spotterA, spotterB) {
   await updateAssignment(collectionId, spotterA.id, { display_order: orderB })
   await updateAssignment(collectionId, spotterB.id, { display_order: orderA })
 }
+
+/**
+ * Globale spotterspool met per spotter de veilinghuizen waar hij ooit aan een
+ * collectie hing (afgeleid uit historie — geen aparte tabel). Voor de
+ * spotterspool-pagina (B1) en haar huisfilter.
+ *
+ * Retour: [{ id, name, photo_url, notes, houses: [{ id, name }] }]
+ * Spotters zonder historie horen bij géén huis (houses: []).
+ */
+export async function listSpottersWithHouses() {
+  const [spottersRes, junctionRes] = await Promise.all([
+    supabase.from('spotters').select('id, name, photo_url, notes').order('name'),
+    supabase
+      .from('collection_spotters')
+      .select('spotter_id, collections ( house_id, auction_houses ( id, name ) )'),
+  ])
+  if (spottersRes.error) { console.error('listSpottersWithHouses spotters:', spottersRes.error); return [] }
+  if (junctionRes.error) { console.error('listSpottersWithHouses junction:', junctionRes.error) }
+
+  // Per spotter de unieke set huizen verzamelen
+  const housesBySpotter = new Map()
+  for (const row of junctionRes.data ?? []) {
+    const house = row.collections?.auction_houses
+    if (!house?.id) continue
+    if (!housesBySpotter.has(row.spotter_id)) housesBySpotter.set(row.spotter_id, new Map())
+    housesBySpotter.get(row.spotter_id).set(house.id, house.name)
+  }
+
+  return (spottersRes.data ?? []).map((s) => ({
+    ...s,
+    houses: housesBySpotter.has(s.id)
+      ? [...housesBySpotter.get(s.id)].map(([id, name]) => ({ id, name }))
+      : [],
+  }))
+}
+
+/**
+ * Wijs meerdere spotters in één keer toe aan een collectie (B1).
+ * Al-toegewezen spotters worden overgeslagen (geen dubbele rij / PK-conflict).
+ * Nieuwe toewijzingen krijgen oplopende display_order ná de bestaande.
+ * Retour: aantal effectief toegevoegde spotters.
+ */
+export async function assignSpottersToCollection(collectionId, spotterIds) {
+  if (!collectionId || !spotterIds?.length) return 0
+  const { data: existing, error } = await supabase
+    .from('collection_spotters')
+    .select('spotter_id, display_order')
+    .eq('collection_id', collectionId)
+  if (error) throw error
+
+  const already = new Set((existing ?? []).map((r) => r.spotter_id))
+  let order = (existing ?? []).reduce((m, r) => Math.max(m, r.display_order ?? 0), -1) + 1
+
+  const toAdd = spotterIds.filter((id) => !already.has(id))
+  for (const spotterId of toAdd) {
+    await assignSpotter(collectionId, spotterId, { display_order: order })
+    order += 1
+  }
+  return toAdd.length
+}

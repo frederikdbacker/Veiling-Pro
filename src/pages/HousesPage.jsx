@@ -86,7 +86,10 @@ export default function HousesPage() {
         >
           🗂 {managing ? 'Klaar met beheren' : 'Beheren'}
         </button>
-        <Link to="/clients" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600, marginLeft: 'auto' }}>
+        <Link to="/spotters" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600, marginLeft: 'auto' }}>
+          🧍 Spotterspool →
+        </Link>
+        <Link to="/clients" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>
           👥 Alle klanten →
         </Link>
       </div>

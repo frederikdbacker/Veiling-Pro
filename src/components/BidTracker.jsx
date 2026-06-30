@@ -172,6 +172,22 @@ export default function BidTracker({
     setSpotterId(target === ONLINE_SENTINEL ? ONLINE_SENTINEL : target.id)
   }
 
+  // Spotter selecteren via de beginletter van de naam (B3), met cycle-bij-
+  // botsing: deelt meer dan één spotter dezelfde beginletter, dan springt
+  // herhaald drukken naar de volgende (ronddraaiend). `spotters` is al op
+  // display_order gesorteerd. Geeft true terug als er een spotter geselecteerd
+  // is (≥1 match) — de aanroeper sluit dan kort zodat het letter-commando van
+  // die toets (zoals 'o'=online) niet alsnog meevuurt.
+  function selectByLetter(letter) {
+    const l = letter.toLowerCase()
+    const matches = spotters.filter((s) => (s.name ?? '').trim().toLowerCase().startsWith(l))
+    if (matches.length === 0) return false
+    const curIdx = matches.findIndex((s) => s.id === spotterId)
+    const next = curIdx === -1 ? matches[0] : matches[(curIdx + 1) % matches.length]
+    setSpotterId(next.id)
+    return true
+  }
+
   // Centrale keydown-listener (één voor alle tracker-sneltoetsen).
   // Focus-guard EERST — zodra een tekstveld actief is, gebeurt er niets.
   useEffect(() => {
@@ -181,6 +197,16 @@ export default function BidTracker({
       if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT') return
       if (t.isContentEditable) return
       if (e.metaKey || e.ctrlKey || e.altKey) return
+
+      // B3 — losse letter a–z → spotter met die beginletter (cycle).
+      // Voorrangsregel: begint ≥1 spotter met die letter, dan wint de
+      // spotter-selectie en sluit de toets onmiddellijk kort (return), zodat
+      // het bestaande letter-commando (m.n. 'o'=online) NIET ook nog afvuurt.
+      // Begint geen enkele spotter met die letter, dan valt de toets door
+      // naar het bestaande commando in de switch hieronder.
+      if (e.key.length === 1 && /[a-z]/i.test(e.key)) {
+        if (selectByLetter(e.key)) { e.preventDefault(); return }
+      }
 
       switch (e.key) {
         case 'ArrowUp':    e.preventDefault(); up(); break
@@ -214,7 +240,7 @@ export default function BidTracker({
     <div>
       <div style={subtitleStyle}>
         Bod-tracker
-        <span style={hintStyle}>↑ +bod · ↓ −bod · ␣ +bod · ← → spotter{onlineBiddingEnabled ? ' · O online' : ''}</span>
+        <span style={hintStyle}>↑ +bod · ↓ −bod · ␣ +bod · ← → spotter · letter = spotter (nogmaals = volgende){onlineBiddingEnabled ? ' · O online' : ''}</span>
       </div>
 
       <div style={trackerRowStyle}>

@@ -2,6 +2,7 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import HousesPage from './pages/HousesPage'
 import HousePage from './pages/HousePage'
 import ClientsPage from './pages/ClientsPage'
+import SpottersPage from './pages/SpottersPage'
 import CollectionPage from './pages/CollectionPage'
 import CollectionClientsPage from './pages/CollectionClientsPage'
 import LotPage from './pages/LotPage'
@@ -25,6 +26,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HousesPage />} />
         <Route path="/clients" element={<ClientsPage />} />
+        <Route path="/spotters" element={<SpottersPage />} />
         <Route path="/houses/:houseId" element={<HousePage />} />
         <Route path="/collections/:collectionId" element={<CollectionPage />} />
         <Route path="/collections/:collectionId/clients" element={<CollectionClientsPage />} />

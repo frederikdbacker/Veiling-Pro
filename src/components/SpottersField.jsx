@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import PhotoUpload from './PhotoUpload'
 import {
   getSpotters,
@@ -9,6 +9,11 @@ import {
   unassignSpotter,
   updateAssignment,
   swapOrder,
+  assignSpotterToDay,
+  removeSpotterFromDay,
+  copySpotterToAllDays,
+  updateAssignmentById,
+  swapOrderById,
 } from '../lib/spotters'
 
 /**
@@ -26,7 +31,16 @@ import {
  */
 const SLOT_OPTIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
 
-export default function SpottersField({ collectionId }) {
+export default function SpottersField({ collectionId, days = [] }) {
+  // Meerdaagse veiling (≥2 dagen): per-dag-beheer is het hoofdmodel.
+  // Eendaagse / legacy collectie: de bestaande platte lijst (ongewijzigd).
+  if (days.length >= 2) {
+    return <PerDaySpotters collectionId={collectionId} days={days} />
+  }
+  return <SingleScopeSpotters collectionId={collectionId} />
+}
+
+function SingleScopeSpotters({ collectionId }) {
   const [spotters, setSpotters] = useState([])
   const [slotCount, setSlotCount] = useState(0)
   const [error, setError] = useState(null)
@@ -178,6 +192,182 @@ export default function SpottersField({ collectionId }) {
         Spotters worden globaal bewaard en blijven beschikbaar voor andere veilingen.
       </p>
     </details>
+  )
+}
+
+/* ===== Per-dag-beheer (meerdaagse veiling, B2) ===== */
+
+function PerDaySpotters({ collectionId, days }) {
+  const [rows, setRows] = useState([])     // alle toewijzingsrijen (getSpotters)
+  const [error, setError] = useState(null)
+  const [busy, setBusy] = useState(false)
+
+  const allDayIds = useMemo(() => days.map((d) => d.id), [days])
+
+  useEffect(() => { getSpotters(collectionId).then(setRows) }, [collectionId])
+  async function reload() { setRows(await getSpotters(collectionId)) }
+
+  // Effectieve spotters voor één dag: dag-rijen + "alle dagen"-rijen,
+  // gededupliceerd per spotter (dag-specifiek wint).
+  function effectiveForDay(dayId) {
+    const bySpotter = new Map()
+    for (const r of rows) {
+      if (r.collection_day_id !== null && r.collection_day_id !== dayId) continue
+      const ex = bySpotter.get(r.id)
+      if (!ex || (ex.collection_day_id === null && r.collection_day_id === dayId)) {
+        bySpotter.set(r.id, r)
+      }
+    }
+    return [...bySpotter.values()].sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))
+  }
+
+  async function withBusy(fn) {
+    setBusy(true); setError(null)
+    try { await fn(); await reload() } catch (e) { setError(e.message) }
+    setBusy(false)
+  }
+
+  async function handleAddExisting(dayId, spotter) {
+    if (effectiveForDay(dayId).some((s) => s.id === spotter.id)) return
+    await withBusy(() => assignSpotterToDay(collectionId, spotter.id, dayId))
+  }
+  async function handleAddNew(dayId, name) {
+    if (!name?.trim()) return
+    await withBusy(async () => {
+      const created = await createSpotter({ name })
+      await assignSpotterToDay(collectionId, created.id, dayId)
+    })
+  }
+  async function handleRemoveFromDay(dayId, spotterId) {
+    await withBusy(() => removeSpotterFromDay(collectionId, spotterId, dayId, allDayIds))
+  }
+  async function handleCopyAllDays(spotterId) {
+    await withBusy(() => copySpotterToAllDays(collectionId, spotterId, allDayIds))
+  }
+  async function handleLocation(assignmentId, location) {
+    setError(null)
+    try {
+      await updateAssignmentById(assignmentId, { location })
+      setRows((prev) => prev.map((r) => r.assignment_id === assignmentId ? { ...r, location } : r))
+    } catch (e) { setError(e.message) }
+  }
+  async function handleSpotterField(spotterId, field, value) {
+    setError(null)
+    try {
+      await updateSpotter(spotterId, { [field]: value })
+      setRows((prev) => prev.map((r) => r.id === spotterId ? { ...r, [field]: value } : r))
+    } catch (e) { setError(e.message) }
+  }
+  async function handleMove(list, idx, dir) {
+    const a = list[idx], b = list[idx + dir]
+    if (!a || !b) return
+    // Volgorde enkel wisselen tussen dag-specifieke rijen ("alle dagen"-rijen
+    // gelden voor elke dag en hebben geen per-dag-positie).
+    if (a.collection_day_id === null || b.collection_day_id === null) return
+    await withBusy(() => swapOrderById(a, b))
+  }
+
+  const totalAssigned = new Set(rows.map((r) => r.id)).size
+
+  return (
+    <details open style={containerStyle}>
+      <summary style={summaryStyle}>
+        Spotters per veilingdag — {totalAssigned} spotter{totalAssigned === 1 ? '' : 's'} in deze veiling
+      </summary>
+
+      {error && <p style={{ color: 'var(--danger)', fontSize: '0.85em', marginTop: 8 }}>❌ {error}</p>}
+
+      <p style={hintStyle}>
+        Elke dag heeft zijn eigen lijst. "⧉ alle dagen" zet een spotter op elke dag;
+        ✕ haalt hem enkel van díe dag weg.
+      </p>
+
+      {days.map((day) => {
+        const list = effectiveForDay(day.id)
+        return (
+          <div key={day.id} style={dayBlockStyle}>
+            <div style={dayBlockHeaderStyle}>
+              <strong style={{ color: 'var(--text-primary)' }}>
+                Dag {day.day_index}{day.label ? ` — ${day.label}` : ''}
+              </strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85em' }}>
+                {day.date ? new Date(day.date).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' }) : 'geen datum'}
+                {' · '}{list.length} spotter{list.length === 1 ? '' : 's'}
+              </span>
+            </div>
+
+            {list.map((s, idx) => (
+              <DaySpotterRow
+                key={s.assignment_id}
+                spotter={s}
+                isAllDays={s.collection_day_id === null}
+                isFirst={idx === 0}
+                isLast={idx === list.length - 1}
+                disabled={busy}
+                onLocationChange={(v) => handleLocation(s.assignment_id, v)}
+                onSpotterFieldChange={(f, v) => handleSpotterField(s.id, f, v)}
+                onRemove={() => handleRemoveFromDay(day.id, s.id)}
+                onCopyAllDays={() => handleCopyAllDays(s.id)}
+                onMoveUp={() => handleMove(list, idx, -1)}
+                onMoveDown={() => handleMove(list, idx, 1)}
+              />
+            ))}
+
+            <EmptyRow
+              onSelectExisting={(sp) => handleAddExisting(day.id, sp)}
+              onCreateNew={(name) => handleAddNew(day.id, name)}
+              disabled={busy}
+            />
+          </div>
+        )
+      })}
+    </details>
+  )
+}
+
+function DaySpotterRow({
+  spotter, isAllDays, isFirst, isLast, disabled,
+  onLocationChange, onSpotterFieldChange, onRemove, onCopyAllDays, onMoveUp, onMoveDown,
+}) {
+  const [name, setName] = useState(spotter.name)
+  const [location, setLocation] = useState(spotter.location ?? '')
+  useEffect(() => { setName(spotter.name) }, [spotter.name])
+  useEffect(() => { setLocation(spotter.location ?? '') }, [spotter.location])
+
+  return (
+    <div style={rowStyle}>
+      <PhotoUpload
+        ownerId={spotter.id}
+        pathPrefix="spotters"
+        currentUrl={spotter.photo_url}
+        onUploaded={(url) => onSpotterFieldChange('photo_url', url)}
+        onCleared={() => onSpotterFieldChange('photo_url', null)}
+        size={40}
+      />
+      <input
+        type="text" value={name}
+        onChange={(e) => setName(e.target.value)}
+        onBlur={() => name !== spotter.name && onSpotterFieldChange('name', name)}
+        placeholder="naam"
+        style={{ ...inputStyle, flex: '1 1 8em' }}
+      />
+      <input
+        type="text" value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        onBlur={() => location !== (spotter.location ?? '') && onLocationChange(location)}
+        placeholder="locatie (bv. links vlakbij)"
+        style={{ ...inputStyle, flex: '2 1 12em' }}
+        disabled={isAllDays}
+        title={isAllDays ? 'Deze spotter staat op alle dagen — locatie bewerk je via "alle dagen"' : undefined}
+      />
+      {isAllDays && <span style={allDaysBadgeStyle}>alle dagen</span>}
+      <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
+        <button type="button" onClick={onMoveUp} disabled={disabled || isAllDays || isFirst} style={iconBtnStyle} title="Naar links">↑</button>
+        <button type="button" onClick={onMoveDown} disabled={disabled || isAllDays || isLast} style={iconBtnStyle} title="Naar rechts">↓</button>
+        <button type="button" onClick={onCopyAllDays} disabled={disabled} style={iconBtnStyle} title="Op alle dagen zetten">⧉</button>
+        <button type="button" onClick={onRemove} disabled={disabled} style={iconBtnStyle} title="Van deze dag verwijderen">✕</button>
+      </div>
+    </div>
   )
 }
 
@@ -381,4 +571,22 @@ const suggestionBtnStyle = {
 const hintStyle = {
   color: 'var(--text-muted)', fontSize: '0.8em',
   fontStyle: 'italic', margin: 'var(--space-3) 0 0 0',
+}
+const dayBlockStyle = {
+  marginTop: 'var(--space-3)',
+  padding: 'var(--space-2) var(--space-3)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-default)',
+  borderRadius: 'var(--radius-sm)',
+}
+const dayBlockHeaderStyle = {
+  display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)',
+  flexWrap: 'wrap', marginBottom: 'var(--space-1)',
+}
+const allDaysBadgeStyle = {
+  background: 'var(--bg-input)', color: 'var(--text-secondary)',
+  fontSize: '0.7em', padding: '1px 6px',
+  borderRadius: 'var(--radius-full)',
+  border: '1px solid var(--border-default)',
+  flexShrink: 0,
 }

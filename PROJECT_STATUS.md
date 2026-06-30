@@ -1,9 +1,48 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 27 juni 2026 (KWPN-scraper; regressietest dekt nu 13 scrapers)**
+**Laatste update: 30 juni 2026 (spotters-uitbouw B1+B2+B3 + cockpit-quickwins A1+A2; migratie 0038)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
 
 ---
+
+> **30 juni 2026 — Spotters-uitbouw (B1+B2+B3) + cockpit-quickwins (A1+A2).**
+> Twee opdrachten uit `ROADMAP_2026-06-30_spotters-cockpit-streamdeck.md`, beide
+> gemerged naar `main` (PR #30 = A1/A2, PR #31 = B1/B2/B3) en live op productie.
+> - **A1** koper-invoer in de cockpit naar donkere design-tokens
+>   (`BuyerAutocomplete.jsx`; weg met `#fff/#ccc/#f4f1ea/#5A8A5A`).
+> - **A2** collectielijst markeert loten zonder startprijs — per-lot badge +
+>   klikbare pre-flight-telling die naar het eerste zo'n lot springt; enkel
+>   signaleren, niet blokkeren (`CollectionPage.jsx`, `start_price` in
+>   `LOT_LIST_COLUMNS`).
+> - **B1** nieuwe spotterspool-pagina `/spotters` (fotokaarten, zoek, huisfilter
+>   **afgeleid uit historie** `collection_spotters → collections.house_id`,
+>   aanvinken → aan veiling toevoegen met dedupe; hergebruikt `PhotoUpload`).
+> - **B2** spotters per veilingdag bij meerdaagse veilingen. **Migratie 0038**
+>   (toegepast + getest): `collection_spotters` krijgt `collection_day_id`
+>   (null = alle dagen) + surrogaat-PK, zodat één spotter meerdere dag-rijen kan
+>   hebben; uniek slot via **COALESCE-vervangwaarde** (hoogstens één "alle
+>   dagen"-rij). Per-dag-beheer (toevoegen/✕ per dag/⧉ alle dagen/volgorde);
+>   "van één dag verwijderen" waaiert een "alle dagen"-rij uit. Cockpit laadt de
+>   spotters van de actieve dag; eendaags ongewijzigd; bestaande 17 rijen blijven
+>   "alle dagen". Back-up `collection_spotters_backup_0038` (17 rijen) staat nog
+>   als vangnet.
+> - **B3** spotter kiezen via de beginletter in de bod-tracker, met
+>   cycle-bij-botsing; voorrang op het bestaande `o`=online-commando
+>   (`BidTracker.jsx`, bestaande keydown-listener uitgebreid).
+> Verificatie: `npm run build` groen op elke commit + op de gemergede `main`;
+> migratie 0038 getest (uniek slot bijt, rijen 17/17 "alle dagen"); merge schoon
+> getest vóór uitvoering (gedeeld `CollectionPage.jsx`, geen conflict).
+> Audit-rapport: `reports/2026-06-30_spotters-cockpit-quickwins.md`.
+
+---
+
+> **27 juni 2026 — Reserveprijzen Deauville Sélection 2026 in bulk ingevoerd.**
+> Uit de officiële PDF-lijst (76 lots, ma 29 + di 30 juni) de reserve-/minimum-
+> prijzen geparsed en gematcht tegen collectie "La Vente de Deauville Sélection
+> 2026" op lotnummer + naam (76/76, nul mismatches). Additief weggeschreven
+> (`reserve_price is null`), niets overschreven. Controle: 76/76 met reserve,
+> som € 1.075.000, bereik € 9.000–28.000. Geen code/schema; rechtstreeks in
+> Co-work. Zie `reports/2026-06-27_deauville-reserveprijzen-bulk-import.md`.
 
 > **27 juni 2026 — KWPN-veilingen (kwpn.auction) via een eigen scraper.**
 > KWPN zit in de Pweb/Media-Primair-familie (verwant aan 334/Woodlands), maar de

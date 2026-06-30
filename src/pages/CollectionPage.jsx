@@ -682,7 +682,7 @@ export default function CollectionPage() {
             collectionId={collection.id}
             selectedTypeIds={selectedTypeIds}
           />
-          <SpottersField collectionId={collection.id} />
+          <SpottersField collectionId={collection.id} days={days} />
 
           <div style={{ marginTop: 'var(--space-5)', paddingTop: 'var(--space-4)', borderTop: '1px solid var(--border-default)' }}>
             <h2 style={{ fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-secondary)', fontWeight: 600, margin: '0 0 var(--space-3) 0' }}>

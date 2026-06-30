@@ -22,7 +22,7 @@ import {
   getPurchasesByClientsInAuction,
   createClient,
 } from '../lib/clients'
-import { getSpotters } from '../lib/spotters'
+import { getSpottersForDay } from '../lib/spotters'
 
 /**
  * Live Cockpit — wat Frederik gebruikt tijdens de veiling.
@@ -54,14 +54,6 @@ export default function CockpitPage() {
   // (👁 / 🙈 knop rechts), effect in LiveInfoBar (Min-Pill) én in
   // ActiveLotPanel (Start + Reserve in het prijsblok van kolom 3).
   const [hidePrice, setHidePrice] = useState(false)
-
-  // Spotters laden bij wijzigen van collectionId — tonen in een kleine
-  // strip tussen statusbalk en lot-picker (links → rechts in de zaal).
-  useEffect(() => {
-    let cancelled = false
-    getSpotters(collectionId).then((list) => { if (!cancelled) setSpotters(list) })
-    return () => { cancelled = true }
-  }, [collectionId])
 
   // 1. Veiling + veilingdagen + alle lots
   useEffect(() => {
@@ -127,6 +119,16 @@ export default function CockpitPage() {
     if (!activeDay) return []
     return allLots.filter((l) => l.collection_day_id === activeDay.id)
   }, [allLots, activeDay, legacyMode])
+
+  // Spotters van de ACTIEVE veilingdag laden (B2). Een spotter telt mee als hij
+  // een dag-rij voor deze dag heeft of een "alle dagen"-rij. In legacy-modus
+  // (geen veilingdagen) geeft getSpottersForDay alle rijen terug.
+  useEffect(() => {
+    let cancelled = false
+    getSpottersForDay(collectionId, activeDay?.id ?? null)
+      .then((list) => { if (!cancelled) setSpotters(list) })
+    return () => { cancelled = true }
+  }, [collectionId, activeDay?.id])
 
   // 2. Actief lot + geïnteresseerden + aankopen
   useEffect(() => {

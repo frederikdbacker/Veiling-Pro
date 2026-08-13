@@ -45,6 +45,30 @@
 > zonder die vier toe te voegen, laat vier deuren open en denkt dat alles dicht
 > is. Niet nu repareren.
 >
+> **Storing bij de deploy — opgelost.** Na de merge kon Frederik niet inloggen.
+> Oorzaak: de **legacy anon-sleutel van het centrale login-project staat op
+> `disabled`** (Supabase vervangt `eyJ…` door `sb_publishable_…`). Niet het
+> wachtwoord — in `auth_logs` stond over 2,5 uur geen énkel `/token`-verzoek en
+> nul 400's; de dode sleutel wordt aan de poort geweigerd vóór de inlogdienst.
+> Trof ook de lokale omgeving (`.env.local` had dezelfde sleutel). Opgelost door
+> de nieuwe publishable sleutel te zetten in `.env.local` én Vercel + opnieuw
+> laten bouwen (`VITE_`-vars worden bij het bouwen ingebakken; alleen opslaan is
+> niet genoeg). Geverifieerd: 200 vanaf `localhost:5173` om 12:36:53 en
+> `last_sign_in_at` → 13-08 12:39:35.
+>
+> **⚠️ Open taak HOOG — dit komt terug bij het data-project.** De legacy
+> anon-sleutel van `cjxtwzmryrpwoydrqqil` staat nu nog op enabled, maar gaat
+> dezelfde weg op. Wordt hij uitgeschakeld, dan vallen de webapp, de
+> scrape-worker én elke import in één klap om, met een misleidend symptoom
+> ("geen data", niet "sleutel ongeldig"). Overstappen naar
+> `sb_publishable_…` hoort bij de sleutelrotatie (stap 4 van het RLS-traject),
+> niet als losse ingreep.
+>
+> **Kleine schuld:** `LoginScreen.jsx` vertaalt élke fout van de inlogdienst naar
+> "controleer je e-mail en wachtwoord" — ook "sleutel ongeldig". Die melding
+> stuurde de diagnose de verkeerde kant op. Onderliggende foutcode tonen of
+> loggen bij een volgende ronde.
+>
 > Audit-rapport: `reports/2026-08-13_deellink-afronden.md`. Voorafgaande
 > inventaris: `reports/2026-08-13_rls-inventaris-stap1.md`.
 

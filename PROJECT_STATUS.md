@@ -1,7 +1,72 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 30 juni 2026 (spotters-uitbouw B1+B2+B3 + cockpit-quickwins A1+A2; migratie 0038)**
+**Laatste update: 13 augustus 2026 (veilige deellink afgerond; migratie 0039 toegepast — branch `feat/veilige-deellink`)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **13 augustus 2026 — Veilige deellink afgerond; migratie 0039 toegepast.**
+> Het eindoverzicht van één veiling is nu deelbaar via een kale, publieke route
+> `/gedeeld/<token>` — buiten de login, zonder kruimelpad, zonder accountbalk en
+> zonder klikbare lot-links. **Migratie 0039 toegepast in productie**
+> (`collection_shares` + `security definer`-functie
+> `get_shared_collection_summary(token)`; additief + idempotent, dus onder de
+> automatische regel). Verificatie: `tabel_er = 1`, `functie_er = 1`; verder
+> 21→22 tabellen, 20→21 open policies, 0→1 functies — precies één van elk erbij,
+> niets anders geraakt.
+> Vier tokengevallen tweezijdig aangetoond als rol `anon`: geldig token geeft
+> díé ene collectie (Deauville, 76 lots, 2 dagen), en ingetrokken/verlopen/
+> verzonnen geven alle drie niets. Lekcontrole: nul lots van een andere
+> collectie, geen koper/klanten/reserveprijs/notities in het antwoord. Visueel
+> bevestigd door Frederik in een privé-venster. Testtokens (`created_by =
+> 'test-stap3'`) daarna opgeruimd — zuivere testdata, nooit gedeeld.
+>
+> **Bijvangst — twee functies stonden ongecommit.** `feat/veilige-deellink` én
+> `feat/centrale-login` liepen **nul** commits voor op `main` (lokaal én op
+> `origin/`). De centrale login van 2 juli, hieronder beschreven als "gebouwd en
+> getest", was dus óók nooit vastgelegd. Beide zijn met deze commit alsnog
+> veiliggesteld.
+>
+> **⚠️ Open taak HOOG — nog geen deellink naar buiten sturen.** 0039 zet op
+> `collection_shares` dezelfde open policy als de rest van het schema, zodat de
+> beheer-UI de links kan beheren. Gevolg: iedereen met de publieke sleutel kan
+> alle tokens uitlezen. Wachten op het server-side doorgeefluik (stap 2 van het
+> RLS-traject). Bewust géén tussenoplossing gebouwd.
+>
+> **⚠️ Vóór de deploy:** zet `VITE_CENTRAL_AUTH_URL` en
+> `VITE_CENTRAL_AUTH_ANON_KEY` in Vercel. Zonder die twee **start de app niet**.
+>
+> **📌 Genoteerd voor later — fout in `0040_lockdown_anon_reads.PROPOSAL.sql`.**
+> Dat bestand is bewust uitgecommentarieerd en **niet aangeraakt**; toepassen
+> breekt de app omdat de frontend nog als anon praat. Maar zijn tabellenlijst is
+> **incompleet**: hij noemt er 18, er waren er 20 met een open policy.
+> Ontbrekend: `entity_profiles`, `entity_aliases`, `lot_entities` — en sinds
+> deze sessie is `collection_shares` de 21e. Wie het voorstel ooit uitvoert
+> zonder die vier toe te voegen, laat vier deuren open en denkt dat alles dicht
+> is. Niet nu repareren.
+>
+> Audit-rapport: `reports/2026-08-13_deellink-afronden.md`. Voorafgaande
+> inventaris: `reports/2026-08-13_rls-inventaris-stap1.md`.
+
+---
+
+> **2 juli 2026 — Centrale login (Supabase Auth) aangesloten.** De app hangt nu
+> achter een inlogscherm + rolcontrole. Login + rollen (`user_roles`,
+> `project='veiling_pro'`, role admin/user) leven in een **apart** centraal
+> Supabase-project (`igunbmpreaqrlyqnxeud`, eu-central-2), losstaand van het
+> data-project (`cjxtwzmryrpwoydrqqil`). Tweede, gescheiden client
+> (`src/lib/centralAuth.js`, env `VITE_CENTRAL_AUTH_URL` +
+> `VITE_CENTRAL_AUTH_ANON_KEY`, eigen storageKey). Poort:
+> `AuthProvider`→`AuthGate`→app in `main.jsx`; nieuwe bestanden `AuthContext.jsx`,
+> `LoginScreen.jsx`, `AuthGate.jsx`, `AccountBar.jsx`. Rol in state via
+> `useAuth()`. Geen registratie/reset (accounts centraal beheerd). Live getest
+> (login, verkeerd wachtwoord, admin-rol, data laadt); `npm run build` groen.
+> **Branch nog niet gemerged** — Frederik commit/pusht na visuele controle. In
+> Vercel de twee nieuwe env-vars zetten.
+> **⚠️ Open taak HOOG:** de poort is cosmetisch — het data-project heeft nog
+> `using(true)` op alle tabellen (publiek lees+schrijf met de anon-key).
+> Vergrendelen = apart vervolgtraject. Inventaris + opties in
+> `reports/2026-07-02_centrale-login-integratie.md`.
 
 ---
 

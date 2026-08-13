@@ -17,3 +17,5 @@ dist-ssr
 # Claude Code — persoonlijke overrides per Mac (team-instellingen
 # zitten in .claude/settings.json en worden wel gecommit).
 .claude/settings.local.json
+# Opstartconfiguratie is machine-gebonden (poort/pad verschillen per Mac).
+.claude/launch.json

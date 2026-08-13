@@ -26,6 +26,8 @@ import {
   getDays, createDay, updateDay, deleteDay,
   assignLotToDay, assignLotsByNumberRange,
 } from '../lib/collectionDays'
+import { getOrCreateShare } from '../lib/shares'
+import ShareLinksModal from '../components/ShareLinksModal'
 
 // Lot-kolommen die de lijst (gewone + dag-gegroepeerde weergave) nodig heeft.
 // Op één plek zodat de eerste load en alle reloads identiek zijn.
@@ -47,6 +49,7 @@ export default function CollectionPage() {
   const [copyFeedback, setCopyFeedback] = useState(null)
   const [bulkPriceOpen, setBulkPriceOpen] = useState(false)
   const [ingestOpen, setIngestOpen] = useState(false)
+  const [sharesOpen, setSharesOpen] = useState(false)
   const [metaOpen, setMetaOpen] = useState(false)
   const [actionsMenuOpen, setActionsMenuOpen] = useState(false)
 
@@ -369,10 +372,13 @@ export default function CollectionPage() {
   }
 
   async function copySummaryLink() {
-    const url = `${window.location.origin}/collections/${collectionId}/summary`
+    // Deelbare, afgeschermde link: /gedeeld/<token> (los van de interne route,
+    // niet-raadbaar, zonder navigatie naar de rest van de app). Hergebruikt een
+    // bestaande actieve link of maakt er een.
     try {
+      const { url, reused } = await getOrCreateShare(collectionId)
       await navigator.clipboard.writeText(url)
-      setCopyFeedback('✓ Link gekopieerd')
+      setCopyFeedback(reused ? '✓ Link gekopieerd' : '✓ Nieuwe link gekopieerd')
     } catch (e) {
       setCopyFeedback(`Fout: ${e.message}`)
     }
@@ -472,8 +478,11 @@ export default function CollectionPage() {
             <Link to={`/collections/${collection.id}/summary`} style={secondaryBtnStyle}>
               📊 Overzicht
             </Link>
-            <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer overzicht-link">
+            <button onClick={copySummaryLink} style={secondaryBtnStyle} title="Kopieer een afgeschermde deellink naar het overzicht">
               📋 Link kopiëren
+            </button>
+            <button onClick={() => setSharesOpen(true)} style={secondaryBtnStyle} title="Deellinks bekijken of intrekken">
+              🔒 Deellinks
             </button>
             <button onClick={() => setBulkPriceOpen(true)} style={secondaryBtnStyle} title="Bulk-startbedrag per lot-type">
               💰 Bulk startbedrag
@@ -760,6 +769,13 @@ export default function CollectionPage() {
           mode="refresh"
           initialUrl={collection.source_url || ''}
           onClose={() => { setIngestOpen(false); reloadLots(); reloadDays() }}
+        />
+      )}
+
+      {sharesOpen && collection && (
+        <ShareLinksModal
+          collectionId={collection.id}
+          onClose={() => setSharesOpen(false)}
         />
       )}
     </section>

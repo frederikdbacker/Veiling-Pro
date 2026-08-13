@@ -34,7 +34,9 @@
       "mcp__claude_ai_Supabase__get_logs",
       "mcp__claude_ai_Supabase__get_project",
       "mcp__claude_ai_Supabase__get_project_url",
-      "mcp__claude_ai_Supabase__get_publishable_keys"
+      "mcp__claude_ai_Supabase__get_publishable_keys",
+      "mcp__claude_ai_Google_Drive__search_files",
+      "mcp__Claude_Preview__preview_screenshot"
     ]
   },
   "hooks": {

@@ -1,6 +1,19 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 27 juni 2026 (KWPN-scraper; docs als set bijgewerkt)**
+**Laatste update: 13 augustus 2026 (veilige deellink + migratie 0039; docs als set bijgewerkt)**
+
+> **Nieuw 13 augustus 2026.** **Migratie 0039** (`0039_collection_shares.sql`,
+> toegepast in productie): tabel `collection_shares` + `security definer`-functie
+> `get_shared_collection_summary(token)`. Additief + idempotent. Hiermee werkt de
+> publieke route **`/gedeeld/<token>`** — het eindoverzicht van één veiling,
+> buiten de login, zonder navigatie. Beheer via de knop "🔒 Deellinks" op de
+> collectiepagina; intrekken zet `revoked_at` en wist de rij **niet**.
+> ⚠️ Nog niet naar buiten sturen: de tabel heeft dezelfde open policy als de rest
+> van het schema, dus tokens zijn opvraagbaar met de publieke sleutel. Wachten op
+> het doorgeefluik. Zie `reports/2026-08-13_deellink-afronden.md`.
+> ⚠️ **In Vercel** moeten `VITE_CENTRAL_AUTH_URL` en `VITE_CENTRAL_AUTH_ANON_KEY`
+> gezet zijn — zonder die twee start de app niet.
+> `.claude/launch.json` is per-Mac en staat nu in `.gitignore`.
 
 > **Nieuw 27 juni 2026.** KWPN-scraper: `scripts/lib/kwpn.mjs` + `scripts/scrape-kwpn.mjs`
 > voor kwpn.auction (NL-paden `/live-veiling` + `/veiling`). KWPN zit in de
@@ -93,7 +106,14 @@ deze prefix wordt automatisch genegeerd door git, zie `.gitignore`):
 ```
 VITE_SUPABASE_URL=https://cjxtwzmryrpwoydrqqil.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=[jouw publishable key]
+
+# Centrale login (Supabase Auth, apart project — sinds 2 juli 2026):
+VITE_CENTRAL_AUTH_URL=https://igunbmpreaqrlyqnxeud.supabase.co
+VITE_CENTRAL_AUTH_ANON_KEY=[anon key centrale project]
 ```
+
+De centrale-login-vars wijzen naar een **ander** Supabase-project
+(`igunbmpreaqrlyqnxeud`) dan de data. Zonder deze twee vars start de app niet.
 
 De publishable key vind je in:
 **Supabase Dashboard → Project Settings → API Keys → Publishable key**

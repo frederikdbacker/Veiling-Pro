@@ -206,7 +206,60 @@ Deployments → vorige deployment activeren.
 
 ---
 
-## 9. Herkomst van elk getal
+## 9. Storing bij de deploy — uitgeschakelde legacy-sleutel (opgelost)
+
+Na de merge kon Frederik niet inloggen op production. De app toonde
+*"Inloggen mislukt. Controleer je e-mail en wachtwoord."*
+
+**Het was niet het wachtwoord.** Diagnose in drie metingen:
+
+1. **Account in orde** — één gebruiker in het centrale project
+   (`frederik@conceptosaurus.eu`), e-mail bevestigd, niet geblokkeerd, laatste
+   geslaagde login 10 augustus 20:34.
+2. **Geen enkel spoor van de poging.** In `auth_logs` stond over 2,5 uur geen
+   énkel `/token`-verzoek vanuit Veiling Pro — en nul verzoeken met status 400.
+   Een fout wachtwoord laat een 400 achter. Er was er geen. Het verzoek bereikte
+   de inlogdienst dus helemaal niet.
+3. **Oorzaak: de legacy anon-sleutel van het centrale project staat op
+   `disabled: true`.** Supabase vervangt de oude JWT-sleutels (`eyJ…`) door
+   nieuwe (`sb_publishable_…`); bij het inlogproject is die omschakeling
+   doorgevoerd, bij het data-project nog niet. De dode sleutel wordt aan de
+   poort geweigerd, vóór de inlogdienst — vandaar de lege logs.
+
+Dit trof **ook de lokale omgeving**, want `.env.local` droeg dezelfde dode
+sleutel. Het is dus geen fout in deze wijziging en geen fout in Vercel: de
+sleutel is ergens tussen 10 en 13 augustus uitgeschakeld.
+
+**Opgelost** door in `.env.local` én in Vercel de nieuwe publishable sleutel te
+zetten en opnieuw te laten bouwen (`VITE_`-variabelen worden bij het bouwen
+ingebakken; alleen opslaan is niet genoeg).
+
+**Verificatie:** geslaagde inlog vanaf `localhost:5173` om 12:36:53 (status 200)
+en `last_sign_in_at` verspringt naar 13-08 12:39:35 — dat veld beweegt alleen bij
+een echte wachtwoord-inlog, niet bij een sessievernieuwing.
+
+### ⚠️ Dit gebeurt binnenkort óók met het data-project
+
+De legacy anon-sleutel van `cjxtwzmryrpwoydrqqil` staat **nu nog op enabled**,
+maar gaat dezelfde weg op. Wordt hij uitgeschakeld, dan valt in één klap alles
+om: de webapp, de scrape-worker (die dezelfde publieke sleutel gebruikt, zie het
+inventarisrapport §3.3) en elk import-script. Het symptoom zal misleidend zijn —
+"geen data" of een generieke foutmelding, niet "sleutel ongeldig".
+
+*Voor te zijn, niet nu:* overstappen op `sb_publishable_UpiztYg6P8E6oyRNwwo1bA_p_lv9f8Q`
+in `.env.local`, in Vercel en op de worker-machine. Dat raakt de sleutelrotatie
+uit stap 4 van het RLS-traject en hoort daar thuis, niet in een losse ingreep.
+
+### Les voor de foutmelding
+
+`LoginScreen.jsx` vertaalt **elke** fout van de inlogdienst naar dezelfde zin
+over e-mail en wachtwoord — ook "sleutel ongeldig", wat niets met het wachtwoord
+te maken heeft. Die melding stuurde de diagnose actief de verkeerde kant op. Bij
+een volgende ronde: de onderliggende foutcode tonen of loggen.
+
+---
+
+## 10. Herkomst van elk getal
 
 Alle metingen op 13 augustus 2026, tegen project `cjxtwzmryrpwoydrqqil`.
 
@@ -222,3 +275,8 @@ Alle metingen op 13 augustus 2026, tegen project `cjxtwzmryrpwoydrqqil`.
 | M8 | Lekcontrole: 0 lots van een andere collectie; veldenlijst | `jsonb_object_keys` op het antwoord van de functie |
 | M9 | Testtokens verwijderd, tabel op 0 rijen | `delete … returning`, daarna `count(*)` |
 | M10 | Visuele controle van de vier URL's | Frederik, dev-server in privé-venster |
+| M11 | Account bestaat, bevestigd, niet geblokkeerd | `auth.users` in `igunbmpreaqrlyqnxeud` |
+| M12 | Nul `/token`-verzoeken vanuit Veiling Pro, nul 400's | `auth_logs`, venster 10:00–12:30 UTC |
+| M13 | Legacy anon-sleutel centraal project `disabled: true` | Supabase API-sleutels, einde `GK2VR0HI` |
+| M14 | Legacy anon-sleutel data-project nog `enabled` | idem, project `cjxtwzmryrpwoydrqqil` |
+| M15 | Herstel: 200 vanaf `localhost:5173` 12:36:53; `last_sign_in_at` → 13-08 12:39:35 | `auth_logs` + `auth.users` |

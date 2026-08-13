@@ -1,7 +1,75 @@
 # PROJECT_STATUS — Veiling-Pro
 
-**Laatste update: 13 augustus 2026 (veilige deellink afgerond; migratie 0039 toegepast — branch `feat/veilige-deellink`)**
+**Laatste update: 13 augustus 2026 (deellink-tabel dichtgezet; migratie 0041 toegepast — branch `fix/collection-shares-lockdown`)**
 **Aloga Auction 2026 voorbij — POST_ALOGA_ROADMAP.md klaar; nu data-uitbreiding.**
+
+---
+
+> **13 augustus 2026 (13:07–13:16 UTC) — `collection_shares` dichtgezet; migratie 0041 toegepast.**
+> Migratie 0039 gaf de deellink-tabel dezelfde alles-open policy als de rest van
+> het schema. Gemeten om 13:02:55 UTC als rol `anon` in een teruggedraaide
+> transactie: een eigen token invoegen lukte, álle tokens uitlezen lukte, en
+> `revoked_at` terugzetten naar null lukte — **een ingetrokken deellink was dus
+> weer te activeren**. De vier bewezen tokengevallen golden alleen *door* de
+> leesfunctie heen; eromheen waren ze alle vier te omzeilen. **Geen incident:**
+> nul rijen, nooit een link verstuurd. Gerepareerd vóór het eerste gebruik.
+>
+> **Migratie 0041** (`0041_collection_shares_lockdown.sql`, toegepast na
+> expliciete bevestiging — **niet additief**, hij verwijdert een policy; een
+> gegevensback-up was zinloos bij nul rijen): policy
+> `anon read/write collection_shares` weg (RLS blijft aan, zonder policy houdt
+> die alles tegen) + **drie SECURITY DEFINER-functies**, elk met `search_path`
+> vast op `public` zoals 0039 het al doet:
+> `get_or_create_collection_share` (was regel 45+62), `list_collection_shares`
+> (was regel 72 — die vult `ShareLinksModal.jsx`; overslaan geeft geen fout maar
+> een lege lijst) en `revoke_collection_share` (was regel 87).
+> `get_shared_collection_summary` en `fetchSharedSummary()` ongewijzigd.
+> Code: alleen `src/lib/shares.js`.
+>
+> Drie eigen keuzes: het **token wordt nu server-side gegenereerd** (64 hex,
+> browser levert geen waarde meer aan), `created_by` staat vast in de functie,
+> en intrekken raakt alleen rijen waar `revoked_at` nog leeg is — een gezet
+> intrekmoment is onoverschrijfbaar en **er bestaat geen pad meer om een
+> ingetrokken link te heractiveren**. Tabel-grants bewust niet aangeraakt
+> (horen bij stap 5).
+>
+> Verificatie: 21→**20** policies, 1→**4** functies, 22 tabellen ongewijzigd,
+> 0 policies op `collection_shares`, alle vier de functies `security definer` +
+> `search_path=public`. **(b)** als anon geweigerd: rechtstreekse select 0 rijen
+> (controle via de functie: 1 rij — de rij bestáát), update op `revoked_at`
+> 0 rijen gewijzigd, insert van een eigen token `new row violates row-level
+> security policy`. **(a)** via de functies als anon: aanmaken, hergebruiken
+> (`reused=true`, zelfde token), lijst, gedeeld overzicht (Fences ELITE, 29
+> lots), intrekken, en de vier tokengevallen opnieuw correct. Alles in
+> teruggedraaide transacties; achteraf 0 rijen en geen restanten.
+>
+> **⚠️ Restrisico — deze sessie sluit niet alles.** De drie functies zijn
+> aanroepbaar door `anon`, want de app praat hier nog als anon. Een
+> buitenstaander kan dus nog per veiling de links opvragen en een link laten
+> aanmaken. Niet meer mogelijk: alle tokens tegelijk uitlezen, een eigen token
+> planten, een ingetrokken link heractiveren. Het restant sluit bij **stap 2**
+> (server-side doorgeefluik). Wie leest dat "collection_shares dicht is", moet
+> deze alinea meelezen.
+>
+> De twee adviseurswaarschuwingen over SECURITY DEFINER zijn **by design** —
+> dat ís het afgeschermde pad.
+>
+> Audit-rapport: `reports/2026-08-13_collection-shares-dichtgezet.md`.
+>
+> **📌 Genoteerd, niet gerepareerd (1) — de tabellenlijst in
+> `0040_lockdown_anon_reads.PROPOSAL.sql` is incompleet.** Hij noemt er 18; er
+> zijn er **20** met een open policy. Ontbrekend: `entity_profiles`,
+> `entity_aliases`, `lot_entities`. Bij stap 5 hoort die lijst **uit een query
+> te komen, niet uit een handmatige opsomming** — anders laat je deuren open en
+> denk je dat alles dicht is. (`collection_shares` staat sinds 0041 niet meer
+> in de telling: die tabel is nu dicht.)
+>
+> **📌 Genoteerd, niet gerepareerd (2) — het project heeft TWEE geldige
+> anon-sleutels naast elkaar:** de moderne *publishable* die app en worker
+> gebruiken, én de oude *legacy JWT*-sleutel, die op `disabled=false` staat en
+> geldig is tot **april 2036**. Niets gebruikt die tweede. Bij de
+> sleutelrotatie (**stap 4**) moeten ze **allebei** mee — anders vervang je de
+> voordeur en blijft de achterdeur open.
 
 ---
 
@@ -32,6 +100,11 @@
 > beheer-UI de links kan beheren. Gevolg: iedereen met de publieke sleutel kan
 > alle tokens uitlezen. Wachten op het server-side doorgeefluik (stap 2 van het
 > RLS-traject). Bewust géén tussenoplossing gebouwd.
+> **→ Achterhaald door migratie 0041 (zie het blok bovenaan):** die policy is
+> weg en het beheer loopt via drie afgeschermde functies. Alle tokens tegelijk
+> uitlezen, een eigen token planten of een ingetrokken link heractiveren kan
+> niet meer. Een deellink versturen kan dus, ná Frederiks visuele controle;
+> het restrisico staat bovenaan beschreven en sluit pas bij stap 2.
 >
 > **⚠️ Vóór de deploy:** zet `VITE_CENTRAL_AUTH_URL` en
 > `VITE_CENTRAL_AUTH_ANON_KEY` in Vercel. Zonder die twee **start de app niet**.

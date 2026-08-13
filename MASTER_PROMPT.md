@@ -1,6 +1,6 @@
 # MASTER_PROMPT — Veiling-Pro
 
-**Aangemaakt: april 2026 — laatste update: 13 augustus 2026 (veilige deellink + migratie 0039; docs als set bijgewerkt, werkwijze ongewijzigd)**
+**Aangemaakt: april 2026 — laatste update: 13 augustus 2026 (deellink-tabel dichtgezet + migratie 0041; docs als set bijgewerkt, werkwijze ongewijzigd)**
 **Project: Veiling-Pro — Digitaal veilingsysteem voor professionele veilingmeester**
 
 ---

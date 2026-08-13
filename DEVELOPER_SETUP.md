@@ -1,6 +1,22 @@
 # DEVELOPER_SETUP — Veiling-Pro
 
-**Laatste update: 13 augustus 2026 (veilige deellink + migratie 0039; docs als set bijgewerkt)**
+**Laatste update: 13 augustus 2026 (deellink-tabel dichtgezet + migratie 0041; docs als set bijgewerkt)**
+
+> **Nieuw 13 augustus 2026 (later die dag).** **Migratie 0041**
+> (`0041_collection_shares_lockdown.sql`, toegepast in productie): de alles-open
+> policy op `collection_shares` is **verwijderd** (RLS blijft aan; zonder policy
+> houdt die alles tegen) en het beheer loopt nu via drie **SECURITY DEFINER**-
+> functies met `search_path` vast op `public`:
+> `get_or_create_collection_share(uuid)`, `list_collection_shares(uuid)` en
+> `revoke_collection_share(uuid)`. `get_shared_collection_summary(text)` uit 0039
+> is ongewijzigd. In de code raakte alleen `src/lib/shares.js`; het token wordt
+> voortaan **server-side** gegenereerd. **Niet additief** (verwijdert een policy)
+> → destructieve regel, toegepast na expliciete bevestiging; de tabel stond op
+> nul rijen. Terugdraai-blok staat onderaan het migratiebestand.
+> Zie `reports/2026-08-13_collection-shares-dichtgezet.md`.
+> ⚠️ Restrisico: de drie functies zijn aanroepbaar door `anon` (de app praat hier
+> nog als anon), dus per veiling links opvragen of aanmaken kan nog. Dat sluit
+> bij stap 2 (doorgeefluik).
 
 > **Nieuw 13 augustus 2026.** **Migratie 0039** (`0039_collection_shares.sql`,
 > toegepast in productie): tabel `collection_shares` + `security definer`-functie
@@ -11,6 +27,7 @@
 > ⚠️ Nog niet naar buiten sturen: de tabel heeft dezelfde open policy als de rest
 > van het schema, dus tokens zijn opvraagbaar met de publieke sleutel. Wachten op
 > het doorgeefluik. Zie `reports/2026-08-13_deellink-afronden.md`.
+> **→ Achterhaald door migratie 0041 hierboven:** die policy is weg.
 > ⚠️ **In Vercel** moeten `VITE_CENTRAL_AUTH_URL` en `VITE_CENTRAL_AUTH_ANON_KEY`
 > gezet zijn — zonder die twee start de app niet.
 > `.claude/launch.json` is per-Mac en staat nu in `.gitignore`.
